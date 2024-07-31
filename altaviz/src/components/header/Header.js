@@ -9,7 +9,7 @@ function Header() {
 				<img src={logo} alt='alterviz logo' />
 				<Navigation />
 			</div>
-			<h1>searchbar goes here</h1>
+			<h1 className='nav-h1'>searchbar goes here</h1>
 			{/* <span>header end</span> */}
 		</header>
 	)
