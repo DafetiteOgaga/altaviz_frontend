@@ -8,6 +8,9 @@ function Sidebar() {
 				<ul className='sidebar-ul'>
 					<li><Link to="/section1">Section1</Link></li>
 					<li><Link to="/section2">Section2</Link></li>
+					<li><Link to="/">home secion</Link></li>
+					<li><Link to="/about">About section</Link></li>
+					<li><Link to="/test">testing backend</Link></li>
 				</ul>
 			</nav>
 		</aside>
