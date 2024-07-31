@@ -1,3 +1,59 @@
+/* CSS Debugging style: highlight all elements with a red outline */
+* {
+    outline: 1px solid red;
+}
+
+.sub-root {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+body {
+  padding: 0 5rem;
+}
+
+h1, h2, h3, h4, h5, h6, p, li,
+span, input, select, textarea,
+button, a {
+  font-size: large;
+}
+
+/* header component */
+header {
+  padding: 0 1rem;
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  /* backdrop-filter: blur(9.7px); */
+  /* background-color: rgb(0.9, 0.9, 0.9, 0.9); */
+}
+.logo-nav {
+  display: flex;
+}
+header img {
+  width: 10rem;
+  height: 4.5rem;
+  border-radius: 0.5rem;
+}
+
+/* navigation */
+nav li {
+  list-style-type: none;
+}
+/* header navaigation */
+.header-ul {
+  display: flex;
+  /* justify-content: space-between; */
+}
+.header-ul li {
+  padding: 0 0.5rem;
+}
+
+/* sidebar navigation */
+.sidebar-ul li {
+  padding: 1rem 0;
+}
+
 .App {
   text-align: center;
 }
@@ -9,7 +65,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 0.8s linear;
   }
 }
 
@@ -36,3 +92,17 @@
     transform: rotate(360deg);
   }
 }
+
+/* .one {
+  color:  #8ba3bd;
+}
+.two {
+  color: #d9cdbf;
+}
+.three {
+  color: #c38d9e;
+}
+.four {
+  color: #4a6079;
+} */
+/* 8ba3bd d9cdbf c38d9e 4a6079 */
