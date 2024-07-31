@@ -1,6 +1,6 @@
 import useFetch from "../../hooks/useFetch";
 
-function About() {
+function Product3() {
 	const { data, loading, error } = useFetch('http://localhost:8000');
 
 	if (loading) return <p>Loading...</p>;
@@ -9,8 +9,8 @@ function About() {
 
 	return (
 		<>
-			<h2>About Page</h2>
+			<h2>Product 3</h2>
 		</>
 	);
 }
-export default About;
+export default Product3;

@@ -1,9 +1,6 @@
 import useFetch from "../../hooks/useFetch";
-import Hero from "./Hero";
-import AboutAtms from "./AboutAtms";
-import PorductCards from "./ProductCards";
 
-function Home() {
+function HelpDesk() {
 	const { data, loading, error } = useFetch('http://localhost:8000');
 
 	if (loading) return <p>Loading...</p>;
@@ -12,11 +9,8 @@ function Home() {
 
 	return (
 		<>
-		    <Hero />
-			<AboutAtms />
-			<PorductCards />
-			<h2>Home Page</h2>
+			<h2>Help Desk Page</h2>
 		</>
 	);
 }
-export default Home;
+export default HelpDesk;
