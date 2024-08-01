@@ -1,6 +1,6 @@
-// src/components/DropdownMenu.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './DropdownMenu.css'
 
 function DropdownMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,9 +11,9 @@ function DropdownMenu() {
 
   return (
     <div className="dropdown">
-      <button onClick={toggleDropdown} className="dropdown-button">
+      <a href='#' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
         Products
-      </button>
+      </a>
       {isOpen && (
         <div className="dropdown-content">
           <Link to="/products/product1">Product 1</Link>
