@@ -1,24 +1,23 @@
-import useFetch from "../../hooks/useFetch";
+// import useFetch from "../../hooks/useFetch";
 import about_image from "../home/about-atm-image.png";
 import './Hero.css';
 
 function AboutAtms() {
-	const { data, loading, error } = useFetch('http://localhost:8000');
+	// const { data, loading, error } = useFetch('http://localhost:8000');
 
-	if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error}</p>;
-	console.log(data);
+	// if (loading) return <p>Loading...</p>;
+	// if (error) return <p>Error: {error}</p>;
+	// console.log(data);
 
 	return (
 		<>
-			<div style={{
-				display: 'inline-flex',
-			}}>
-				<img src={about_image} alt="about-image"
-				style={{
-					width: '20%',
-				}}
-				/>
+			<div className="about-atm-box">
+				<div>
+					<img src={about_image} alt="about-image"
+					style={{
+						width: '150%',
+					}}/>
+				</div>
 				<div className="about-atm">
 					<p><strong>Banking:</strong> Enhance branch services with self-service
 						solutions that offer a full range of banking transactions.</p>
