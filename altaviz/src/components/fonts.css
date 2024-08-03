@@ -1,0 +1,41 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  /* font-family: 'Noto Serif Tangut', sans-serif; */
+  /* font-family: ; */
+  font-size: 16px; /* Base font size */
+  line-height: 1.5; /* Improved readability */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Serif Tangut', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-weight: 700;
+}
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.75em; }
+h4 { font-size: 1.5em; }
+h5 { font-size: 1.25em; }
+h6 { font-size: 1em; }
+
+/* Paragraphs and list items */
+p, li {
+  font-size: 1em;
+}
+
+/* Inline elements */
+span, a {
+  font-size: inherit;
+}
+
+/* Form elements */
+input, select, textarea, button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+}
+
+button {
+  font-weight: 700;
+}
