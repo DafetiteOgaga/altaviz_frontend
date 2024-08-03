@@ -1,6 +1,15 @@
 /* CSS Debugging style: highlight all elements with a red outline */
 * {
-    outline: 1px solid red;
+  outline: 1px solid red;
+}
+
+body {
+  /* padding: 0 5rem; */
+  background-color: rgba(155, 151, 151, 0.055);
+}
+
+.body-minus-header {
+  padding: 0 5rem;
 }
 
 .sub-root {
@@ -8,24 +17,75 @@
   grid-template-columns: 1fr 7fr;
 }
 
-body {
-  padding: 0 5rem;
+/* pushes footer below the last element */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* large value for larger viewport */
+}
+footer {
+  margin-top: auto;
+
+}
+/* ........................................ */
+
+
+.sub-root {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
 }
 
-h1, h2, h3, h4, h5, h6, p, li,
+main {
+  padding-bottom: 5.5rem;
+  /* background-color:  #E5E5E5; */
+  /* z-index: -10; */
+}
+
+/* .main-background {
+  background-color:  #E5E5E5;
+  z-index: -50;
+} */
+
+/* .sub-root {
+  display: flex;
+}
+
+.sub-root > SideBar {
+  flex: 1;
+  min-width: 200px;
+}
+
+.sub-root > main {
+  flex: 7;
+} */
+
+/* .app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.content-wrapper {
+  flex: 1 0 auto;
+}
+footer {
+  flex-shrink: 0;
+} */
+
+/* h1, h2, h3, h4, h5, h6, p, li,
 span, input, select, textarea,
 button, a {
   font-size: large;
-}
+} */
 
 /* header component */
 header {
-  padding: 0 1rem;
+  padding: 0 5rem;
+  /* padding: 0 1rem; */
   padding-top: 1rem;
   display: flex;
   justify-content: space-between;
-  /* backdrop-filter: blur(9.7px); */
-  /* background-color: rgb(0.9, 0.9, 0.9, 0.9); */
+  backdrop-filter: blur(9.7px);
+  background-color: #E5E5E5;
 }
 .logo-nav {
   display: flex;
@@ -34,8 +94,8 @@ header {
   padding-top: 1rem;
 }
 header img {
-  width: 10rem;
-  height: 4.5rem;
+  width: 17rem;
+  height: 5rem;
   border-radius: 0.5rem;
 }
 
@@ -53,48 +113,42 @@ nav li {
 }
 
 /* sidebar navigation */
+/* .side-bar {
+  background-color: rgba(155, 151, 151, 0.055);
+} */
+.sidebar-ul {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-items: center; */
+  text-align: center;
+  padding-left: 0;
+}
 .sidebar-ul li {
+  /* justify-items: center; */
   padding: 1rem 0;
 }
-
-/* .......................................... */
-/* src/components/DropdownMenu.css */
-.dropdown {
-  position: relative;
-  display: inline-block;
+.sidebar-ul li:hover {
+  background-color: #E5E5E5;
+  font-size: 1.5rem;
+  animation: bounce 0.8s ease-out forwards;
 }
-
-.dropdown-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
+.side-bar h2 {
+  text-align: center;
 }
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {
-  background-color: #f1f1f1;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  80% {
+    transform: translateY(-5px);
+  }
 }
 
 /* .......................................................... */
@@ -136,6 +190,10 @@ nav li {
     transform: rotate(360deg);
   }
 }
+
+/* .testxyz {
+  background-repeat: ;
+} */
 
 /* .one {
   color:  #8ba3bd;
