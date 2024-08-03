@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { GlobalContext } from '../Context/Context';
 import './Hero.css';
 
 function Hero() {
@@ -6,14 +7,15 @@ function Hero() {
 		return r.keys().map(r);
 	}
 	const images = getImages(require.context('./hero_images/', false, /\.(png|jpe?g|svg)$/));
-	console.log('result of images:', images)
-	console.log('length of images:', images.length)
+	const { companyName } = useContext(GlobalContext);
+	// console.log('result of images:', images)
+	// console.log('length of images:', images.length)
 	// const images = [
 	// 	'https://example.com/image1.jpg',
 	// 	'https://example.com/image2.jpg',
 	// 	'https://example.com/image3.jpg',
 	// ];
-	const heading="Welcome to Altaviz Support Limited"
+	const heading=`Welcome to ${companyName}`
 	const subheading="We offer the best ATM support, maintainance and services at affordable prices."
 	const more_subheading="With our dedicated and pro-active support engineers around the country,"
 	const and_more_subheading="You are guaranteed a 24/7 machine uptime."
