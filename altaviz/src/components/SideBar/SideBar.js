@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 function Sidebar() {
 	return (
-		<aside>
+		<aside className='side-bar'>
 			<nav>
-				<h2 style={{paddingLeft: '40px'}}>Sections</h2>
+				<h2>Sections</h2>
 				<ul className='sidebar-ul'>
 					<li><Link to="/">Home</Link></li>
 					<li><Link to="/custodian">Custodian</Link></li>
