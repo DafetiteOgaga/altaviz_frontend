@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../hooks/useFetch";
 
 function Engineer() {
 	const { data, loading, error } = useFetch('http://localhost:8000');
