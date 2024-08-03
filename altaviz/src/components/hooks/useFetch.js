@@ -4,21 +4,22 @@ function useFetch(url) {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	console.log('from custom hook ...')
 
 	useEffect(() => {
 		const fetchData = async () => {
-		try {
-			const response = await fetch(url);
-			if (!response.ok) {
-			throw new Error("could not connect");
+			try {
+				const response = await fetch(url);
+				if (!response.ok) {
+				throw new Error("could not connect");
+				}
+				const data = await response.json();
+				setData(data);
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setLoading(false);
 			}
-			const data = await response.json();
-			setData(data);
-		} catch (error) {
-			setError(error.message);
-		} finally {
-			setLoading(false);
-		}
 		};
 
 		fetchData();

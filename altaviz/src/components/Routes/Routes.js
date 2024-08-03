@@ -14,6 +14,8 @@ import HumanResource from '../SideBar/HumanResource';
 import Product1 from '../products/Product1';
 import Product2 from '../products/Product2';
 import Product3 from '../products/Product3';
+import PageNotFound from '../PageNotFound';
+import Success from '../success/Success';
 // import About from './components/About';
 // import Contact from './components/Contact';
 // import Navigation from '../header/Navigation';
@@ -36,7 +38,9 @@ function AppRoutes() {
         <Route path="/help-desk" element={<HelpDesk />} />
         <Route path="/supervisor" element={<Supervisor />} />
         <Route path="/human-resource" element={<HumanResource />} />
+        <Route path="/success" element={<Success />} />
         <Route path="/test" element={<Testfetchapi />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>
   );

@@ -2,6 +2,7 @@
 import Hero from "./Hero";
 import AboutAtms from "./AboutAtms";
 import ProductCards from "./ProductCards";
+// import "./home.css"
 // import cardreader from "./product_images/Card Reader.png"
 
 function Home() {
@@ -28,18 +29,20 @@ function Home() {
 		'description4',
 	]
 	const cardData = images.map((image, index) => {
-		console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
+		// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
 		return ({
 			title: titles[index],
             description: descriptions[index],
             image: image,
 		})});
-	console.log('cardData:', cardData);
+	// console.log('cardData:', cardData);
 	return (
 		<>
-		    <Hero />
-			<AboutAtms />
-			<ProductCards cardData={cardData} />
+			{/* <div className="home-animation"> */}
+				<Hero />
+				<AboutAtms />
+				<ProductCards cardData={cardData} />
+			{/* </div> */}
 		</>
 	);
 }

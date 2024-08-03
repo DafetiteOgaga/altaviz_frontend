@@ -1,4 +1,4 @@
-/* src/components/Hero.css */
+/* hero */
 .hero {
 	display: flex;
 	align-items: center;
@@ -10,7 +10,8 @@
 	text-align: center;
 	position: relative;
 	/* z-index: 1; */
-	transition: background-image 1s ease-in-out;
+	transition: background-image 0.5s ease-in-out;
+	animation: homeSlideLeft 1s ease-in-out;
 	/* height: 45%; */
 	height: 35%;
 	background-size: contain;
@@ -41,17 +42,20 @@
 	
 	/* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); */
 	text-shadow: 2px 2px 4px #3E3E87;
+	animation: homeSlideRight 3s ease-in-out;
 	/* text-shadow: 2px 2px 4px ; */
 	/* text-shadow: 2px 2px 4px #2A2A5F; */
 }
 .hero-heading {
 	font-size: 3em;
 	margin-bottom: 0;
+	animation: homeSlideLeft 3.8s ease-in-out;
 }
 
 .hero-subheading {
 	font-size: 1.5em;
 	margin: 0;
+	animation: homeSlideLeft 5s ease-in-out;
 }
 
 .hero-cta-button {
@@ -71,16 +75,58 @@
 	background-color: #0056b3;
 }
 
+/* about-atm */
 .about-atm-box {
 	display: inline-flex;
 	gap: 3.5rem;
+	animation: homeSlideRight 1s ease-in-out;
 }
 
 .about-atm {
 	margin-top: 4rem;
+	animation: homeSlideLeft 2s ease-in-out;
 }
 .about-atm p {
 	margin: 0;
 	padding: 0.1em;
+	/* animation: homeSlideLeft 3s ease-in-out; */
 	/* text-wrap: wrap; */
 }
+
+/* animation */
+@keyframes homeSlideDown {
+	from {
+	transform: translateY(-50px);
+	}
+	to {
+	transform: translateY(0);
+	}
+}
+@keyframes homeSlideUp {
+	from {
+	transform: translateY(50px);
+	}
+	to {
+	transform: translateY(0);
+	}
+}
+@keyframes homeSlideLeft {
+	from {
+	transform: translateX(50px);
+	}
+	to {
+	transform: translateX(0);
+	}
+}
+@keyframes homeSlideRight {
+	from {
+	transform: translateX(-50px);
+	}
+	to {
+	transform: translateX(0);
+	}
+}
+
+/* .home-animation {
+	animation: homeSlideDown 2s ease-in-out;
+} */
