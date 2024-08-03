@@ -5,13 +5,14 @@ import './DropdownMenu.css'
 function DropdownMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = (e) => {
+    e.preventDefault();
     setIsOpen(!isOpen);
   };
 
   return (
     <div className="dropdown">
-      <a href='#' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
+      <a href='/' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
         Products
       </a>
       {isOpen && (
