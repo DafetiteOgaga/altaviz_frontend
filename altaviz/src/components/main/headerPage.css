@@ -1,0 +1,129 @@
+/* h1, h2, h3, p {
+	color: #333;
+} */
+
+.about-page, .contact-page {
+	padding: 0 1.5rem;
+}
+
+/* about page */
+.about-page h2 {
+	margin-bottom: 0;
+	text-wrap: nowrap;
+	padding-bottom: 0.5rem;
+}
+.about-page p {
+	margin-top: 0;
+	opacity: 0;
+	animation: fadeIn 1s forwards;
+}
+.about-page p:hover {
+	transform: translateY(-5px);
+	transition: transform 0.3s;
+}
+.about-page h3 {
+	text-wrap: nowrap;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: larger;
+}
+
+/* h2, h3 {
+	color: #333;
+  } */
+  
+.icon {
+	font-size: 2rem;
+	color: #8b8b8d;
+}
+
+.service-item, .why-item {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	opacity: 0;
+	animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+	from {
+    opacity: 0;
+    transform: translateY(5px);
+    }
+	to {
+	opacity: 1;
+	transform: translateY(-10px);
+	transition: transform 5s;
+	}
+}
+
+.service-item:hover, .why-item:hover {
+	transform: translateY(-5px);
+	transition: transform 0.3s;
+}
+
+/* .about-page span {
+	font-size: 0.8em;
+} */
+
+/* loading and error pages */
+.error-and-loading {
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	padding-top: 7rem;
+}
+
+/* contact page */
+.contact-form-page {
+	display: flex;
+	/* justify-content: center; */
+	/* align-items: center; */
+	flex-direction: column;
+	/* grid-template-rows: repeat(3, 1fr); */
+}
+.contact-form-page .element-container {
+	display: grid;
+}
+.contact-form-page input, .contact-form-page textarea {
+	margin-bottom: 1rem;
+	width: 40%;
+	align-self: center;
+	justify-self: center;
+}
+.contact-form-page .submit {
+	background-color: #3E3E87;
+    color: white;
+    padding: 10px 0;
+	margin: 0 34rem;
+    /* margin-top: 1rem; */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.contact-form-page .submit:disabled {
+	background-color: #B5B5BD;
+}
+.contact-form-page .submit, .contact {
+	animation: pulse 2s infinite;
+	/* display: inline-block; */
+}
+.contact-form-page button:active {
+	background-color: #B5B5BD;
+}
+@keyframes pulse {
+	0%, 100% {
+	transform: scale(1);
+	}
+	50% {
+	transform: scale(1.1);
+	}
+}
+
+/* background for all */
+.backgroung-color {
+	background-color:  #E5E5E5;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	padding-bottom: 1rem;
+}
