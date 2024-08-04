@@ -1,6 +1,6 @@
 // import useFetch from "./hooks/useFetch";
 import { useContext } from "react";
-import { GlobalContext } from "./Context/Context";
+import { GlobalContext } from "./context/Context";
 
 
 function Testfetchapi() {
