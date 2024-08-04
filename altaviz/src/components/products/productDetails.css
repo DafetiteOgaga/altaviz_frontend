@@ -1,0 +1,12 @@
+.product-details-page {
+	padding: 0 1.5rem;
+	padding-bottom: 0.5rem;
+}
+.product-details-page .row-view {
+	display: flex;
+	gap: 3rem;
+	/* grid-template-columns: 1fr 2fr; */
+}
+#atm-detail-display-for-img img {
+	width: 150%;
+}
