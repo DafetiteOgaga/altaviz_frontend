@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { GlobalContext } from '../Context/Context';
+import { GlobalContext } from '../context/Context';
 import './Hero.css';
 
 function Hero() {
