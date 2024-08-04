@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import DOMPurify from 'dompurify';
+// import { useNavigate } from "react-router-dom";
 
 
 const CardContainer = styled.div.attrs({
@@ -11,7 +13,6 @@ const CardContainer = styled.div.attrs({
 	position: relative;
 	padding: 0 0.3em;
 	
-	// animation: ${({ $item_no }) => {const frame = $item_no % 2 === 0 ? 'homeSlideDown' : 'homeSlideUp'; console.log('frame:', frame); return (frame);}} 2s ease-in-out;
 	animation: ${({ $item_no }) => {return $item_no % 2 === 0 ? 'homeSlideDown' : 'homeSlideUp';}} 2s ease-in-out;
 
 	@keyframes homeSlideDown {
@@ -169,14 +170,15 @@ const CardTitle = styled.h2.attrs({
 	})`
 	font-size: 1.5rem;
 	margin: 0;
-	color: #333;
+	color: #424040;
 `;
 
 const CardDescription = styled.p.attrs({
 	className: 'CardDescription'
 	})`
 	font-size: 1rem;
-	color: #666;
+	color: #424040;
+	margin: 0 
 `;
 
 // const CardButton = styled.button`
@@ -194,9 +196,18 @@ const CardDescription = styled.p.attrs({
 // `;
 
 const ProductCards = ({ cardData }) => {
+	// console.log('products (PRODUCTCARD):', cardData);
 	// console.log('card photo:', cardData.image);
 	// console.log('card title:', cardData.title);
 	// console.log('card description:', cardData.description);
+	// const navigation = useNavigate();
+	// const clickHandler = (e) => {
+	// 	e.preventDefault();
+	// 	const id = e.currentTarget.getAttribute('data-id');
+	// 	console.log('card dataset id:', id);
+	// 	navigation(`products/product/${id}`);
+	// }
+
 	return (
 		<div
 			style={{
@@ -207,27 +218,34 @@ const ProductCards = ({ cardData }) => {
       		{cardData.map((card, index) => {
 				// console.log('index:', index)
 				// console.log('card-title:', card.title)
+				// console.log('card-id:', card.id)
 				return (
 				// add an anchor link to individual deatailed cards to CardContainer
 				<CardContainer key={index} $item_no={index}>
-					<Card>
-						<CardFront>
-							<CardImage src={card.image} alt={card.title} />
-							<CardContent>
-								<CardTitle>{card.title}</CardTitle>
-								{/* <p>hello</p> */}
-								{/* <CardDescription>{card.description}</CardDescription> */}
-								{/* <p>bye</p> */}
-							</CardContent>
-						</CardFront>
-						<CardBack>
-							<CardContent>
-								<CardTitle>Click for More Info</CardTitle>
-								<CardDescription>{card.description}</CardDescription>
-								{/* <CardButton>Learn More</CardButton> */}
-							</CardContent>
-						</CardBack>
-					</Card>
+					{/* <a href={`/products/product/${index}`} data-id={card.id} onClick={clickHandler}> */}
+					<a href={`/products/product/${index}`}>
+						<Card>
+							<CardFront>
+								<CardImage src={card.image} alt={card.title} />
+								<CardContent>
+									<CardTitle>{card.title}</CardTitle>
+									{/* <p>hello</p> */}
+									{/* <CardDescription>{card.description}</CardDescription> */}
+									{/* <p>bye</p> */}
+								</CardContent>
+							</CardFront>
+							<CardBack>
+								<CardContent>
+									<CardTitle>Click for More Info</CardTitle>
+									{/* <CardDescription> */}
+										{<CardDescription dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.about) }}/>}
+										{/* {<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.benefits) }}/>} */}
+									{/* </Ca.rdDescription> */}
+									{/* <CardButton>Learn More</CardButton> */}
+								</CardContent>
+							</CardBack>
+						</Card>
+					</a>
 				</CardContainer>
 			)})}
 		</div>

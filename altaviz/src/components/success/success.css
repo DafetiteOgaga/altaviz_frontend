@@ -26,17 +26,17 @@
 	background: #fff;
 	border-radius: 10px;
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-	animation: fadeIn 2s ease-in-out;
+	animation: fadeInSuccess 2s ease-in-out;
 }
 
 .success-body h1 {
 	font-size: 2.5rem;
 	color: rgba(0, 0, 0, 0.575);
 	margin-bottom: 20px;
-	animation: slideIn 1s ease-out;
+	animation: slideInSucces 1s ease-out;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInSuccess {
 	from {
 	opacity: 0;
 	}
@@ -45,7 +45,7 @@
 	}
 }
 
-@keyframes slideIn {
+@keyframes slideInSucces {
 	from {
 	transform: translateY(-50px);
 	}

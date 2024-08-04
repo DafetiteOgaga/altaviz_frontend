@@ -4,17 +4,22 @@
 
 .about-page, .contact-page {
 	padding: 0 1.5rem;
+	padding-bottom: 0.5rem;
 }
 
 /* about page */
 .about-page h2 {
 	margin-bottom: 0;
 	text-wrap: nowrap;
-	padding-bottom: 0.5rem;
+	/* padding-bottom: 0.5rem; */
 }
 .about-page p {
 	margin-top: 0;
-	opacity: 0;
+	/* opacity: 0; */
+	/* animation: fadeIn 1s forwards; */
+}
+#about-animation p, #about-animation .service-item, #about-animation .why-item  {
+	padding-top: 0.6rem;
 	animation: fadeIn 1s forwards;
 }
 .about-page p:hover {
@@ -34,15 +39,15 @@
   
 .icon {
 	font-size: 2rem;
-	color: #8b8b8d;
+	color: #616164;
 }
 
 .service-item, .why-item {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	opacity: 0;
-	animation: fadeIn 2s forwards;
+	/* opacity: 0; */
+	/* animation: fadeIn 2s forwards; */
 }
 
 @keyframes fadeIn {
@@ -120,10 +125,3 @@
 	}
 }
 
-/* background for all */
-.backgroung-color {
-	background-color:  #E5E5E5;
-	border-top-left-radius: 1rem;
-	border-top-right-radius: 1rem;
-	padding-bottom: 1rem;
-}

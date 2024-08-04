@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
 import About from '../main/About';
-import Products from '../main/Products';
+// import Products from '../main/Products';
 import ContactUs from '../main/ContactUs';
 import Testfetchapi from '../Testfetchapi';
 import Custodian from '../SideBar/Custodian';
@@ -11,26 +11,51 @@ import Engineer from '../SideBar/Engineer';
 import HelpDesk from '../SideBar/HelpDesk';
 import Supervisor from '../SideBar/Supervisor';
 import HumanResource from '../SideBar/HumanResource';
-import Product1 from '../products/Product1';
-import Product2 from '../products/Product2';
-import Product3 from '../products/Product3';
+// import Product1 from '../products/Product1';
+// import Product2 from '../products/Product2';
+// import Product3 from '../products/Product3';
 import PageNotFound from '../PageNotFound';
 import Success from '../success/Success';
+import ProductDetails from '../products/ProductDetails';
+import DropdownMenu from '../header/DropdownMenu';
 // import About from './components/About';
 // import Contact from './components/Contact';
 // import Navigation from '../header/Navigation';
 // import Category from '../Category';
 
 function AppRoutes() {
+  function getImages(r) {
+		return r.keys().map(r);
+	}
+	const images = getImages(require.context('../product_images/', false, /\.(png|jpe?g|svg)$/));
+  const titles = [
+		'H22V series',
+		'H68NL Series Intelligent Cash Recycler',
+		'grg-200-v-sorting-machine',
+		'H34 series',
+	]
+	const descriptions = [
+		'description1',
+		'description2',
+		'description3',
+		'description4',
+	]
+	const products = images.map((image, index) => {
+		// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
+		return ({
+			title: titles[index],
+            description: descriptions[index],
+            image: image,
+		})});
+
+  // console.log('products (ROUTES):', products);
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/products/product1" element={<Product1 />} />
-        <Route path="/products/product2" element={<Product2 />} />
-        <Route path="/products/product3" element={<Product3 />} />
+        <Route path="/products" element={<DropdownMenu products={products} />} />
+        <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/custodian" element={<Custodian />} />
         <Route path="/workshop" element={<Workshop />} />

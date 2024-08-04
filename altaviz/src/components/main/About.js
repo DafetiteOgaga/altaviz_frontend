@@ -1,6 +1,6 @@
 // import useFetch from "../../hooks/useFetch";
 import { useContext } from "react";
-import { GlobalContext } from "../Context/Context";
+import { GlobalContext } from "../context/Context";
 import './headerPage.css'
 import { FaIdBadge, FaWrench, FaTools, FaHandshake, FaCheckCircle, FaSmile } from "react-icons/fa";
 // import { useNavigate } from "react-router-dom"
@@ -24,7 +24,7 @@ function About() {
 
 	return (
 		<>
-			<div className="backgroung-color about-page">
+			<div id="about-animation" className="background-color about-page">
 				<h2>About Us</h2>
 				<p>Welcome to {companyName}, your trusted
 					partner in the ATM industry. We specialize in

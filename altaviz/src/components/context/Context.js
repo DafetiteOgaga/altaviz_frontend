@@ -1,6 +1,11 @@
 // import React, { createContext, useState } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from'react-router-dom';
+import ATMDescription from './ATMDescription';
+import ATMDescriptionSummary from './ATMDescriptionSummary';
+
+// const details = ATMDescription()
+// console.log('length of ATMDescription: ' + details.length)
 
 // Create a Context
 export const GlobalContext = createContext();
@@ -9,6 +14,12 @@ export const GlobalContext = createContext();
 const toSentenceCase = (str) => {
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
+
+// slice texts by words
+// const sliceTextByWords = (text, wordLimit) => {
+// 	const words = text.split(' ');
+// 	return words.slice(0, wordLimit).join(' ') + (words.length > wordLimit ? '...' : '');
+//   };
 
 // Create a Provider component
 export const GlobalProvider = ({ children }) => {
@@ -19,10 +30,17 @@ export const GlobalProvider = ({ children }) => {
 	// navigation
 	const useNavigation = (page) => {
 		let text = ''
+		let remainingText = ''
 		if (page.includes(' ')) {
 			const parts = page.split(' ', 2);
 			page = parts[0];
-			text = ' ' + parts[1];
+			text = parts[1];
+			if (text.includes(' ')) {
+			const otherParts = text.split(' ', 2);
+				text = otherParts[0];
+				remainingText = otherParts[1];
+			}
+			text = ' ' + text;
 		}
 		const navigate = useNavigate();
 		page = page.toLowerCase();
@@ -32,16 +50,19 @@ export const GlobalProvider = ({ children }) => {
 		navigate(path);
 		};
 		// console.log('usenavigation is working...');
-		return (<a
-			href={path}
-			className={page}
-			onClick={goToPage}
-			style={{
-				display: 'inline-block',
-			}}
-			>
-				{toSentenceCase(page)}{text}
-			</a>
+		return (
+			<>
+				<a
+					href={path}
+					className={page}
+					onClick={goToPage}
+					style={{
+						display: 'inline-block',
+					}}
+					>
+						{toSentenceCase(page)}{text}
+				</a>{remainingText}
+			</>
 			);
 	};
 
@@ -156,9 +177,34 @@ export const GlobalProvider = ({ children }) => {
 		return { data, loading, error };
 	}
 
+	// mock data
+	// remove ................................................
+	function getImages(r) {
+		return r.keys().map(r);
+	}
+	const images = getImages(require.context('../product_images/', false, /\.(png|jpe?g|svg)$/));
+	const titles = [
+		'H22V series',
+		'H68NL Series Intelligent Cash Recycler',
+		'grg-200-v-sorting-machine',
+		'H34 series',
+	]
+	const detailedDescriptions = ATMDescription()
+	const descriptions = ATMDescriptionSummary()
+	const cardData = images.map((image, index) => {
+		// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
+		return ({
+			id: index,
+			title: titles[index],
+            description: descriptions[index],
+			detailedDescriptions: detailedDescriptions[index],
+            image: image,
+		})});
+	// remove ................................................
+
 	return (
 		// <GlobalContext.Provider value={{ globalVariable, setGlobalVariable, bookVariable }}>
-		<GlobalContext.Provider value={{ companyName, useNavigation, useButton, useFetchGET, useFetchPost }}>
+		<GlobalContext.Provider value={{ companyName, useNavigation, useButton, useFetchGET, useFetchPost, cardData }}>
 		{children}
 		</GlobalContext.Provider>
 	);
