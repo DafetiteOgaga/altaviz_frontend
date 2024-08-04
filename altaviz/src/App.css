@@ -7,6 +7,13 @@ body {
   /* padding: 0 5rem; */
   background-color: rgba(155, 151, 151, 0.055);
 }
+/* background for all */
+.background-color {
+	background-color:  #E5E5E5;
+	border-top-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	padding-bottom: 1rem;
+}
 
 .body-minus-header {
   padding: 0 5rem;
@@ -76,80 +83,6 @@ span, input, select, textarea,
 button, a {
   font-size: large;
 } */
-
-/* header component */
-header {
-  padding: 0 5rem;
-  /* padding: 0 1rem; */
-  padding-top: 1rem;
-  display: flex;
-  justify-content: space-between;
-  backdrop-filter: blur(9.7px);
-  background-color: #E5E5E5;
-}
-.logo-nav {
-  display: flex;
-}
-.nav-h1 {
-  padding-top: 1rem;
-}
-header img {
-  width: 17rem;
-  height: 5rem;
-  border-radius: 0.5rem;
-}
-
-/* navigation */
-nav li {
-  list-style-type: none;
-}
-/* header navaigation */
-.header-ul {
-  display: flex;
-  /* justify-content: space-between; */
-}
-.header-ul li {
-  padding: 0 0.5rem;
-}
-
-/* sidebar navigation */
-/* .side-bar {
-  background-color: rgba(155, 151, 151, 0.055);
-} */
-.sidebar-ul {
-  display: flex;
-  flex-direction: column;
-  /* align-items: center; */
-  /* justify-items: center; */
-  text-align: center;
-  padding-left: 0;
-}
-.sidebar-ul li {
-  /* justify-items: center; */
-  padding: 1rem 0;
-}
-.sidebar-ul li:hover {
-  background-color: #E5E5E5;
-  font-size: 1.5rem;
-  animation: bounce 0.8s ease-out forwards;
-}
-.side-bar h2 {
-  text-align: center;
-}
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  20% {
-    transform: translateY(-10px);
-  }
-  50% {
-    transform: translateY(0);
-  }
-  80% {
-    transform: translateY(-5px);
-  }
-}
 
 /* .......................................................... */
 .App {
