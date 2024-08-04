@@ -1,12 +1,15 @@
 // import useFetch from '../hooks/useFetch';
 import logo from '../../logo/altaviz_logo.png';
 import Navigation from './Navigation';
+import "./header.css"
 
 function Header() {
 	return (
 		<header>
 			<div className='logo-nav'>
-				<img src={logo} alt='alterviz logo' />
+				<a href='/'>
+					<img src={logo} alt='alterviz logo' />
+				</a>
 				<Navigation />
 			</div>
 			<h4>searchbar goes here</h4>
