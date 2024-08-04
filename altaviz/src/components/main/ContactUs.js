@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 // import useButton from '../hooks/useButton';
-import { GlobalContext } from '../Context/Context';
+import { GlobalContext } from '../context/Context';
 // import useFetchPost from '../hooks/useFetchPost';
 
 const Contact = () => {
@@ -95,7 +95,7 @@ const Contact = () => {
 	};};
 
 	return (
-		<div className='backgroung-color contact-page'>
+		<div className='background-color contact-page'>
 			<h2>Contact Us</h2>
 			<form className='contact-form-page'
 				onSubmit={useHandleSubmit}>
