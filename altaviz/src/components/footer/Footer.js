@@ -7,7 +7,7 @@ import logo from "../../logo/altaviz_logo.png"
 import "./footer.css"
 import { useContext } from "react";
 // import { useNavigate } from "react-router-dom"
-import { GlobalContext } from "../Context/Context";
+import { GlobalContext } from "../context/Context";
 // import useNavigation from "../hooks/useNavigate";
 // import cardreader from "./product_images/Card Reader.png"
 
@@ -51,7 +51,9 @@ function Footer() {
 	return (
 		<>
 			<div className="footer">
-				<img src={logo} alt="company logo" />
+				<a href="/">
+					<img src={logo} alt="company logo" />
+				</a>
 			<div>
 				<p>{companyName} &copy;</p>
 				<p><a href="./about">About Us</a></p>
