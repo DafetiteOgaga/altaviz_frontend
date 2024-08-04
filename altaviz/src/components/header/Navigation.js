@@ -8,7 +8,7 @@ function Navigation() {
       <ul className='header-ul'>
         <li><Link to="/">Home</Link></li>
         <li><DropdownMenu /></li>
-        <li><Link to="/products">Products</Link></li> {/* redundant, so remove */}
+        {/* <li><Link to="/products">Products</Link></li> */}
         <li><Link to="/about">About</Link></li>
         <li><Link to="/contact">Contact Us</Link></li>
         <li><Link to="/test">Test bkend</Link></li>
