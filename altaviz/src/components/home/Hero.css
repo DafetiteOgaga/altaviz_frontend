@@ -31,7 +31,7 @@
 	background: rgb(40, 55, 71, 0.3);
 	/* buttom border radius */
 	border-bottom-left-radius: 0.7rem;
-	border-bottom-right-radius: 0.7rem;
+	/* border-bottom-right-radius: 0.7rem; */
 	/* border-radius: 0.5rem; */
 	z-index: -1;
 }
