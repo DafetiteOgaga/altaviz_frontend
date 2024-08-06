@@ -10,3 +10,24 @@
 #atm-detail-display-for-img img {
 	width: 150%;
 }
+
+.productDetailsTitle {
+	display: flex;
+	/* flex-direction: row; */
+	justify-content: space-between;
+}
+.productDetailsTitle .prev-next {
+	display: flex;
+    /* gap: 1rem; */
+}
+.productDetailsTitle .prev-next a {
+	text-decoration: none;
+	white-space: pre;
+	color: #2b2929;
+}
+.prev-next h2:hover {
+	box-shadow: -3px 3px 0 rgba(0, 0, 0, 0.068);
+}
+.prev-next h2:active {
+	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
+}
