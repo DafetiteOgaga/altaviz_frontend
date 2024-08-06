@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DOMPurify from 'dompurify';
+import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from "react-router-dom";
 
 
@@ -200,13 +201,20 @@ const ProductCards = ({ cardData }) => {
 	// console.log('card photo:', cardData.image);
 	// console.log('card title:', cardData.title);
 	// console.log('card description:', cardData.description);
-	// const navigation = useNavigate();
-	// const clickHandler = (e) => {
-	// 	e.preventDefault();
-	// 	const id = e.currentTarget.getAttribute('data-id');
-	// 	console.log('card dataset id:', id);
-	// 	navigation(`products/product/${id}`);
-	// }
+	const navigateTo = useNavigate();
+	const goTo = (e, index) => {
+		e.preventDefault();
+		// setCurrentId(targetId);
+		console.log('Current page:', index, '########')
+		navigateTo(`/products/product/${index}`);
+		// pageNumber = pageNumber;
+		// if (id > 0 && id > currentProduct && id > totalProducts) {
+		// 	setNext(id + 1);
+        //     setCurrentProduct(id + 1);
+        //     console.log('Previous product is:', currentProduct);
+		// if (id === currentProduct && id < totalProducts && id ) {
+		// }}
+	}
 
 	return (
 		<div
@@ -221,9 +229,14 @@ const ProductCards = ({ cardData }) => {
 				// console.log('card-id:', card.id)
 				return (
 				// add an anchor link to individual deatailed cards to CardContainer
-				<CardContainer key={index} $item_no={index}>
+				<CardContainer key={index}
+				$item_no={index}
+				>
 					{/* <a href={`/products/product/${index}`} data-id={card.id} onClick={clickHandler}> */}
-					<a href={`/products/product/${index}`}>
+					<a
+					href={`/products/product/${index}`}
+					onClick={(e) => goTo(e, index)}
+					>
 						<Card>
 							<CardFront>
 								<CardImage src={card.image} alt={card.title} />
