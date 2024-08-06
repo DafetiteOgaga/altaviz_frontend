@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/SideBar';
 import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
+import Announcements from './components/announcement/Announcements';
 // import Home from './components/home/Home';
 
 function App() {
@@ -18,7 +19,10 @@ function App() {
           {/* <div className="content-wrapper"> */}
             <div className='body-minus-header'>
               <div className="sub-root">
-                <SideBar className="sidebar" />
+                <div>
+                  <SideBar className="sidebar" />
+                  <Announcements />
+                </div>
                 <main>
                   <div className='main-background'>
                     <AppRoutes/>

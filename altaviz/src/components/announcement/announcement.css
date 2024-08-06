@@ -1,0 +1,25 @@
+.announcement-bk {
+	background-color:  #E5E5E5;
+	border-radius: 0.5rem;
+	padding: 0 0.1rem;
+	animation: slide 1s ease-out forwards;
+}
+.announcement-bk h2 {
+	text-decoration: underline;
+	font-style: italic;
+	margin-bottom: 0;
+}
+.announcement-bk p {
+	margin-top: 0;
+}
+.slide {
+	animation: slide 1s ease-out forwards;
+}
+@keyframes slide {
+	from {
+		transform: translateY(-10%);
+	}
+	to {
+		transform: translateY(5%);
+	}
+}

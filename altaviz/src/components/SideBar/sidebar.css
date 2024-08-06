@@ -18,7 +18,7 @@
 .sidebar-ul li:hover {
 	background-color: #E5E5E5;
 	font-size: 1.5rem;
-	animation: bounce 0.8s ease-out forwards;
+	animation: bounce 1s ease-out forwards;
 }
 .side-bar h2 {
 	text-align: center;

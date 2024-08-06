@@ -55,7 +55,7 @@ function Footer() {
 					<img src={logo} alt="company logo" />
 				</a>
 			<div>
-				<p>{companyName} &copy;</p>
+				<p>Copyright &copy; {companyName}</p>
 				<p><a href="./about">About Us</a></p>
 				<p>Address: Lagos, Nigeria</p>
 			</div>
