@@ -8,14 +8,14 @@ function Sidebar() {
 			<nav>
 				<h2>Sections</h2>
 				<ul className='sidebar-ul'>
-					<li><Link to="/">Home</Link></li>
-					<li><Link to="/custodian">Custodian</Link></li>
-					<li><Link to="/workshop">Workshop</Link></li>
-					<li><Link to="/engineer">Engineer</Link></li>
-					<li><Link to="/help-desk">Help Desk</Link></li>
-					<li><Link to="/supervisor">Supervisor</Link></li>
-					<li><Link to="/human-resource">Human Resource</Link></li>
-					<li><Link to="/test">testing backend</Link></li>
+					<Link to="/"><li>Home</li></Link>
+					<Link to="/custodian"><li>Custodian</li></Link>
+					<Link to="/workshop"><li>Workshop</li></Link>
+					<Link to="/engineer"><li>Engineer</li></Link>
+					<Link to="/help-desk"><li>Help Desk</li></Link>
+					<Link to="/supervisor"><li>Supervisor</li></Link>
+					<Link to="/human-resource"><li>Human Resource</li></Link>
+					<Link to="/test"><li>testing backend</li></Link>
 				</ul>
 			</nav>
 		</aside>

@@ -5,8 +5,18 @@ import { useContext } from 'react';
 import { GlobalContext } from '../context/Context';
 
 function DropdownMenu () {
-  const { cardData:products } = useContext(GlobalContext);
+  const { useFetchGET } = useContext(GlobalContext);
+  const products = useFetchGET('http://localhost:8000/product/')
   // console.log('products (DROPDOWN):', products);
+  // console.log('products data (DROPDOWN):', products.data);
+  // try {
+  //   console.log('products data index[0] (DROPDOWN):', products.data[0]);
+  //   console.log('products data index[0] id (DROPDOWN):', products.data[0].id);
+  //   console.log('products data index[0] title (DROPDOWN):', products.data[0].title);
+  // } catch (error) {
+  //   console.log('WAIT, LOADING ...')
+  // }
+  
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = (e) => {
@@ -28,17 +38,17 @@ function DropdownMenu () {
 
   return (
     <div className="dropdown">
-      <a href='/' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
+      <a href='/products' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
         Products
       </a>
       {isOpen && (
         <div className="dropdown-content">
-          {products.map(product => {
+          {products.data.map(product => {
             // console.log('Product:', product)
             return (
-            <span key={product.id}>
+            <div key={product.id}>
               <Link to={`/products/product/${product.id}`}>{product.title}</Link>
-            </span>
+            </div>
           )})}
         </div>
       )}

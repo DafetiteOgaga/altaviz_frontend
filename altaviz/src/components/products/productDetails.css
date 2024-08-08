@@ -31,3 +31,7 @@
 .prev-next h2:active {
 	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
 }
+
+.product-details-page h3 {
+	margin-bottom: 0;
+}
