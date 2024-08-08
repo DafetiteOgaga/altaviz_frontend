@@ -1,8 +1,8 @@
 // import React, { createContext, useState } from 'react';
 import React, { createContext, useEffect, useState } from 'react';
 import { useNavigate } from'react-router-dom';
-import ATMDescription from './ATMDescription';
-import ATMDescriptionSummary from './ATMDescriptionSummary';
+// import ATMDescription from './ATMDescription';
+// import ATMDescriptionSummary from './ATMDescriptionSummary';
 
 // const details = ATMDescription()
 // console.log('length of ATMDescription: ' + details.length)
@@ -131,12 +131,14 @@ export const GlobalProvider = ({ children }) => {
 		const [data, setData] = useState(null);
 		const [loading, setLoading] = useState(true);
 		const [error, setError] = useState(null);
-		console.log('processing POST from context ...')
-		console.log('data from context: (POST)', data)
-		console.log('loading from context: (POST)', loading)
-		console.log('error from context: (POST)', error)
+		// const [ prevData, setPrevData ] = useState(formData);
+		// console.log('processing POST from context ...')
+		// console.log('data from context: (POST)', data)
+		// console.log('loading from context: (POST)', loading)
+		// console.log('error from context: (POST)', error)
 		const redirectTo = useNavigate()
-
+		// console.dir('payload before (not stringify): ' + formData);
+		// alert(`Form Data: ${formData}`);
 		useEffect(() => {
 			const PostData = async () => {
 				setLoading(true);
@@ -151,7 +153,21 @@ export const GlobalProvider = ({ children }) => {
 					if (response.ok) {
 						const responseData = await response.json();
 						// alert('Form submitted successfully');
+						// console.dir('payload (stringify): ' + JSON.stringify(formData));
+						// console.dir('payload after (not stringify): ' + formData);
 						setData(responseData)
+						// console.log('Response from server:', responseData);
+
+						// remove this alert
+						alert(Object.entries(responseData)
+								.map(([key, value]) => `${key}: ${value}\n`)); // remove
+						// console.log('response:', response);
+						// console.log('response.ok:', response.ok);
+						// console.log('responseData:', responseData);
+						// console.log('data:', data);
+						// if (data) {
+						// 	alert(data.status)
+						// }
 						redirectTo('/success');
 						setTimeout(() => {
 							redirectTo('/');
@@ -161,6 +177,8 @@ export const GlobalProvider = ({ children }) => {
 						// onSuccess(responseData);
 					} else {
 						alert('Failed to submit the form');
+						// setPrevData(fields);
+						// setPrevData(formData);
 					}
 				} catch (error) {
 					console.error('Error submitting the form:', error);
@@ -173,38 +191,39 @@ export const GlobalProvider = ({ children }) => {
 				PostData();
 			}
 			// PostData();
-		}, [url, formData, trigger, redirectTo]);
+		}, [url, formData, trigger, redirectTo, data]);
 		return { data, loading, error };
 	}
 
 	// mock data
 	// remove ................................................
-	function getImages(r) {
-		return r.keys().map(r);
-	}
-	const images = getImages(require.context('../product_images/', false, /\.(png|jpe?g|svg)$/));
-	const titles = [
-		'H22V series',
-		'H68NL Series Intelligent Cash Recycler',
-		'grg-200-v-sorting-machine',
-		'H34 series',
-	]
-	const detailedDescriptions = ATMDescription()
-	const descriptions = ATMDescriptionSummary()
-	const cardData = images.map((image, index) => {
-		// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
-		return ({
-			id: index,
-			title: titles[index],
-            description: descriptions[index],
-			detailedDescriptions: detailedDescriptions[index],
-            image: image,
-		})});
+	// function getImages(r) {
+	// 	return r.keys().map(r);
+	// }
+	// const images = getImages(require.context('../product_images/', false, /\.(png|jpe?g|svg)$/));
+	// const titles = [
+	// 	'H22V series',
+	// 	'H68NL Series Intelligent Cash Recycler',
+	// 	'grg-200-v-sorting-machine',
+	// 	'H34 series',
+	// ]
+	// const detailedDescriptions = ATMDescription()
+	// const descriptions = ATMDescriptionSummary()
+	// const cardData = images.map((image, index) => {
+	// 	// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
+	// 	return ({
+	// 		id: index,
+	// 		title: titles[index],
+    //         description: descriptions[index],
+	// 		detailedDescriptions: detailedDescriptions[index],
+    //         image: image,
+	// 	})});
 	// remove ................................................
 
 	return (
 		// <GlobalContext.Provider value={{ globalVariable, setGlobalVariable, bookVariable }}>
-		<GlobalContext.Provider value={{ companyName, useNavigation, useButton, useFetchGET, useFetchPost, cardData }}>
+		// <GlobalContext.Provider value={{ companyName, useNavigation, useButton, useFetchGET, useFetchPost, cardData }}>
+		<GlobalContext.Provider value={{ companyName, useNavigation, useButton, useFetchGET, useFetchPost }}>
 		{children}
 		</GlobalContext.Provider>
 	);
