@@ -2,14 +2,14 @@
 import Hero from "./Hero";
 import AboutAtms from "./AboutAtms";
 import ProductCards from "./ProductCards";
-import { useContext  } from "react";
-import { GlobalContext } from "../context/Context";
+// import { useContext  } from "react";
+// import { GlobalContext } from "../context/Context";
 // import "./home.css"
 // import cardreader from "./product_images/Card Reader.png"
 
 function Home() {
-	const { cardData } = useContext(GlobalContext);
-	console.log('products (HOME):', cardData);
+	// const { cardData } = useContext(GlobalContext);
+	// console.log('products (HOME):', cardData);
 	// const { data, loading, error } = useFetch('http://localhost:8000');
 
 	// if (loading) return <p>Loading...</p>;
@@ -43,9 +43,9 @@ function Home() {
 	return (
 		<>
 			{/* <div className="home-animation"> */}
-				<Hero />
-				<AboutAtms />
-				<ProductCards cardData={cardData} />
+			<Hero />
+			<AboutAtms />
+			<ProductCards />
 			{/* </div> */}
 		</>
 	);
