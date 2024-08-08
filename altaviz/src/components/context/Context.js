@@ -14,6 +14,19 @@ export const GlobalContext = createContext();
 const toSentenceCase = (str) => {
 	return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
+const spaceToHiphen = (str) => {
+	// console.log('str:', str)
+	let newStr = '';
+	for (let i = 0; i < str.length; i++) {
+		if (str[i] === ' ') {
+			newStr += '-';
+			continue;
+		}
+		newStr += str[i];
+	}
+	// console.log('newStr:', newStr)
+	return newStr;
+};
 
 // slice texts by words
 // const sliceTextByWords = (text, wordLimit) => {
@@ -76,7 +89,10 @@ export const GlobalProvider = ({ children }) => {
 			// console.log('disable_btn (if):', value);
 		} else if (btn.length === 1) {
 			btn_btn = btn[0];
+			// if (value === true || value === false) {
 			value = true;
+			// }
+			
 			// console.log('btn_btn (else): ', btn_btn);
 			// console.log('disable_btn (else):', value);
         }
@@ -86,9 +102,11 @@ export const GlobalProvider = ({ children }) => {
 		// console.log('btn_btn:', btn_btn);
 		// console.log('value:', value);
 			return <button
-				type={btn_btn}
-				className={btn_btn}
+				type='submit'
+				className={spaceToHiphen(btn_btn)}
+				id={spaceToHiphen(btn_btn)}
 				disabled={!value}
+				// onClick={value}
 				>
 					{toSentenceCase(btn_btn)}
 				</button>

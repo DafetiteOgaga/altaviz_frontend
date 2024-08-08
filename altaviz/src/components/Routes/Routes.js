@@ -5,7 +5,9 @@ import About from '../main/About';
 // import Products from '../main/Products';
 import ContactUs from '../main/ContactUs';
 import Testfetchapi from '../Testfetchapi';
-import Custodian from '../SideBar/Custodian';
+// import Custodian from '../SideBar/custodian/Custodian';
+import CustodianForm from '../SideBar/custodian/CustodianForm';
+import CustodianLandingPage from '../SideBar/custodian/CustodianLandingPage';
 import Workshop from '../SideBar/Workshop';
 import Engineer from '../SideBar/Engineer';
 import HelpDesk from '../SideBar/HelpDesk';
@@ -57,7 +59,8 @@ function AppRoutes() {
         <Route path="/products" element={<DropdownMenu products={products} />} />
         <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/custodian" element={<Custodian />} />
+        <Route path="/custodian" element={<CustodianLandingPage />} />
+        <Route path="/custodian/form" element={<CustodianForm />} />
         <Route path="/workshop" element={<Workshop />} />
         <Route path="/engineer" element={<Engineer />} />
         <Route path="/help-desk" element={<HelpDesk />} />
