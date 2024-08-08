@@ -7,6 +7,7 @@
 	padding-bottom: 0.5rem;
 }
 
+/* move to a separate module */
 /* about page */
 .about-page h2 {
 	margin-bottom: 0;
@@ -71,6 +72,8 @@
 	font-size: 0.8em;
 } */
 
+
+/* move to a separate module */
 /* loading and error pages */
 .error-and-loading {
 	display: flex;
@@ -78,50 +81,3 @@
 	align-content: center;
 	padding-top: 7rem;
 }
-
-/* contact page */
-.contact-form-page {
-	display: flex;
-	/* justify-content: center; */
-	/* align-items: center; */
-	flex-direction: column;
-	/* grid-template-rows: repeat(3, 1fr); */
-}
-.contact-form-page .element-container {
-	display: grid;
-}
-.contact-form-page input, .contact-form-page textarea {
-	margin-bottom: 1rem;
-	width: 40%;
-	align-self: center;
-	justify-self: center;
-}
-.contact-form-page .submit {
-	background-color: #3E3E87;
-    color: white;
-    padding: 10px 0;
-	margin: 0 34rem;
-    /* margin-top: 1rem; */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.contact-form-page .submit:disabled {
-	background-color: #B5B5BD;
-}
-.contact-form-page .submit, .contact {
-	animation: pulse 2s infinite;
-	/* display: inline-block; */
-}
-.contact-form-page button:active {
-	background-color: #B5B5BD;
-}
-@keyframes pulse {
-	0%, 100% {
-	transform: scale(1);
-	}
-	50% {
-	transform: scale(1.1);
-	}
-}
-
