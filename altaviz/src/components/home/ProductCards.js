@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import DOMPurify from 'dompurify';
+// import DOMPurify from 'dompurify';
 import { useNavigate } from 'react-router-dom';
+import { GlobalContext } from '../context/Context';
 // import { useNavigate } from "react-router-dom";
 
 
@@ -196,16 +197,52 @@ const CardDescription = styled.p.attrs({
 //   }
 // `;
 
-const ProductCards = ({ cardData }) => {
+const ProductCards = () => {
 	// console.log('products (PRODUCTCARD):', cardData);
 	// console.log('card photo:', cardData.image);
 	// console.log('card title:', cardData.title);
 	// console.log('card description:', cardData.description);
+	// let { id } = useParams();
+	// id = Number(id);
+	const { useFetchGET } = useContext(GlobalContext);
+	const [products, setProducts] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+	const response = useFetchGET('http://localhost:8000/product/');
 	const navigateTo = useNavigate();
+
+	useEffect(() => {
+		// console.log('trigger 1: ' + trigger)
+		const GetData = async () => {
+			try {
+				if (response.data) {
+					// setTotalProducts(response.data.length);
+					// const products = response.data;
+					if (response.data) {
+						setProducts(response.data);
+						// if (currentProduct.title === 'GRG H34 Series ATM') {
+						// 	setTrigger(true);
+						// } else {
+						// 	setTrigger(false);
+						// }
+						// console.log('trigger 2: ' + trigger)
+					} else {
+						setError('Products not found');
+					}
+				}
+			} catch (error) {
+				setError(error.message);
+			} finally {
+				setLoading(false);
+			}}
+		GetData();
+	}, [response.data])
+	console.log('products (ProductCards):', products)
+
 	const goTo = (e, index) => {
 		e.preventDefault();
 		// setCurrentId(targetId);
-		console.log('Current page:', index, '########')
+		// console.log('Current page:', index, '########')
 		navigateTo(`/products/product/${index}`);
 		// pageNumber = pageNumber;
 		// if (id > 0 && id > currentProduct && id > totalProducts) {
@@ -215,6 +252,8 @@ const ProductCards = ({ cardData }) => {
 		// if (id === currentProduct && id < totalProducts && id ) {
 		// }}
 	}
+	if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
 	return (
 		<div
@@ -223,23 +262,23 @@ const ProductCards = ({ cardData }) => {
 				justifyContent: 'center',
 			}}
 			>
-      		{cardData.map((card, index) => {
+      		{products && (products.map((card, index) => {
 				// console.log('index:', index)
 				// console.log('card-title:', card.title)
 				// console.log('card-id:', card.id)
 				return (
 				// add an anchor link to individual deatailed cards to CardContainer
-				<CardContainer key={index}
-				$item_no={index}
+				<CardContainer key={card.id}
+				$item_no={card.id}
 				>
 					{/* <a href={`/products/product/${index}`} data-id={card.id} onClick={clickHandler}> */}
 					<a
-					href={`/products/product/${index}`}
-					onClick={(e) => goTo(e, index)}
+					href={`/products/product/${card.id}`}
+					onClick={(e) => goTo(e, card.id)}
 					>
 						<Card>
 							<CardFront>
-								<CardImage src={card.image} alt={card.title} />
+								<CardImage src={card.product_images} alt={card.product_image} />
 								<CardContent>
 									<CardTitle>{card.title}</CardTitle>
 									{/* <p>hello</p> */}
@@ -250,17 +289,18 @@ const ProductCards = ({ cardData }) => {
 							<CardBack>
 								<CardContent>
 									<CardTitle>Click for More Info</CardTitle>
-									{/* <CardDescription> */}
-										{<CardDescription dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.about) }}/>}
+									<CardDescription>
+										{card.description.about}
+										{/* {<CardDescription dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.about) }}/>} */}
 										{/* {<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.benefits) }}/>} */}
-									{/* </Ca.rdDescription> */}
+									</CardDescription>
 									{/* <CardButton>Learn More</CardButton> */}
 								</CardContent>
 							</CardBack>
 						</Card>
 					</a>
 				</CardContainer>
-			)})}
+			)}))}
 		</div>
 	);
 };
