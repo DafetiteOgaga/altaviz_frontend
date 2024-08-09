@@ -1,0 +1,13 @@
+.user-page { /* do not use, used recursively */
+	padding: 1rem;
+}
+.user-info {
+	display: flex;
+	justify-content: center;
+}
+.user-info img {
+	width: 20rem;
+}
+.user-info h4, .user-info h3 {
+	margin: 0.5rem 0;
+}

@@ -1,15 +1,17 @@
 // import useFetch from "../hooks/useFetch";
-// import { useState, useContext } from "react";
+import { useState } from "react";
 import CustomTime from "../../hooks/CustomTime";
 // import { GlobalContext } from "../../context/Context";
-import { useNavigate } from "react-router-dom"
-import "./custodian.css"
+// import { useNavigate } from "react-router-dom"
+import "../custodian.css"
+import PendingFaults from "../resolved_and_pending/pending_faults/PendingFaults";
+import Resolved from "../resolved_and_pending/resolved/Resolved";
 // import Custodian from "./Custodian";
 
 function CustodianLandingPage() {
 	// if faultStatus is true, the button should be disabled permanently
 	// const [ faultStatus, setFaultStatus ] = useState(false)
-	// json structure for this page
+	// json structure for this custodian page
 	const location = {
 		bank: {
 			name: 'FB',
@@ -117,31 +119,31 @@ function CustodianLandingPage() {
 		'ZA': 'Zamfara State',
 	}
 	// const atmType = ['GRG', 'Wincor-Nixdorf', 'NCR']
-	// const faults = ['Select Fault',
-	// 	'Blank Screen',
-	// 	'Cash Jam',
-	// 	'Card Not Smart',
-	// 	'Poor Facial Image',
-	// 	'Unable to Clear/Load Cash',
-	// 	'ATM not Dispensing notes',
-	// 	'Reject Bin Full',
-	// 	'Dispenser not Spinning',
-	// 	'Dispenser spins too many times without paying',
-	// 	'ATM/Dispenser dirty',
-	// 	'Screen Touch/Buttons not working',
-	// 	'ATM Screen buttons not working',
-	// 	'Too many ATM card rejects',
-	// 	'Trappng cards',
-	// 	'Card cannot be Read',
-	// 	'Pin pad keys not working',
-	// 	'ATM not Booting Up',
-	// 	'Cash counter reset on power disruption',
-	// 	'High Rejects',
-	// 	'Calibration Unsuccessful',
-	// 	'No Good Cassetes',
-	// 	'Out of Service',
-	// 	'Unable to Print Cash',
-	// ]
+	const faults = ['Select Fault',
+		'Blank Screen',
+		'Cash Jam',
+		'Card Not Smart',
+		'Poor Facial Image',
+		'Unable to Clear/Load Cash',
+		'ATM not Dispensing notes',
+		'Reject Bin Full',
+		'Dispenser not Spinning',
+		'Dispenser spins too many times without paying',
+		'ATM/Dispenser dirty',
+		'Screen Touch/Buttons not working',
+		'ATM Screen buttons not working',
+		'Too many ATM card rejects',
+		'Trappng cards',
+		'Card cannot be Read',
+		'Pin pad keys not working',
+		'ATM not Booting Up',
+		'Cash counter reset on power disruption',
+		'High Rejects',
+		'Calibration Unsuccessful',
+		'No Good Cassetes',
+		'Out of Service',
+		'Unable to Print Cash',
+	]
 	// const cEngineers = [
 	// 	{
 	// 		id: 1,
@@ -213,131 +215,332 @@ function CustodianLandingPage() {
 	// if (error) return <p>Error: {error}</p>;
 	// console.log(data);
 
-	// const fields = {
-	// 	bank: banks[location.bank.name],
-	// 	state: locations[location.bank.state],
-	// 	branch: location.bank.branch.branchName,
-	// 	engineer: location.bank.branch.cEngineer,
-	// 	helpDesk: location.bank.branch.helpDesk,
-	// 	atmType: location.bank.branch.ATMs.type,
-	// 	totalNumberOfATMs: location.bank.branch.ATMs.totalNumberOfATMs,
-	// 	otherFaults: ''
-	//   }
+	const fields = {
+		bank: banks[location.bank.name],
+		state: locations[location.bank.state],
+		branch: location.bank.branch.branchName,
+		engineer: location.bank.branch.cEngineer,
+		helpDesk: location.bank.branch.helpDesk,
+		atmType: location.bank.branch.ATMs.type,
+		totalNumberOfATMs: location.bank.branch.ATMs.totalNumberOfATMs,
+		otherFaults: ''
+	  }
 	// const { useButton } = useContext(GlobalContext)
-	// const [formValues, setFormValues] = useState(fields);
-	// const [isEditable, setIsEditable] = useState(false);
-	// const [errors, setErrors] = useState({});
+	const [formValues, setFormValues] = useState(fields);
+	const [isEditable, setIsEditable] = useState(false);
+	const [errors, setErrors] = useState({});
 	
-	// const EditHandler = (e) => {
-	// 	e.preventDefault();
-	// 	setIsEditable(!isEditable);
-	// };
-
-	// const handleInputChange = (e) => {
-	// 	const { name, value } = e.target;
-	// 	setFormValues({
-	// 	  ...formValues,
-	// 	  [name]: value,
-	// 	});
-	//   };
-
-	// const validateForm = () => {
-	// 	let formErrors = {};
-	// 	if (!formValues.state) formErrors.state = 'State is required';
-	// 	if (!formValues.branch) formErrors.branch = 'Branch is required';
-	// 	if (!formValues.engineer) formErrors.engineer = 'Engineer is required';
-	// 	if (!formValues.helpDesk) formErrors.helpDesk = 'Help Desk is required';
-	// 	if (!formValues.atmType) formErrors.atmType = 'ATM type is required';
-	// 	if (!formValues.totalNumberOfATMs) formErrors.totalNumberOfATMs = 'Number of ATMs is required';
-	// 	setErrors(formErrors);
-	
-	// 	return Object.keys(formErrors).length === 0;
-	// };
-
-	// const handleSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	if (validateForm()) {
-	// 	// Form is valid, proceed with submission logic
-	// 	console.log('Form submitted:', formValues);
-	// 	}
-	// };
-	const name = "Amanda"
-	const navigateTo = useNavigate();
-	const goTo = (e) => {
+	const EditHandler = (e) => {
 		e.preventDefault();
-		navigateTo("/custodian/form");
-	}
+		setIsEditable(!isEditable);
+	};
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		setFormValues({
+		  ...formValues,
+		  [name]: value,
+		});
+	  };
+
+	const validateForm = () => {
+		let formErrors = {};
+		if (!formValues.state) formErrors.state = 'State is required';
+		if (!formValues.branch) formErrors.branch = 'Branch is required';
+		if (!formValues.engineer) formErrors.engineer = 'Engineer is required';
+		if (!formValues.helpDesk) formErrors.helpDesk = 'Help Desk is required';
+		if (!formValues.atmType) formErrors.atmType = 'ATM type is required';
+		if (!formValues.totalNumberOfATMs) formErrors.totalNumberOfATMs = 'Number of ATMs is required';
+		setErrors(formErrors);
+	
+		return Object.keys(formErrors).length === 0;
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (validateForm()) {
+		// Form is valid, proceed with submission logic
+		console.log('Form submitted:', formValues);
+		}
+	};
+	const name = "Amanda"
+	const message = "Kindly Confirm Resolution:";
+	// const navigateTo = useNavigate();
+	// const goTo = (e) => {
+	// 	e.preventDefault();
+	// 	navigateTo("/custodian/form");
+	// }
+	// const FaultForm = ({ faults, formValues }) => {
+	const [dynamicfields, setDynamicfields] = useState([{ fault: '', atmNumber: '' }]);
+
+	const addFieldSet = () => {
+		setDynamicfields([...dynamicfields, { fault: '', atmNumber: '' }]);
+	};
 
 	return (
 		<>
 			<div className="background-color custodian-page">
 				<CustomTime name={name} />
-				<div>
-					<h4>Having difficulty with your machine?</h4>
-				</div>
-				<div>
-					<div className="to-form">
-						{/* <h4>Log a Fault</h4> */}
-						<a href={"/custodian/form"} onClick={(e) => goTo(e)}>
-							<h4> Log a Fault  </h4>
-						</a>
+				<div className="split-container">
+					<div className="dash-form">
+						<div>
+							<h4>Having difficulty with your machine?</h4>
+						</div>
+						<div>
+							<div className="to-form">
+								{/* <h4>Log a Fault</h4> */}
+								{/* <a href={"/custodian"} onClick={(e) => goTo(e)}> */}
+								<h4>Log a Fault</h4>
+								{/* </a> */}
+							</div>
+							<hr />
+							<form onSubmit={handleSubmit}>
+								<div>
+									<div className="cust-row">
+										{/* <div className="input-field">
+											<label htmlFor="bank">Bank:</label>
+											<input
+											type="text"
+											name="bank"
+											id="bank"
+											value={formValues.bank}
+											readOnly
+											/>
+										</div> */}
+										<div className="input-field">
+											<label htmlFor="state">State:</label>
+											<input
+											type="text"
+											name="state"
+											id="state"
+											value={formValues.state}
+											onChange={handleInputChange}
+											readOnly={!isEditable}
+											/>
+											{errors.state && <span className="error">{errors.state}</span>}
+										</div>
+										<div className="input-field">
+											<label htmlFor="branch">Branch:</label>
+											<input
+											type="text"
+											name="branch"
+											id="branch"
+											value={formValues.branch}
+											onChange={handleInputChange}
+											readOnly={!isEditable}
+											/>
+											{errors.branch && <span className="error">{errors.branch}</span>}
+										</div>
+									</div>
+									<div className="cust-row">
+										{/* <div className="input-field">
+											<label htmlFor="engineer">Engineer:</label>
+											<input
+											type="text"
+											name="engineer"
+											id="engineer"
+											value={formValues.engineer}
+											onChange={handleInputChange}
+											readOnly
+											/>
+											{errors.engineer && <span className="error">{errors.engineer}</span>}
+										</div> */}
+										{/* <div className="input-field">
+											<label htmlFor="help-desk">Help Desk:</label>
+											<input
+											type="text"
+											name="help-desk"
+											id="help-desk"
+											value={formValues.helpDesk}
+											onChange={handleInputChange}
+											readOnly
+											/>
+											{errors.helpDesk && <span className="error">{errors.helpDesk}</span>}
+										</div> */}
+										{/* <div className="input-field">
+											<label htmlFor="atm-type">ATM:</label>
+											<input
+											type="text"
+											name="atm-type"
+											id="atm-type"
+											value={formValues.atmType}
+											onChange={handleInputChange}
+											/>
+											{errors.atmType && <span className="error">{errors.atmType}</span>}
+										</div> */}
+									</div>
+									<div className="cust-row">
+										{/* <div className="input-field">
+											<label htmlFor="total-atms">Total Number of ATMs:</label>
+											<input
+											type="text"
+											name="total-atms"
+											id="total-atms"
+											value={formValues.totalNumberOfATMs}
+											onChange={handleInputChange}
+											/>
+											{errors.totalNumberOfATMs && <span className="error">{errors.totalNumberOfATMs}</span>}
+										</div> */}
+									</div>
+									<div className="cust-row">
+
+										<div className="dynamic-cust-row">
+										{dynamicfields.map((field, index) => (
+											<div className="b-line" key={index}>
+												<div className="input-field">
+													<label htmlFor={`fault-${index}`}>Fault:</label>
+													<select id={`fault-${index}`} name={`fault-${index}`}>
+													{faults.map(fault => (
+														<option key={fault} value={fault}>
+														{fault}
+														</option>
+													))}
+													</select>
+												</div>
+												<div className="input-field">
+													<label htmlFor={`atm-number-${index}`}>ATM Number:</label>
+													<select id='atm-number' name={`atm-number-${index}`}>
+													{Array.from({ length: formValues.totalNumberOfATMs }, (_, i) => i + 1).map((number) => (
+														<option key={number} value={number}>
+														{number}
+														</option>
+													))}
+													</select>
+												</div>
+											</div>
+										))}
+										
+										</div>
+
+
+										{/* <div className="input-field">
+											<label htmlFor="no-of-atms">Number of ATMs:</label>
+											<input
+											type="text"
+											name="no-of-atms"
+											id="no-of-atms"
+											value={formValues.numberOfATMs}
+											// readOnly={!isEditable}
+											/>
+											{errors.numberOfATMs && <span className="error">{errors.numberOfATMs}</span>}
+										</div> */}
+									</div>
+									
+									<div>
+										<div className="input-field textarea-box">
+											<label htmlFor="other-faults">Other Faults/Details:</label>
+											<textarea
+											type="text"
+											name="other-faults"
+											id="other-faults"
+											placeholder="Pls, specify ..."
+											rows={3}
+											// value={formValues.otherFaults}
+											onChange={handleInputChange}
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="cust-button">
+									<button type="submit">Log Fault</button>
+									<button onClick={EditHandler}>Edit Fields</button>
+									<button type="button" onClick={addFieldSet}>
+											Add Fault
+										</button>
+								</div>
+							</form>
+						</div>
 					</div>
-					<hr />
-					<div>
-						<div className="cust-row">
-							<div className="input-field">
-									<p>
-										{banks[location.bank.name]}
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{locations[location.bank.state]}
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{location.bank.branch.branchName}
-									</p>
-								</div>
+
+					{/* ........................................................................... */}
+
+					
+					<div style={{
+							borderLeft: '2px inset',
+							height: 'auto',
+							width: '0',
+							margin: '0 auto',
+							// backgroundColor: 'white',
+							// boxShadow: 'inset 0 0 5px white',
+						}}>
+					</div>
+
+					{/* ........................................................................... */}
+
+					<div className="dash-form">
+						<div>
+							<h4>Dashboard</h4>
+						</div>
+						<div>
+							<div className="to-form">
+								{/* <h4>Log a Fault</h4> */}
+								{/* <a href={"/custodian/form"} onClick={(e) => goTo(e)}> */}
+								{/* <h4> Log a Fault  </h4> */}
+								{/* </a> */}
 							</div>
-							<div className="cust-row">
-								<div className="input-field">
-									<p>
-										{location.bank.branch.cEngineer}
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{location.bank.branch.helpDesk}
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{location.bank.branch.ATMs.type}
-									</p>
-								</div>
+							<hr />
+							<div>
+								<div className="cust-row">
+									<div className="input-field">
+											<p><strong>Bank: </strong>
+												{banks[location.bank.name]}
+											</p>
+										</div>
+										<div className="input-field">
+											<p><strong>State: </strong>
+												{locations[location.bank.state]}
+											</p>
+										</div>
+										<div className="input-field">
+											<p><strong>Branch: </strong>
+												{location.bank.branch.branchName}
+											</p>
+										</div>
+									</div>
+									<div className="cust-row">
+										<div className="input-field">
+											<p><strong>Engineer: </strong>
+												{location.bank.branch.cEngineer}
+											</p>
+										</div>
+										<div className="input-field">
+											<p><strong>Help Desk: </strong>
+												{location.bank.branch.helpDesk}
+											</p>
+										</div>
+										<div className="input-field">
+											<p><strong>ATM Brand: </strong>
+												{location.bank.branch.ATMs.type}
+											</p>
+										</div>
+									</div>
+									<div className="pend-resol">
+										<PendingFaults />
+										<Resolved text={message} />
+										{/* <div className="status">
+											<p><strong>Pending Fault: </strong>
+												2
+											</p>
+											<p><strong>Resolved: </strong>
+												All
+											</p>
+										</div> */}
+										{/* <div className="input-field">
+											<p>
+												{location.bank.branch.ATMs.type}
+											</p>
+										</div> */}
+										{/* <div className="input-field">
+											<p>
+												{location.bank.branch.ATMs.totalNumberOfATMs}
+											</p>
+										</div> */}
+									</div>
+									{/* <div className="input-field textarea-box">
+										<p>textarea</p>
+									</div> */}
 							</div>
-							<div className="cust-row">
-								<div className="input-field">
-									<p>
-										fault
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{location.bank.branch.ATMs.type}
-									</p>
-								</div>
-								<div className="input-field">
-									<p>
-										{location.bank.branch.ATMs.totalNumberOfATMs}
-									</p>
-								</div>
-							</div>
-							<div className="input-field textarea-box">
-								<p>textarea</p>
-							</div>
+						</div>
 					</div>
 				</div>
 			</div>

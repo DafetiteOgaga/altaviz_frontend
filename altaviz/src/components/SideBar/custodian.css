@@ -19,12 +19,15 @@
 .custodian-page select {
 	height: 100%;
 }
+.custodian-page input {
+	width: 80%;
+}
 .custodian-page textarea {
 	width: 50%;
 }
-.custodian-page .textarea-box {
+/* .custodian-page .textarea-box {
 	margin-left: 4rem;
-}
+} */
 .custodian-page .cust-button {
 	display: flex;
 	justify-content: center;
@@ -66,3 +69,39 @@
 .to-form h4:active {
 	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
 }
+
+.split-container {
+	display: grid;
+	grid-template-columns: 1fr 0.001fr 1fr;
+}
+
+.b-line {
+	border: 1px solid black;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	margin-bottom: 0.5rem;
+}
+.dynamic-cust-row select {
+	height: 100%;
+}
+.dynamic-cust-row .input-field {
+	display: flex;
+	flex-direction: row;
+}
+.dynamic-cust-row #atm-number {
+	width: 15%;
+}
+
+.dash-form {
+	padding: 1rem;
+}
+
+.status {
+	display: flex;
+	/* flex-direction: row; */
+	justify-content: space-evenly;
+}
+
+/* .pend-resol {
+	display: flex;
+} */
