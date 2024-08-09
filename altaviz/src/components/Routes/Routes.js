@@ -6,10 +6,10 @@ import About from '../main/About';
 import ContactUs from '../main/ContactUs';
 import Testfetchapi from '../Testfetchapi';
 // import Custodian from '../SideBar/custodian/Custodian';
-import CustodianForm from '../SideBar/custodian/CustodianForm';
+// import CustodianForm from '../SideBar/custodian/CustodianForm';
 import CustodianLandingPage from '../SideBar/custodian/CustodianLandingPage';
-import Workshop from '../SideBar/Workshop';
-import Engineer from '../SideBar/Engineer';
+import Workshop from '../SideBar/workshop/Workshop';
+import Engineer from '../SideBar/engineer/Engineer';
 import HelpDesk from '../SideBar/HelpDesk';
 import Supervisor from '../SideBar/Supervisor';
 import HumanResource from '../SideBar/HumanResource';
@@ -24,6 +24,8 @@ import DropdownMenu from '../header/DropdownMenu';
 // import Contact from './components/Contact';
 // import Navigation from '../header/Navigation';
 // import Category from '../Category';
+import User from '../user/user';
+import Fault from '../SideBar/Fault';
 
 function AppRoutes() {
   function getImages(r) {
@@ -60,12 +62,14 @@ function AppRoutes() {
         <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/custodian" element={<CustodianLandingPage />} />
-        <Route path="/custodian/form" element={<CustodianForm />} />
+        {/* <Route path="/custodian/form" element={<CustodianForm />} /> */}
         <Route path="/workshop" element={<Workshop />} />
         <Route path="/engineer" element={<Engineer />} />
         <Route path="/help-desk" element={<HelpDesk />} />
         <Route path="/supervisor" element={<Supervisor />} />
         <Route path="/human-resource" element={<HumanResource />} />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/fault-details/:id" element={<Fault />} />
         <Route path="/success" element={<Success />} />
         <Route path="/test" element={<Testfetchapi />} />
         <Route path="*" element={<PageNotFound />} />
