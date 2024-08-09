@@ -34,7 +34,7 @@ const CustomTime = (name) => {
   return (
     <>
       <h2>
-        Good {timeOfDay} {name.name},
+        Good {timeOfDay}, {name.name}
       </h2>
     </>
   );
