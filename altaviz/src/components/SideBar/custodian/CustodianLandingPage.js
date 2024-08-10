@@ -2,10 +2,10 @@
 import { useState } from "react";
 import CustomTime from "../../hooks/CustomTime";
 // import { GlobalContext } from "../../context/Context";
-// import { useNavigate } from "react-router-dom"
-import "../custodian.css"
-import PendingFaults from "../resolved_and_pending/pending_faults/PendingFaults";
-import Resolved from "../resolved_and_pending/resolved/Resolved";
+import { Link } from "react-router-dom"
+import "../sidebar_pages.css"
+import PendingFaults from "../requestApprovedPendingResolved/pending_faults/PendingFaults";
+import Resolved from "../requestApprovedPendingResolved/resolved/Resolved";
 // import Custodian from "./Custodian";
 
 function CustodianLandingPage() {
@@ -142,7 +142,7 @@ function CustodianLandingPage() {
 		'Calibration Unsuccessful',
 		'No Good Cassetes',
 		'Out of Service',
-		'Unable to Print Cash',
+		'Unable to Print Counter',
 	]
 	// const cEngineers = [
 	// 	{
@@ -500,7 +500,11 @@ function CustodianLandingPage() {
 									<div className="cust-row">
 										<div className="input-field">
 											<p><strong>Engineer: </strong>
-												{location.bank.branch.cEngineer}
+												<Link
+												style={{color: '#333'}}
+												to="/user/1">
+													{location.bank.branch.cEngineer}
+												</Link>
 											</p>
 										</div>
 										<div className="input-field">
@@ -510,7 +514,11 @@ function CustodianLandingPage() {
 										</div>
 										<div className="input-field">
 											<p><strong>ATM Brand: </strong>
-												{location.bank.branch.ATMs.type}
+												<Link
+												style={{color: '#333'}}
+												to="/user/1">
+													{location.bank.branch.ATMs.type}
+												</Link>
 											</p>
 										</div>
 									</div>
