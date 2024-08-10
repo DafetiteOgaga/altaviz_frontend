@@ -1,0 +1,148 @@
+.custodian-page {
+	padding: 0 1.5rem;
+	padding-bottom: 0.5rem;
+}
+.cust-row {
+	display: flex;
+	justify-content: space-around;
+
+}
+.custodian-page .input-field {
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 1rem;
+}
+.custodian-page input, .custodian-page label,
+.custodian-page textarea {
+	font-size: large;
+}
+.custodian-page select {
+	height: 100%;
+}
+.custodian-page input {
+	width: 80%;
+}
+.custodian-page textarea {
+	width: 50%;
+}
+/* .custodian-page .textarea-box {
+	margin-left: 4rem;
+} */
+.custodian-page .cust-button {
+	display: flex;
+	justify-content: center;
+	gap: 4rem;
+}
+.custodian-page button {
+	background-color: #252588f8;
+    color: white;
+    padding: 0.7rem 1rem;
+	/* margin: 0 34rem; */
+    /* margin-top: 1rem; */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.custodian-page button:hover {
+	background-color: #6e6ec7;
+}
+.custodian-page button:active {
+	background-color: #B5B5BD;
+}
+.to-form {
+	display: flex;
+	justify-content: space-between;
+	/* margin: 0 0; */
+}
+.to-form a {
+	text-decoration: none;
+	color: #2b2929;
+	white-space: pre;
+	/* margin: 0; */
+}
+.to-form h4 {
+	margin: 0;
+}
+.to-form h4:hover {
+	box-shadow: -5px 5px 0 rgba(0, 0, 0, 0.068);
+}
+.to-form h4:active {
+	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
+}
+
+.split-container {
+	display: grid;
+	grid-template-columns: 1fr 0.001fr 1fr;
+}
+
+.b-line {
+	border: 1px solid black;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	margin-bottom: 0.5rem;
+}
+.dynamic-cust-row select {
+	height: 100%;
+}
+.dynamic-cust-row .input-field {
+	display: flex;
+	flex-direction: row;
+}
+.dynamic-cust-row #atm-number {
+	width: 15%;
+}
+
+.dash-form {
+	padding: 1rem;
+}
+
+.status {
+	display: flex;
+	/* flex-direction: row; */
+	justify-content: space-evenly;
+}
+
+/* .pend-resol {
+	display: flex;
+} */
+
+.req-details h4 {
+	margin-bottom: 0;
+}
+.req-details h6 {
+	margin: 1rem 0;
+	margin-bottom: 0;
+}
+
+.fault-list-block {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0 2rem;
+	margin-bottom: 1rem;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	background-color: #E5E5E5;
+}
+.fault-list-block:hover {
+	background-color: #ebeaea;
+	font-size: 1.05rem;
+	animation: bounce 1s ease-out forwards;
+}
+.fault-list-block p {
+	margin: 0;
+}
+
+/* @keyframes bounce {
+	0%, 100% {
+	transform: translateY(0);
+	}
+	20% {
+	transform: translateY(-10px);
+	}
+	50% {
+	transform: translateY(0);
+	}
+	80% {
+	transform: translateY(-5px);
+	}
+} */
