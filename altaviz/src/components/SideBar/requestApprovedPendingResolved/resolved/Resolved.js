@@ -45,8 +45,7 @@ function Resolved ({text}) {
 						<>
 							<p>{confirmResolve}</p>
 							<p>
-								<a href="/fault-details/" onClick={toggleDropdown}>
-									View
+								<a href="/fault-details/" onClick={toggleDropdown}> View
 								</a>
 							</p>
 						</>
@@ -54,9 +53,9 @@ function Resolved ({text}) {
 				{isDropdownVisible && (
 				<div className="dropdown-menu resolved-positn" id="dropdown-position">
 					<ul>
-						<li>Dispender issue <Link className="confirm-res" to="/fault-details/1">Confirm</Link></li>
-						<li>Card Reader issue <Link className="confirm-res" to="/fault-details/2">Confirm</Link></li>
-						<li>Cash Jam issue <Link className="confirm-res" to="/fault-details/3">Confirm</Link></li>
+						<li>Dispender issue <Link className="" to="/fault-details/1">Confirm</Link></li>
+						<li>Card Reader issue <Link className="" to="/fault-details/2">Confirm</Link></li>
+						<li>Cash Jam issue <Link className="" to="/fault-details/3">Confirm</Link></li>
 					</ul>
 				</div>
 				)}

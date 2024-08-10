@@ -3,29 +3,32 @@
 import CustomTime from "../hooks/CustomTime";
 // import { GlobalContext } from "../../context/Context";
 // import { useNavigate } from "react-router-dom"
-import "./custodian.css"
+import "./sidebar_pages.css"
+import { Link } from "react-router-dom";
 // import Custodian from "./Custodian";
 
 function Fault() {
 	// if faultStatus is true, the button should be disabled permanently
 	// const [ faultStatus, setFaultStatus ] = useState(false)
 	// json structure for workshop page
+	const today = new Date();
 	const location = {
-		user: {
-			name: 'James',
-			department: {
-				dept: 'workshop',
-				numberOfPartsDelivered: 52,
-				numberOfPendingParts: 9,
-			},
+			id: 1,
+			bank: 'FCMB',
+			branch: 'Ikota Branch',
+			faultTitle: "Dispenser error",
+			engieer: "James",
 			phone: '12345678902',
 			whatsapp: '98765432103',
 			profile_photo: 'placeholder.png',
 			email: 'james@example.com',
-			address: '12, kudirat way, lagos',
-			status: 'active',
-		},
-	}
+			faultStatus: "Pending",
+			requestStatus: "Pending",
+			resolved: false,
+			delay: true,
+			dueDate: today.toDateString(),
+			helpDesk: 'Omolara',
+		}
 
 	// const parts = [
 	// 	'Select Part',
@@ -222,9 +225,16 @@ function Fault() {
 			<div className="background-color custodian-page">
 				<CustomTime name={name} />
 					<div className="dash-form">
-						<div>
-							<h4>Fault Log</h4>
+						<div className="req-h4-header">
+							<h4>
+								Fault Log: ID #{location.id}
+							</h4>
+							<h4>
+								<Link
+								to="/request-details/1">Fault Requests</Link>
+							</h4>
 						</div>
+						
 						<div>
 							<div className="to-form">
 								{/* <h4>Log a Fault</h4> */}
@@ -236,57 +246,65 @@ function Fault() {
 							<div>
 								<div className="cust-row">
 									<div className="input-field">
-											<p>
-												{location.user.name}
+											<p><strong>Bank: </strong>
+												{location.bank}
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.department.dept}
+											<p><strong>Branch: </strong>
+											{location.branch}
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.department.numberOfPartsDelivered}
+											<p><strong>Fault Detail: </strong>
+											{location.faultTitle}
 											</p>
 										</div>
 									</div>
 									<div className="cust-row">
 										<div className="input-field">
-											<p>
-											{location.user.phone}
+											<p><strong>Status: </strong>
+											{location.faultStatus}
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.whatsapp}
+											<p><strong>Assigned to: </strong>
+											<Link
+											style={{color: '#333'}}
+											to="/user/1">
+												{location.engieer}
+											</Link>
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.profile_photo}
+											<p><strong>Due Date: </strong>
+											{location.dueDate}
 											</p>
 										</div>
 									</div>
 									<div className="cust-row">
 										<div className="input-field">
-											<p>
-												workshop parts
+											<p><strong>Phone No.: </strong>
+												{location.phone}
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.email}
+											<p><strong>Whatsapp: </strong>
+											{location.whatsapp}
 											</p>
 										</div>
 										<div className="input-field">
-											<p>
-											{location.user.status}
+											<p><strong>Email: </strong>
+											{location.email}
 											</p>
 										</div>
-									</div>
-									<div className="input-field textarea-box">
-										<p>textarea</p>
+										<div className="input-field to_user">
+											<p><strong>Managed by: </strong>
+												<Link to="/user/1">
+													{location.helpDesk}
+												</Link>
+											</p>
+										</div>
 									</div>
 							</div>
 						</div>

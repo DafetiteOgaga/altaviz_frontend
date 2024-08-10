@@ -2,11 +2,11 @@
 import { useState } from "react";
 import CustomTime from "../../hooks/CustomTime";
 // import { GlobalContext } from "../../context/Context";
-// import { useNavigate } from "react-router-dom"
-import "../custodian.css"
+import { Link } from "react-router-dom"
+import "../sidebar_pages.css"
 // import Custodian from "./Custodian";
-import PendingFaults from "../resolved_and_pending/pending_faults/PendingFaults";
-import Resolved from "../resolved_and_pending/resolved/Resolved";
+import PendingFaults from "../requestApprovedPendingResolved/pending_faults/PendingFaults";
+import Resolved from "../requestApprovedPendingResolved/resolved/Resolved";
 
 function Engineer() {
 	// if faultStatus is true, the button should be disabled permanently
@@ -395,7 +395,11 @@ function Engineer() {
 							<div className="cust-row">
 								<div className="input-field">
 										<p><strong>Name: </strong>
-											{location.user.name}
+											<Link
+											style={{color: '#333'}}
+											to="/user/1">
+												{location.user.name}
+											</Link>
 										</p>
 									</div>
 									<div className="input-field">

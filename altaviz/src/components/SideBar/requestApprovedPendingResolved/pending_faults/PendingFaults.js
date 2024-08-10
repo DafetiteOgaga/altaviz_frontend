@@ -22,8 +22,7 @@ function PendingFaults () {
 						<>
 							<p>{pendingFaults}</p>
 							<p>
-								<a href="/fault-details/" onClick={toggleDropdown}>
-									View
+								<a href="/fault-details/" onClick={toggleDropdown}> View
 								</a>
 							</p>
 						</>
