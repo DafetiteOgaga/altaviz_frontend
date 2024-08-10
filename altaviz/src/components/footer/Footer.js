@@ -5,6 +5,7 @@
 import MonthandYear from "./MonthandYear";
 import logo from "../../logo/altaviz_logo.png"
 import "./footer.css"
+// import { Link } from "react-router-dom";
 import { useContext } from "react";
 // import { useNavigate } from "react-router-dom"
 import { GlobalContext } from "../context/Context";
