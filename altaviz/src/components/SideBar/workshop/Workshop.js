@@ -368,6 +368,10 @@ function Workshop() {
 	const addRequestComponentFieldSet = () => {
 		setRequestComponent([...requestComponent, { component: '', amount: '' }]);
 	};
+	const removeRequestComponentFieldSet = (index) => {
+		const updatedComponents = requestComponent.filter((_, i) => i !== index);
+		setRequestComponent(updatedComponents);
+	};
 
 	return (
 		<>
@@ -655,15 +659,24 @@ function Workshop() {
 													))}
 													</select>
 												</div>
-												<div className="input-field">
-													<label htmlFor={`amount-${index}`}>Amount of Part:</label>
-													<select id='amount' name={`amount-${index}`}>
-													{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
-														<option key={number} value={number}>
-														{number}
-														</option>
-													))}
-													</select>
+												<div className="with-rm-btn">
+													<div className="input-field">
+														<label htmlFor={`part-qty-${index}`}>Quantity:</label>
+														<select id='part-qty' name={`part-qty-${index}`}>
+														{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
+															<option key={number} value={number}>
+															{number}
+															</option>
+														))}
+														</select>
+													</div>
+													<div>
+														<button
+															type="button"
+															onClick={() => removeRequestComponentFieldSet(index)}
+															>Remove
+														</button>
+													</div>
 												</div>
 											</div>
 										))}
@@ -884,16 +897,25 @@ function Workshop() {
 													))}
 													</select>
 												</div>
-												<div className="input-field">
-													<label htmlFor={`amount-${index}`}>Amount of Components:</label>
-													<select id='amount' name={`amount-${index}`}>
-													{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
-														<option key={number} value={number}>
-														{number}
-														</option>
-													))}
-													</select>
-												</div>
+												<div className="with-rm-btn">
+													<div className="input-field">
+														<label htmlFor={`comp-qty-${index}`}>Quantity:</label>
+														<select id='comp-qty' name={`comp-qty-${index}`}>
+														{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
+															<option key={number} value={number}>
+															{number}
+															</option>
+														))}
+														</select>
+													</div>
+													<div>
+														<button
+															type="button"
+															onClick={() => removeRequestComponentFieldSet(index)}
+															>Remove
+														</button>
+													</div>
+													</div>
 											</div>
 										))}
 										</div>
