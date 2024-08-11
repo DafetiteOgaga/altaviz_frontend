@@ -7,6 +7,8 @@ import { GlobalContext } from '../context/Context';
 function DropdownMenu () {
   const { useFetchGET } = useContext(GlobalContext);
   const products = useFetchGET('http://localhost:8000/product/')
+  const { data, loading, error } = products;
+  console.log(data);
   // console.log('products (DROPDOWN):', products);
   // console.log('products data (DROPDOWN):', products.data);
   // try {
@@ -35,13 +37,15 @@ function DropdownMenu () {
     //   console.log('about index:', aboutIndexEnabled);
     // }
   };
+  if (loading) return <p>Loading...</p>;
+	if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="dropdown">
       <a href='/products' onMouseOver={toggleDropdown} onClick={toggleDropdown} className="dropdown-button">
         Products
       </a>
-      {isOpen && (
+      {(isOpen) && (
         <div className="dropdown-content">
           {products.data.map(product => {
             // console.log('Product:', product)
