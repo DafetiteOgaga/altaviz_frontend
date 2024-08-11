@@ -11,10 +11,10 @@ import CustodianLandingPage from '../SideBar/custodian/CustodianLandingPage';
 import Workshop from '../SideBar/workshop/Workshop';
 import Engineer from '../SideBar/engineer/Engineer';
 import HelpDesk from '../SideBar/help_desk/HelpDesk';
-import Supervisor from '../SideBar/Supervisor';
-import HumanResource from '../SideBar/HumanResource';
+import Supervisor from '../SideBar/supervisor/Supervisor';
+import HumanResource from '../SideBar/human_resource/HumanResource';
 import RequestDetails from '../SideBar/requestApprovedPendingResolved/request/RequestDetails';
-import RequestList from '../SideBar/requestApprovedPendingResolved/request/RequestList';
+// import RequestList from '../SideBar/requestApprovedPendingResolved/request/RequestList';
 // import Product1 from '../products/Product1';
 // import Product2 from '../products/Product2';
 // import Product3 from '../products/Product3';
@@ -70,7 +70,7 @@ function AppRoutes() {
         <Route path="/help-desk" element={<HelpDesk />} />
         <Route path="/supervisor" element={<Supervisor />} />
         <Route path="/human-resource" element={<HumanResource />} />
-        <Route path="/:dept/request-list" element={<RequestList />} />
+        {/* <Route path="/:dept/request-list" element={<RequestList />} /> */}
         <Route path="/request-details/:id" element={<RequestDetails />} />
         <Route path="/user/:id" element={<User />} />
         <Route path="/fault-details/:id" element={<Fault />} />
