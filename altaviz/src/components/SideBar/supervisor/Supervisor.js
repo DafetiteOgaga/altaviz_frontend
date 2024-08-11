@@ -10,7 +10,7 @@ import PendingFaults from "../requestApprovedPendingResolved/pending_faults/Pend
 import Resolved from "../requestApprovedPendingResolved/resolved/Resolved";
 import RequestNotification from "../requestApprovedPendingResolved/request/RequestNotification";
 
-function HelpDesk() {
+function Supervisor() {
 	// if faultStatus is true, the button should be disabled permanently
 	// const [ faultStatus, setFaultStatus ] = useState(false)
 	// json structure for workshop page
@@ -30,7 +30,7 @@ function HelpDesk() {
 			status: 'active',
 		},
 	}
-	const name = "Nancy"
+	const name = "Banji"
 	const message = "Unverified Resolutions:";
 	const today = new Date();
 	const faultDetails = [
@@ -287,4 +287,4 @@ function HelpDesk() {
 	);
 };
 
-export default HelpDesk;
+export default Supervisor;

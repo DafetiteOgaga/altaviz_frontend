@@ -263,6 +263,13 @@ function CustodianLandingPage() {
 		console.log('Form submitted:', formValues);
 		}
 	};
+	const handleUpdateFields = (e) => {
+		e.preventDefault();
+		if (validateForm()) {
+		// Form is valid, proceed with submission logic
+		console.log('Form submitted:', formValues);
+		}
+	};
 	const name = "Amanda"
 	const message = "Kindly Confirm Resolution:";
 	// const navigateTo = useNavigate();
@@ -275,6 +282,10 @@ function CustodianLandingPage() {
 
 	const addFieldSet = () => {
 		setDynamicfields([...dynamicfields, { fault: '', atmNumber: '' }]);
+	};
+	const removedynamicfieldsFieldSet = (index) => {
+		const updatedComponents = dynamicfields.filter((_, i) => i !== index);
+		setDynamicfields(updatedComponents);
 	};
 
 	return (
@@ -397,15 +408,24 @@ function CustodianLandingPage() {
 													))}
 													</select>
 												</div>
-												<div className="input-field">
-													<label htmlFor={`atm-number-${index}`}>ATM Number:</label>
-													<select id='atm-number' name={`atm-number-${index}`}>
-													{Array.from({ length: formValues.totalNumberOfATMs }, (_, i) => i + 1).map((number) => (
-														<option key={number} value={number}>
-														{number}
-														</option>
-													))}
-													</select>
+												<div className="with-rm-btn">
+													<div className="input-field">
+														<label htmlFor={`atm-number-${index}`}>ATM:</label>
+														<select id='atm-number' name={`atm-number-${index}`}>
+														{Array.from({ length: formValues.totalNumberOfATMs }, (_, i) => i + 1).map((number) => (
+															<option key={number} value={number}>
+															{number}
+															</option>
+														))}
+														</select>
+													</div>
+													<div>
+														<button
+															type="button"
+															onClick={() => removedynamicfieldsFieldSet(index)}
+															>Remove
+														</button>
+													</div>
 												</div>
 											</div>
 										))}
@@ -442,11 +462,13 @@ function CustodianLandingPage() {
 									</div>
 								</div>
 								<div className="cust-button">
+									
+									<button onClick={EditHandler}>{!isEditable ? 'Edit Fields' : 'Done Editing'}</button>
+									<button onClick={handleUpdateFields}>Update Fields</button>
 									<button type="submit">Log Fault</button>
-									<button onClick={EditHandler}>Edit Fields</button>
 									<button type="button" onClick={addFieldSet}>
-											Add Fault
-										</button>
+										Add Fault
+									</button>
 								</div>
 							</form>
 						</div>
@@ -509,16 +531,16 @@ function CustodianLandingPage() {
 										</div>
 										<div className="input-field">
 											<p><strong>Help Desk: </strong>
-												{location.bank.branch.helpDesk}
+												<Link
+													style={{color: '#333'}}
+													to="/user/1">
+													{location.bank.branch.helpDesk}
+												</Link>
 											</p>
 										</div>
 										<div className="input-field">
 											<p><strong>ATM Brand: </strong>
-												<Link
-												style={{color: '#333'}}
-												to="/user/1">
-													{location.bank.branch.ATMs.type}
-												</Link>
+												{location.bank.branch.ATMs.type}
 											</p>
 										</div>
 									</div>

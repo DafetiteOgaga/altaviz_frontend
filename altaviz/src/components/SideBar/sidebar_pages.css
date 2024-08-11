@@ -5,8 +5,30 @@
 .cust-row {
 	display: flex;
 	justify-content: space-around;
-
+	/* flex-direction: column; */
 }
+.cust-row-user .input-field {
+	width: 50%;
+}
+.cust-row-user select {
+	width: 60%;
+}
+.user-fields-row {
+	display: flex;
+}
+/* .title-and-get-user {
+	display: flex;
+    justify-content: space-between;
+} */
+.title-and-get-user .input-field {
+	width: 50%;
+	align-self: center;
+}
+/*
+.get-user-infield {
+	justify-self: end;
+} */
+
 .custodian-page .input-field {
 	display: flex;
 	flex-direction: column;
@@ -30,13 +52,14 @@
 } */
 .custodian-page .cust-button {
 	display: flex;
-	justify-content: center;
-	gap: 4rem;
+	justify-content: space-evenly;
+	/* gap: 4rem; */
 }
 .custodian-page button {
+	text-wrap: nowrap;
 	background-color: #252588f8;
     color: white;
-    padding: 0.7rem 1rem;
+    padding: 0.4rem 1rem;
 	/* margin: 0 34rem; */
     /* margin-top: 1rem; */
     border: none;
@@ -88,9 +111,10 @@
 	display: flex;
 	flex-direction: row;
 }
-.dynamic-cust-row #atm-number {
-	width: 15%;
-}
+/* .dynamic-cust-row #atm-number {
+	width: 100%;
+	margin-right: 0rem;
+} */
 
 .dash-form {
 	padding: 1rem;
@@ -146,3 +170,15 @@
 	transform: translateY(-5px);
 	}
 } */
+
+.with-rm-btn{
+	display: flex;
+	/* flex-direction: row; */
+	justify-content: space-between;
+}
+
+#createImage, #updateImage {
+	width: 50%;
+	padding: 0.5rem;
+	border-radius: 15px;
+}
