@@ -649,7 +649,7 @@ function Engineer() {
 										{fixedParts.map((field, index) => (
 											<div className="b-line" key={index}>
 												<div className="input-field">
-													<label htmlFor={`parts-${index}`}>Post Fixed Part:</label>
+													<label htmlFor={`parts-${index}`}>Request for Part:</label>
 													<select id={`parts-${index}`} name={`parts-${index}`}>
 													{parts.map(part => (
 														<option key={part} value={part}>
@@ -661,7 +661,7 @@ function Engineer() {
 												<div className="with-rm-btn">
 													<div className="input-field">
 														<label htmlFor={`part-qty-${index}`}>Quantity:</label>
-														<select id='part-qty' name={`part-qty-${index}`}>
+														<select id={`part-qty-${index}`} name={`part-qty-${index}`}>
 														{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
 															<option key={number} value={number}>
 															{number}
@@ -887,8 +887,8 @@ function Engineer() {
 										{requestComponent.map((field, index) => (
 											<div className="b-line" key={index}>
 												<div className="input-field">
-													<label htmlFor={`parts-${index}`}>Request Components:</label>
-													<select id={`parts-${index}`} name={`parts-${index}`}>
+													<label htmlFor={`comps-${index}`}>Request Components:</label>
+													<select id={`comps-${index}`} name={`comps-${index}`}>
 													{components.map(part => (
 														<option key={part} value={part}>
 														{part}
@@ -899,7 +899,7 @@ function Engineer() {
 												<div className="with-rm-btn">
 													<div className="input-field">
 														<label htmlFor={`comp-qty-${index}`}>Quantity:</label>
-														<select id='comp-qty' name={`comp-qty-${index}`}>
+														<select id={`comp-qty-${index}`} name={`comp-qty-${index}`}>
 														{Array.from({ length: 15 }, (_, i) => i + 1).map((number) => (
 															<option key={number} value={number}>
 															{number}
