@@ -5,6 +5,7 @@ import UpdateUser from "./UpdateUser";
 import { useState } from "react";
 import "./humanResource.css"
 import { useNavigate } from "react-router-dom";
+import RequestList from "../requestApprovedPendingResolved/request/RequestList";
 
 function HumanResource() {
 	const navigate = useNavigate();
@@ -42,6 +43,8 @@ function HumanResource() {
 					<h5 onClick={toggleUpdateUser}>{updateUser ? 'Close Update Form' : 'Update Existing User'}</h5>
 				</div>
 				<hr style={{width: '50%'}} />
+				<hr style={{width: '80%'}} />
+				<RequestList />
 				{partsComps && (
 					<>
 						<hr />
