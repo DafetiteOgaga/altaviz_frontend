@@ -24,3 +24,21 @@ function hrMockData() {
 		return { user };
 }
 export default hrMockData;
+
+function SupervisorListfxn() {
+	const supervisorList = [
+		"Ayomide",
+		"Chidera",
+		"Ngozika",
+		"Oluwadamilola",
+		"Ugochukwu",
+		"Bolanle",
+		"Emeka",
+		"Iretiola",
+		"Kabiru",
+		"Nkechi",
+	];
+	console.log('list from source:', supervisorList);
+	return { supervisorList };
+}
+export { SupervisorListfxn };

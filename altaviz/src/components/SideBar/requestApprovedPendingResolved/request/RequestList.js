@@ -1,12 +1,15 @@
 import "../../sidebar_pages.css"
 import { Link, useLocation } from "react-router-dom";
 import hdMockData from "../../help_desk/helpdeskMockData";
+import {SupervisorListfxn} from "../../human_resource/humanresourceMockData";
 import CustomTime from "../../../hooks/CustomTime";
 // import { useState } from "react";
 import useCheckDept from "../../../hooks/useCheckDept";
 
 function RequestList () {
 	const { faultDetails } = hdMockData();
+	const { supervisorList } = SupervisorListfxn();
+	console.log('supervisorList:', supervisorList);
 	const componentPage = useLocation().pathname.split('/')[1];
 	// componentPage = componentPage.pathname;
 	console.log('componentPage: (REQUEST-LIST)', componentPage);
@@ -42,7 +45,7 @@ function RequestList () {
 							<ul
 							style={{listStyleType: 'none'}}
 							>
-								{faultDetails.map((fault) => (
+								{faultDetails.map((fault, index) => (
 									<li key={fault.id}>
 										<Link
 										to={`request-details/${fault.id}`}
@@ -60,7 +63,16 @@ function RequestList () {
 														}
 														{
 															<p><strong>Details: </strong>
-															{fault.title}</p>
+																<span style={{
+																	// backgroundColor: '',
+																	color: 'red',
+																	padding: ' 0 0.3rem',
+																	borderRadius: '3px',
+																}}
+																>
+																	{fault.title}
+																</span>
+															</p>
 														}
 													</div>
 												}
@@ -82,24 +94,42 @@ function RequestList () {
 														
 														{
 															<p><strong>Requests: </strong>
-																{fault.requests ? 'Yes' : 'No'}
+																{fault.requests ? (
+																	<span style={{
+																		backgroundColor: 'green',
+																		color: 'white',
+																		padding: ' 0 0.3rem',
+																		borderRadius: '3px',
+																	}}
+																	>Yes</span>) : 'No'}
 															</p>
 														}
 													</div>
 												}
-												{/* supervisor */}
+												{/* supervisor/human resource */}
 												{
 													(componentPage === 'supervisor' ||
 														componentPage === 'human-resource'
 													) &&
 													(<div>
 														{
-															<p
-															style={{
-																color: 'transparent'
-															}}
-															><strong>placeholder: </strong>
-																yes
+															<p>
+																{
+																	(componentPage === 'human-resource') ? (
+																	<>
+																		<strong>Supervised by: </strong>
+																		<span style={{
+																			backgroundColor: '#7d95b1',
+																			color: 'white',
+																			padding: ' 0 0.3rem',
+																			borderRadius: '3px',
+																		}}
+																		>
+																			{supervisorList[index]}
+																		</span>
+																	</>
+																	) : (<span style={{color: 'transparent'}}>nothing</span>)
+																}
 															</p>
 														}
 														{
