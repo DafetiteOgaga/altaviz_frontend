@@ -1,8 +1,16 @@
 import "../../sidebar_pages.css"
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CustomTime from "../../../hooks/CustomTime";
+import PendingFaultNotification from "../../notifications/PendingFaultNotification";
+import PendingRequestNotification from "../../notifications/PendingRequestNotification";
+import Overdue from "../../notifications/Overdue";
+// import { useState } from "react";
 
 function RequestDetails () {
+	const componentPage = useLocation().pathname.split('/')[1];
+	console.log('componentPage request details:', componentPage);
+	// const [approve, setApproved] = useState(false);
+	// const [reject, setReject] = useState(false);
 	// const requests = 3;
 	const name = "Chidinma";
 	const today = new Date();
@@ -68,6 +76,28 @@ function RequestDetails () {
 	// console.log('id array:', document.querySelectorAll('#dropdown-position'));
 	// console.log('prop message from parent:', text)
 	// console.log('prop message from parent:', text.prop)
+	const approveHandler = (e) => {
+		e.preventDefault();
+		const form = new FormData();
+		form.append('approved', 1); // 1 indicates yes (approved)
+		// send to backend via post method
+		form.forEach((k, v) => {
+			console.log('key:', k, '\nvalue:', v);
+		})
+		// after every confirmation the server should send updated
+		// entries for new rendering (use useEffect)
+	}
+	const rejectHandler = (e) => {
+		e.preventDefault();
+		const form = new FormData();
+		form.append('rejected', -1); // -1 indicates no (rejected)
+		// send to backend via post method
+		form.forEach((k, v) => {
+			console.log('key:', k, '\nvalue:', v);
+		})
+		// after every confirmation the server should send updated
+		// entries for new rendering (use useEffect)
+	}
 	return (
 		<>
 			<div className="background-color custodian-page">
@@ -80,21 +110,12 @@ function RequestDetails () {
 						<h4>
 							Requests for Fault #{faultDetails.id} ({faultDetails.title})
 						</h4>
-						<h4>
+						{/* <h4>
 							<Link
 							to="/fault-details/1">Fault Details</Link>
-						</h4>
+						</h4> */}
 					</div>
-					{/* <div>
-						
-					</div> */}
 					<div>
-						<div className="to-form">
-							{/* <h4>Log a Fault</h4> */}
-							{/* <a href={"/custodian/form"} onClick={(e) => goTo(e)}> */}
-							{/* <h4> Log a Fault  </h4> */}
-							{/* </a> */}
-						</div>
 						<hr />
 						<div>
 							<div className="cust-row">
@@ -109,17 +130,17 @@ function RequestDetails () {
 									</div>
 									<div className="input-field">
 										<p><strong>Request Status: </strong>
-										{faultDetails.requestStatus}
+										{<PendingRequestNotification />}
 										</p>
 									</div>
 									<div className="input-field">
 										<p><strong>Fault Status: </strong>
-										{faultDetails.faultStatus}
+										{<PendingFaultNotification />}
 										</p>
 									</div>
 									<div className="input-field">
 										<p><strong>Overdue: </strong>
-										{faultDetails.delay ? 'Yes' : 'No'}
+										{<Overdue />}
 										</p>
 									</div>
 							</div>
@@ -141,7 +162,9 @@ function RequestDetails () {
 								</div>
 								<div className="input-field to_user">
 									<p><strong>Managed by: </strong>
-										<Link to="/user/1">
+										<Link
+										style={{color: '#333'}}
+										to="/user/1">
 											{faultDetails.helpDesk}
 										</Link>
 									</p>
@@ -196,7 +219,12 @@ function RequestDetails () {
 								{faultDetails.reason}
 							</p>
 						</div>
-
+						{(componentPage === 'supervisor' ||
+							componentPage === 'human-resource') &&
+							(<div className="custum-button">
+							<h5 onClick={(e) => approveHandler(e)}>Approve Request</h5>
+							<h5 onClick={(e) => rejectHandler(e)}>Reject Request</h5>
+						</div>)}
 					</div>
 				</div>
 			</div>

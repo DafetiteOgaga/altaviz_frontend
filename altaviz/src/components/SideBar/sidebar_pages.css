@@ -7,6 +7,11 @@
 	justify-content: space-around;
 	/* flex-direction: column; */
 }
+.cust-row-form {
+	display: flex;
+	/* justify-content: space-around; */
+	flex-direction: column;
+}
 .cust-row-user .input-field {
 	width: 50%;
 }
@@ -57,7 +62,8 @@
 }
 .custodian-page button {
 	text-wrap: nowrap;
-	background-color: #252588f8;
+	background-color: #8A8A93;
+	/* background-color: #252588f8; */
     color: white;
     padding: 0.4rem 1rem;
 	/* margin: 0 34rem; */
@@ -99,7 +105,9 @@
 }
 
 .b-line {
-	border: 1px solid black;
+	display: flex;
+	gap: 5rem;
+	/* border: 1px solid black; */
 	border-radius: 0.5rem;
 	padding: 1rem;
 	margin-bottom: 0.5rem;
@@ -126,9 +134,10 @@
 	justify-content: space-evenly;
 }
 
-/* .pend-resol {
+.pend-resol {
 	display: flex;
-} */
+	justify-content: space-around;
+}
 
 .req-details h4 {
 	margin-bottom: 0;
@@ -173,6 +182,7 @@
 
 .with-rm-btn{
 	display: flex;
+	gap: 2rem;
 	/* flex-direction: row; */
 	justify-content: space-between;
 }
@@ -181,4 +191,13 @@
 	width: 50%;
 	padding: 0.5rem;
 	border-radius: 15px;
+}
+
+/* .xde {
+	list-style: none;
+} */
+
+.input-field p {
+	/* display: inline-block; */
+	text-wrap: nowrap;
 }

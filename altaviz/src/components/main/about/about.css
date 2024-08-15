@@ -1,0 +1,67 @@
+.about-page, .contact-page {
+	padding: 0 1.5rem;
+	padding-bottom: 0.5rem;
+}
+.about-page h2 {
+	margin-bottom: 0;
+	text-wrap: nowrap;
+	/* padding-bottom: 0.5rem; */
+}
+.about-page p {
+	margin-top: 0;
+	/* opacity: 0; */
+	/* animation: fadeIn 1s forwards; */
+}
+#about-animation p, #about-animation .service-item, #about-animation .why-item  {
+	padding-top: 0.6rem;
+	animation: fadeIn 1s forwards;
+}
+.about-page p:hover {
+	transform: translateY(-5px);
+	transition: transform 0.3s;
+}
+.about-page h3 {
+	text-wrap: nowrap;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: larger;
+}
+
+/* h2, h3 {
+	color: #333;
+  } */
+  
+.icon {
+	font-size: 2rem;
+	color: #616164;
+}
+
+.service-item, .why-item {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	/* opacity: 0; */
+	/* animation: fadeIn 2s forwards; */
+}
+
+@keyframes fadeIn {
+	from {
+    opacity: 0;
+    transform: translateY(5px);
+    }
+	to {
+	opacity: 1;
+	transform: translateY(-10px);
+	transition: transform 5s;
+	}
+}
+
+.service-item:hover, .why-item:hover {
+	transform: translateY(-5px);
+	transition: transform 0.3s;
+}
+
+/* .about-page span {
+	font-size: 0.8em;
+} */
+

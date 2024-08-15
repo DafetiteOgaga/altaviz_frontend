@@ -1,25 +1,10 @@
-.pending-faults {
-	display: flex;
-	position: relative; /* for overlay above other elements */
-}
-.pending-faults strong {
-	padding-left: 2rem;
-	white-space: pre;
-}
-.pending-faults a {
-	color: #333;
-	white-space: pre;
-	/* padding: 0 0.5rem; */
-	/* text-decoration: none; */
-}
-
 .pending-positn {
 	top: 28%;
 	left: 11.9rem;
 }
 .resolved-positn {
 	top: 28%;
-	left: 17.5rem;
+	left: 12.8rem;
 }
 #dropdown-position {
 	position: absolute; /* for overlay above other elements */
@@ -49,6 +34,7 @@
 } */
 .pending-positn a {
 	color: #333;
+	text-decoration: none;
 }
 .resolved-positn a {
 	padding: 0 0.5rem;
@@ -100,3 +86,8 @@
 	/* padding: 0.5rem 1rem; */
 	border-radius: 10px;
 }
+
+
+/* .k {
+	text-decoration;
+} */

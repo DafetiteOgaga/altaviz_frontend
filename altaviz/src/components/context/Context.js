@@ -145,7 +145,7 @@ export const GlobalProvider = ({ children }) => {
 	}
 
 	// POST-request api function
-	function useFetchPost(url, formData, trigger) {
+	function useFetchPost(url, formData, trigger, redirectToPage) {
 		const [data, setData] = useState(null);
 		const [loading, setLoading] = useState(true);
 		const [error, setError] = useState(null);

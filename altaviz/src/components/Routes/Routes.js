@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
-import About from '../main/About';
+import About from '../main/about/About';
 // import Products from '../main/Products';
-import ContactUs from '../main/ContactUs';
+import ContactUs from '../main/contact_us/ContactUs';
 import Testfetchapi from '../Testfetchapi';
 // import Custodian from '../SideBar/custodian/Custodian';
 // import CustodianForm from '../SideBar/custodian/CustodianForm';
@@ -13,46 +13,47 @@ import Engineer from '../SideBar/engineer/Engineer';
 import HelpDesk from '../SideBar/help_desk/HelpDesk';
 import Supervisor from '../SideBar/supervisor/Supervisor';
 import HumanResource from '../SideBar/human_resource/HumanResource';
+import Inventory from '../SideBar/human_resource/Inventory';
 import RequestDetails from '../SideBar/requestApprovedPendingResolved/request/RequestDetails';
-// import RequestList from '../SideBar/requestApprovedPendingResolved/request/RequestList';
+import RequestList from '../SideBar/requestApprovedPendingResolved/request/RequestList';
 // import Product1 from '../products/Product1';
 // import Product2 from '../products/Product2';
 // import Product3 from '../products/Product3';
 import PageNotFound from '../PageNotFound';
 import Success from '../success/Success';
 import ProductDetails from '../products/ProductDetails';
-import DropdownMenu from '../header/DropdownMenu';
+import DropdownMenu from '../header/product_dropdown_menu/DropdownMenu';
 // import About from './components/About';
 // import Contact from './components/Contact';
 // import Navigation from '../header/Navigation';
 // import Category from '../Category';
 import User from '../user/user';
-import Fault from '../SideBar/Fault';
+import FaultDetails from '../SideBar/faults/FaultDetails';
 
 function AppRoutes() {
-  function getImages(r) {
-		return r.keys().map(r);
-	}
-	const images = getImages(require.context('../product_images/', false, /\.(png|jpe?g|svg)$/));
-  const titles = [
-		'H22V series',
-		'H68NL Series Intelligent Cash Recycler',
-		'grg-200-v-sorting-machine',
-		'H34 series',
-	]
-	const descriptions = [
-		'description1',
-		'description2',
-		'description3',
-		'description4',
-	]
-	const products = images.map((image, index) => {
-		// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
-		return ({
-			title: titles[index],
-            description: descriptions[index],
-            image: image,
-		})});
+  // function getImages(r) {
+	// 	return r.keys().map(r);
+	// }
+	// const images = getImages(require.context('../../images/product_images/', false, /\.(png|jpe?g|svg)$/));
+  // const titles = [
+	// 	'H22V series',
+	// 	'H68NL Series Intelligent Cash Recycler',
+	// 	'grg-200-v-sorting-machine',
+	// 	'H34 series',
+	// ]
+	// const descriptions = [
+	// 	'description1',
+	// 	'description2',
+	// 	'description3',
+	// 	'description4',
+	// ]
+	// const products = images.map((image, index) => {
+	// 	// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
+	// 	return ({
+	// 		title: titles[index],
+  //           description: descriptions[index],
+  //           image: image,
+	// 	})});
 
   // console.log('products (ROUTES):', products);
   return (
@@ -60,7 +61,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/products" element={<DropdownMenu products={products} />} />
+        <Route path="/products" element={<DropdownMenu />} />
         <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/custodian" element={<CustodianLandingPage />} />
@@ -70,10 +71,15 @@ function AppRoutes() {
         <Route path="/help-desk" element={<HelpDesk />} />
         <Route path="/supervisor" element={<Supervisor />} />
         <Route path="/human-resource" element={<HumanResource />} />
+        <Route path="/inventory" element={<Inventory />} />
         {/* <Route path="/:dept/request-list" element={<RequestList />} /> */}
         <Route path="/request-details/:id" element={<RequestDetails />} />
+        <Route path="/:dept/request-details/:id" element={<RequestDetails />} />
+        <Route path="/:dept/fault-details/:id/request-details/:id" element={<RequestDetails />} />
+        <Route path="/:dept/fault-details/" element={<RequestList />} />
         <Route path="/user/:id" element={<User />} />
-        <Route path="/fault-details/:id" element={<Fault />} />
+        {/* <Route path="/fault-details" element={<FaultList />} /> */}
+        <Route path="/:dept/fault-details/:id" element={<FaultDetails />} />
         <Route path="/success" element={<Success />} />
         <Route path="/test" element={<Testfetchapi />} />
         <Route path="*" element={<PageNotFound />} />

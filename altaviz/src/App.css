@@ -84,6 +84,39 @@ button, a {
   font-size: large;
 } */
 
+/* yellow-notification */
+/* .yellow-notification {
+	display: flex;
+	background-color: rgba(255, 255, 0, 0.6);
+	border-radius: 5px;
+	border: 1px solid;
+	padding: 0 0.5rem;
+} */
+/* custom button */
+.custum-button {
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+	gap: 10rem;
+}
+.custum-button h5 {
+	text-decoration: none;
+	white-space: pre;
+	color: #2b2929;
+	padding: 0.5rem;
+	border: 0.01px solid;
+	border-radius: 5px;
+	margin: 1rem 0;
+}
+.custum-button h5:hover {
+	box-shadow: -5px 5px 0 rgba(0, 0, 0, 0.068);
+  background-color: #8a8a935d;
+}
+.custum-button h5:active {
+	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
+  background-color: #8a8a93;
+}
+
 /* .......................................................... */
 .App {
   text-align: center;

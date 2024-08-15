@@ -1,0 +1,14 @@
+.notification-style{
+	display: flex;
+	position: relative; /* for overlay above other elements */
+}
+.notification-stylestrong {
+	padding-left: 2rem;
+	white-space: pre;
+}
+.notification-stylea {
+	color: #333;
+	white-space: pre;
+	/* padding: 0 0.5rem; */
+	/* text-decoration: none; */
+}

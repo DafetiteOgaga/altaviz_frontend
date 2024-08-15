@@ -1,0 +1,10 @@
+.inventory-list {
+	padding: 0 2rem;
+}
+.inventory-list ul {
+	list-style: none;
+}
+.inventory-list h5 {
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
