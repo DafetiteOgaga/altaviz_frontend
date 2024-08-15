@@ -2,8 +2,9 @@
 // import { GlobalContext } from "../Context/Context";
 import "./productDetails.css"
 import { useParams, useNavigate } from "react-router-dom"
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { GlobalContext } from "../context/Context";
+import GetProductDetails from "../hooks/GetProductNHeroDetails";
 // import DOMPurify from 'dompurify';
 // import useFetch from "../hooks/useFetch";
 
@@ -11,45 +12,50 @@ function ProductDetails() {
 	// console.log('1111111111111111111')
 	let { id } = useParams();
 	id = Number(id);
-	const { useNavigation, useFetchGET } = useContext(GlobalContext);
+	const { useNavigation } = useContext(GlobalContext);
     const navigateTo = useNavigate();
 
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-	const [totalProducts, setTotalProducts] = useState(0);
-	const [trigger, setTrigger] = useState(false);
+    // const [product, setProduct] = useState(null);
+    // const [loading, setLoading] = useState(true);
+    // const [error, setError] = useState(null);
+	// const [totalProducts, setTotalProducts] = useState(0);
+	// const [trigger, setTrigger] = useState(false);
 
-	const response = useFetchGET('http://localhost:8000/product/');
+	const products = GetProductDetails();
+	const totalProducts = products.length
+	const product = products[id - 1];
+	// const response = useFetchGET('http://localhost:8000/product/');
 
-	useEffect(() => {
-		// console.log('trigger 1: ' + trigger)
-		const GetData = async () => {
-			try {
-				if (response.data) {
-					setTotalProducts(response.data.length);
-					const currentProduct = response.data.find(product => product.id === id);
-					if (currentProduct) {
-						setProduct(currentProduct)
-						if (currentProduct.title === 'GRG H34 Series ATM') {
-							setTrigger(true);
-						} else {
-							setTrigger(false);
-						}
-						// console.log('trigger 2: ' + trigger)
-					} else {
-						setError('Product not found');
-					}
-				}
-			} catch (error) {
-				setError(error.message);
-			} finally {
-				setLoading(false);
-			}}
-		GetData();
-	}, [id, response.data])
-	// console.log('START HERE #######')
+	// useEffect(() => {
+	// 	const GetData = async () => {
+	// 		try {
+	// 			if (response.data) {
+	// 				setTotalProducts(response.data.length);
+	// 				const currentProduct = response.data.find(product => product.id === id);
+	// 				if (currentProduct) {
+	// 					setProduct(currentProduct)
+	// 					if (currentProduct.title === 'GRG H34 Series ATM') {
+	// 						setTrigger(true);
+	// 					} else {
+	// 						setTrigger(false);
+	// 					}
+	// 				} else {
+	// 					setError('Product not found');
+	// 				}
+	// 			}
+	// 		} catch (error) {
+	// 			setError(error.message);
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}}
+	// 	GetData();
+	// }, [id, response.data])
+
 	console.log('product (ProductDetails):', product)
+	console.log('products (ProductDetails):', products)
+	console.log('product id (ProductDetails):', product.id)
+	console.log('id (ProductDetails):', id)
+	console.log('totalProducts (ProductDetails):', totalProducts)
 	// try {
 	// 	console.log('product (ProductDetails):', product[id-1])
 	// 	const { description, id:product_id, title } = product[id-1];
@@ -154,14 +160,14 @@ function ProductDetails() {
 		// console.log('subsequentDisplay', subsequentImageDisplay);
 		// console.log('Image display: ' + imageDisplay)
 		// console.log('product-id:', id)
-		if (trigger && initialImageDisplay) {
+		if (product.description.title === 'GRG H34 Series ATM' && initialImageDisplay) {
 			console.log('IF STATEMENT #######')
 			initialImageDisplay.setAttribute('id', 'atm-detail-display-for-img');
 			// console.log('initialDisplay', initialImageDisplay);
-		} else if (subsequentImageDisplay) {
+		} else if (product.description.title !== 'GRG H34 Series ATM' && subsequentImageDisplay) {
 			console.log('ELSE STATEMENT #######')
 			subsequentImageDisplay.setAttribute('id', 'atm-detail-display-for');
-			setTrigger(false);
+			// setTrigger(false);
 			// console.log('subsequentDisplay', subsequentImageDisplay);
 		}
 		// setTrigger(false)
@@ -171,7 +177,7 @@ function ProductDetails() {
 		// if (!initialImageDisplay || !subsequentImageDisplay) {
 		// 	console.log('No image display elements found')
 		// }
-	}, [trigger])
+	}, [product.description.title])
 
 	// // console.log('Type of id:', typeof id);
 	
@@ -203,8 +209,8 @@ function ProductDetails() {
 	// if (error) return <p>Error: {error}</p>;
 	// console.log(data);
 	// const nothing = '#';
-	if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+	// if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error: {error}</p>;
 
 
 	return (
@@ -217,7 +223,7 @@ function ProductDetails() {
 				<div className="productDetailsTitle">
 					<div>
 						<h2>
-							{product.title}
+							{product.description.title}
 						</h2>
 					</div>
 					<div className="prev-next">
@@ -235,23 +241,23 @@ function ProductDetails() {
 				</div>
 					<div id="atm-detail-display-for" className="row-view">
 						<div>
-							<img src={product.product_images} alt={product.product_images} />
+							<img src={product.image} alt={product.description.title} />
 							{/* benefitts */}
 						</div>
 						<div>
 							<p>{product.description.about}:</p>
-							<h3>Key Features:</h3>
-							<ul>{product.description.features.map(({head, body}) => {
-								return (<li key={head}><strong>{head}: </strong>{body}</li>)
+							<h3>{product.description.features.title}:</h3>
+							<ul>{product.description.features.content.head.map((head, index) => {
+								return (<li key={head}><strong>{head}: </strong>{product.description.features.content.body[index]}</li>)
 							})}</ul>
 						</div>
 					</div>
-					<h3>Benefits for Your Business:</h3>
-					<ul>{product.description.benefits.map(({head, body}) => {
-						return (<li key={head}><strong>{head}: </strong>{body}</li>)
+					<h3>{product.description.benefits.title}:</h3>
+					<ul>{product.description.benefits.content.head.map((head, index) => {
+						return (<li key={head}><strong>{head}: </strong>{product.description.benefits.content.body[index]}</li>)
 					})}</ul>
-					<h3>Conclusion:</h3>
-					{product.description.conclusion}
+					<h3>{product.description.conclusion.title}:</h3>
+					{product.description.conclusion.content}
 					{/* benefits */}
 					{/* conclusion */}
 						<p>
