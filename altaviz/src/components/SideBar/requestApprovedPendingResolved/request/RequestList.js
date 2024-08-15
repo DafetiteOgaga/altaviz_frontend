@@ -79,7 +79,7 @@ function RequestList () {
 												{
 													<div>
 														{
-															<p><strong>For: </strong>
+															<p><strong>Assigned to: </strong>
 																<span style={{
 																	backgroundColor: '#999',
 																	color: 'white',

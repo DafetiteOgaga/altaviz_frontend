@@ -8,7 +8,7 @@ function Sidebar() {
 			<nav>
 				<h2>Sections</h2>
 				<ul className='sidebar-ul'>
-					<Link to="/"><li>Home</li></Link>
+					{/* <Link to="/"><li>Home</li></Link> */}
 					<Link to="/custodian"><li>Custodian</li></Link>
 					<Link to="/workshop"><li>Workshop</li></Link>
 					<Link to="/engineer"><li>Engineer</li></Link>
