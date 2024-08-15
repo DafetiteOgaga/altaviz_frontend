@@ -97,6 +97,11 @@ function CreateUser () {
                     all: true,
                 });
 				break;
+			case 'Select Department':
+				setDept({
+					...defaultState,
+                });
+				break;
 			default:
 				setDept({
 					...defaultState,
@@ -184,11 +189,11 @@ function CreateUser () {
 																		{/* {newUserError.fname && <span className="error">{newUserError.fname}</span>} */}
 																	</div>
 																	<div className="input-field">
-																		<label htmlFor="c-lname">Amount of ATMs:</label>
+																		<label htmlFor="qty-atm">Quantity of ATMs:</label>
 																		<input
 																		type="number"
-																		name="amt-atm"
-																		id="c-amt-atm"
+																		name="qty-atm"
+																		id="c-qty-atm"
 																		required
 																		onChange={handleUserCreationInputChange}
 																		/>
