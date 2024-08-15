@@ -43,8 +43,6 @@ function HumanResource() {
 					<h5 onClick={toggleUpdateUser}>{updateUser ? 'Close Update Form' : 'Update Existing User'}</h5>
 				</div>
 				<hr style={{width: '50%'}} />
-				<hr style={{width: '80%'}} />
-				<RequestList />
 				{partsComps && (
 					<>
 						<hr />
@@ -63,6 +61,26 @@ function HumanResource() {
 						<UpdateUser />
 					</>
 				)}
+				{/* <hr style={{width: '80%'}} /> */}
+				<RequestList />
+				{/* {partsComps && (
+					<>
+						<hr />
+						<LogFault childList={childList} />
+					</>
+				)}
+				{createUser && (
+					<>
+						<hr />
+						<CreateUser />
+					</>
+				)}
+				{updateUser && (
+					<>
+						<hr />
+						<UpdateUser />
+					</>
+				)} */}
 			</div>
 		</>
 	);
