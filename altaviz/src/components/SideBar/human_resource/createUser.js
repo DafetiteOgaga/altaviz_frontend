@@ -19,10 +19,12 @@ function CreateUser () {
 	useEffect(() => {
 		const photoSampleCreate = document.getElementById('c-ppicture');
 		if (photoSampleCreate) {
+			if (photoSampleCreate) {
 			photoSampleCreate.addEventListener('change', displayPhotoCreate);
-		}
-		return () => {
-			photoSampleCreate.removeEventListener('change', displayPhotoCreate);
+			}
+			return () => {
+				photoSampleCreate.removeEventListener('change', displayPhotoCreate);
+			}
 		}
 	}, []);
 	const handleUserCreationInputChange = (e) => {
@@ -64,6 +66,47 @@ function CreateUser () {
 			console.log('Validation errors:', newUserError);
 		}
 	}
+	let defaultState = {
+		nothing: false,
+		custodian: false,
+		all: false,
+		// default: false,
+	};
+	const [dept, setDept] = useState(defaultState);
+	const renderByDept = (e) => {
+		const value = e.target.value;
+	
+		switch (value) {
+			// case 'Select Department':
+			// 	setDept({ ...defaultState, nothing: true });
+			// 	break;
+			// case 'Workshop':
+			// 	setDept({ ...defaultState, workshop: true });
+			// 	break;
+			// case 'Engineering':
+			// 	setDept({ ...defaultState, engineering: true });
+			// 	break;
+			// case 'Help Desk':
+			// 	setDept({ ...defaultState, helpDesk: true });
+			// 	break;
+			case 'Custodian':
+				setDept({
+					...defaultState,
+					custodian: true,
+				    nothing: true,
+                    all: true,
+                });
+				break;
+			default:
+				setDept({
+					...defaultState,
+					all: true,
+					nothing: true
+				});
+		}
+		console.log('THE VALUE:', value);
+	};
+	console.log('object:', dept);
 	return (
 		<>
 			<div className="dash-form">
@@ -78,131 +121,211 @@ function CreateUser () {
 						<div>
 							{/* row 1 */}
 							<div className="cust-row-user">
-								<div className="user-fields-row">
-									<div className="input-field">
-										<label htmlFor="c-fname">First Name:</label>
-										<input
-										type="text"
-										name="fname"
-										id="c-fname"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.fname && <span className="error">{newUserError.fname}</span>}
-									</div>
-									<div className="input-field">
-										<label htmlFor="c-mname">Middle Name:</label>
-										<input
-										type="text"
-										name="mname"
-										id="c-mname"
-										onChange={handleUserCreationInputChange}
-										/>
-										{/* {newUserError.lname && <span className="error">{newUserError.lname}</span>} */}
-									</div>
-								</div>
-								<div className="user-fields-row">
-									<div className="input-field">
-										<label htmlFor="c-lname">Last Name:</label>
-										<input
-										type="text"
-										name="lname"
-										id="c-lname"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.lname && <span className="error">{newUserError.lname}</span>}
-									</div>
-									<div className="input-field">
-										<label htmlFor="c-email">Email:</label>
-										<input
-										type="email"
-										name="email"
-										id="c-email"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.email && <span className="error">{newUserError.email}</span>}
-									</div>
-								</div>
-								<div className="user-fields-row">
-								<div className="input-field">
-										<label htmlFor="c-wphone">Whatsapp No.:</label>
-										<input
-										type="tel"
-										name="wphone"
-										id="c-wphone"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.wphone && <span className="error">{newUserError.wphone}</span>}
-									</div>
-									<div className="input-field">
-										
-										<label htmlFor="c-department">Department:</label>
-										<select id="c-department" name="department">
-										{['Select Department', 'Engineering', 'Workshop', 'Help Desk'].map(part => (
-											<option key={part} value={part}>
-											{part}
-											</option>
-										))}
-										</select>
-									</div>
-								</div>
-								<div className="user-fields-row">
-									<div className="input-field">
-										<label htmlFor="password1">Password:</label>
-										<input
-										type="password"
-										name="password1"
-										id="password1"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.password1 && <span className="error">{newUserError.password1}</span>}
-									</div>
-									<div className="input-field">
-										<label htmlFor="password2">Password confirmation:</label>
-										<input
-										type="password"
-										name="password2"
-										id="password2"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.password2 && <span className="error">{newUserError.password2}</span>}
-									</div>
-								</div>
-								<div className="user-fields-row">
-									<div className="input-field">
-										<label htmlFor="c-address">Address:</label>
-										<input
-										type="text"
-										name="address"
-										id="c-address"
-										onChange={handleUserCreationInputChange}
-										/>
-										{newUserError.address && <span className="error">{newUserError.address}</span>}
-									</div>
-									<div className="input-field">
-										<label htmlFor="c-aboutme">About Me:</label>
-										<textarea
-										// type="text"
-										name="aboutme"
-										id="c-aboutme"
-										onChange={handleUserCreationInputChange}
-										/>
-										{/* {newUserError.aboutme && <span className="error">{newUserError.aboutme}</span>} */}
-									</div>
-								</div>
-								<div className="user-fields-row">
-									<div className="input-field">
-										<label htmlFor="c-ppicture">Profile Picture:</label>
-										<input
-										type="file"
-										accept="image/*"
-										name="ppicture"
-										id="c-ppicture"
-										// onChange={handleUserCreationInputChange}
-										/>
-										{/* {newUserError.aboutme && <span className="error">{newUserError.aboutme}</span>} */}
-										{<img id="createImage" src="#" alt="Profile pic" style={{display: 'none'}} />}
-									</div>
-								</div>
+								{/* {(dept.nothing) &&
+								(
+									<> */}
+										<div className="user-fields-row">
+											<div className="input-field">
+												<label htmlFor="c-department">Department:</label>
+												<select id="c-department" name="department"
+												onChange={(e) => renderByDept(e)}
+												>
+												{['Select Department', 'Custodian', 'Engineering', 'Workshop', 'Help Desk'].map(part => (
+													<option key={part} value={part}>
+													{part}
+													</option>
+												))}
+												</select>
+											</div>
+										</div>
+										{(dept.nothing) &&
+										(
+											<>
+												{(dept.all) &&
+												(
+													<>
+														{(dept.custodian) &&
+														(
+															<>
+																<div className="user-fields-row">
+																	<div className="input-field">
+																		<label htmlFor="c-fname">Bank:</label>
+																		<input
+																		type="text"
+																		name="bank"
+																		id="c-bank"
+																		required
+																		onChange={handleUserCreationInputChange}
+																		/>
+																		{/* {newUserError.fname && <span className="error">{newUserError.fname}</span>} */}
+																	</div>
+																	<div className="input-field">
+																		<label htmlFor="c-lname">Branch:</label>
+																		<input
+																		type="text"
+																		name="branch"
+																		id="c-branch"
+																		required
+																		onChange={handleUserCreationInputChange}
+																		/>
+																		{/* {newUserError.lname && <span className="error">{newUserError.lname}</span>} */}
+																	</div>
+																</div>
+																<div className="user-fields-row">
+																	<div className="input-field">
+																		<label htmlFor="c-fname">State:</label>
+																		<input
+																		type="text"
+																		name="state"
+																		id="c-state"
+																		required
+																		onChange={handleUserCreationInputChange}
+																		/>
+																		{/* {newUserError.fname && <span className="error">{newUserError.fname}</span>} */}
+																	</div>
+																	<div className="input-field">
+																		<label htmlFor="c-lname">Amount of ATMs:</label>
+																		<input
+																		type="number"
+																		name="amt-atm"
+																		id="c-amt-atm"
+																		required
+																		onChange={handleUserCreationInputChange}
+																		/>
+																		{/* {newUserError.lname && <span className="error">{newUserError.lname}</span>} */}
+																	</div>
+																</div>
+															</>)
+														}
+														<div className="user-fields-row">
+															<div className="input-field">
+																<label htmlFor="c-fname">First Name:</label>
+																<input
+																type="text"
+																name="fname"
+																id="c-fname"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.fname && <span className="error">{newUserError.fname}</span>}
+															</div>
+															<div className="input-field">
+																<label htmlFor="c-lname">Last Name:</label>
+																<input
+																type="text"
+																name="lname"
+																id="c-lname"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.lname && <span className="error">{newUserError.lname}</span>}
+															</div>
+														</div>
+														<div className="user-fields-row">
+															<div className="input-field">
+																<label htmlFor="c-mname">Middle Name:</label>
+																<input
+																type="text"
+																name="mname"
+																id="c-mname"
+																onChange={handleUserCreationInputChange}
+																/>
+																{/* {newUserError.lname && <span className="error">{newUserError.lname}</span>} */}
+															</div>
+															<div className="input-field">
+																<label htmlFor="c-email">Email:</label>
+																<input
+																type="email"
+																name="email"
+																id="c-email"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.email && <span className="error">{newUserError.email}</span>}
+															</div>
+														</div>
+														<div className="user-fields-row">
+														<div className="input-field">
+																<label htmlFor="c-phone">Phone No.:</label>
+																<input
+																type="tel"
+																name="phone"
+																id="c-phone"
+																onChange={handleUserCreationInputChange}
+																/>
+																{/* {newUserError.wphone && <span className="error">{newUserError.wphone}</span>} */}
+															</div>
+															<div className="input-field">
+																<label htmlFor="c-wphone">Whatsapp No.:</label>
+																<input
+																type="tel"
+																name="wphone"
+																id="c-wphone"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.wphone && <span className="error">{newUserError.wphone}</span>}
+															</div>
+														</div>
+														<div className="user-fields-row">
+															<div className="input-field">
+																<label htmlFor="password1">Password:</label>
+																<input
+																type="password"
+																name="password1"
+																id="password1"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.password1 && <span className="error">{newUserError.password1}</span>}
+															</div>
+															<div className="input-field">
+																<label htmlFor="password2">Password confirmation:</label>
+																<input
+																type="password"
+																name="password2"
+																id="password2"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.password2 && <span className="error">{newUserError.password2}</span>}
+															</div>
+														</div>
+														<div className="user-fields-row">
+															<div className="input-field">
+																<label htmlFor="c-address">Address:</label>
+																<input
+																type="text"
+																name="address"
+																id="c-address"
+																onChange={handleUserCreationInputChange}
+																/>
+																{newUserError.address && <span className="error">{newUserError.address}</span>}
+															</div>
+															<div className="input-field">
+																<label htmlFor="c-aboutme">About Me:</label>
+																<textarea
+																// type="text"
+																name="aboutme"
+																id="c-aboutme"
+																onChange={handleUserCreationInputChange}
+																/>
+																{/* {newUserError.aboutme && <span className="error">{newUserError.aboutme}</span>} */}
+															</div>
+														</div>
+														<div className="user-fields-row">
+															<div className="input-field">
+																<label htmlFor="c-ppicture">Profile Picture:</label>
+																<input
+																type="file"
+																accept="image/*"
+																name="ppicture"
+																id="c-ppicture"
+																// onChange={handleUserCreationInputChange}
+																/>
+																{/* {newUserError.aboutme && <span className="error">{newUserError.aboutme}</span>} */}
+																{<img id="createImage" src="#" alt="Profile pic" style={{display: 'none'}} />}
+															</div>
+														</div>
+													</>
+												)}
+											</>
+								)
+								}
 							</div>
 						</div>
 						<div className="cust-button">
