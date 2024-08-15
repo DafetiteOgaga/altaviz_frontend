@@ -1,7 +1,7 @@
 // import useFetch from "../../hooks/useFetch";
-import Hero from "./Hero";
-import AboutAtms from "./AboutAtms";
-import ProductCards from "./ProductCards";
+import Hero from "./hero/Hero";
+import AboutAtms from "./about_atm/AboutAtms";
+import ProductCards from "./product_cards/ProductCards";
 // import { useContext  } from "react";
 // import { GlobalContext } from "../context/Context";
 // import "./home.css"
