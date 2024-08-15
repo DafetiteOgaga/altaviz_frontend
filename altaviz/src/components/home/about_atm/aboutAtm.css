@@ -1,0 +1,55 @@
+/* about-atm */
+.about-atm-box {
+	display: inline-flex;
+	gap: 3.5rem;
+	animation: homeSlideRight 1s ease-in-out;
+}
+
+.about-atm {
+	margin-top: 4rem;
+	animation: homeSlideLeft 2s ease-in-out;
+}
+.about-atm p {
+	margin: 0;
+	padding: 0.1em;
+	/* animation: homeSlideLeft 3s ease-in-out; */
+	/* text-wrap: wrap; */
+}
+
+/* animation */
+@keyframes homeSlideDown {
+	from {
+	transform: translateY(-50px);
+	}
+	to {
+	transform: translateY(0);
+	}
+}
+@keyframes homeSlideUp {
+	from {
+	transform: translateY(50px);
+	}
+	to {
+	transform: translateY(0);
+	}
+}
+@keyframes homeSlideLeft {
+	from {
+	transform: translateX(50px);
+	}
+	to {
+	transform: translateX(0);
+	}
+}
+@keyframes homeSlideRight {
+	from {
+	transform: translateX(-50px);
+	}
+	to {
+	transform: translateX(0);
+	}
+}
+
+/* .home-animation {
+	animation: homeSlideDown 2s ease-in-out;
+} */
