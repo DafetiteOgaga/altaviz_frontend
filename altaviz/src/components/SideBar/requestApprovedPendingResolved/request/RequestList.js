@@ -9,15 +9,15 @@ import useCheckDept from "../../../hooks/useCheckDept";
 function RequestList () {
 	const { faultDetails } = hdMockData();
 	const { supervisorList } = SupervisorListfxn();
-	console.log('supervisorList:', supervisorList);
+	// console.log('supervisorList:', supervisorList);
 	const componentPage = useLocation().pathname.split('/')[1];
 	// componentPage = componentPage.pathname;
-	console.log('componentPage: (REQUEST-LIST)', componentPage);
+	// console.log('componentPage: (REQUEST-LIST)', componentPage);
 
 	const { checkCustodian } = useCheckDept(componentPage);
 	// const [isHovered, setIsHovered] = useState(false);
 	// const [isActive, setIsActive] = useState(false);
-	console.log('checkCustodian after:', checkCustodian);
+	// console.log('checkCustodian after:', checkCustodian);
 	const name = 'fault_list';
 	const handleResolutionConfirmation = (e, index) => {
 		console.log('first came here!');
