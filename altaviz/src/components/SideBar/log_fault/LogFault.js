@@ -14,7 +14,7 @@ function LogFault({childList}) {
 	componentPage = componentPage.pathname;
 	const pageName = '/custodian';
 	const { location, banks, locations, faults } = cMockData();
-	const { location:wuser, parts:fixedParts, components:reqComponents } = wMockData();
+	const { parts:fixedParts, components:reqComponents } = wMockData();
 	const [isEditable, setIsEditable] = useState(false);
 	const validateForm = () => {
 		let formErrors = {};
@@ -29,7 +29,7 @@ function LogFault({childList}) {
 	};
 
 	const fields = [];
-	console.log('fields before:', fields);
+	// console.log('fields before:', fields);
 
 	const [formValues, setFormValues] = useState(fields);
 	const [errors, setErrors] = useState({});
@@ -75,6 +75,7 @@ function LogFault({childList}) {
 			console.log('Form data: obj', formData);
 		} else {
 			console.log('Form submitted is not valid');
+			console.log('error:', errors);
 		}
 	};
 	// const handleUpdateFields = (e) => {
@@ -94,9 +95,9 @@ function LogFault({childList}) {
 		const updatedComponents = dynamicfields.filter((_, i) => i !== index);
 		setDynamicfields(updatedComponents);
 	};
-	console.log('fields after:', fields);
-	console.log('formvalues after:', formValues);
-	console.log('childList:', childList);
+	// console.log('fields after:', fields);
+	// console.log('formvalues after:', formValues);
+	// console.log('childList:', childList);
 	const [mapList, setMapList] = useState([]);
 	useEffect(() => {
 		setMapList(childList);
@@ -160,8 +161,8 @@ function LogFault({childList}) {
 
 											<div className="cust-row-form dynamic-cust-row">
 												{/* <div className="dynamic-cust-row"> */}
-												{dynamicfields.map((field, index) => (
-													<div className="b-line" key={index}>
+												{dynamicfields.map((field, dynIndex) => (
+													<div className="b-line" key={dynIndex}>
 														<>
 															<div className="input-field">
 																{/* <hr/> */}
@@ -169,10 +170,10 @@ function LogFault({childList}) {
 																{(componentPage === '/custodian') &&
 																(<>
 																	{/* <hr/> */}
-																	<label htmlFor={`fault-${index}`}>Fault:</label>
-																	<select id={`fault-${index}`} name={`fault-${index}`}>
-																	{faults.map(fault => (
-																		<option key={fault} value={fault}>
+																	<label htmlFor={`fault-${dynIndex}`}>Fault:</label>
+																	<select id={`fault-${dynIndex}`} name={`fault-${dynIndex}`}>
+																	{faults.map((fault, faultIndex) => (
+																		<option key={faultIndex} value={fault}>
 																		{fault}
 																		</option>
 																	))}
@@ -184,22 +185,22 @@ function LogFault({childList}) {
 																	componentPage === '/human-resource'
 																) &&
 																(<>
-																	<label htmlFor={`${item[1]}-${index}`}>{item[2]}:</label>
-																	<select id={`${item[1]}-${index}`} name={`${item[1]}-${index}`}>
+																	<label htmlFor={`${item[1]}-${dynIndex}`}>{item[2]}:</label>
+																	<select id={`${item[1]}-${dynIndex}`} name={`${item[1]}-${dynIndex}`}>
 																	{/* {fixedParts.map(fault => (
 																		<option key={fault} value={fault}>
 																		{fault}
 																		</option>
 																	))} */}
 																	{/* first loop */}
-																	{(mainIndex === 0) && (fixedParts.map(fault => (
-																		<option key={fault} value={fault}>
+																	{(mainIndex === 0) && (fixedParts.map((fault, fixedPartsIndex) => (
+																		<option key={fixedPartsIndex} value={fault}>
 																			{fault}
 																		</option>
 																	)))}
 																	{/* second loop */}
-																	{(mainIndex === 1) && (reqComponents.map(fault => (
-																		<option key={fault} value={fault}>
+																	{(mainIndex === 1) && (reqComponents.map((fault, reqCompIndex) => (
+																		<option key={reqCompIndex} value={fault}>
 																			{fault}
 																		</option>
 																	)))}
@@ -211,10 +212,10 @@ function LogFault({childList}) {
 																	{/* for custodian */}
 																	{(componentPage === '/custodian') &&
 																	(<>
-																		<label htmlFor={`atm-number-${index}`}>ATM:</label>
-																		<select id={`atm-number-${index}`} name={`atm-number-${index}`}>
-																		{Array.from({ length: formValues.totalNumberOfATMs }, (_, i) => i + 1).map((number) => (
-																			<option key={number} value={number}>
+																		<label htmlFor={`atm-number-${dynIndex}`}>ATM:</label>
+																		<select id={`atm-number-${dynIndex}`} name={`atm-number-${dynIndex}`}>
+																		{Array.from({ length: formValues.totalNumberOfATMs }, (_, i) => i + 1).map((number, num1Index) => (
+																			<option key={num1Index} value={number}>
 																			{number}
 																			</option>
 																		))}
@@ -226,19 +227,19 @@ function LogFault({childList}) {
 																		componentPage === '/human-resource'
 																	) &&
 																	(<>
-																		<label htmlFor={`${item[3]}-${index}`}>Quantity:</label>
-																		<select id={`${item[3]}-${index}`} name={`${item[3]}-${index}`}>
+																		<label htmlFor={`${item[3]}-${dynIndex}`}>Quantity:</label>
+																		<select id={`${item[3]}-${dynIndex}`} name={`${item[3]}-${dynIndex}`}>
 																		{/* for workshop/engineer */}
 																		{(componentPage !== '/human-resource') &&
-																		(Array.from({ length: 16 }, (_, i) => i + 1).map((number) => (
-																			<option key={number} value={number}>
+																		(Array.from({ length: 16 }, (_, i) => i + 1).map((number, num2Index) => (
+																			<option key={num2Index} value={number}>
 																			{number}
 																			</option>
 																		)))}
 																		{/* for human-resource */}
 																		{(componentPage === '/human-resource') &&
-																		(Array.from({ length: 100 }, (_, i) => i + 1).map((number) => (
-																			<option key={number} value={number}>
+																		(Array.from({ length: 100 }, (_, i) => i + 1).map((number, num3Index) => (
+																			<option key={num3Index} value={number}>
 																			{number}
 																			</option>
 																		)))}
@@ -248,7 +249,7 @@ function LogFault({childList}) {
 																<div>
 																	<button
 																		type="button"
-																		onClick={() => removedynamicfieldsFieldSet(index)}
+																		onClick={() => removedynamicfieldsFieldSet(dynIndex)}
 																		>Remove
 																	</button>
 																</div>
