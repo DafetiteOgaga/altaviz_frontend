@@ -42,8 +42,8 @@ function PendingRequest () {
 		[6, 'Enoch'],
 		[7, 'Prince'],
 	]
-	console.log('testNum:', testNum)
-	console.log('currentNoOfAttention:', currentNoOfAttention)
+	// console.log('testNum:', testNum)
+	// console.log('currentNoOfAttention:', currentNoOfAttention)
 	// const bkColor = 'rgba(255, 255, 0, 0.6)';
 	return (
 		<>
