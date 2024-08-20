@@ -38,7 +38,7 @@ function SupervisorListfxn() {
 		"Kabiru",
 		"Nkechi",
 	];
-	console.log('list from source:', supervisorList);
+	// console.log('list from source:', supervisorList);
 	return { supervisorList };
 }
 export { SupervisorListfxn };
