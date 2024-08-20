@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import PhoneInput from 'react-phone-input-2'; // npm install react-phone-input-2
+import 'react-phone-input-2/lib/style.css'; // npm install react-phone-input-2
+import { useState, useEffect } from "react";
 import styled from "styled-components"
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import SubmitNotification from '../notifications/submitNotification/SubmitNotification';
-import { FetchContext } from "../../context/FetchContext";
 
 // const TopContainer = styled.div`
 // 	display: flex;
@@ -61,11 +62,10 @@ function CreateUser () {
 		bank: "",
 		branch: "",
 		state: "",
-		// qtyAtm: "",
-		username: "",
-		first_name: "",
-		last_name: "",
-		middle_name: "",
+		qtyAtm: "",
+		fname: "",
+		lname: "",
+		mname: "",
 		email: "",
 		phone: "",
 		wphone: "",
@@ -73,34 +73,51 @@ function CreateUser () {
 		password2: "",
 		address: "",
 		aboutme: "",
-		profile_picture: null,
+		ppicture: null,
 	}
 	let defaultState = {
 		nothing: false,
 		custodian: false,
 		all: false,
 	};
+	const emptyFields = {
+		isBankEmpty: false,
+		// isBranchEmpty: false,
+	}
 	const [newUser, setNewUser] = useState(initailFormValues);
 	const [newUserError, setNewUserError] = useState({});
+	const [showFields, setShowFields] = useState(false);
 	const [dept, setDept] = useState(defaultState);
+	const [phone, setPhone] = useState('');
+	const [error, setError] = useState('');
 	const [password1, setPassword1] = useState('');
 	const [password2, setPassword2] = useState('');
 	const [showPassword1, setShowPassword1] = useState(false);
 	const [showPassword2, setShowPassword2] = useState(false);
 	const [passwordCheck, setPasswordCheck] = useState(true);
 	const [isRequired, setIsRequired] = useState(true);
+	const [isEmpty, setIsEmpty] = useState(emptyFields);
+	const [currEmptyState, setCurrEmptyState] = useState({...emptyFields});
 	const [failedSubmission, setFailedSubmission] = useState(false);
-	// post setup
-	const [postTrigger, setPostTrigger] = useState(false);
-	const [formData, setFormData] = useState(new FormData());
-	const { usePostDataAPI } = useContext(FetchContext);
-	const { postData, postLoading, postError } = usePostDataAPI(
-		'http://127.0.0.1:8000/user/',
-		formData,
-		postTrigger,
-		'/human-resource',
-	);
-
+	// useEffect(() => {
+	//   handleEmptyFields();
+	// }, [failedSubission])
+	const handleEmptyFields = (e) => {
+		const { name, value } = e.target;
+		// console.log('value:', value);
+		// console.log(`#####\nvalue: ${value}\nfailed to submit: ${failedSubmission}\nbranch error: ${newUserError.name}\nvalue.trim: ${value.trim() === '' && failedSubmission}\n#####`)
+		setIsEmpty((prevState) => ({
+			...prevState,
+			[name]: value.trim() === '' && failedSubmission
+		}));
+	};
+	useEffect(() => {
+		setCurrEmptyState((prevState) => ({
+			...prevState,
+			...isEmpty
+		}));
+		// console.log('Current empty state:', currEmptyState);
+	}, [isEmpty]);
 	const handleFocus = () => {
 		setIsRequired(false);
 	}
@@ -110,8 +127,26 @@ function CreateUser () {
 	const togglePasswordvisi1 = () => {
 		setShowPassword1(!showPassword1);
 	}
+	// useEffect(() => {
+	//   const focus = document.getElementById('email');
+	//   if (focus.checked) {
+	//     focus.setAttribute('required', false);
+	//   } else {
+	//     focus.setAttribute('required', true);
+	//   }
+	//   return focus.removeAttribute('required');
+	// }, [])
 	const togglePasswordvisi2 = () => {
 		setShowPassword2(!showPassword2);
+	}
+	const handlePhoneChange = (value) => {
+		setPhone(value);
+
+		if (value && value.length < 10) {
+			setError('Please enter a valid phone number.');
+		} else {
+			setError('');
+		}
 	}
 	const HandleUserCreationInputChange = (e) => {
 		const { name, value, type, files } = e.target;
@@ -125,7 +160,68 @@ function CreateUser () {
 			...newUser,
 			[name]: files[0],
 		});
+	// console.log("showFields (before):", showFields);
+			// if (showFields) {
+	//   console.log("showFields (after):", showFields);
+			// 	const imagePreview = document.getElementById("createImage");
+			// 	imagePreview.src = URL.createObjectURL(files[0]);
+			// 	imagePreview.style.display = "block"; // checkout other display properties
+			// }
 		} else {
+	// if (name === 'password1' || name === 'password2') {
+	//   if (name === 'password1') {
+	//     console.log('password1111:', value)
+	//     setPassword1(value);
+	//     setNewUser({
+	//       ...newUser,
+	//       [name]: value,
+	//     });
+	//     console.log('password1:', value);
+	//   }
+	//   if (name === 'password2') {
+	//     console.log('password2222:', value)
+	//     setPassword2(value);
+	//     setNewUser({
+	//       ...newUser,
+	//       [name]: value,
+	//     });
+	//     console.log('password2:', value);
+	//   }
+	//   let passMatch = newUser.password1 === newUser.password2
+	//   console.log(`#####\npassMatch: ${passMatch}\npassword1: ${newUser.password1}\npassword2: ${newUser.password2}\n#####`);
+	//   if (!passMatch) {
+	//     // setPasswordError('Passwords does not match');
+	//     console.log(`passwords match: ${password1 === password2}`)
+	//     setPasswordCheck(false);
+	//     // setNewUserError({
+	//     //   ...newUserError,
+	//     //   password1: 'Passwords do not match',
+	//     //   password2: 'Passwords do not match',
+	//     // })
+	//   } else if (passMatch) {
+	//     // setNewUser({
+	//     //   ...newUser,
+	//     //   password: newUser.password1,
+	//     // });
+	//     setPasswordCheck(true);
+	//     setFinalPassword(newUser.password1)
+	//     // setNewUserError({
+	//     //   ...newUserError,
+	//     //   password1: '',
+	//     //   password2: '',
+	//     // })
+	//   }
+	//   // else {
+	//   //   setPasswordError('');
+	//   //   console.log(`passwords match: ${password1 === password2}`)
+	//   // }
+	// } else {
+	//   console.log("text value:", value);
+	//   setNewUser({
+	//     ...newUser,
+	//     [name]: value,
+	//   });
+	// }
 	setNewUser({
 		...newUser,
 		[name]: value,
@@ -145,29 +241,29 @@ function CreateUser () {
 		}
 	}, [password1, password2]);
 
-	useEffect(() => {
-		if (passwordCheck) {
-			setNewUserError({
-				...newUserError,
-				password1: '',
-				password2: '',
-			})
-			setNewUser({
-				...newUser,
-				password: password1,
-			});
-		// setFinalPassword('');
-		} else {
-			setNewUserError({
-				...newUserError,
-				password1: 'Passwords do not match',
-				password2: 'Passwords do not match',
-			})
-			setNewUser({
-				...newUser,
-				password: '',
-			});
-		}
+useEffect(() => {
+	if (passwordCheck) {
+		setNewUserError({
+			...newUserError,
+			password1: '',
+			password2: '',
+		})
+		setNewUser({
+			...newUser,
+			password: password1,
+		});
+	// setFinalPassword('');
+	} else {
+		setNewUserError({
+			...newUserError,
+			password1: 'Passwords do not match',
+			password2: 'Passwords do not match',
+		})
+		setNewUser({
+			...newUser,
+			password: '',
+		});
+	}
 	}, [passwordCheck]);
 
 	const validateForm = () => {
@@ -176,8 +272,8 @@ function CreateUser () {
 	let errors = {};
 		[
 		'department',
-		'first_name',
-		'last_name',
+		'fname',
+		'lname',
 		'email',
 		'phone',
 		'wphone',
@@ -205,58 +301,56 @@ function CreateUser () {
 	setNewUserError({...newUserError, ...errors});
 	console.log('total errors:', errors);
 	return Object.keys(errors).length === 0;
+	// if (!newUser.department) generalFormErrors.department = required;
+		// if (!newUser.fname) generalFormErrors.fname = required;
+		// if (!newUser.lname) generalFormErrors.lname = required;
+		// if (!newUser.email) generalFormErrors.email = required;
+		// if (!newUser.phone) generalFormErrors.phone = required;
+		// if (!newUser.wphone) generalFormErrors.wphone = required;
+		// if (!newUser.password1) generalFormErrors.password1 = required;
+		// if (!newUser.password2) generalFormErrors.password2 = required;
+	// if (!newUser.address) generalFormErrors.address = required;
+
+	//   let plusCustodianFormErrors = {}
+		// 	if (!newUser.bank) plusCustodianFormErrors.bank = required;
+		// 	if (!newUser.branch) plusCustodianFormErrors.branch = required;
+		// 	if (!newUser.state) plusCustodianFormErrors.state = required;
+
+	//   if (newUser.department === "Custodian") {
+	//     console.log("yes:", newUser.department);
+	//     setNewUserError({...newUserError, plusCustodianFormErrors, generalFormErrors})
+	//   } else {
+	//     console.log("no:", newUser.department);
+	//     setNewUserError({...newUserError, generalFormErrors})
+	//   }
+	//   console.log('total errors:', generalFormErrors);
+	// 	return Object.keys(generalFormErrors).length === 0;
 	}
 	const handleFormSubmission = (e) => {
 		e.preventDefault();
 		if (validateForm()) {
+			// Validate form inputs
 			console.log('Form submitted:', newUser);
-			console.log('Form datatype:', typeof(newUser));
 			// Submit form data to server
-			const newFormData = new FormData(); // to reset the form
-			// Populate formData with the updated formValues
-			let updatedSamp = null;
-			Object.entries(newUser).forEach(([key, value]) => {
-				if (typeof(value) === 'string') {
-					value = value.toLowerCase();
-				}
-				// console.log('key: ' + key + ' value: ' + value);
-				newFormData.append(key, value);
-				updatedSamp = { ...updatedSamp, [key]: value };
-			});
-			setFormData(newFormData);
-			setPostTrigger(true);
+			//...
 			// Reset form state
 			setNewUser(initailFormValues);
-			console.log('updatedSamp:', updatedSamp);
+			setShowFields(false);
 		} else {
 			setFailedSubmission(true);
 			console.log('Form not submitted due to errors');
-		}
-		// console.log('email:', newUser.email);
-		// console.log('phone:', newUser.phone);
-		// console.log('wphone:', newUser.wphone);
-		// console.log('fields:', newUser);
 	}
-	// const HandlePost = () => {
-	// 	const { data: postResponse, PostLoading, error: postError } = PostDataAPIComp(
-	// 		'http://127.0.0.1:8000/user/',
-	// 		formData,
-	// 		postTrigger
-	// 	);
-	// 	setLoading(PostLoading)
-	// 	setResponse(postResponse);
-	// 	setPError(postError);
-	// }
-	// useEffect(() => {
-	// 	// HandlePost();
-	// 	if (postTrigger) {
-	// 		HandlePost();
-	// 		setPostTrigger(false)
-	// 		// Reset form state
-	// 		setNewUser(initailFormValues);
-	// 	}
-	// }, [postTrigger])
-
+	console.log('email:', newUser.email);
+	console.log('phone:', newUser.phone);
+	console.log('wphone:', newUser.wphone);
+	console.log('fields:', newUser);
+	}
+	// const [dept, setDept] = useState({
+	// 	nothing: false,
+	// 	custodian: false,
+	// 	all: false,
+	// });
+	// const [newUserError, setNewUserError] = useState({});
 	const displayPhotoCreate = (e) => {
 		let reader = new FileReader();
 		reader.onload = () => {
@@ -271,6 +365,7 @@ function CreateUser () {
 				marginTop: '1rem',
 				padding: '0.1rem',
 			});
+			// output.style.display = 'block';
 		};
 		if (e.target.files[0]) {
 			reader.readAsDataURL(e.target.files[0]);
@@ -279,7 +374,8 @@ function CreateUser () {
 		}
 	}
 	useEffect(() => {
-		const photoSampleCreate = document.getElementById('profile_picture');
+	// console.log('RUNNING RUNNING RUNNING');
+		const photoSampleCreate = document.getElementById('ppicture');
 		if (photoSampleCreate) {
 			if (photoSampleCreate) {
 				photoSampleCreate.addEventListener('change', displayPhotoCreate);
@@ -291,6 +387,11 @@ function CreateUser () {
 	});
 	const renderByDept = (e) => {
 		const value = e.target.value;
+		// const defaultState = {
+		// 	nothing: false,
+		// 	custodian: false,
+		// 	all: false,
+		// };
 		switch (value) {
 			case 'Custodian':
 				setDept({
@@ -314,6 +415,14 @@ function CreateUser () {
 		}
 		// console.log('THE VALUE:', value);
 	}
+	// const HandleUserCreationInputChange = (e) => {
+	// 	// Handle input change
+	// };
+	
+	// const handleFormSubmission = (e) => {
+	// 	e.preventDefault();
+	// 	// Handle form submission
+	// };
 	const errorStylings = {
 		color: 'red',
 		fontSize: 'small',
@@ -331,6 +440,9 @@ function CreateUser () {
 		padding: '0',
 		margin: '0',
 	}
+	// console.log('new user:', newUser)
+	// console.log('newUserError:', newUserError)
+	// console.log('finalPassword (#####):', finalPassword)
 	const temp = {
 		loading: false,
 		postError: false,
@@ -346,9 +458,12 @@ function CreateUser () {
 					<div className="to-form">
 					</div>
 					<hr />
+					{/* <form onSubmit={handleFormSubmission}> */}
 					<form>
 						<div>
+							
 							<div className="cust-row-user">
+						
 								<div className="user-fields-row">
 									<div className="input-field">
 										<Label htmlFor="department">Department:</Label>
@@ -357,24 +472,29 @@ function CreateUser () {
 										name="department"
 										value={newUser.department}
 										onChange={(e) => {
+											// console.log('1111111111')
 											HandleUserCreationInputChange(e);
+											// console.log('2222222222')
 											renderByDept(e);
+											// console.log('3333333333')
 										}}
+										// required
 										>
 											<option>Select Department</option>
 										{[
 											'Custodian',
 											'Engineering',
 											'Workshop',
-											'Help Desk',
-											'Human Resources',
+											'Help Desk'
 										].map((dept) => {
+											// console.log('dept value:', dept)
 											return (
 											<option key={dept} value={dept}>
 											{dept}
 											</option>
 										)})}
 										</SelectItem>
+										{/* {newUserError.department && <span style={{...errorStylings}}>{newUserError.department}</span>} */}
 										{newUserError.department &&
 										(!failedSubmission ?
 										(<span style={{...errorStylings}}>
@@ -405,7 +525,9 @@ function CreateUser () {
 																// required
 																onChange={(e) => {
 																HandleUserCreationInputChange(e);
+																handleEmptyFields(e);
 																}}
+																// onChange={HandleUserCreationInputChange}
 																>
 																	<option>Select Bank</option>
 																{[
@@ -425,6 +547,8 @@ function CreateUser () {
 																// </>
 																))}
 															</SelectItem>
+															{/* {(newUserError.bank && !currEmptyState.bank) && <span style={{...errorStylings}}>{newUserError.bank}</span>} */}
+															{/* {newUserError.bank && <span style={{...errorStylings}}>{newUserError.bank}</span>} */}
 															{newUserError.bank &&
 															(!failedSubmission ?
 															(<span style={{...errorStylings}}>
@@ -434,20 +558,29 @@ function CreateUser () {
 															(<span style={{...errorStylings}}>
 																{newUserError.bank}
 															</span>) : ''))}
+															{/* {newUserError.bank && (
+															!failedSubmission || newUser.bank === ''
+																? <span style={errorStylings}>{newUserError.bank}</span>
+																: null
+															)} */}
 															</div>
 															<div className="input-field">
 																<Label htmlFor="branch">Branch:</Label>
 																<input
 																type="text"
+																// autoComplete
 																name="branch"
 																id="branch"
-																placeholder=" E.g Ikeja"
 																value={newUser.branch}
 																// required
 																onChange={(e) => {
 																HandleUserCreationInputChange(e);
+																handleEmptyFields(e);
 																}}
 																/>
+																{/* {(newUserError.branch && currEmptyState.branch) && <span style={{...errorStylings}}>{newUserError.branch}</span>} */}
+																{/* {newUserError.branch &&  <span style={{...errorStylings}}>{newUserError.branch}</span>} */}
+																{/* {newUserError.branch && (!failedSubmission ? (<span style={{...errorStylings}}>{newUserError.branch}</span>) : (newUser.branch === '' ? (<span style={{...errorStylings}}>{newUserError.branch}</span>) : ''))} */}
 																{newUserError.branch && (
 																!failedSubmission || newUser.branch === ''
 																	? <span style={errorStylings}>{newUserError.branch}</span>
@@ -459,6 +592,8 @@ function CreateUser () {
 															<div className="input-field">
 																<Label htmlFor="state">State:</Label>
 																<SelectItem
+																// type="text"
+																// autoComplete
 																name="state"
 																id="state"
 																value={newUser.state}
@@ -511,6 +646,12 @@ function CreateUser () {
 																	// </>
 																	))}
 																</SelectItem>
+																{/* {newUserError.state && <span style={{...errorStylings}}>{newUserError.state}</span>} */}
+																{/* {newUserError.state && (
+																!failedSubmission || newUser.state === ''
+																	? <span style={errorStylings}>{newUserError.state}</span>
+																	: null
+																)} */}
 																{newUserError.state &&
 																(!failedSubmission ?
 																(<span style={{...errorStylings}}>
@@ -521,7 +662,7 @@ function CreateUser () {
 																	{newUserError.state}
 																</span>) : ''))}
 															</div>
-															{/* <div className="input-field">
+															<div className="input-field">
 																<Label htmlFor="qtyAtm">Quantity of ATMs:</Label>
 																<input
 																type="number"
@@ -532,57 +673,59 @@ function CreateUser () {
 																onChange={HandleUserCreationInputChange}
 																/>
 																
-															</div> */}
+															</div>
 														</div>
 													</>)
 												}
 												<div className="user-fields-row">
 													<div className="input-field">
-														<Label htmlFor="first_name">First Name:</Label>
+														<Label htmlFor="fname">First Name:</Label>
 														<input
 														type="text"
 														// autoComplete
-														name="first_name"
-														id="first_name"
-														value={newUser.first_name}
+														name="fname"
+														id="fname"
+														value={newUser.fname}
 														// required
 														onChange={HandleUserCreationInputChange}
 														placeholder=' Required'
 														/>
-														{newUserError.first_name && (
-														!failedSubmission || newUser.first_name === ''
-															? <span style={errorStylings}>{newUserError.first_name}</span>
+														{/* {newUserError.fname && <span style={{...errorStylings}}>{newUserError.fname}</span>} */}
+														{newUserError.fname && (
+														!failedSubmission || newUser.fname === ''
+															? <span style={errorStylings}>{newUserError.fname}</span>
 															: null
 														)}
 													</div>
 													<div className="input-field">
-														<Label htmlFor="last_name">Last Name:</Label>
+														<Label htmlFor="lname">Last Name:</Label>
 														<input
 														type="text"
 														// autoComplete
-														name="last_name"
-														id="last_name"
-														value={newUser.last_name}
+														name="lname"
+														id="lname"
+														value={newUser.lname}
 														// required
 														onChange={HandleUserCreationInputChange}
 														placeholder=' Required'
 														/>
-														{newUserError.last_name && (
-														!failedSubmission || newUser.last_name === ''
-															? <span style={errorStylings}>{newUserError.last_name}</span>
+														{/* {newUserError.lname && <span style={{...errorStylings}}>{newUserError.lname}</span>} */}
+														{newUserError.lname && (
+														!failedSubmission || newUser.lname === ''
+															? <span style={errorStylings}>{newUserError.lname}</span>
 															: null
 														)}
 													</div>
 												</div>
 												<div className="user-fields-row">
 													<div className="input-field">
-														<Label htmlFor="middle_name">Middle Name:</Label>
+														<Label htmlFor="mname">Middle Name:</Label>
 														<input
 														type="text"
 														// autoComplete
-														name="middle_name"
-														value={newUser.middle_name}
-														id="middle_name"
+														name="mname"
+														value={newUser.mname}
+														id="mname"
 														onChange={HandleUserCreationInputChange}
 														/>
 														
@@ -601,6 +744,7 @@ function CreateUser () {
 														onChange={HandleUserCreationInputChange}
 														placeholder=' Required'
 														/>
+														{/* {newUserError.email && <span style={{...errorStylings}}>{newUserError.email}</span>} */}
 														{newUserError.email && (
 														!failedSubmission || newUser.email === ''
 															? <span style={errorStylings}>{newUserError.email}</span>
@@ -609,8 +753,23 @@ function CreateUser () {
 													</div>
 												</div>
 												<div className="user-fields-row">
+													{/* <PhoneInput
+													country={'ng'} // ng for Nigeria
+													value={newUser.phone}
+													onChange={() => {
+														handlePhoneChange();
+														HandleUserCreationInputChange();
+													}}
+													inputProps={{
+														name: 'phone',
+														id: "phone",
+														required: true,
+													}}
+													/>
+													{newUserError.phone && <span style={{...errorStylings}}>{newUserError.phone}</span>} */}
 													<div className="input-field">
 														<Label htmlFor="phone">Phone No.:</Label>
+														{/* add another input for country code */}
 														<div>
 															<span style={{fontSize: 'large'}}>+234 </span>
 															<input
@@ -621,6 +780,9 @@ function CreateUser () {
 															maxLength={10}
 															value={newUser.phone}
 															required
+															// pattern="^\+?\d{10,15}$"
+															// pattern="^\d{10}$"
+															// title="Invalid phone number."
 															inputMode='numeric'
 															onChange={HandleUserCreationInputChange}
 															placeholder=' Required. Example: 8038091572'
@@ -630,6 +792,7 @@ function CreateUser () {
 															}}
 															/>
 														</div>
+														{/* {newUserError.phone && <span style={{...errorStylings}}>{newUserError.phone}</span>} */}
 														{newUserError.phone && (
 														!failedSubmission || newUser.phone === ''
 															? <span style={errorStylings}>{newUserError.phone}</span>
@@ -657,6 +820,7 @@ function CreateUser () {
 															}}
 															/>
 														</div>
+														{/* {newUserError.wphone && <span style={{...errorStylings}}>{newUserError.wphone}</span>} */}
 														{newUserError.wphone && (
 														!failedSubmission || newUser.wphone === ''
 															? <span style={errorStylings}>{newUserError.wphone}</span>
@@ -727,6 +891,7 @@ function CreateUser () {
 														onChange={HandleUserCreationInputChange}
 														placeholder=' Required'
 														/>
+														{/* {newUserError.address && <span style={{...errorStylings}}>{newUserError.address}</span>} */}
 														{newUserError.address && (
 														!failedSubmission || newUser.address === ''
 															? <span style={errorStylings}>{newUserError.address}</span>
@@ -734,48 +899,33 @@ function CreateUser () {
 														)}
 													</div>
 													<div className="input-field">
-														<Label htmlFor="username">Username:</Label>
-														<input
-														type="text"
-														// autoComplete
-														name="username"
-														value={newUser.username}
-														id="username"
-														onChange={HandleUserCreationInputChange}
-														/>
-													</div>
-													{/* <div className="input-field">
 														<Label htmlFor="aboutme">About Me:</Label>
 														<textarea
+														// type="text"
+														// autoComplete
 														value={newUser.aboutme}
 														name="aboutme"
 														id="aboutme"
 														onChange={HandleUserCreationInputChange}
 														/>
-													</div> */}
+														
+													</div>
 												</div>
 												<div className="user-fields-row">
 													<div className="input-field">
-														<Label htmlFor="profile_picture">Profile Picture:</Label>
+														<Label htmlFor="ppicture">Profile Picture:</Label>
 														<input
 														type="file"
 														accept="image/*"
-														name="profile_picture"
-														id="profile_picture"
+														name="ppicture"
+														id="ppicture"
 														onChange={(e) => {
 															HandleUserCreationInputChange(e);
+															setShowFields(true);
 														}}
 														/>
+														{/* {errors.aboutme && <span className="error">{errors.aboutme}</span>} */}
 														{<img id="createImage" src="#" alt="Profile pic" style={{display: 'none'}} />}
-													</div>
-													<div className="input-field">
-														<Label htmlFor="aboutme">About Me:</Label>
-														<textarea
-														value={newUser.aboutme}
-														name="aboutme"
-														id="aboutme"
-														onChange={HandleUserCreationInputChange}
-														/>
 													</div>
 												</div>
 											</>
@@ -785,6 +935,19 @@ function CreateUser () {
 								}
 							</div>
 						</div>
+						{/* <MainButtonContainer>
+						<MainButton
+						onClick={handleFormSubmission}
+						type="submit"
+						disabled={temp.loading}>
+							{temp.loading ? 'Creating...' : 'Create Account'}
+						</MainButton>
+						</MainButtonContainer>
+						<SubmitNotification error={temp.postError} success={temp.response} /> */}
+						{/* <div className="cust-button">
+							<button type="submit">Create User</button>
+							
+						</div> */}
 					</form>
 				</div>
 			</div>
@@ -792,11 +955,11 @@ function CreateUser () {
 				<MainButton
 				onClick={handleFormSubmission}
 				type="submit"
-				disabled={postLoading}>
-				{postLoading ? 'Creating...' : 'Create Account'}
+				disabled={temp.loading}>
+				{temp.loading ? 'Creating...' : 'Create Account'}
 				</MainButton>
 			</MainButtonContainer>
-			<SubmitNotification error={postError} success={postData} />
+			<SubmitNotification error={temp.postError} success={temp.response} />
 			<hr/>
 		</>
 	)

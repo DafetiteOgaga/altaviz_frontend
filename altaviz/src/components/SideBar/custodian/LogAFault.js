@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 // import PendingFaults from "../requestApprovedPendingResolved/pending_faults/PendingFaults";
 
 
-function LogFault({childList}) {
+function LogAFault({childList}) {
 	let componentPage = useLocation();
 	componentPage = componentPage.pathname;
 	const pageName = '/custodian';
@@ -303,4 +303,4 @@ function LogFault({childList}) {
 	)
 };
 
-export default LogFault;
+export default LogAFault;

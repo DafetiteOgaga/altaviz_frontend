@@ -1,9 +1,25 @@
-import CustomTime from "../../hooks/CustomTime";
+import CustomTime from "../../../hooks/CustomTime";
 import InventoryMockData from "./inventoryData";
 import "./inventory.css";
+import { useContext, useState } from "react";
+import { FetchContext } from "../../../context/FetchContext";
 // import { useState } from "react";
+import AddComponentName from "./AddComponentName";
+import AddPartName from "./AddPartName";
 
 function Inventory() {
+	// const { fetchData, fetchPost, fetchPut, fetchDelete } = useContext(FetchContext);
+	const { useGetDataAPI } = useContext(FetchContext);
+	const {
+		data: componentsData,
+		loading: componentsLoading,
+		error: componentsError
+	} = useGetDataAPI('http://127.0.0.1:8000/components/');
+	const {
+		data: partsData,
+		loading: partsLoading,
+		error: partsError
+	} = useGetDataAPI('http://127.0.0.1:8000/parts/');
 	const name = 'Inventory';
 	const { components, parts } = InventoryMockData();
 
@@ -97,11 +113,44 @@ function Inventory() {
 		borderBottom: '2px solid',
 		textWrap: 'nowrap',
 	};
-
+	console.log('componentsData:', componentsData);
+	const [addCompNames, setAddCompNames] = useState(false);
+	const [addPartNames, setAddPartNames] = useState(false);
+	const toggleAddCompNames = () => {
+		setAddCompNames(!addCompNames);
+	}
+	const toggleAddPartNames = () => {
+		setAddPartNames(!addPartNames);
+	}
+	const activeStyles = {
+		backgroundColor: '#8A8A93',
+	}
 	return (
 		<div className="background-color custodian-page">
 			<CustomTime name={name} />
-			<h3>Inventory</h3>
+			<div>
+				<h3>Inventory</h3>
+				<div className="custum-button">
+					<h5 style={addCompNames ? {...activeStyles} : {}}  onClick={toggleAddCompNames}>{addCompNames ? 'Close Inventory Component Names Form' : 'Add New Component Name'}</h5>
+					<h5 style={addPartNames ? {...activeStyles} : {}}  onClick={toggleAddPartNames}>{addPartNames ? 'Close Inventory Part Names Form' : 'Add New Part Name'}</h5>
+				</div>
+			</div>
+			<div>
+				{addCompNames && (
+					<>
+						{/* <hr /> */}
+						<AddComponentName />
+						{/* <LogFault childList={childList} /> */}
+					</>
+				)}
+				{addPartNames && (
+					<>
+						{/* <hr /> */}
+						<AddPartName />
+						{/* <LogFault childList={childList} /> */}
+					</>
+				)}
+			</div>
 			<div className="split-container">
 				<div className="inventory-list">
 					<h4>Components</h4>
@@ -117,19 +166,19 @@ function Inventory() {
 							</tr>
 						</thead>
 						<tbody>
-						{components.map((component, index) => {
+						{componentsData && (componentsData.map((component, index) => {
 							// const { backgroundColor, color, border, fontWeight, status } = calculateStylesForComps(component[1]);
-							const { color, status } = calculateStylesForComps(component[1]);
+							const { color, status } = calculateStylesForComps(component.quantity);
 							return (
 								<tr key={index}>
 									<td style={staticStles}>
 										{index + 1}
 									</td>
 									<td style={staticStles}>
-										{component[0]}
+										{component.name}
 									</td>
 									<td style={staticStles}>
-										{component[1]}
+										{component.quantity}
 									</td>
 									<td
 									style={{
@@ -144,7 +193,7 @@ function Inventory() {
 									
 								</tr>
 							);
-						})}
+						}))}
 						</tbody>
 					</table>
 				</div>
@@ -171,19 +220,19 @@ function Inventory() {
 							</tr>
 						</thead>
 						<tbody>
-						{parts.map((component, index) => {
+						{partsData && (partsData.map((part, index) => {
 							// const { backgroundColor, color, border, fontWeight, status } = calculateStylesForComps(component[1]);
-							const { color, status } = calculateStylesForParts(component[1]);
+							const { color, status } = calculateStylesForParts(part.quantity);
 							return (
 								<tr key={index}>
 									<td style={staticStles}>
 										{index + 1}
 									</td>
 									<td style={staticStles}>
-										{component[0]}
+										{part.name}
 									</td>
 									<td style={staticStles}>
-										{component[1]}
+										{part.quantity}
 									</td>
 									<td
 									style={{
@@ -198,7 +247,7 @@ function Inventory() {
 									
 								</tr>
 							);
-						})}
+						}))}
 						</tbody>
 					</table>
 				</div>

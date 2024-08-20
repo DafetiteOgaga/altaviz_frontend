@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 import './components/fonts.css';
 // import Testfetchapi from './components/Testfetchapi';
@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="app-container">
       <div style={{paddingBottom: '1em'}}>
-        <Router>
+        {/* <Router> */}
           <Header />
           {/* <div className="content-wrapper"> */}
             <div className='body-minus-header'>
@@ -31,7 +31,7 @@ function App() {
               </div>
             </div>
           {/* </div> */}
-        </Router>
+        {/* </Router> */}
       </div>
       <Footer />
     </div>
