@@ -45,23 +45,23 @@ function NotificationDropdown({
 
 	function listHandler(listValue) {
 		let newList = [];
-		console.log('listHandler fxn');
-		console.log('newList before fxn:', newList);
+		// console.log('listHandler fxn');
+		// console.log('newList before fxn:', newList);
 		for (let [index, value] of listValue.entries()) {
-			console.log('index:', index, 'and value:', value);
+			// console.log('index:', index, 'and value:', value);
 			if (index === 5) {
 				newList.push(['', 'Click to See All']);
 				break;
 			}
 			newList.push(value);
 		}
-		console.log('newList after fxn:', newList);
+		// console.log('newList after fxn:', newList);
 		return newList;
 	}
-	console.log('old list: ', details);
+	// console.log('old list: ', details);
 	details = listHandler(details);
-	console.log('new list: ', details);
-	console.log('bkColor: ', bkColor);
+	// console.log('new list: ', details);
+	// console.log('bkColor: ', bkColor);
 	const handleResolutionConfirmation = (e, index) => {
 		console.log('first came here!');
 		if (confirmResolution && index !== details.length - 1) {
