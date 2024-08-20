@@ -13,7 +13,7 @@ import Engineer from '../SideBar/engineer/Engineer';
 import HelpDesk from '../SideBar/help_desk/HelpDesk';
 import Supervisor from '../SideBar/supervisor/Supervisor';
 import HumanResource from '../SideBar/human_resource/HumanResource';
-import Inventory from '../SideBar/human_resource/Inventory';
+import Inventory from '../SideBar/human_resource/inventory/Inventory';
 import RequestDetails from '../SideBar/requestApprovedPendingResolved/request/RequestDetails';
 import RequestList from '../SideBar/requestApprovedPendingResolved/request/RequestList';
 // import Product1 from '../products/Product1';
