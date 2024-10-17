@@ -28,60 +28,45 @@ import DropdownMenu from '../header/product_dropdown_menu/DropdownMenu';
 // import Navigation from '../header/Navigation';
 // import Category from '../Category';
 import User from '../user/user';
+import LoginForm from '../context/loginAuth/LoginForm';
 import FaultDetails from '../SideBar/faults/FaultDetails';
+import PrivateRoute from '../context/checkAuth/PrivateRoute';
+import AuthenticationForm from '../context/loginAuth/AuthenticationForm';
 
 function AppRoutes() {
-  // function getImages(r) {
-	// 	return r.keys().map(r);
-	// }
-	// const images = getImages(require.context('../../images/product_images/', false, /\.(png|jpe?g|svg)$/));
-  // const titles = [
-	// 	'H22V series',
-	// 	'H68NL Series Intelligent Cash Recycler',
-	// 	'grg-200-v-sorting-machine',
-	// 	'H34 series',
-	// ]
-	// const descriptions = [
-	// 	'description1',
-	// 	'description2',
-	// 	'description3',
-	// 	'description4',
-	// ]
-	// const products = images.map((image, index) => {
-	// 	// console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
-	// 	return ({
-	// 		title: titles[index],
-  //           description: descriptions[index],
-  //           image: image,
-	// 	})});
-
-  // console.log('products (ROUTES):', products);
   return (
     <>
       <Routes>
+        {/* public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<DropdownMenu />} />
         <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/custodian" element={<CustodianLandingPage />} />
-        {/* <Route path="/custodian/form" element={<CustodianForm />} /> */}
-        <Route path="/workshop" element={<Workshop />} />
-        <Route path="/engineer" element={<Engineer />} />
-        <Route path="/help-desk" element={<HelpDesk />} />
-        <Route path="/supervisor" element={<Supervisor />} />
-        <Route path="/human-resource" element={<HumanResource />} />
-        <Route path="/inventory" element={<Inventory />} />
-        {/* <Route path="/:dept/request-list" element={<RequestList />} /> */}
-        <Route path="/request-details/:id" element={<RequestDetails />} />
-        <Route path="/:dept/request-details/:id" element={<RequestDetails />} />
-        <Route path="/:dept/fault-details/:id/request-details/:id" element={<RequestDetails />} />
-        <Route path="/:dept/fault-details/" element={<RequestList />} />
-        <Route path="/user/:id" element={<User />} />
-        {/* <Route path="/fault-details" element={<FaultList />} /> */}
-        <Route path="/:dept/fault-details/:id" element={<FaultDetails />} />
-        <Route path="/success" element={<Success />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/test-auth" element={<AuthenticationForm />} />
         <Route path="/test" element={<Testfetchapi />} />
+        {/* private ruoutes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/custodian" element={<CustodianLandingPage />} />
+          {/* <Route path="/custodian/form" element={<CustodianForm />} /> */}
+          <Route path="/workshop" element={<Workshop />} />
+          <Route path="/engineer" element={<Engineer />} />
+          <Route path="/help-desk" element={<HelpDesk />} />
+          <Route path="/supervisor" element={<Supervisor />} />
+          <Route path="/human-resource" element={<HumanResource />} />
+          <Route path="/inventory" element={<Inventory />} />
+          {/* <Route path="/:dept/request-list" element={<RequestList />} /> */}
+          <Route path="/request-details/:id" element={<RequestDetails />} />
+          <Route path="/:dept/request-details/:id" element={<RequestDetails />} />
+          <Route path="/:dept/fault-details/:id/request-details/:id" element={<RequestDetails />} />
+          <Route path="/:dept/fault-details/" element={<RequestList />} />
+          <Route path="/user/:id" element={<User />} />
+          {/* <Route path="/fault-details" element={<FaultList />} /> */}
+          <Route path="/:dept/fault-details/:id" element={<FaultDetails />} />
+          <Route path="/success" element={<Success />} />
+        </Route>
+        {/* 404 error route */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </>

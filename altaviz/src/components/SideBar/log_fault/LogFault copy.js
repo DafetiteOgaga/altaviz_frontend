@@ -15,7 +15,9 @@ function LogFault({childList}) {
 	const { authData } = useContext(AuthContext);
 	const { faults } = cMockData();
 	const currentPage = useLocation().pathname
-	const initialValue = {}
+	const initialValue = {
+		other: '',
+	}
 	const [formValues, setFormValues] = useState(initialValue);
 	// post setup
 	const [postTrigger, setPostTrigger] = useState(false);
@@ -56,7 +58,7 @@ function LogFault({childList}) {
 		console.log('Form submitted:', formValues);
 		Object.entries(formValues).forEach(([key, value]) => {
 			console.log('key:', key, '\nvalue:', value);
-			// if (!value) { return; }  // Skip falsy values
+			if (!value) { return; }  // Skip falsy values
 			if (key === '0') { return; }
 			formData.append(key, value);
 		});
@@ -122,15 +124,15 @@ function LogFault({childList}) {
 														</select>
 													</div>
 													<div className="input-field textarea-box">
-														<label htmlFor={`other-${field.id}`}>Others:</label>
+														<label htmlFor='other'>Others:</label>
 														<textarea
 														type="text"
-														name={`other-${field.id}`}
-														id={`other-${field.id}`}
-														placeholder="Pls, specify ... (Expandable)"
+														name='other'
+														id='other'
+														placeholder="Pls, specify ..."
 														rows={1}
 														onChange={handleInputChange}
-														value={formValues[`other-${field.id}`] || ''}
+														value={formValues.other}
 														/>
 													</div>
 													<div className="with-rm-btn">
