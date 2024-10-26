@@ -140,8 +140,8 @@ function LogFault() {
 			console.log('noselection (checked for):', !noselection);
 			setPostTrigger(true)
 			setTriggerPendingNotifi(true);
-			localStorage.removeItem('totalCustodianFaultContext');
-			localStorage.removeItem('custodianFaultContext');
+			localStorage.removeItem('totalfaultsKey');
+			localStorage.removeItem('faultsKey');
 		} else {
 			setFormValues([initialValue]);
 			setNoselecton(true)
@@ -149,7 +149,7 @@ function LogFault() {
 	};
 	useEffect(() => {
 		if (noselection) {
-			const timer = setInterval(() => {
+			const timer = setTimeout(() => {
 				setNoselecton(false);
 			}, 3000);
 			return () => clearTimeout(timer)
@@ -257,7 +257,6 @@ function LogFault() {
 											{/* <div className="b-line"> */}
 											<div className="input-field textarea-box">
 												<label htmlFor={`other-${field.id}`}>Others:</label>
-												{/* <label htmlFor={`other-${field.id}`}>Others:</label> */}
 												<textarea
 												type="text"
 												name={`other-${field.id}`}
