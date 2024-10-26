@@ -6,6 +6,7 @@ import Dashboard from "../dashboard/Dashboard";
 import RequestItem from "../requestForms/RequestItem";
 import { useState } from "react";
 // import { AuthContext
+import RequestListDisplay from "../Requests/RequestListDisplay";
 import RequestsList from "../Requests/RequestsList";
 import Notification from "../notification/Notification";
 import AddItemToInventory from "../human_resource/addCompParts/AddItemToInventory";
@@ -40,8 +41,8 @@ function Workshop() {
 					{/* pending component requests */}
 					<Notification
 						urlPath='request-component'
-						variableContext='compRequestContext'
-						totalArrayContext='totalPendingCompRequest'
+						variableContext='componentKey'
+						totalArrayContext='totalcomponentKey'
 						titleKey='Pending Component Requests'
 						titleValue='No Pending Requests'
 						// patchUrl={patchUrl}
@@ -57,13 +58,19 @@ function Workshop() {
 						detailPageUrl='component-request-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
+						extraDisplayLocalKeys={[
+							'componentKey', 'totalcomponentKey',
+							'partKey', 'totalpartKey',
+							'partPendingList',	'componentPendingList',
+							'workshopRequests'
+						]}
 						/>
 
 					{/* unconfirmed part posts */}
 					<Notification
 						urlPath='post-part'
-						variableContext='unapprovedContext'
-						totalArrayContext='totalUnapproved'
+						variableContext='partKey'
+						totalArrayContext='totalpartKey'
 						titleKey='Posted Parts'
 						titleValue='No New Posts'
 						// patchUrl={patchUrl}
@@ -79,6 +86,12 @@ function Workshop() {
 						detailPageUrl='part-request-details'
 						// refreshKeyList={refreshKeyList}
 						// button='Withdraw'
+						extraDisplayLocalKeys={[
+							'componentKey', 'totalcomponentKey',
+							'partKey', 'totalpartKey',
+							'partPendingList',	'componentPendingList',
+							'workshopRequests'
+						]}
 						/>
 				</div>
 
@@ -116,8 +129,12 @@ function Workshop() {
 				{isPostPartFormOpen && (<AddItemToInventory itemName='post-part' />)}
 				{/* {isUserDetailsFormOpen && (<LogFault />)} */}
 				{isUserDetailsFormOpen && (<UpdateUser />)}
+			{/* </div> */}
+				<RequestListDisplay
+						requestUrl='workshop-request/list'
+						requestKeyContext='workshopRequests'/>
+				{/* <RequestsList localType='component' /> */}
 			</div>
-			<RequestsList localType='component' />
 		</>
 	);
 };
