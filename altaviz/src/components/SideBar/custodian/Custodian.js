@@ -1,13 +1,21 @@
 import Dashboard from "../dashboard/Dashboard";
 import LogFault from "./log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
+// import { RefreshContext } from "../../context/refreshContext/TriggerRefresh";
 import Notification from '../notification/Notification';
 import FaultListDisplay from "../faults/userAndFaultDisplay/FaultListDisplay";
 
 function Custodian() {
 	const [isFaultFormOpen, setIsFaultFormOpen] = useState(false);
 	const [isDetailsFormOpen, setIsDetailsFormOpen] = useState(false);
+	// const { refresh } = useContext(RefreshContext);
+
+	// useEffect(() => {
+	// 	console.log('PARENT COMPONENT REFRESHED');
+	// 	// Logic for fetching data or handling side effects
+	// }, [refresh]);
+
 	const toggleFault = () => setIsFaultFormOpen(!isFaultFormOpen);
 	const toggleEditDetails = () => setIsDetailsFormOpen(!isDetailsFormOpen);
 	const activeStyles = {
@@ -26,9 +34,9 @@ function Custodian() {
 				<div style={notificationStyles}>
 					{/* pending faults */}
 					<Notification
-						urlPath='custodian-pending-faults'
-						variableContext='custodianFaultContext'
-						totalArrayContext='totalCustodianFaultContext'
+						urlPath='pending-faults'
+						variableContext='faultsKey'
+						totalArrayContext='totalfaultsKey'
 						titleKey='Pending Faults'
 						titleValue='No Pending faults'
 						// patchUrl={patchUrl}
@@ -44,20 +52,25 @@ function Custodian() {
 						detailPageUrl='pending/fault-gen-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
-						extraDisplayLocalKeys={['custodianUnresolvedFaultContext']}
+						extraDisplayLocalKeys={[
+							'faultsKey', 'totalfaultsKey',
+							'unconfirmedKey', 'totalunconfirmedKey',
+							'faultpendingList',	'faultunconfirmedList',
+							'unresolvedKey'
+						]}
 						/>
 
 					{/* unconfirmed Resolutions */}
 					<Notification
-						urlPath='custodian-unconfirmed-faults'
-						variableContext='unconfirmedResoContext'
-						totalArrayContext='totalUnconfirmResos'
+						urlPath='unconfirmed-faults'
+						variableContext='unconfirmedKey'
+						totalArrayContext='totalunconfirmedKey'
 						titleKey='Unconfirmed Resolutions'
 						titleValue='All Resolutions Confirmed'
 						// patchUrl={patchUrl}
 						// postUrl={postUrl}
-						// putUrl='custodian-unconfirmed-faults'
-						patchUrl='custodian-unconfirmed-faults'
+						// putUrl='unconfirmed-faults'
+						patchUrl='unconfirmed-faults'
 						// putData={putData}
 						// deleteUrl='fault'
 						handler='listHandle'
@@ -68,7 +81,12 @@ function Custodian() {
 						detailPageUrl='unconfirmed/fault-gen-details'
 						// refreshKeyList={refreshKeyList}
 						button='Confirm'
-						extraDisplayLocalKeys={['custodianUnresolvedFaultContext']}
+						extraDisplayLocalKeys={[
+							'faultsKey', 'totalfaultsKey',
+							'unconfirmedKey', 'totalunconfirmedKey',
+							'faultpendingList',	'faultunconfirmedList',
+							'unresolvedKey'
+						]}
 						/>
 				</div>
 				<hr style={{width: '80%'}} />
@@ -96,8 +114,8 @@ function Custodian() {
 
 				{/* unresolved/unconfirmed fault list */}
 				<FaultListDisplay
-					faultUrl='custodian-unresolved-faults'
-					faultKeyContext='custodianUnresolvedFaultContext'/>
+					faultUrl='unresolved-faults'
+					faultKeyContext='unresolvedKey'/>
 
 			</div>
 		</>
