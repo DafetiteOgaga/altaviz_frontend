@@ -1,10 +1,10 @@
 import Dashboard from "../dashboard/Dashboard";
 import LogFault from "./log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
-import { useEffect, useState, useContext } from "react";
+import { useState } from "react";
 // import { RefreshContext } from "../../context/refreshContext/TriggerRefresh";
 import Notification from '../notification/Notification';
-import FaultListDisplay from "../faults/userAndFaultDisplay/FaultListDisplay";
+import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 
 function Custodian() {
 	const [isFaultFormOpen, setIsFaultFormOpen] = useState(false);
@@ -36,7 +36,7 @@ function Custodian() {
 					<Notification
 						urlPath='pending-faults'
 						variableContext='faultsKey'
-						totalArrayContext='totalfaultsKey'
+						// totalArrayContext='totalfaultsKey'
 						titleKey='Pending Faults'
 						titleValue='No Pending faults'
 						// patchUrl={patchUrl}
@@ -44,7 +44,7 @@ function Custodian() {
 						// putUrl={putUrl}
 						// putData={putData}
 						deleteUrl='fault'
-						handler='listHandle'
+						// handler='listHandle'
 						// listHandle
 						// requestHandler
 						// unapprovedHandler
@@ -56,7 +56,7 @@ function Custodian() {
 							'faultsKey', 'totalfaultsKey',
 							'unconfirmedKey', 'totalunconfirmedKey',
 							'faultpendingList',	'faultunconfirmedList',
-							'unresolvedKey'
+							'allUnresolvedKey'
 						]}
 						/>
 
@@ -64,7 +64,7 @@ function Custodian() {
 					<Notification
 						urlPath='unconfirmed-faults'
 						variableContext='unconfirmedKey'
-						totalArrayContext='totalunconfirmedKey'
+						// totalArrayContext='totalunconfirmedKey'
 						titleKey='Unconfirmed Resolutions'
 						titleValue='All Resolutions Confirmed'
 						// patchUrl={patchUrl}
@@ -73,7 +73,7 @@ function Custodian() {
 						patchUrl='unconfirmed-faults'
 						// putData={putData}
 						// deleteUrl='fault'
-						handler='listHandle'
+						// handler='listHandle'
 						// listHandle
 						// requestHandler
 						// unapprovedHandler
@@ -85,7 +85,7 @@ function Custodian() {
 							'faultsKey', 'totalfaultsKey',
 							'unconfirmedKey', 'totalunconfirmedKey',
 							'faultpendingList',	'faultunconfirmedList',
-							'unresolvedKey'
+							'allUnresolvedKey'
 						]}
 						/>
 				</div>
@@ -115,7 +115,7 @@ function Custodian() {
 				{/* unresolved/unconfirmed fault list */}
 				<FaultListDisplay
 					faultUrl='unresolved-faults'
-					faultKeyContext='unresolvedKey'/>
+					faultKeyContext='allUnresolvedKey'/>
 
 			</div>
 		</>
