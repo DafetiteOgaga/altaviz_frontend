@@ -5,16 +5,10 @@ import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import Dashboard from "../dashboard/Dashboard";
 import RequestItem from "../requestForms/RequestItem";
 import { useState } from "react";
-// import { AuthContext
 import RequestListDisplay from "../Requests/RequestListDisplay";
-import RequestsList from "../Requests/RequestsList";
+// import RequestsList from "../Requests/RequestsList";
 import Notification from "../notification/Notification";
 import AddItemToInventory from "../human_resource/addCompParts/AddItemToInventory";
-// import RequestNotification from "../notification/RequestNotification";
-// import PendingRequestNotifi from "./notificationsWorkshop/pendingRequestNotifi";
-// import UnapprovedPartsNotifi from "./notificationsWorkshop/UnapprovedPartsNotifi";
-// import { AuthContext } from '../../context/checkAuth/AuthContext';
-
 
 function Workshop() {
 	// const { authData } = useContext(AuthContext);
@@ -42,7 +36,7 @@ function Workshop() {
 					<Notification
 						urlPath='request-component'
 						variableContext='componentKey'
-						totalArrayContext='totalcomponentKey'
+						// totalArrayContext='totalcomponentKey'
 						titleKey='Pending Component Requests'
 						titleValue='No Pending Requests'
 						// patchUrl={patchUrl}
@@ -70,7 +64,7 @@ function Workshop() {
 					<Notification
 						urlPath='post-part'
 						variableContext='partKey'
-						totalArrayContext='totalpartKey'
+						// totalArrayContext='totalpartKey'
 						titleKey='Posted Parts'
 						titleValue='No New Posts'
 						// patchUrl={patchUrl}
@@ -78,7 +72,7 @@ function Workshop() {
 						// putUrl={putUrl}
 						// putData={putData}
 						// deleteUrl='request-component'
-						handler='partPostHandler'
+						handler='requestHandler'
 						// listHandle
 						// requestHandler
 						// unapprovedHandler
