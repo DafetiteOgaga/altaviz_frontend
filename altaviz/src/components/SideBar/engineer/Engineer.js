@@ -1,10 +1,10 @@
 // import LogFault from "../custodian/log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import Dashboard from "../dashboard/Dashboard";
-import { useState, useContext } from "react";
-import { AuthContext } from "../../context/checkAuth/AuthContext";
+import { useState } from "react";
+// import { AuthContext } from "../../context/checkAuth/AuthContext";
 import Notification from "../notification/Notification";
-import FaultListDisplay from "../faults/userAndFaultDisplay/FaultListDisplay";
+import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 
 function Engineer() {
 	const [isUserDetailsFormOpen, setIsUserDetailsFormOpen] = useState(false);
@@ -27,7 +27,7 @@ function Engineer() {
 					<Notification
 						urlPath='request-component'
 						variableContext='componentKey'
-						totalArrayContext='totalcomponentKey'
+						// totalArrayContext='totalcomponentKey'
 						titleKey='Pending Component Requests'
 						titleValue='No Pending Requests'
 						// patchUrl={patchUrl}
@@ -55,7 +55,7 @@ function Engineer() {
 					<Notification
 						urlPath='request-part'
 						variableContext='partKey'
-						totalArrayContext='totalpartKey'
+						// totalArrayContext='totalpartKey'
 						titleKey='Pending Parts Requests'
 						titleValue='No Pending Requests'
 						// patchUrl={patchUrl}
@@ -113,11 +113,11 @@ function Engineer() {
 					<Notification
 						urlPath='engineer-pending-faults'
 						variableContext='faultsKey'
-						totalArrayContext='totalfaultsKey'
+						// totalArrayContext='totalfaultsKey'
 						titleKey='Pending Faults'
 						titleValue='No Pending Faults'
 						patchUrl='pending-faults'
-						handler='listHandle'
+						// handler='listHandle'
 						// listHandle
 						// requestHandler
 						// unapprovedHandler
@@ -128,7 +128,7 @@ function Engineer() {
 							'faultsKey', 'totalfaultsKey',
 							'unconfirmedKey', 'totalunconfirmedKey',
 							'faultpendingList',	'faultunconfirmedList',
-							'unresolvedKey'
+							'allUnresolvedKey'
 						]}
 						/>
 
@@ -141,10 +141,10 @@ function Engineer() {
 					<Notification
 						urlPath='engineer-unconfirmed-faults'
 						variableContext='unconfirmedKey'
-						totalArrayContext='totalunconfirmedKey'
+						// totalArrayContext='totalunconfirmedKey'
 						titleKey='Unconfirmed Resolutions'
 						titleValue='All Resolutions Confirmed'
-						handler='listHandle'
+						// handler='listHandle'
 						// listHandle
 						// requestHandler
 						// unapprovedHandler
@@ -154,7 +154,7 @@ function Engineer() {
 							'faultsKey', 'totalfaultsKey',
 							'unconfirmedKey', 'totalunconfirmedKey',
 							'faultpendingList',	'faultunconfirmedList',
-							'unresolvedKey'
+							'allUnresolvedKey'
 						]}
 						/>
 				</div>
@@ -186,7 +186,7 @@ function Engineer() {
 				{isUserDetailsFormOpen && (<UpdateUser />)}
 				<FaultListDisplay
 					faultUrl='engineer-unresolved-faults'
-					faultKeyContext='unresolvedKey'/>
+					faultKeyContext='allUnresolvedKey'/>
 			</div>
 		</>
 	);
