@@ -2,15 +2,15 @@ import Dashboard from "../dashboard/Dashboard";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 import Notification from "../notification/Notification";
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import FaultSearch from "../searches/FaultSearch";
-import { AuthContext } from "../../context/checkAuth/AuthContext";
+// import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { useLocation } from 'react-router-dom';
 
 function HelpDesk() {
 	// const redirectTo = useNavigate()
 	const department = useLocation().pathname.split('/')[1]
-	const { authData } = useContext(AuthContext);
+	// const { authData } = useContext(AuthContext);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	const [isUserDetailsFormOpen, setIsUserDetailsFormOpen] = useState(false);
 	const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
@@ -25,10 +25,16 @@ function HelpDesk() {
 	}
 	console.log(
 		'department:', department,
-		'role:', authData?.role
+		// 'role:', authData?.role
 	)
-	// useEffect(() => {if (authData?.role === department) redirectTo(`/${authData?.role}`)}, [department])
-	// if (authData?.role === department) redirectTo(`/${authData?.role}`);
+	useEffect(() => {
+        return () => {
+			if (!isSearchOpen) {
+				localStorage.removeItem('searchData');
+			}
+            // localStorage.removeItem('searchData');
+        };
+    }, [isSearchOpen]);
 	return (
 		// (authData?.role === department &&
 		<>
@@ -70,7 +76,7 @@ function HelpDesk() {
 						variableContext='unconfirmedKey'
 						// totalArrayContext='totalunconfirmedKey'
 						titleKey='Engineers with Unresolved Faults'
-						titleValue='No Unconfirmed Faults'
+						titleValue='All Faults confirmed'
 						// patchUrl={patchUrl}
 						// postUrl={postUrl}
 						// putUrl={putUrl}
