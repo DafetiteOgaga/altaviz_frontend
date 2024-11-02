@@ -1,5 +1,5 @@
 import Dashboard from "../dashboard/Dashboard";
-import LogFault from "./log_fault/LogFault";
+import LogFault from "./LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import { useState } from "react";
 // import { RefreshContext } from "../../context/refreshContext/TriggerRefresh";
