@@ -23,6 +23,9 @@ header img {
 nav li {
 	list-style-type: none;
 	font-weight: bold;
+}
+nav li a {
+	color: rgb(6, 6, 126);
 	/* animation: fadeIn 2s forwards; */
 }
 /* header navaigation */
