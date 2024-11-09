@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 // import useButton from '../hooks/useButton';
+import { FetchContext } from '../../context/FetchContext';
 import { GlobalContext } from '../../context/Context';
 // import useFetchPost from '../hooks/useFetchPost';
 import "./contactus.css"
@@ -10,7 +11,8 @@ const Contact = () => {
 		email: '',
 		message: '',
 	}
-	const { useButton, useFetchPost } = useContext(GlobalContext);
+	const { useButton } = useContext(GlobalContext);
+	const { usePostDataAPI } = useContext(FetchContext);
 	const [formData, setFormData] = useState(fields);
 
 	const [errors, setErrors] = useState({
@@ -22,16 +24,8 @@ const Contact = () => {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [submitTrigger, setSubmitTrigger] = useState(false);
 	// const [ IsSubmitted, setIsSubmitted] = useState(false);
-    useFetchPost('http://localhost:8000/contact-us/', formData, submitTrigger, fields);
-	// const { data, loading, error } = useFetchPost('http://localhost:8000/contact-us/', formData, submitTrigger);
-	// console.log('response data:', data);
-	// console.log('response loading:', loading);
-	// console.log('response error:', error);
+    usePostDataAPI('http://localhost:8000/contact-us/', formData, submitTrigger, fields);
 
-	// useEffect(() => {
-	// 	setFormData(fields);
-	// 	// setIsSubmitted(false);
-	// }, [IsSubmitted])
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		// console.log(name, value);
@@ -45,12 +39,6 @@ const Contact = () => {
 	const validateForm = () => {
 		let formValid = true;
 		let errors = {};
-
-		// disabled the name field from being required
-		// if (!formData.name.trim()) {
-		// 	errors.name = 'Name is required';
-		// 	formValid = false;
-		// }
 
 		if (!formData.email.trim()) {
 			errors.email = 'Email is required';
@@ -78,6 +66,16 @@ const Contact = () => {
 			// setIsSubmitted(!IsSubmitted);
 		};
 	};
+	// useEffect(() => {
+	// 	if (postData || postError) {
+	// 		setPostTrigger(() => {
+	// 			console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
+	// 			return false
+	// 		});
+	// 		// Reset formValue to default state
+	// 		setFormValue([{ item: '' }]);
+	// 	}
+	// }, [postTrigger, postData, postLoading, postError])
 
 	return (
 		<div className='background-color contact-page'>
@@ -124,13 +122,6 @@ const Contact = () => {
 					</div>
 				</div>
 				{useButton(['submit', isFormValid])}
-				{/* {loading && <p>Loading...</p>} */}
-            	{/* {error && <p>{error}</p>} */}
-				{/* {data && <div>
-					<h3>Submission Successful</h3>
-					<p>{JSON.stringify(data)}</p>
-				</div>} */}
-				{/* Display the response data */}
 			</form>
 		</div>
 	);
