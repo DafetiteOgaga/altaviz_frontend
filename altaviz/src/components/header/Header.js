@@ -24,15 +24,6 @@ function Header() {
 			{/* <span>header end</span> */}
 		</header>
 	)
-	// const { data, loading, error } = useFetch('http://localhost:8000');
-
-	// if (loading) return <p>Loading...</p>;
-	// if (error) return <p>Error: {error}</p>;
-	// console.log(data);
-
-	// return (
-	// 		<h1 className='three'>{data ? data['home'] : 'loading ...'}</h1>
-	// );
 }
 
 export default Header;
