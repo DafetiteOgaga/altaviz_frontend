@@ -1,22 +1,18 @@
-import React from 'react';
+import { useContext, useState, useEffect } from 'react';
+import { SentenceCaseContext } from '../context/SentenceCaseContext';
 
-const CustomTime = (name) => {
-  // const monthNames = [
-  //   "January", "February", "March", "April", "May", "June",
-  //   "July", "August", "September", "October", "November", "December"
-  // ];
-  // const dayNames = [
-  //   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
-  // ];
+const CustomTime = ({authData}) => {
+  const { toSentenceCase } = useContext(SentenceCaseContext);
+  const [nameData, setNameData] = useState(null);
+  useEffect(() => {
+    if (authData) {
+      setNameData(authData)
+    }
+  }, [authData])
   const timeNames = [
     "Morning", "Afternoon", "Evening",
   ];
   const now = new Date();
-  // const dayOfWeek = dayNames[now.getDay()];
-  // const month = monthNames[now.getMonth()];
-  // const dayOfMonth = now.getDate();
-  // const year = now.getFullYear();
-
   const hour = now.getHours()
   // const minute = now.getMinutes()
   // const second = now.getSeconds()
@@ -30,11 +26,13 @@ const CustomTime = (name) => {
     timeIndex = 2;
   }
   const timeOfDay = timeNames[timeIndex];
-
+  // console.log('authData:', authData)
   return (
     <>
-      <h2>
-        Good {timeOfDay}, {name.name}
+      <h2 style={{
+        margin: '0'
+      }}>
+        Good {timeOfDay}, {nameData && toSentenceCase(authData.first_name || authData.username)}
       </h2>
     </>
   );

@@ -16,7 +16,7 @@ body {
 }
 
 .body-minus-header {
-  padding: 0 3rem;
+  padding: 0.5rem 3rem;
 }
 
 .sub-root {
@@ -92,6 +92,8 @@ button, a {
 	border: 1px solid;
 	padding: 0 0.5rem;
 } */
+/* ...................................................... */
+
 /* custom button */
 .custum-button {
 	display: flex;
@@ -115,6 +117,31 @@ button, a {
 .custum-button h5:active {
 	box-shadow: -1px 1px 0 rgba(0, 0, 0, 0.068);
   background-color: #8a8a93;
+}
+.custum-button h5.disabled {
+  /* box-shadow: -1px 1px 0 rgba(255, 255, 255, 0.068); */
+  background-color: #E5E5E5;
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: #1809097a;
+}
+
+/* for smooth transitioning of the fault requests and requests only lists in human-resource component */
+/* Container that will hold the list content */
+.content-container {
+  transition: opacity 1.5s ease-in-out;
+  opacity: 1;
+}
+
+/* Fade-out effect */
+.fade-out {
+  opacity: 0;
+  pointer-events: none; /* Prevent interactions during transition */
+}
+
+/* Fade-in effect */
+.fade-in {
+  opacity: 1;
 }
 
 /* .......................................................... */
@@ -174,3 +201,10 @@ button, a {
   color: #4a6079;
 } */
 /* 8ba3bd d9cdbf c38d9e 4a6079 */
+/* .d {
+  color: rgb(0, 0, 255);
+} */
+
+.error-outline * {
+  outline: 1px solid red;
+}

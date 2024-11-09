@@ -25,18 +25,6 @@ function Announcements() {
 		free should endeavor to attend. Congratulations,
 		Engineer.`,
 	]
-	// const announcement = () => {
-	// 	// console.log('55555555555555555')
-	// 	setSlide(true);
-	// 	setTimeout(() => {
-	// 		setInd((ind + 1) % announcements.length)
-	// 		setSlide(false);
-	// 	}, 500);
-		
-		
-	// 	// console.log('66666666666666666')
-	// 	// console.log('new index:', (ind + 1) % announcements.length)
-	// }
 	useEffect(() => {
 		// console.log('222222222222222')
 		// console.log('initial slide state:', slide)
@@ -71,15 +59,6 @@ function Announcements() {
 			</div>
 		</>
 	)
-	// const { data, loading, error } = useFetch('http://localhost:8000');
-
-	// if (loading) return <p>Loading...</p>;
-	// if (error) return <p>Error: {error}</p>;
-	// console.log(data);
-
-	// return (
-	// 		<h1 className='three'>{data ? data['home'] : 'loading ...'}</h1>
-	// );
 }
 
 export default Announcements;

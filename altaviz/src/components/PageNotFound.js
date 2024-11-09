@@ -1,7 +1,13 @@
 function PageNotFound () {
+	const textStyle = {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingTop: '8rem',
+	}
 	return (
 		<>
-			<h1>Oopsi! Page Not Found</h1>
+			<h1 style={textStyle}>Oopsi! Page Not Found</h1>
 		</>
 	)
 }

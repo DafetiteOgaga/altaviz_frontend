@@ -184,66 +184,14 @@ const CardDescription = styled.p.attrs({
 	margin: 0;
 `;
 
-// const CardButton = styled.button`
-//   padding: 0.3rem 0.5rem;
-//   background-color: #007bff;
-//   color: #fff;
-//   border: none;
-//   border-radius: 5px;
-//   cursor: pointer;
-//   transition: background-color 0.3s ease;
-
-//   &:hover {
-//     background-color: #0056b3;
-//   }
-// `;
-
 const ProductCards = () => {
 	const products = GetProductDetails();
-	// console.log('products (PRODUCTCARD):', response);
-	// console.log('card photo:', cardData.image);
-	// console.log('card title:', cardData.title);
-	// console.log('card description:', cardData.description);
-	// let { id } = useParams();
-	// id = Number(id);
-	// const { useFetchGET } = useContext(GlobalContext);
-	// const [products, setProducts] = useState(null);
-    // const [loading, setLoading] = useState(true);
-    // const [error, setError] = useState(null);
-	// const response = useFetchGET('http://localhost:8000/product/');
 	const navigateTo = useNavigate();
-
-	// useEffect(() => {
-	// 	const GetData = async () => {
-	// 		try {
-	// 			if (response.data) {
-	// 				if (response.data) {
-	// 					setProducts(response.data);
-	// 				} else {
-	// 					setError('Products not found');
-	// 				}
-	// 			}
-	// 		} catch (error) {
-	// 			setError(error.message);
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}}
-	// 	GetData();
-	// }, [response.data])
 	console.log('products (ProductCards):', products)
 
 	const goTo = (e, index) => {
 		e.preventDefault();
-		// setCurrentId(targetId);
-		// console.log('Current page:', index, '########')
 		navigateTo(`/products/product/${index}`);
-		// pageNumber = pageNumber;
-		// if (id > 0 && id > currentProduct && id > totalProducts) {
-		// 	setNext(id + 1);
-        //     setCurrentProduct(id + 1);
-        //     console.log('Previous product is:', currentProduct);
-		// if (id === currentProduct && id < totalProducts && id ) {
-		// }}
 	}
 	// if (loading) return <p>Loading...</p>;
     // if (error) return <p>Error: {error}</p>;
@@ -255,10 +203,7 @@ const ProductCards = () => {
 				justifyContent: 'center',
 			}}
 			>
-      		{products && (products.map((card, index) => {
-				// console.log('index:', index)
-				// console.log('card-title:', card.title)
-				// console.log('card-id:', card.id)
+			{products && (products.map((card, index) => {
 				return (
 				// add an anchor link to individual deatailed cards to CardContainer
 				<CardContainer key={card.id}
@@ -297,24 +242,4 @@ const ProductCards = () => {
 		</div>
 	);
 };
-
 export default ProductCards;
-
-
-// import useFetch from "../../hooks/useFetch";
-
-// function ProductCards() {
-// 	const { data, loading, error } = useFetch('http://localhost:8000');
-
-// 	if (loading) return <p>Loading...</p>;
-// 	if (error) return <p>Error: {error}</p>;
-// 	console.log(data);
-
-// 	return (
-// 		<>
-// 			{/* this cards should contain links to individual detailed product pages */}
-// 			<h2>Product Cards section</h2>
-// 		</>
-// 	);
-// }
-// export default ProductCards;

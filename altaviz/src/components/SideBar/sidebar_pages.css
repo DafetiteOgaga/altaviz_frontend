@@ -1,5 +1,5 @@
 .custodian-page {
-	padding: 0 1.5rem;
+	padding: 0 2.5rem;
 	padding-bottom: 0.5rem;
 }
 .cust-row {
@@ -11,6 +11,7 @@
 	display: flex;
 	/* justify-content: space-around; */
 	flex-direction: column;
+	gap: 0.5rem;
 }
 .cust-row-user .input-field {
 	width: 50%;
@@ -34,13 +35,13 @@
 	justify-self: end;
 } */
 
-.custodian-page .input-field {
+.custodian-page .input-field,
+.custodian-page .input-field-other {
 	display: flex;
 	flex-direction: column;
-	padding-bottom: 1rem;
+	padding-bottom: 0.3rem;
 }
-.custodian-page input, .custodian-page label,
-.custodian-page textarea {
+.custodian-page input, .custodian-page label {
 	font-size: large;
 }
 .custodian-page select {
@@ -50,7 +51,7 @@
 	width: 80%;
 }
 .custodian-page textarea {
-	width: 50%;
+	width: 70%;
 }
 /* .custodian-page .textarea-box {
 	margin-left: 4rem;
@@ -109,8 +110,9 @@
 	gap: 5rem;
 	/* border: 1px solid black; */
 	border-radius: 0.5rem;
-	padding: 1rem;
-	margin-bottom: 0.5rem;
+	padding: 0.5rem 1rem;
+	padding-bottom: 0;
+	/* margin-bottom: 0.5rem; */
 }
 .dynamic-cust-row select {
 	height: 100%;
@@ -154,7 +156,7 @@
 	padding: 0 2rem;
 	margin-bottom: 1rem;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	background-color: #E5E5E5;
+	/* background-color: #E5E5E5; */
 }
 .fault-list-block:hover {
 	background-color: #ebeaea;
@@ -200,4 +202,7 @@
 .input-field p {
 	/* display: inline-block; */
 	text-wrap: nowrap;
+}
+.input-field-other p {
+	text-align: center;
 }

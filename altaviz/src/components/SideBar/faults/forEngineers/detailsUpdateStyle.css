@@ -1,0 +1,32 @@
+.user-page { /* do not use, used recursively */
+	padding: 1rem;
+}
+.user-info {
+	display: flex;
+	justify-content: center;
+}
+.user-info img {
+	width: 20rem;
+	border-radius: 20px;
+	border: 1px solid #333;
+	padding: 0.3rem;
+}
+.user-info h4, .user-info h3 {
+	margin: 0.2rem 0;
+}
+/* .uDetaisRight, .uDetaisLeft {
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+} */
+/* .uDetaisLeft h4 {
+	justify-items: start;
+}
+.uDetaisRight h4 {
+	justify-items: center;
+} */
+/* deliveries
+'id', 'first_name', 'last_name', 'middle_name',
+'username', 'email', 'phone', 'wphone', 'address',
+'department', 'deliveries', 'profile_picture', 'aboutme',
+'password' */

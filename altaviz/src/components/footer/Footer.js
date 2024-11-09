@@ -5,7 +5,7 @@
 import MonthandYear from "./MonthandYear";
 import logo from "../../logo/altaviz_logo.png"
 import "./footer.css"
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 // import { useNavigate } from "react-router-dom"
 import { GlobalContext } from "../context/Context";
@@ -14,50 +14,15 @@ import { GlobalContext } from "../context/Context";
 
 function Footer() {
 	const { companyName } = useContext(GlobalContext)
-	// const navigation = useNavigate()
-	// const NavigateTo = () => {
-	// 	// e.preventDefault();
-    //     navigation('/about');
-	// };
-	// const { data, loading, error } = useFetch('http://localhost:8000');
-
-	// if (loading) return <p>Loading...</p>;
-	// if (error) return <p>Error: {error}</p>;
-	// console.log(data);
-
-	// function getImages(r) {
-	// 	return r.keys().map(r);
-	// }
-	// const images = getImages(require.context('./product_images/', false, /\.(png|jpe?g|svg)$/));
-	// const titles = [
-	// 	'H22V series',
-	// 	'H68NL Series Intelligent Cash Recycler',
-	// 	'grg-200-v-sorting-machine',
-	// 	'H34 series',
-	// ]
-	// const descriptions = [
-	// 	'description1',
-	// 	'description2',
-	// 	'description3',
-	// 	'description4',
-	// ]
-	// const cardData = images.map((image, index) => {
-	// 	console.log('index', index, 'title', titles[index] , 'descriptions', descriptions[index], 'image', image)
-	// 	return ({
-	// 		title: titles[index],
-    //         description: descriptions[index],
-    //         image: image,
-	// 	})});
-	// console.log('cardData:', cardData);
 	return (
 		<>
 			<div className="footer">
-				<a href="/">
+				<Link to="/">
 					<img src={logo} alt="company logo" />
-				</a>
+				</Link>
 			<div>
 				<p>Copyright &copy; {companyName}</p>
-				<p><a href="./about">About Us</a></p>
+				<p><Link to="/about">About Us</Link></p>
 				<p>Address: Lagos, Nigeria</p>
 			</div>
 			<div>

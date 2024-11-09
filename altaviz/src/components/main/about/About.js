@@ -10,18 +10,6 @@ import { FaIdBadge, FaWrench, FaTools, FaHandshake, FaCheckCircle, FaSmile } fro
 
 function About() {
 	const { companyName, useNavigation } = useContext(GlobalContext)
-	// console.log('globalcompanyName:', companyName)
-	// const navigate = useNavigate();
-	// const gotoPage = (e) => {
-	// 	e.preventDefault();
-	// 	navigate('/contact');
-	// }
-	// const { data, loading, error } = useFetch('http://localhost:8000');
-
-	// if (loading) return <p>Loading...</p>;
-	// if (error) return <p>Error: {error}</p>;
-	// console.log(data);
-
 	return (
 		<>
 			<div id="about-animation" className="background-color about-page">
