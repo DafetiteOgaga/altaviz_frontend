@@ -1,281 +1,209 @@
-import cMockData from "../custodian/custodianMockData";
-import wMockData from "../workshop/workshopMockData";
-import eMockData from "../engineer/engineerMockData";
-import hdMockData from "../help_desk/helpdeskMockData";
-import sMockData from "../supervisor/supevisorMockData";
-import hrMockData from "../human_resource/humanresourceMockData";
 import "../sidebar_pages.css";
 import CustomTime from "../../hooks/CustomTime";
-import { Link, useLocation } from "react-router-dom";
-import Resolved from "../notifications/resolved/Resolved";
-import PendingFaults from "../notifications/pending_faults/PendingFaults";
-import PendingRequest from "../notifications/pendingRequest/pendingRequest";
+import Deliveries from "./DeliveriesPoints";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+// import Resolved from "../bbbbbnotifications/xxresolved/Resolved";
+// import PendingFaults from "../bbbbbnotifications/xxpending_faults/PendingFaults";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/checkAuth/AuthContext";
+import { SentenceCaseContext } from "../../context/SentenceCaseContext";
+import { useRefreshContext } from "../../context/RefreshContext";
 
-function Dashboard({name, pageName}) {
-	// const name = 'Paul';
-	const message = 'from dashboard:'
-	let componentPage = useLocation();
-	componentPage = componentPage.pathname;
-	// const pageName = '/custodian';
-	// if (componentPage === pageName) {
-	// }
-	const { location, banks, locations } = cMockData();
-	const { location:wuser } = wMockData();
-	const { location:euser } = eMockData();
-	const { location:hduser } = hdMockData();
-	const { location:suser } = sMockData();
-	const { user:hruser } = hrMockData();
+function Dashboard() {
+	// const redirectTo = useNavigate()
+	const { authData } = useContext(AuthContext);
+	const { toSentenceCase } = useContext(SentenceCaseContext);
+	const { refreshIcon } = useRefreshContext();
+	// const message = 'from dashboard:'
+	const department = useLocation().pathname.split('/')[1]
+	// let componentPage = useLocation();
+	// componentPage = componentPage.pathname;
+	const custodianCheck = (authData?.role==='custodian') ?? null
+	console.log(
+		'authData:', authData,
+		'custodianCheck:', custodianCheck
+	)
+	// if (authData?.role === department) redirectTo(`/${authData?.role}`)
 	return (
 		<>
-			<CustomTime name={name} />
-			<div className="dash-form">
-				<h4>Dashboard</h4>
-				<hr />
-				<div>
-					<div className="cust-row">
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>Bank: </strong>
-								{banks[location.bank.name]}
-							</p>)}
-							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Department: </strong>
-								{wuser.user.department.dept}
-							</p>)}
-							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Department: </strong>
-								{euser.user.department.dept}
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>Department: </strong>
-								{hduser.user.department.dept}
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>Department: </strong>
-								{suser.user.department.dept}
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>Department: </strong>
-								{hruser.department.department}
-							</p>)}
+			<div style={{paddingTop: '2rem'}}>
+				{authData && <CustomTime authData={authData} />}
+				{/* <div className="dash-form"> */}
+				<div className={`dash-form ${authData?.role !== department ? 'error-outline' : ''}`}>
+					<div
+					style={{display: 'flex'}}
+					>
+						<h4 style={{margin: '0'}}>Dashboard</h4>
+						<div
+						style={{paddingTop: '0.5rem'}}
+						// onClick={refreshDashboard}
+						>
+							{refreshIcon}
+						</div>
+					</div>
+					<hr />
+					{authData &&
+					(<div>
+						{custodianCheck &&
+						// custodian, bank, branch, etc
+						<div className="cust-row">
+							<div className="input-field">
+								<p><strong>Bank: </strong>
+									{authData.branch.bank.name.toUpperCase()}
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>State: </strong>
+									{toSentenceCase(authData.branch.state.name)}|{authData.branch.state.initial.toUpperCase()}
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>Branch: </strong>
+									{toSentenceCase(authData.branch.name)}
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>Branch Location: </strong>
+									{toSentenceCase(authData.branch.location.location)}
+								</p>
+							</div>
+							<div className="input-field">
+								{<p><strong>Region: </strong>
+									{toSentenceCase(authData.branch.region.name)}
+								</p>}
+							</div>
+						</div>}
+						{/* user info */}
+						<div className="cust-row">
+							{/* <div className="input-field">
+								<p><strong>Role: </strong>
+									{toSentenceCase(authData.role)}
+								</p>
+							</div> */}
+							<div className="input-field">
+								<p><strong>Email: </strong>
+									{authData.email}
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>Role: </strong>
+									{toSentenceCase(authData.role)}
+								</p>
+							</div>
+							{(!custodianCheck&&authData.role!=='human-resource') &&
+							<div className="input-field">
+								<p><strong>Deliveries: </strong>
+									{<Deliveries id={authData.id} />}
+								</p>
+							</div>}
+						</div>
+						{/* for custodian */}
+						<div className="cust-row">
+							{custodianCheck &&
+							<div className="input-field">
+								<p><strong>Engineer: </strong>
+									{authData.branch.branch_engineer ?
+									(<Link
+									style={{color: '#333'}}
+									to={`/user/${authData.branch.branch_engineer.engineer.id}`}>
+										{toSentenceCase(authData.branch.branch_engineer.engineer.first_name || authData.branch.branch_engineer.engineer.username)}
+									</Link>):'An Engineer will be Assigned shortly'}
+								</p>
+							</div>}
+							{(authData.role !== 'human-resource' && authData.role !== 'workshop') &&
+							<>
+								<div className="input-field">
+									<p><strong>Help Desk: </strong>
+										<Link
+										style={{color: '#333'}}
+										to={`/user/${authData.branch.region.helpdesk.id}`}>
+											{toSentenceCase(authData.branch.region.helpdesk.first_name || authData.branch.region.helpdesk.username)}
+										</Link>
+									</p>
+								</div>
+								<div className="input-field">
+									<p><strong>Supervisor: </strong>
+										<Link
+										style={{color: '#333'}}
+										to={`/user/${authData.branch.region.supervisor.id}`}>
+											{toSentenceCase(authData.branch.region.supervisor.first_name || authData.branch.region.supervisor.username)}
+										</Link>
+									</p>
+								</div>
+							</>}
 						</div>
 
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>State: </strong>
-								{locations[location.bank.state]}
-							</p>)}
-							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Email: </strong>
-								{wuser.user.email}
-							</p>)}
-							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Email: </strong>
-								{euser.user.email}
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>Email: </strong>
-								{hduser.user.email}
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>Email: </strong>
-								{suser.user.email}
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>Email: </strong>
-								{hruser.email}
-							</p>)}
-						</div>
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>Branch: </strong>
-								{location.bank.branch.branchName}
-							</p>)}
-							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Deliveries: </strong>
-								{wuser.user.department.numberOfPartsDelivered}
-							</p>)}
-							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Deliveries: </strong>
-								{euser.user.department.numberOfPartsDelivered}
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>Deliveries: </strong>
-								{hduser.user.department.numberOfPartsDelivered}
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>Photo: </strong>
-								{/* {suser.user.profile_photo} */}
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>Photo: </strong>
-								{/* {hruser.profile_photo} */}
-							</p>)}
-						</div>
-					</div>
-					<div className="cust-row">
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>Engineer: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{location.bank.branch.cEngineer}
-								</Link>
-							</p>)}
-							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Engineer: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{wuser.user.name}
-								</Link>
-							</p>)}
-							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Engineer: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{euser.user.name}
-								</Link>
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>User: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{hduser.user.name}
-								</Link>
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>User: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{suser.user.name}
-								</Link>
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>User: </strong>
-								<Link
-								style={{color: '#333'}}
-								to="/user/1">
-									{hruser.names.firstname}
-								</Link>
-							</p>)}
-						</div>
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>Help Desk: </strong>
-								<Link
+						<div className="cust-row">
+							<div className="input-field">
+								<p><strong>Name: </strong>
+									<Link
 									style={{color: '#333'}}
-									to="/user/1">
-									{location.bank.branch.helpDesk}
-								</Link>
-							</p>)}
-							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Phone No.: </strong>
-								{wuser.user.phone}
-							</p>)}
-							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Phone No.: </strong>
-								{euser.user.phone}
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>Phone No.: </strong>
-								{hduser.user.phone}
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>Phone No.: </strong>
-								{suser.user.phone}
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>Phone No.: </strong>
-								{hruser.phone}
-							</p>)}
+									to={`/user/${authData.id}`}>
+										{toSentenceCase(authData.first_name || authData.username)}
+									</Link>
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>Phone No.: </strong>
+									{authData.phone}
+								</p>
+							</div>
+							<div className="input-field">
+								<p><strong>Whatsapp No.: </strong>
+									{authData.wphone}
+								</p>
+							</div>
 						</div>
-						<div className="input-field">
-							{/* custodian */}
-							{(componentPage === '/custodian') &&
-							(<p><strong>ATM Brand: </strong>
-								{location.bank.branch.ATMs.type}
-							</p>)}
+						{!custodianCheck &&
+						<div className="cust-row">
+							<div className="input-field">
+								{<p><strong>State: </strong>
+									{toSentenceCase(authData.state.name)}|{authData.state.initial}
+								</p>}
+							</div>
+							<div className="input-field">
+								{<p><strong>Location: </strong>
+									{(toSentenceCase(authData.location.location))}
+								</p>}
+							</div>
+							<div className="input-field">
+								{<p><strong>Region: </strong>
+									{toSentenceCase(authData.userRegion)}
+								</p>}
+							</div>
+						</div>}
+						{/* engineer and workshop */}
+						{/* <div className="cust-row"> */}
+							{/* {(authData.role === 'workshop' || authData.role === 'engineer') &&
+							<div className="input-field">
+								<p><Link
+								style={{color: '#333'}}
+								to={'approved-component-request-list/'}>
+									<strong>Approved Component Requests</strong>
+								</Link></p>
+							</div>} */}
 							{/* workshop */}
-							{(componentPage === '/workshop') &&
-							(<p><strong>Whatsapp No.: </strong>
-								{wuser.user.whatsapp}
-							</p>)}
+							{/* {(authData.role === 'workshop') &&
+							<div className="input-field">
+								<p><Link
+								style={{color: '#333'}}
+								to={'approved-part-list/'}>
+									<strong>Approved Parts</strong>
+								</Link></p>
+							</div>} */}
 							{/* engineer */}
-							{(componentPage === '/engineer') &&
-							(<p><strong>Whatsapp No.: </strong>
-								{wuser.user.whatsapp}
-							</p>)}
-							{/* help-desk */}
-							{(componentPage === '/help-desk') &&
-							(<p><strong>Whatsapp No.: </strong>
-								{hduser.user.whatsapp}
-							</p>)}
-							{/* supervisor */}
-							{(componentPage === '/supervisor') &&
-							(<p><strong>Whatsapp No.: </strong>
-								{suser.user.whatsapp}
-							</p>)}
-							{/* human-resource */}
-							{(componentPage === '/human-resource') &&
-							(<p><strong>Whatsapp No.: </strong>
-								{hruser.wphone}
-							</p>)}
-						</div>
-					</div>
-					{/* engineer */}
-					{(componentPage !== '/workshop') &&
-					(<div className="pend-resol">
-						{componentPage !== '/human-resource' && <PendingFaults />}
-						{/* help-desk/supervisor/human-resource */}
-						{(componentPage === '/help-desk' ||
-							componentPage === '/supervisor' ||
-							componentPage === '/human-resource'
-						) && (<PendingRequest />)}
-						{(componentPage !== '/help-desk' &&
-							componentPage !== '/supervisor' &&
-							componentPage !== '/human-resource'
-						) && (
-							<Resolved componentPage={componentPage.split('/')[1]} text={message} />
-						)}
+							{/* {(authData.role === 'engineer') &&
+							<div className="input-field">
+								<p><Link
+								style={{color: '#333'}}
+								to={'approved-part-request-list/'}>
+									<strong>Approved Part Requests</strong>
+								</Link></p>
+							</div>} */}
+						{/* </div> */}
 					</div>)}
 				</div>
 			</div>
-		</>
-	)
+		</>)
 }
 export default Dashboard;
