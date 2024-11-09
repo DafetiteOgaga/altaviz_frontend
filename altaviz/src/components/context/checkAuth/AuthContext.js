@@ -1,8 +1,12 @@
-import React, { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { RotContext } from '../RotContext';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    const { decrypt, RotCipher } = useContext(RotContext);
+    // const redirectToPage = useNavigate()
     const [authData, setAuthData] = useState(null);
     // const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -12,32 +16,28 @@ export const AuthProvider = ({ children }) => {
         console.log('Checking authentication on mount');
         const data = localStorage.getItem('authData');
             if (data) {
-            setAuthData(JSON.parse(data));
+                console.log('data:', data)
+                const decodedData = RotCipher(data, decrypt)
+                console.log('decoded:', decodedData)
+                setAuthData(JSON.parse(decodedData));
             }
             setLoading(false);
-        // const checkAuth = async () => {
-        //     try {
-        //         const response = await fetch('http://localhost:8000/check-auth/', {
-        //             method: 'GET',
-        //             credentials: 'include',
-        //         });
-        //         if (response.ok) {
-        //             setIsAuthenticated(true);
-        //         } else {
-        //             setIsAuthenticated(false);
-        //         }
-        //     } catch (e) {
-        //         console.error('Error checking authentication:', e.message);
-        //         setIsAuthenticated(false);
-        //     } finally {
-        //         setLoading(false);  // Set loading to false once the check is done
-        //     }
-        // }
-        // checkAuth();
     }, []);
     // Determine authentication status directly from authData
     const isAuthenticated = !!authData;
     console.log('authenticated:', isAuthenticated);
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         try {
+    //             console.log(`tring to redirect to: /${authData.department.name}`)
+    //             redirectToPage(`/${authData.department.name}`)
+    //         } catch {
+    //             console.log('settled for: /home instead')
+    //             redirectToPage('/')
+    //         }
+    //     }
+    //     console.log('auth data KKKKKK:', authData)
+    // }, [isAuthenticated])
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, authData, loading }}>
