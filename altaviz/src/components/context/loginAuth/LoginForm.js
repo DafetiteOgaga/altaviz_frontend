@@ -10,9 +10,6 @@ function LoginForm() {
 	const { Login, authData, authLoading, authError } = useContext(LoginContext);
 	const handleLogin = async () => {
 		const result = await Login(email, password, true);
-		// const result = await Login(email, password, loginTrigger);
-			// triggerLogin();
-			// console.log('loginTrigger (submithandle):', loginTrigger);
 		if (result !== null && result.success) {
 			console.log('Login successful', result.data);
 		} else {
@@ -20,11 +17,6 @@ function LoginForm() {
 		}
 			// setLoginTrigger(false);ogagadafetite@gmail.com
 	};
-	// const triggerLogin = () => {
-	// 	console.log('triggering login #####');
-	// 	setLoginTrigger(true);
-	// 	console.log('loginTrigger (triggerhandle):', loginTrigger);
-	// };
 	console.log('email:', email);
 	console.log('password:', password);
 	// console.log('loginTrigger:', loginTrigger);
