@@ -30,7 +30,7 @@ function DropdownMenu () {
             // console.log('Product:', product)
             return (
             <div key={product.id}>
-              <Link to={`/products/product/${product.id}`}>{product.description.title}</Link>
+              <Link to={`/products/product/${product.id}`}><span style={{textWrap: 'nowrap'}}>{product.description.title}</span></Link>
             </div>
           )})}
         </div>
