@@ -2,7 +2,6 @@ import Dashboard from "../dashboard/Dashboard";
 import LogFault from "./LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import { useState } from "react";
-// import { RefreshContext } from "../../context/refreshContext/TriggerRefresh";
 import Notification from '../notification/Notification';
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 
@@ -10,11 +9,6 @@ function Custodian() {
 	const [isFaultFormOpen, setIsFaultFormOpen] = useState(false);
 	const [isDetailsFormOpen, setIsDetailsFormOpen] = useState(false);
 	// const { refresh } = useContext(RefreshContext);
-
-	// useEffect(() => {
-	// 	console.log('PARENT COMPONENT REFRESHED');
-	// 	// Logic for fetching data or handling side effects
-	// }, [refresh]);
 
 	const toggleFault = () => setIsFaultFormOpen(!isFaultFormOpen);
 	const toggleEditDetails = () => setIsDetailsFormOpen(!isDetailsFormOpen);
