@@ -1,4 +1,9 @@
-import { createContext, useCallback, useState, useEffect } from "react";
+import { createContext, useCallback, useState, useContext, useEffect } from "react";
+import { RotContext } from "../RotContext";
+import { AuthContext } from "../checkAuth/AuthContext";
+// import { useNavigate}
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 export const LoginContext = createContext();
 function CsrfToken() {
@@ -7,18 +12,37 @@ function CsrfToken() {
 }
 const url = 'http://127.0.0.1:8000'
 export const LoginProvider = ({ children }) => {
+    const urlCheck = useLocation().pathname.split('/')
+    // const [isLogin, setIsLogin] = useState(false);
     const [authData, setAuthData] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
+    const { encrypt, RotCipher, decrypt } = useContext(RotContext);
+    const toDashboard = useNavigate()
+    // const [toLogin, setToLogin] = useState(null);
+    // const redirectToPage = useNavigate()
+    // Check for existing authentication on component mount
+    // if (urlCheck[1] === 'login') setIsLogin(true);
+    useEffect(() => {
+        const authdatakey = localStorage.getItem('authData');
+        // console.log('authdatakey', authdatakey)
+        if (authdatakey && urlCheck[1] === 'login') {
+            const decodedData = JSON.parse(RotCipher(authdatakey, decrypt));
+            // setAuthData(decodedData);
+            console.log(
+                '\ndecodedData', decodedData,
+                '\nredirectUrl:', `/${decodedData?.role}`,
+                '\nurlCheck:', urlCheck[1],
+            )
 
-    // useEffect(() => {
-    //     // Check localStorage for user data
-    //     const savedData = localStorage.getItem('authData');
-    //     if (savedData) {
-    //         setAuthData(JSON.parse(savedData));
-    //         console.log('User data found in localStorage 22222222:', authData);
-    //     }
-    // }, []);
+            // Redirect to the dashboard if already authenticated and on the login page
+            toDashboard(`/${decodedData.role}`);
+            // if (urlCheck[1] === 'login') {
+            //     toDashboard(`/${decodedData?.role}`);
+            // }
+        }
+        // setIsLogin(false);
+    }, [urlCheck]);
 
     // login function
     const Login = useCallback(
@@ -27,9 +51,10 @@ export const LoginProvider = ({ children }) => {
             baseUrl = url
         ) => {
         if (!trigger) {
-            console.log('Login trigger is false. POST call not executed.');
+            console.log('Login trigger is false. POST call not executed.'.toUpperCase());
             return null;
         }
+
         setAuthLoading(true);
         setAuthError(null);
         const formData = new FormData();
@@ -49,9 +74,22 @@ export const LoginProvider = ({ children }) => {
                 setAuthData(data);
 
                 // Store user data in localStorage
-                localStorage.setItem('authData', JSON.stringify(data));
+                const encodedData = RotCipher(JSON.stringify(data), encrypt)
+                localStorage.setItem('authData', encodedData);
                 console.log('saving data 111111111:', data)
 
+                // to redirect and Refresh the page on succcess
+                toDashboard(`/${data?.role || '/'}`)
+                 // to Refresh the page on succcess
+                window.location.reload();
+                // try {
+                //     console.log(`tring to redirect to: /${data.department.name}`)
+                //     redirectToPage(`/${data.department.name}`)
+                // } catch {
+                //     console.log('settled for: /home instead')
+                //     redirectToPage('/')
+                // }
+                
                 console.log('data (API) #####:', data);
                 return { success: true, data };
             } else {
@@ -68,9 +106,15 @@ export const LoginProvider = ({ children }) => {
         }
     }, []);
     console.log('authData (API):', authData);
+    // console.log(
+        // '\ndecodedData', decodedData,
+        // '\nredirectUrl:', `/${decodedData?.role}`,
+        // '\nurlCheck:', urlCheck[1],
+    // )
+    // if (urlCheck[1] === 'login') setIsLogin(true)
 
    // Logout function
-    const logout = useCallback(async (baseUrl = url) => {
+    const Logout = useCallback(async (baseUrl = url) => {
         try {
             const response = await fetch(`${baseUrl}/logout/`, {
                 method: 'POST',
@@ -85,8 +129,22 @@ export const LoginProvider = ({ children }) => {
 
                 // Remove user data from localStorage
                 console.log('deleting user data 333333')
-                localStorage.removeItem('authData');
+                let localList = [] // gather local keys
+                for (let i = 0; i < localStorage.length; i++) {
+                    console.log('appending localkey:'.toUpperCase(), localStorage.key(i));
+                    localList.push(localStorage.key(i));
+                }
+                console.log(localList.map(key => `key: ${key}`))
+                for (const key of localList) {
+                    localStorage.removeItem(key);  // Remove local keys and their values from localStorage
+                    console.log(`removed key: ${key}`);    // Log the key that was removed
+                }
+                // localStorage.removeItem('authData');
 
+                // to redirect and Refresh the page on succcess
+                toDashboard('/')
+                window.location.reload();
+                
                 console.log('status:', data.message);
                 return { success: data.message };
             } else {
@@ -99,7 +157,7 @@ export const LoginProvider = ({ children }) => {
         }
     }, []);
     return (
-        <LoginContext.Provider value={{ Login, logout, authData, authLoading, authError }}>
+        <LoginContext.Provider value={{ Login, Logout, authData, authLoading, authError }}>
 			{children}
 		</LoginContext.Provider>
 	);
