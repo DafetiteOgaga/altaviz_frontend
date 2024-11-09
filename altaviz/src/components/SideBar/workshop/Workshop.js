@@ -8,7 +8,7 @@ import { useState } from "react";
 import RequestListDisplay from "../Requests/RequestListDisplay";
 // import RequestsList from "../Requests/RequestsList";
 import Notification from "../notification/Notification";
-import AddItemToInventory from "../human_resource/addCompParts/AddItemToInventory";
+import AddItemToInventory from "../human_resource/addItemToInventory/AddItemToInventory";
 
 function Workshop() {
 	// const { authData } = useContext(AuthContext);
@@ -56,7 +56,7 @@ function Workshop() {
 							'componentKey', 'totalcomponentKey',
 							'partKey', 'totalpartKey',
 							'partPendingList',	'componentPendingList',
-							'workshopRequests'
+							'allPendingRequests'
 						]}
 						/>
 
@@ -77,14 +77,15 @@ function Workshop() {
 						// requestHandler
 						// unapprovedHandler
 						listPageUrl='part-request-list'
-						detailPageUrl='part-request-details'
+						// detailPageUrl='part-request-details'
+						detailPageUrl='part-fixed-details'
 						// refreshKeyList={refreshKeyList}
 						// button='Withdraw'
 						extraDisplayLocalKeys={[
 							'componentKey', 'totalcomponentKey',
 							'partKey', 'totalpartKey',
 							'partPendingList',	'componentPendingList',
-							'workshopRequests'
+							'allPendingRequests'
 						]}
 						/>
 				</div>
@@ -126,7 +127,7 @@ function Workshop() {
 			{/* </div> */}
 				<RequestListDisplay
 						requestUrl='workshop-request/list'
-						requestKeyContext='workshopRequests'/>
+						requestKeyContext='allPendingRequests'/>
 				{/* <RequestsList localType='component' /> */}
 			</div>
 		</>

@@ -47,7 +47,7 @@ function Engineer() {
 							'componentKey', 'totalcomponentKey',
 							'partKey', 'totalpartKey',
 							'partPendingList',	'componentPendingList',
-							'workshopRequests'
+							'allPendingRequests'
 						]}
 						/>
 
@@ -75,7 +75,7 @@ function Engineer() {
 							'componentKey', 'totalcomponentKey',
 							'partKey', 'totalpartKey',
 							'partPendingList',	'componentPendingList',
-							'workshopRequests'
+							'allPendingRequests'
 						]}
 						/>
 
