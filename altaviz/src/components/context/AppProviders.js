@@ -3,14 +3,27 @@ import { GlobalProvider } from "./Context";
 import { LoginProvider } from "./loginAuth/LoginOutContext";
 import { AuthProvider } from "./checkAuth/AuthContext";
 import { SentenceCaseProvider } from "./SentenceCaseContext";
+import { SharedDataProvider } from "./sharedData/SharedDataContext";
+import { TimeDifferenceProvider } from "./timeDifference/TimeDifferenceContext";
+import { TriggerProvider } from "./triggerContext/TriggerContext";
+import { RotProvider } from "./RotContext";
+import { RefreshProvider } from "./RefreshContext";
+import { RefreshComponentProvider } from "./refreshContext/TriggerRefresh";
 
 const providers = [
 	// the first is the child
 	GlobalProvider,
 	SentenceCaseProvider,
+	SharedDataProvider,
+	TimeDifferenceProvider,
 	FetchProviders,
 	LoginProvider,
 	AuthProvider,
+	TriggerProvider,
+	// RotProvider,
+	RefreshProvider,
+	RefreshComponentProvider,
+	RotProvider,
 	// the last is the outer most parent (grandest parent)
 ];
 function AppProviders({ children }) {
