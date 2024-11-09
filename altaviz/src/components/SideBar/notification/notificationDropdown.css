@@ -1,0 +1,72 @@
+/* Notification.css */
+.notification-style {
+	/* Make this the parent container */
+	position: relative;
+	display: inline-block;
+}
+
+.notification-dropdown {
+	display: none; /* Initially hide the dropdown */
+	position: absolute; /* Position relative to the parent container */
+	left: 0; /* Adjust as needed to position the dropdown */
+	top: 100%; /* Place it directly below the parent container */
+	/* background-color: #f9f9f9c4; */
+	/* Semi-transparent background color */
+	background-color: rgba(249, 249, 249, 0.4);
+	/* Apply the blur effect */
+	/* backdrop-filter: blur(10px); */
+	/* For Safari support */
+	/* -webkit-backdrop-filter: blur(10px); */
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+	border-radius: 0.2rem;
+	min-width: 160px;
+	text-wrap: nowrap;
+}
+
+.notification-style:hover .notification-dropdown {
+	/* Show the dropdown when hovering over the notification */
+	display: block;
+}
+
+.notification-dropdown a {
+	color: #2b2929;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	width: 100%;
+	height: 100%;
+	/* font-style: italic; */
+	/* font-size: large; */
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+	/* font-weight: ; */
+}
+/* .notification-dropdown li {
+	padding: 12px 16px;
+} */
+.notification-dropdown ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.notification-dropdown a:hover {
+	/* background-color: #2a2a5f31; */
+	/* background-color: #2a2a5f0e; */
+	background-color: #2a2a5f31;
+	animation: bounce 1s ease-out backwards;
+}
+/*
+.dropdown:hover .dropdown-content {
+	display: block;
+} */
+
+.notification-bk {
+	display: flex;
+	background-color: rgba(255, 255, 0, 0.6);
+	border-radius: 5px;
+	border: 1px solid;
+	padding: 0 0.4rem;
+}
