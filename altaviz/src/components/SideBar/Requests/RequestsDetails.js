@@ -116,7 +116,7 @@ function RequestsDetails() {
 		} else {
 			allRequests = FetchFromLocalStorageOrDB(`${requestType}Key`)
 		}
-		if (localStorage.getItem('allPendingRequests')) {
+		if (localStorage.getItem('allPendingRequests')&&requestParamDetails.dept!=='human-resource'&&requestType!=='partKey') {
 			allRequests = FetchFromLocalStorageOrDB('allPendingRequests')
 		}
 		/////////////////////////////////////////////////////////////
