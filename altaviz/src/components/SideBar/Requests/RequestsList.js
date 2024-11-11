@@ -47,7 +47,6 @@ function RequestsList ({localContext=null}) {
 	}, [])
 	const requests = usePullCompleteList(
 		urlPath, authData.id, localVariable,
-		// pending-faults/<str:type>/<int:pk>
 		// `http://127.0.0.1:8000/${listParams.type}-faults/${authData.id}/`,
 		// 10, `${localContextVariable}
 	)
