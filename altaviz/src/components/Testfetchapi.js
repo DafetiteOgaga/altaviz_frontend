@@ -1,15 +1,11 @@
-// import Deliveries from "./Testfdeliveries";
-// import { useContext } from "react";
-// import { AuthContext } from "./context/checkAuth/AuthContext";
-// import EngineerToLocation from "./SideBar/detailsUpdate/engineerToLocation";
-
+import SSENotification from "./SideBar/SSENotification/SSENotification";
 function Testfetchapi() {
 	// const { authData } = useContext(AuthContext);
 	// console.log('authData', authData);
 	return (
 		<>
 			<h2>Test Page</h2>
-			{/* <p>Test: {<EngineerToLocation />}</p> */}
+			<SSENotification />
 			<p>Test Page ends</p>
 		</>
 	);
