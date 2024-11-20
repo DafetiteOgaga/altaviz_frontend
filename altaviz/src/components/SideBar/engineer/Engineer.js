@@ -1,12 +1,14 @@
 // import LogFault from "../custodian/log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import Dashboard from "../dashboard/Dashboard";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 // import { AuthContext } from "../../context/checkAuth/AuthContext";
 import Notification from "../notification/Notification";
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 
 function Engineer() {
+	// let isReload = useRef(false)
+	// const [, setNewData] = useState(false)
 	const [isUserDetailsFormOpen, setIsUserDetailsFormOpen] = useState(false);
 	const toggleUserDetailsForm = () => setIsUserDetailsFormOpen(!isUserDetailsFormOpen);
 	const activeStyles = {
@@ -17,6 +19,16 @@ function Engineer() {
 		justifyContent: 'space-around',
 		padding: '1rem 0'
 	}
+	// const isReload = !!localStorage.getItem('reload')
+	// useEffect(() => {
+	// 	if (isReload) {
+	// 		setNewData(prev => {
+	// 			console.log('refreshing FaultListDisplay i.e setting', prev, 'to', !prev)
+	// 			return !prev
+	// 		})
+	// 		localStorage.removeItem('reload')
+	// 	}
+	// }, [isReload])
 	return (
 		<>
 			<div className="background-color custodian-page">
@@ -186,7 +198,9 @@ function Engineer() {
 				{isUserDetailsFormOpen && (<UpdateUser />)}
 				<FaultListDisplay
 					faultUrl='engineer-unresolved-faults'
-					faultKeyContext='allUnresolvedKey'/>
+					faultKeyContext='allUnresolvedKey'
+					// setNewData={setNewData}
+					/>
 			</div>
 		</>
 	);
