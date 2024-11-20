@@ -6,6 +6,7 @@ const baseUrl = 'http://127.0.0.1:8000';
 function usePullNotification(
 	urlPath, id,
 	variableContext,
+	forceTrigger=false, role
 ) {
 	// const [isDone, setIsDone] = useState(false)
 	// const [count, setCount] = useState(2)
@@ -25,8 +26,11 @@ function usePullNotification(
 	const { getData:totalNumData, getLoading:totaLoading, getError:totalNumError } = useGetDataAPI(
 		`${baseUrl}/${urlPath}/${id}/total/`, getTrigger
 	);
-	console.log('noti url:', `${baseUrl}/${urlPath}/notification/${id}/`)
-	console.log('noti-total url:', `${baseUrl}/${urlPath}/${id}/total/`)
+	// console.log(
+	// 	'\nnoti url:', `${baseUrl}/${urlPath}/notification/${id}/`,
+	// 	'\nnoti-total url:', `${baseUrl}/${urlPath}/${id}/total/`,
+	// )
+	// console.log()
 
 	useEffect(() => {
 		// check and fetch from local storage if the data exist
@@ -34,7 +38,7 @@ function usePullNotification(
 		let totaldecodedData;
 		decodedData = localStorage.getItem(variableContext)
 		totaldecodedData = localStorage.getItem(totalArrayContext)
-		if (decodedData&&totaldecodedData&&!getTrigger) {
+		if (decodedData&&totaldecodedData&&!getTrigger&&!forceTrigger) {
 			console.log('from local storage  ############'.toUpperCase())
 			decodedData = RotCipher(decodedData, decrypt)
 			decodedData = JSON.parse(decodedData)
@@ -43,10 +47,14 @@ function usePullNotification(
 			totaldecodedData = JSON.parse(totaldecodedData)
 			setTotalData(totaldecodedData)
 
-		} else setGetTrigger(true)
+		} else {
+			console.log('from database  ############'.toUpperCase())
+			setGetTrigger(true)
+		}
 	}, [getTrigger, urlPath, id, variableContext, totalArrayContext])
 
 	// fetch data and total data from server as notification
+	// and set it to local storage
 	useEffect(() => {
 		if (notificationData||notificationError) {
 			console.log('fetch from server direct  ############'.toUpperCase())
@@ -54,6 +62,10 @@ function usePullNotification(
 				setArrayData(notificationData)
 				let encodedData = RotCipher(JSON.stringify(notificationData), encrypt)
 				localStorage.setItem(variableContext, encodedData)
+				console.log('removing role ...')
+				console.log({role})
+				localStorage.removeItem(role)
+				console.log('removed role ...')
 			}
 			else if (notificationError) setArrayError(notificationError)
 		}
@@ -74,9 +86,18 @@ function usePullNotification(
         // }
 	}, [notificationData, notificationError, totalNumData, totalNumError])
 
-	console.log({notificationData, arrayData})
-	console.log({totalNumData, totalData})
-	console.log({totaLoading, arrayLoading})
+	console.log(
+		'\nnoti url:', `${baseUrl}/${urlPath}/notification/${id}/`,
+		'\nnoti-total url:', `${baseUrl}/${urlPath}/${id}/total/`,
+		{notificationData, arrayData},
+		{totalNumData, totalData},
+		{totaLoading, arrayLoading},
+		{role},
+	)
+	// console.log({})
+	// console.log()
+	// console.log({})
+	// console.log({})
 	console.log('end ######################'.toUpperCase())
 	return {
 		arrayData, arrayLoading, arrayError,
