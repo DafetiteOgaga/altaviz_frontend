@@ -44,19 +44,20 @@ function Notification ({
 		localStorage.removeItem(variableContext)
 		localStorage.removeItem(`total${variableContext}`)
 	}, [])
-	console.log('\nurlPath:', urlPath)
+	// console.log()
 	const notification = usePullNotification(
 		urlPath, authData.id,
 		variableContext,
 	)
 
 	console.log(
+		'\nurlPath:', urlPath,
 		'\nnotification.arrayData:', notification.arrayData,
-		'\nnotification.arrayLoading:', notification.arrayLoading,
-		'\nnotification.arrayError:', notification.arrayError,
-		'\nnotification.totalData:', notification.totalData,
-		'\nnotification.totaLoading:', notification.totaLoading,
-		'\nnotification.totalError:', notification.totalError,
+		// '\nnotification.arrayLoading:', notification.arrayLoading,
+		// '\nnotification.arrayError:', notification.arrayError,
+		// '\nnotification.totalData:', notification.totalData,
+		// '\nnotification.totaLoading:', notification.totaLoading,
+		// '\nnotification.totalError:', notification.totalError,
 	)
 	return (
 		<>
