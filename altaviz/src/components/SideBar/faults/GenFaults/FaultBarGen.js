@@ -10,7 +10,7 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 	const [pageNum, setPageNum] = useState(1)
 	const { toSentenceCase, trimString } = useContext(SentenceCaseContext)
 
-	console.log("Faults:", allFaults)
+	// console.log()
 	let completeFaults = allFaults
 	const pageHandler = (page, localList) => {
 		if (page < 1 || page > 10) {
@@ -21,13 +21,16 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 		return localList.slice(start, end);
 	};
 	if (barParams.context) {completeFaults = pageHandler(pageNum, allFaults)}
-	console.log("type:", type)
-	console.log("barParams:", barParams)
-	console.log("pageNum:", pageNum)
-	console.log("page:", page)
+	// console.log("type:", type)
+	// console.log("barParams:", barParams)
+	// console.log("pageNum:", pageNum)
+	// console.log("page:", page)
 
 	// styles
-	console.log("completeFaults:", completeFaults)
+	console.log(
+		"\nFaults:", allFaults,
+		"\ncompleteFaults:", completeFaults
+	)
 	const statusStyle = {
 		pending: {
 			// padding: '0 0.4rem',
@@ -88,7 +91,7 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 							style={{listStyleType: 'none'}}>
 								{completeFaults &&
 								completeFaults.map((fault, index) => {
-									console.log({fault})
+									// console.log({fault})
 									return (
 								<li key={fault.id}>
 									{/* link to fault details */}

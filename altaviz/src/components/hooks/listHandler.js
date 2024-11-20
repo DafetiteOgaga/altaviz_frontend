@@ -41,7 +41,7 @@ function requestHandler(listValue) {
 			newList.push('Click to See All');
 			break;
 		}
-		console.log('listValue:', listValue[i]);
+		// console.log('listValue:', listValue[i]);
 		newList.push({
 			title: `${(listValue[i].quantityRequested)?listValue[i].name.name:listValue[i].name} : ${(listValue[i].quantityRequested)?listValue[i].quantityRequested:listValue[i].quantity}`,
 			id: listValue[i].id,
@@ -72,25 +72,25 @@ export { requestHandler };
 
 function userRequestHandler(listValue) {
 	let newList = [];
-	console.log('listValue (entered):', listValue)
+	// console.log('listValue (entered):', listValue)
 	for (let i = 0; i < listValue.length; i++) {
 		if (i === 4) {
 			newList.push('Click to See All');
 			break;
 		}
-		console.log(
-			'listValue:', listValue[i],
-			'listValue.title:', listValue[i].engineer.first_name,
-		);
+		// console.log(
+		// 	'listValue:', listValue[i],
+		// 	'listValue.title:', listValue[i].engineer.first_name,
+		// );
 		if (newList.some((newListitem) => newListitem.id === listValue[i].engineer.id)) continue
-		console.log('############# apending:', listValue[i].engineer.first_name);
-		console.log(listValue[i].engineer.first_name, 'in', Object.values(newList), ':', newList.includes(listValue[i].engineer.id));
+		// console.log('############# apending:', listValue[i].engineer.first_name);
+		// console.log(listValue[i].engineer.first_name, 'in', Object.values(newList), ':', newList.includes(listValue[i].engineer.id));
 		newList.push({
 			title: `${listValue[i].engineer.first_name}`,
 			id: listValue[i].engineer.id,
 		});
 	}
-	console.log('summarized list:', newList);
+	// console.log('summarized list:', newList);
 	return newList;
 }
 export { userRequestHandler };
@@ -102,18 +102,18 @@ function accountUpdate(listValue) {
 			newList.push('Click to See All');
 			break;
 		}
-		console.log(
-			'\nlistValue:', listValue[i],
-			'\nlistValue firstname:', listValue[i].requestUser.first_name,
-			'\nlistValue id:', listValue[i].id,
-		);
+		// console.log(
+		// 	'\nlistValue:', listValue[i],
+		// 	'\nlistValue firstname:', listValue[i].requestUser.first_name,
+		// 	'\nlistValue id:', listValue[i].id,
+		// );
 		newList.push({
 			title: `${listValue[i].requestUser.first_name}`,
 			id: `${listValue[i].requestUser.id}/${listValue[i].id}`,
 			updateID: listValue[i].id,
 		});
 	}
-	console.log('summarized list:', newList);
+	// console.log('summarized list:', newList);
 	return newList;
 }
 export { accountUpdate };
@@ -125,7 +125,7 @@ function userHandler(listValue) {
 			newList.push('Click to See All');
 			break;
 		}
-		console.log('listValue:', listValue[i]);
+		// console.log('listValue:', listValue[i]);
 		newList.push({
 			title: `${listValue[i].first_name}`,
 			id: listValue[i].id,

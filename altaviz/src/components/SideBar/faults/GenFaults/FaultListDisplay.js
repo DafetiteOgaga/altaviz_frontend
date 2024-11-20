@@ -7,17 +7,80 @@ import usePaginationWithEncryption from "../../../paginationComp/usePaginationWi
 import FaultBarGen from "../../faults/GenFaults/FaultBarGen";
 // import FaultDetailsGenTest from "./FaultDetailsGenTest";
 import { AuthContext } from '../../../context/checkAuth/AuthContext';
+// import { RotContext } from "../../../context/RotContext";
 
 function FaultListDisplay ({faultUrl, faultKeyContext}) {
+	// const {encrypt, decrypt, RotCipher} = useContext(RotContext)
+	// const [, setNewData] = useState(true)
 	const [isFading, setIsFading] = useState(true);
 	const dept = useLocation().pathname.split('/')[1]
 	// const { SetPendingFaultsContext } = useContext(SharedDataContext);
 	// const [unityPageNum, setUnityPageNum] = useState(1);
 	const { authData } = useContext(AuthContext);
-	const faults = usePullCompleteList(
+
+	// const [newData, setNewData] = useState(false)
+	console.log('1111111111111111111')
+	let faults = usePullCompleteList(
 		faultUrl, authData.id, faultKeyContext
 	)
+	// console.log('faults.freshPull.current:', faults.freshPull.current)
+	// if (faults.freshPull.current) {
+	// 	console.log(
+	// 	'\n555555555555555555555555555555555555555555555555',
+	// 	'\n555555555555555555555555555555555555555555555555',
+	// 	'\n555555555555555555555555555555555555555555555555',
+	// 	)
+	// 	faults = localStorage.getItem(faultKeyContext)
+	// 	faults = RotCipher(faults, decrypt)
+	// 	faults = JSON.parse(faults)
+	// }
+	// console.log({faults})
+	// useEffect(() => {
+	// 	console.log(
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 	)
+	// 	console.log('faults.freshPull.current:', faults.freshPull.current)
 
+	// 	if (faults.freshPull.current
+	// 		// && authData.role === "engineer"
+	// 	) {
+	// 		console.log('unmounting ...')
+	// 		setNewData(false); // Unmount the component
+	// 		setTimeout(() => {
+	// 			console.log('re-mounting ...')
+	// 			setNewData(true); // Remount the component after a brief delay
+	// 		}, 50); // Delay can be adjusted if needed
+	// 		faults.freshPull.current = false;
+	// 	}
+	// }, [faults.freshPull.current])
+	// console.log('faults.freshPull.current:', faults.freshPull.current)
+
+	// if (faults.freshPull.current
+	// 	// && authData.role === "engineer"
+	// ) {
+	// 	console.log(
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 		'\n555555555555555555555555555555555555555555555555',
+	// 	)
+	// 	console.log('unmounting ...')
+	// 	setNewData(false); // Unmount the component
+	// 	setTimeout(() => {
+	// 		console.log('re-mounting ...')
+	// 		setNewData(true); // Remount the component after a brief delay
+	// 	}, 50); // Delay can be adjusted if needed
+	// 	faults.freshPull.current = false;
+	// }
 	const allFaults = faults?.pageHandler(faults?.pageNum, faults?.arrayData)
 	console.log(
 		'\narrayData:', faults?.arrayData,
@@ -27,6 +90,8 @@ function FaultListDisplay ({faultUrl, faultKeyContext}) {
 		'\npage number:', faults.pageNum,
 		'\nfaults.theTotalPage:', faults?.theTotalPage,
 		'\nfaults.getLoading:', faults.arrayLoading,
+		// '\nfaults.freshPull:', faults.freshPull,
+		// '\nfaults.freshPull.current:', faults.freshPull.current,
 	)
 	// const [isFading, setIsFading] = useState(false);
 	useEffect(() => {

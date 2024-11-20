@@ -189,16 +189,6 @@ function UserBar ({allUsers, page, loading}) {
 																		fontWeight: 'bold',
 																	}}>
 																		{(engineer?.faults?.reduce((count, request) => {
-																			// console.log(
-																			// 	'\nrequest.requestComponent:', request.requestComponent,
-																			// 	'\nrequest.requestComponent.length:', request.requestComponent?.length,
-																			// 	'\n',
-																			// 	'\nrequest.requestPart:', request.requestPart,
-																			// 	'\nrequest.requestPart.length:', request.requestPart?.length,
-																			// 	'\n',
-																			// 	'\nrequest.id:', request.id,
-																			// 	'\ncount (before):', count,
-																			// )
 																			count += request.requestComponent.length??0
 																			count += request.requestPart.length??0
 																			// console.log('\ncount (after):', count,)

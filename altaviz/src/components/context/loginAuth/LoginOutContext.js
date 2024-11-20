@@ -1,6 +1,6 @@
 import { createContext, useCallback, useState, useContext, useEffect } from "react";
 import { RotContext } from "../RotContext";
-import { AuthContext } from "../checkAuth/AuthContext";
+// import { AuthContext } from "../checkAuth/AuthContext";
 // import { useNavigate}
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
@@ -19,14 +19,13 @@ export const LoginProvider = ({ children }) => {
     const [authError, setAuthError] = useState(null);
     const { encrypt, RotCipher, decrypt } = useContext(RotContext);
     const toDashboard = useNavigate()
-    // const [toLogin, setToLogin] = useState(null);
-    // const redirectToPage = useNavigate()
-    // Check for existing authentication on component mount
-    // if (urlCheck[1] === 'login') setIsLogin(true);
+
+    // efficient idea required here
     useEffect(() => {
         const authdatakey = localStorage.getItem('authData');
+        const listKey = (localStorage.getItem('allUnresolvedKey')?localStorage.getItem('allUnresolvedKey'):(localStorage.getItem('allPendingRequests')))
         // console.log('authdatakey', authdatakey)
-        if (authdatakey && urlCheck[1] === 'login') {
+        if (authdatakey && listKey && urlCheck[1] === 'login') {
             const decodedData = JSON.parse(RotCipher(authdatakey, decrypt));
             // setAuthData(decodedData);
             console.log(

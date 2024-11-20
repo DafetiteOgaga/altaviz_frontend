@@ -5,12 +5,17 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 // import Resolved from "../bbbbbnotifications/xxresolved/Resolved";
 // import PendingFaults from "../bbbbbnotifications/xxpending_faults/PendingFaults";
 import { useContext, useState, useEffect } from "react";
+// import useForceDBPullWEncryption
+// import usePullNotification from "../../paginationComp/usePullNotification";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import { useRefreshContext } from "../../context/RefreshContext";
+// import useForceDBPullWEncryption from '../../paginationComp/useForceDBPullWEncryption';
 
 function Dashboard() {
 	// const redirectTo = useNavigate()
+	// const [serverUrl, setServerUrl] = useState(null)
+    // const [localKey, setLocalKey] = useState(null)
 	const { authData } = useContext(AuthContext);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	const { refreshIcon } = useRefreshContext();
@@ -23,6 +28,20 @@ function Dashboard() {
 		'authData:', authData,
 		'custodianCheck:', custodianCheck
 	)
+	// const assignNotifications = (url, key) => {
+    //     setServerUrl(url);
+    //     setLocalKey(key);
+    // };
+	// if (localStorage.getItem(authData.role)) {
+	// 	assignNotifications('engineer-pending-faults', 'faultsKey');
+	// 	assignNotifications('engineer-unresolved-faults', 'allUnresolvedKey');
+	// }
+	// const updates = useForceDBPullWEncryption(
+	// 	`http://127.0.0.1:8000/${serverUrl}/notification/${authData.id}/`,
+	// 	localKey, !!serverUrl
+	// );
+	// const updates = usePullNotification(serverUrl, authData.id, localKey, !!serverUrl);
+	// if (updates.isDone) {localStorage.removeItem(authData.role)}
 	// if (authData?.role === department) redirectTo(`/${authData?.role}`)
 	return (
 		<>

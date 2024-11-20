@@ -1,11 +1,11 @@
-import SSENotification from "./SideBar/SSENotification/SSENotification";
+// import SSENotification from "./context/SSEContext/SSENotification";
 function Testfetchapi() {
 	// const { authData } = useContext(AuthContext);
 	// console.log('authData', authData);
 	return (
 		<>
 			<h2>Test Page</h2>
-			<SSENotification />
+			{/* <SSENotification /> */}
 			<p>Test Page ends</p>
 		</>
 	);
