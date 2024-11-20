@@ -5,14 +5,14 @@ import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { useLocation } from "react-router-dom";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
-import { TriggerContext } from "../../context/triggerContext/TriggerContext";
+// import { TriggerContext } from "../../context/triggerContext/TriggerContext";
 
 function LogFault() {
 	const refInput = useRef(null);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	const [faultNamesList, setFaultNamesList] = useState([]);
 	const [noselection, setNoselecton] = useState(false);
-	const { setTriggerPendingNotifi } = useContext(TriggerContext)
+	// const { setTriggerPendingNotifi } = useContext(TriggerContext)
 	const { authData } = useContext(AuthContext);
 	const [formIndex, setFormIndex] = useState(0);
 	// const { faults } = cMockData();
@@ -139,7 +139,7 @@ function LogFault() {
 			console.log('noselection (actual):', noselection);
 			console.log('noselection (checked for):', !noselection);
 			setPostTrigger(true)
-			setTriggerPendingNotifi(true);
+			// setTriggerPendingNotifi(true);
 			localStorage.removeItem('totalfaultsKey');
 			localStorage.removeItem('faultsKey');
 		} else {
