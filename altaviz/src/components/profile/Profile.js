@@ -5,6 +5,7 @@ import { FetchContext } from "../context/FetchContext"
 import { AuthContext } from "../context/checkAuth/AuthContext";
 import { useParams, useLocation } from "react-router-dom";
 import useGetWEncryptionSingleItem from "../paginationComp/useGetWEncryptionSingleItem";
+import { initial } from 'lodash';
 
 function Profile () {
 	const { authData } = useContext(AuthContext)
@@ -58,9 +59,9 @@ function Profile () {
 							</div>
 							{authData.role === 'custodian' &&
 								<div className="uDetaisRight">
-									<h4>Bank: {authData.custodian.branch.bank.name}</h4>
-									<h4>State: {authData.custodian.branch.bank.states[0].name}</h4>
-									<h4>Branch: {authData.custodian.branch.name}</h4>
+									<h4>Bank: {authData.branch.bank.name}</h4>
+									<h4>State: {authData.branch.state.name}|{authData.branch.state.initial}</h4>
+									<h4>Branch: {authData.branch.name}</h4>
 									{/* <h4>Location: {(authData.custodian.location) ? (authData.custodian.location) : 'None'}</h4> */}
 								</div>
 								}
