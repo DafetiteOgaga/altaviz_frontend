@@ -9,20 +9,25 @@ import { TriggerProvider } from "./triggerContext/TriggerContext";
 import { RotProvider } from "./RotContext";
 import { RefreshProvider } from "./RefreshContext";
 import { RefreshComponentProvider } from "./refreshContext/TriggerRefresh";
+// import { SSENotificationProvider } from "./SSEContext/SSENotificationContext";
+import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
 
 const providers = [
 	// the first is the child
 	GlobalProvider,
 	SentenceCaseProvider,
-	SharedDataProvider,
+	// SharedDataProvider,
 	TimeDifferenceProvider,
+	// SSENotificationProvider,
+	// WebSocketNotificationProvider,
+	WebSocketNotificationProvider,
 	FetchProviders,
-	LoginProvider,
 	AuthProvider,
-	TriggerProvider,
+	LoginProvider,
+	// TriggerProvider,
 	// RotProvider,
 	RefreshProvider,
-	RefreshComponentProvider,
+	// RefreshComponentProvider,
 	RotProvider,
 	// the last is the outer most parent (grandest parent)
 ];
