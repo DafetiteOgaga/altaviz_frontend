@@ -1,24 +1,28 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
+import { useLocation } from 'react-router-dom'
+import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
 const baseUrl = 'http://127.0.0.1:8000';
 function usePullCompleteList(
 	urlPath, id,
 	variableContext,
-	triggger=false,
-	itemsPerPage=10,
+	forceTrigger=false,
+	role=null, itemsPerPage=10,
 	// type='notification'
 ) {
+	const { setNotifications } = useWebSocketNotificationContext()
+	// const freshPull = useRef(false)
+	const dept = useLocation().pathname.split('/')[1]
 	const [pageNum, setPageNum] = useState(1);
 	const [theTotalPage, setTheTotalPage] = useState(null);
 	const { encrypt, decrypt, RotCipher } = useContext(RotContext);
 	const { useGetDataAPI } = useContext(FetchContext);
-	const [arrayData, setArrayData] = useState(null)
+	let [arrayData, setArrayData] = useState(null)
 	const [arrayError, setArrayError] = useState(null)
 	const [getTrigger, setGetTrigger] = useState(false);
 
-	console.log('\nendpoint:', `${baseUrl}/${urlPath}/${id}/`)
 	const { getData:listData, getLoading:arrayLoading, getError:listError } = useGetDataAPI(
 		`${baseUrl}/${urlPath}/${id}/`, getTrigger
 	);
@@ -28,30 +32,82 @@ function usePullCompleteList(
 		// check and fetch from local storage if the data exist
 		let decodedData;
 		decodedData = localStorage.getItem(variableContext)
-		if (decodedData&&!getTrigger&&!triggger) {
-			console.log('from local storage  ############'.toUpperCase())
+		if (decodedData&&!forceTrigger) {
+			console.log('from local storage  ############'.toUpperCase(), 'id:', id)
 			decodedData = RotCipher(decodedData, decrypt)
 			decodedData = JSON.parse(decodedData)
 			setArrayData(decodedData);
 
-		} else setGetTrigger(true)
-	}, [getTrigger, urlPath, id, variableContext])
+		} else {
+			console.log('from database  ############'.toUpperCase(), 'id:', id)
+			setGetTrigger(true)
+		}
+	}, [getTrigger, urlPath, id, variableContext, forceTrigger])
 
 	// fetch complete data from server
+	// and set it to local storage
 	useEffect(() => {
 		if (listData||listError) {
-			console.log('fetch from server direct  ############'.toUpperCase())
+			console.log('fetch from server direct  ############'.toUpperCase(), 'id:', id)
 			if (listData) {
+				console.log(
+					'\nsetting listData:', listData?.length, 'items to arraData of', arrayData?.length, 'items',
+					'\nlistData.length:', listData?.length,
+					'\narrayData.length:', arrayData?.length,
+				)
 				setArrayData(listData)
 				let encodedData = RotCipher(JSON.stringify(listData), encrypt)
 				localStorage.setItem(variableContext, encodedData)
+				// setFreshPull(true)
+				if (localStorage.getItem(dept)) {
+					console.log('removing dept ...')
+					console.log({dept})
+					localStorage.removeItem(dept)
+					console.log('removed dept ...')
+					setNotifications(null)
+					console.log('set websocket Notification to []')
+					// localStorage.setItem('reload', 'yes')
+					// console.log('set localStorage reload to yes')
+				}
+				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
+				console.log(
+					'\nDone. new lengths are:',
+					'\nlistData.length:', listData?.length,
+					'\narrayData.length:', arrayData?.length,
+				)
 			}
 			else if (listError) {setArrayError(listError)}
 			setGetTrigger(false)
 		}
 	}, [listData, listError])
 
-	console.log({listData, listError, arrayData, arrayLoading, arrayError})
+	let updatedData = localStorage.getItem(variableContext)
+	if (updatedData&&!role) {
+		// freshPull.current = true
+		console.log(
+			'\nupdateData:', !!updatedData,
+			'\nrole:', role,
+		)
+		console.log(
+			'\n66666666666666666666666666666666666666666',
+			'\n66666666666666666666666666666666666666666',
+			'\n66666666666666666666666666666666666666666',
+			'\n66666666666666666666666666666666666666666',
+			'\n66666666666666666666666666666666666666666',
+		)
+		console.log('fetching new updates from local storage')
+		updatedData = RotCipher(updatedData, decrypt)
+		updatedData = JSON.parse(updatedData)
+		console.log({updatedData})
+		arrayData = updatedData
+	}
+	console.log(
+		'\nendpoint:', `${baseUrl}/${urlPath}/${id}/`,
+		{listData, listError, arrayData, arrayLoading, arrayError},
+		'\nrole:', role,
+		(role?'\nWebsocket Notifications spinning':'\nNormal List notification'), '##############',
+		// '\nfreshPull.current:', freshPull.current,
+	)
 
 	// sets navigation
 	useEffect(() => {
@@ -75,6 +131,8 @@ function usePullCompleteList(
 	console.log(
 		'\nlistHandler:', pageHandler(pageNum, arrayData),
 		'\npageNum:', pageNum,
+		'\nrole:', role,
+		'\ndept:', dept,
 	)
 	console.log('end ######################'.toUpperCase())
 	return {
@@ -83,6 +141,7 @@ function usePullCompleteList(
 		theTotalPage, setTheTotalPage,
 		itemsPerPage,
 		pageHandler,
+		// freshPull,
 	}
 }
 
