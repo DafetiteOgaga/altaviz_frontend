@@ -1,7 +1,8 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const FetchContext = createContext();
+const checkNull = (url) => url.split('/').some(list => list === 'null')
 export const FetchProviders = ({ children }) => {
 	// post states
 	
@@ -14,15 +15,26 @@ export const FetchProviders = ({ children }) => {
 		const [getData, setGetData] = useState(null);
 		const [getLoading, setGetLoading] = useState(true);
 		const [getError, setGetError] = useState(null);
+
+		// Reference for debounce timer
+		const debounceTimer = useRef(null);
+
 		useEffect(() => {
 			const fetchData = async () => {
 				try {
-					const response = await fetch(url);
-					if (!response.ok) {
-					throw new Error("could not connect");
+					if (checkNull(url)) {
+						console.log('found null in url provided:', url)
+						throw new Error("found null in url provided");
+					} else {
+						const response = await fetch(url);
+						if (!response.ok) {
+							console.log({response})
+							console.log(`Error fetching data for ${url}: ${response.statusText}`)
+							throw new Error("could not connect");
+						}
+						const getData = await response.json();
+						setGetData(getData);
 					}
-					const getData = await response.json();
-					setGetData(getData);
 					// console.log('getData (from fetch):', getData);
 				} catch (getError) {
 					setGetError(getError.message);
@@ -37,14 +49,29 @@ export const FetchProviders = ({ children }) => {
 				// console.log(`localKey: ${key}`) //, Value: ${value}`);
 			}
 			const pageNameIs = url.split('127.0.0.1:8000')[1]
+			// Reference for debounce timer
+			// const debounceTimer = useRef(null);
 			if (trigger) {
-				// console.log('FETCHING DATA:', trigger, '\nFETCHING FOR:', pageNameIs);
-				// console.log("FETCHING FOR:", pageNameIs);
-				fetchData();
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				}
+	
+				// Apply debounce delay before calling fetchData
+				debounceTimer.current = setTimeout(() => {
+					console.log("Fetching data for:", pageNameIs); // Optional debug log
+					fetchData();
+				}, 300); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
+	
+			// Cleanup: Clear the timer on component unmount or dependency change
+			return () => {
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current);
+				}
+			};
 		}, [url, trigger]);
 		return { getData, getLoading, getError };
 	}
@@ -54,6 +81,8 @@ export const FetchProviders = ({ children }) => {
 		const [postData, setPostData] = useState(null);
 		const [postLoading, setPostLoading] = useState(false);
 		const [postError, setPostError] = useState(null);
+		// Reference for debounce timer
+		const debounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Post trigger is false. POST call not executed.');
@@ -68,60 +97,66 @@ export const FetchProviders = ({ children }) => {
 			}
 			const postData = async () => {
 				try {
-				setPostLoading(true);
-				const response = await fetch(url, {
-					method: "POST",
-					body: formData,
-				});
-				if (response.ok) {
-					const responseData = await response.json();
-					// console.log('response', responseData.msg);
-					if (responseData.msg === 'pending update request') {
-						const userConfirmed = window.confirm('An Update Request exists.\nSelect OK to Replace the last Update Request');
+					if (checkNull(url)) {
+						console.log('found null in url provided:', url)
+						throw new Error("found null in url provided");
+					} else {
+						setPostLoading(true);
+						const response = await fetch(url, {
+							method: "POST",
+							body: formData,
+						});
+						if (response.ok) {
+							const responseData = await response.json();
+							// console.log('response', responseData.msg);
+							if (responseData.msg === 'pending update request') {
+								const userConfirmed = window.confirm('An Update Request exists.\nSelect OK to Replace the last Update Request');
 
-						// redirect to put starts here
-						if (userConfirmed) {
-							// console.log('using put request')
-							const putResponse = await fetch(url, {
-								method: "PATCH",
-								body: formData,
-							});
-							if (putResponse.ok) {
-								const putResponseData = await putResponse.json();
-								// console.log('PATCH response', putResponseData);
-								setPostData(putResponseData);
+								// redirect to put starts here
+								if (userConfirmed) {
+									// console.log('using put request')
+									const putResponse = await fetch(url, {
+										method: "PATCH",
+										body: formData,
+									});
+									if (putResponse.ok) {
+										const putResponseData = await putResponse.json();
+										// console.log('PATCH response', putResponseData);
+										setPostData(putResponseData);
 
-								if (redirectToPage) {
-									redirectTo("/success");
-									const timer = setTimeout(() => {
-										redirectTo(redirectToPage);
-									}, 1000);
-									return () => clearTimeout(timer);
+										if (redirectToPage) {
+											redirectTo("/success");
+											const timer = setTimeout(() => {
+												redirectTo(redirectToPage);
+											}, 1000);
+											return () => clearTimeout(timer);
+										}
+									} else {
+										console.log(`Error POSTING or PATCHING data for ${url}: ${response.statusText}`)
+										setPostError('Could not PATCH request.');
+										throw new Error("Could not PATCH request.");
+									}
+								} else {
+									// Cancel action
+									// console.log('User chose to cancel');
 								}
-							} else {
-								setPostError('Could not PATCH request.');
-								throw new Error("Could not PATCH request.");
+								return;
+							} // redirect to put ends here
+							else {
+								setPostData(responseData);
+							}
+
+							if (redirectToPage) {
+								redirectTo("/success");
+								const timer = setTimeout(() => {
+									redirectTo(redirectToPage);
+								}, 1000);
+								return () => clearTimeout(timer);
 							}
 						} else {
-							// Cancel action
-							// console.log('User chose to cancel');
+							throw new Error("Could not post request.");
 						}
-						return;
-					} // redirect to put ends here
-					else {
-						setPostData(responseData);
 					}
-
-					if (redirectToPage) {
-						redirectTo("/success");
-						const timer = setTimeout(() => {
-							redirectTo(redirectToPage);
-						}, 1000);
-						return () => clearTimeout(timer);
-					}
-				} else {
-					throw new Error("Could not post request.");
-				}
 				} catch (error) {
 				setPostError(error.message);
 				} finally {
@@ -129,10 +164,28 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 
+			// Reference for debounce timer
+			// const debounceTimer = useRef(null);
 			if (trigger) {
-				postData();
-				// setTrigger(false);
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				}
+
+				// Apply debounce delay before calling fetchData
+				debounceTimer.current = setTimeout(() => {
+					postData();
+				}, 300); // 300ms debounce delay
+			} else {
+				// console.log('TRIGGER TO GETDATA:', trigger);
+				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
+
+			// Cleanup: Clear the timer on component unmount or dependency change
+			return () => {
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current);
+				}
+			};
 		// }, [trigger, url, formData, redirectToPage]);
 		}, [trigger]);
 
@@ -148,6 +201,8 @@ export const FetchProviders = ({ children }) => {
 		const [putData, setPutData] = useState(null);
 		const [putLoading, setPutLoading] = useState(false);
 		const [putError, setPutError] = useState(null);
+		// Reference for debounce timer
+		const debounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Put trigger is false. PUT call not executed.');
@@ -162,24 +217,30 @@ export const FetchProviders = ({ children }) => {
 			}
 			const putData = async () => {
 				try {
-					setPutLoading(true);
-					const response = await fetch(url, {
-						method: "PUT",
-						body: formData,
-					});
-					if (response.ok) {
-						const responseData = await response.json();
-						setPutData(responseData);
-
-						if (redirectToPage) {
-							redirectTo("/success");
-							const timer = setTimeout(() => {
-								redirectTo(redirectToPage);
-							}, 1000);
-							return () => clearTimeout(timer);
-						}
+					if (checkNull(url)) {
+						console.log('found null in url provided:', url)
+						throw new Error("found null in url provided");
 					} else {
-						throw new Error("Could not put request.");
+						setPutLoading(true);
+						const response = await fetch(url, {
+							method: "PUT",
+							body: formData,
+						});
+						if (response.ok) {
+							const responseData = await response.json();
+							setPutData(responseData);
+
+							if (redirectToPage) {
+								redirectTo("/success");
+								const timer = setTimeout(() => {
+									redirectTo(redirectToPage);
+								}, 1000);
+								return () => clearTimeout(timer);
+							}
+						} else {
+							console.log(`Error PUTTING data for ${url}: ${response.statusText}`)
+							throw new Error("Could not PUT request.");
+						}
 					}
 				} catch (error) {
 					setPutError(error.message);
@@ -187,11 +248,28 @@ export const FetchProviders = ({ children }) => {
 					setPutLoading(false);
 				}
 			};
-
+			// Reference for debounce timer
+		// const debounceTimer = useRef(null);
 			if (trigger) {
-				putData();
-				// setTrigger(false);
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				}
+
+				// Apply debounce delay before calling fetchData
+				debounceTimer.current = setTimeout(() => {
+					putData();
+				}, 300); // 300ms debounce delay
+			} else {
+				// console.log('TRIGGER TO GETDATA:', trigger);
+				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
+
+			// Cleanup: Clear the timer on component unmount or dependency change
+			return () => {
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current);
+				}
+			};
 		// }, [trigger, url, formData, redirectToPage]);
 		}, [trigger]);
 
@@ -207,6 +285,8 @@ export const FetchProviders = ({ children }) => {
 		const [patchData, setPatchData] = useState(null);
 		const [patchLoading, setPatchLoading] = useState(false);
 		const [patchError, setPatchError] = useState(null);
+		// Reference for debounce timer
+		const debounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Patch trigger is false. PATCH call not executed.');
@@ -219,58 +299,29 @@ export const FetchProviders = ({ children }) => {
 			}
 			const patchData = async () => {
 				try {
-					setPatchLoading(true);
-					const response = await fetch(url, {
-						method: "PATCH",
-						body: formData,
-					});
-					if (response.ok) {
-						const responseData = await response.json();
-						// console.log('response', responseData.msg);
-						// if (responseData.msg === 'pending update request') {
-						// 	const userConfirmed = window.confirm('An Update Request exists.\nSelect OK to Replace the last Update Request');
-
-						// 	// redirect to put starts here
-						// 	if (userConfirmed) {
-						// 		console.log('using put request')
-						// 		const putResponse = await fetch(url, {
-						// 			method: "PUT",
-						// 			body: formData,
-						// 		});
-						// 		if (putResponse.ok) {
-						// 			const putResponseData = await putResponse.json();
-						// 			console.log('PUT response', putResponseData);
-
-						// 			if (redirectToPage) {
-						// 				redirectTo("/success");
-						// 				const timer = setTimeout(() => {
-						// 					redirectTo(redirectToPage);
-						// 				}, 2500);
-						// 				return () => clearTimeout(timer);
-						// 			}
-						// 		} else {
-						// 			throw new Error("Could not put request.");
-						// 		}
-						// 	} else {
-						// 		// Cancel action
-						// 		console.log('User chose to cancel');
-						// 	}
-						// 	return;
-						// } // redirect to put ends here
-						// else {
-						// 	setPatchData(responseData);
-						// }
-						setPatchData(responseData);
-	
-						if (redirectToPage) {
-							redirectTo("/success");
-							const timer = setTimeout(() => {
-								redirectTo(redirectToPage);
-							}, 1000);
-							return () => clearTimeout(timer);
-						}
+					if (checkNull(url)) {
+						console.log('found null in url provided:', url)
+						throw new Error("found null in url provided");
 					} else {
-						throw new Error("Could not patch request.");
+						setPatchLoading(true);
+						const response = await fetch(url, {
+							method: "PATCH",
+							body: formData,
+						});
+						if (response.ok) {
+							const responseData = await response.json();
+							setPatchData(responseData);
+							if (redirectToPage) {
+								redirectTo("/success");
+								const timer = setTimeout(() => {
+									redirectTo(redirectToPage);
+								}, 1000);
+								return () => clearTimeout(timer);
+							}
+						} else {
+							console.log(`Error PATCHING data for ${url}: ${response.statusText}`);
+							throw new Error("Could not patch request.");
+						}
 					}
 				} catch (error) {
 					setPatchError(error.message);
@@ -278,10 +329,28 @@ export const FetchProviders = ({ children }) => {
 					setPatchLoading(false);
 				}
 			};
-	
+			// Reference for debounce timer
+			// const debounceTimer = useRef(null);
 			if (trigger) {
-				patchData();
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				}
+
+				// Apply debounce delay before calling fetchData
+				debounceTimer.current = setTimeout(() => {
+					patchData();
+				}, 300); // 300ms debounce delay
+			} else {
+				// console.log('TRIGGER TO GETDATA:', trigger);
+				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
+
+			// Cleanup: Clear the timer on component unmount or dependency change
+			return () => {
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current);
+				}
+			};
 		}, [trigger]);
 	
 		return { patchData, patchLoading, patchError };
@@ -292,6 +361,8 @@ export const FetchProviders = ({ children }) => {
 		const [deleteData, setDeleteData] = useState(null);
 		const [deleteLoading, setDeleteLoading] = useState(false);
 		const [deleteError, setDeleteError] = useState(null);
+		// Reference for debounce timer
+		const debounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Delete trigger is false. DELETE call not executed.');
@@ -302,26 +373,32 @@ export const FetchProviders = ({ children }) => {
 	
 			const deleteData = async () => {
 				try {
-					setDeleteLoading(true);
-					const response = await fetch(url, {
-						method: "DELETE",
-					});
-					// console.log('response ok:', response.ok)
-					if (response.ok) {
-						const responseData = await response.json();
-						setDeleteData(responseData);
-						// console.log('DELETE response', responseData);
-	
-						if (redirectToPage) {
-							// console.log('redirect to page:', redirectToPage)
-							redirectTo("/success");
-							const timer = setTimeout(() => {
-								redirectTo(redirectToPage);
-							}, 1000);
-							return () => clearTimeout(timer);
-						}
+					if (checkNull(url)) {
+						console.log('found null in url provided:', url)
+						throw new Error("found null in url provided");
 					} else {
-						throw new Error("Could not delete request.");
+						setDeleteLoading(true);
+						const response = await fetch(url, {
+							method: "DELETE",
+						});
+						// console.log('response ok:', response.ok)
+						if (response.ok) {
+							const responseData = await response.json();
+							setDeleteData(responseData);
+							// console.log('DELETE response', responseData);
+		
+							if (redirectToPage) {
+								// console.log('redirect to page:', redirectToPage)
+								redirectTo("/success");
+								const timer = setTimeout(() => {
+									redirectTo(redirectToPage);
+								}, 1000);
+								return () => clearTimeout(timer);
+							}
+						} else {
+							console.log(`Error DELETING data for ${url}: ${response.statusText}`);
+							throw new Error("Could not delete request.");
+						}
 					}
 				} catch (error) {
 					setDeleteError(error.message);
@@ -329,10 +406,28 @@ export const FetchProviders = ({ children }) => {
 					setDeleteLoading(false);
 				}
 			};
-	
+			// Reference for debounce timer
+			// const debounceTimer = useRef(null);
 			if (trigger) {
-				deleteData();
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				}
+
+				// Apply debounce delay before calling fetchData
+				debounceTimer.current = setTimeout(() => {
+					deleteData();
+				}, 300); // 300ms debounce delay
+			} else {
+				// console.log('TRIGGER TO GETDATA:', trigger);
+				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
+
+			// Cleanup: Clear the timer on component unmount or dependency change
+			return () => {
+				if (debounceTimer.current) {
+					clearTimeout(debounceTimer.current);
+				}
+			};
 		}, [trigger]);
 	
 		return { deleteData, deleteLoading, deleteError };

@@ -35,7 +35,7 @@ const WebSocketChat = () => {
 
     return (
         <div>
-            <h1>WebSocket Chat</h1>
+            <h1>WebSocket Chat Notification</h1>
             <div>
                 {messages.map((msg, index) => (
                     <p key={index}>{msg}</p>

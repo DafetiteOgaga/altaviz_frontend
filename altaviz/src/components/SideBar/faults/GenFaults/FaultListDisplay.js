@@ -2,7 +2,7 @@ import "./sidebar_pages.css"
 import { useLocation } from 'react-router-dom'
 import { useContext, useEffect, useState } from "react";
 import usePullCompleteList from "../../../paginationComp/usePullCompleteList";
-import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
+// import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
 // import FaultDetailsGenTest from "./yyyyyyyyyyyyFaultDetailsGenTest";
 import FaultBarGen from "../../faults/GenFaults/FaultBarGen";
 // import FaultDetailsGenTest from "./FaultDetailsGenTest";

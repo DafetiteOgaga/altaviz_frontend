@@ -37,7 +37,6 @@ function usePullCompleteList(
 			decodedData = RotCipher(decodedData, decrypt)
 			decodedData = JSON.parse(decodedData)
 			setArrayData(decodedData);
-
 		} else {
 			console.log('from database  ############'.toUpperCase(), 'id:', id)
 			setGetTrigger(true)
@@ -66,15 +65,13 @@ function usePullCompleteList(
 					console.log('removed dept ...')
 					setNotifications(null)
 					console.log('set websocket Notification to []')
-					// localStorage.setItem('reload', 'yes')
-					// console.log('set localStorage reload to yes')
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
-				console.log(
-					'\nDone. new lengths are:',
-					'\nlistData.length:', listData?.length,
-					'\narrayData.length:', arrayData?.length,
-				)
+				// console.log(
+				// 	'\nDone. new lengths are:',
+				// 	'\nlistData.length:', listData?.length,
+				// 	'\narrayData.length:', arrayData?.length,
+				// )
 			}
 			else if (listError) {setArrayError(listError)}
 			setGetTrigger(false)
@@ -95,11 +92,21 @@ function usePullCompleteList(
 			'\n66666666666666666666666666666666666666666',
 			'\n66666666666666666666666666666666666666666',
 		)
+		console.log(
+			'\nDone. new lengths are:',
+			// '\nlistData.length:', listData?.length,
+			'\narrayData.length:', arrayData?.length,
+		)
 		console.log('fetching new updates from local storage')
 		updatedData = RotCipher(updatedData, decrypt)
 		updatedData = JSON.parse(updatedData)
 		console.log({updatedData})
 		arrayData = updatedData
+		console.log(
+			'\nDone. new lengths are:',
+			'\nupdatedData(listData).length:', updatedData?.length,
+			'\narrayData.length:', arrayData?.length,
+		)
 	}
 	console.log(
 		'\nendpoint:', `${baseUrl}/${urlPath}/${id}/`,
@@ -114,7 +121,6 @@ function usePullCompleteList(
 		if (arrayData?.length) {
 			setTheTotalPage(Math.ceil(arrayData.length / itemsPerPage))
 			console.log('total pages:', theTotalPage)
-
 		}
 	}, [arrayData])
 	if (theTotalPage) console.log({theTotalPage})
@@ -124,6 +130,7 @@ function usePullCompleteList(
 		if (page < 1 || page > theTotalPage) {
 			return [];
 		}
+		console.log({localList})
 		const start = (page - 1) * itemsPerPage;
 		const end = start + itemsPerPage;
 		return localList.slice(start, end);
@@ -131,7 +138,7 @@ function usePullCompleteList(
 	console.log(
 		'\nlistHandler:', pageHandler(pageNum, arrayData),
 		'\npageNum:', pageNum,
-		'\nrole:', role,
+		'\nrole (argument i.e authData.role):', role,
 		'\ndept:', dept,
 	)
 	console.log('end ######################'.toUpperCase())
