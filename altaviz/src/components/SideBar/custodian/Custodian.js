@@ -108,7 +108,7 @@ function Custodian() {
 
 				{/* unresolved/unconfirmed fault list */}
 				<FaultListDisplay
-					faultUrl='unresolved-faults'
+					faultUrl='unresolved-faults/list'
 					faultKeyContext='allUnresolvedKey'/>
 
 			</div>
