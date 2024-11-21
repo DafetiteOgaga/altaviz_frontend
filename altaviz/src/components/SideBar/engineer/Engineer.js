@@ -197,7 +197,7 @@ function Engineer() {
 				{/* {isPartRequestFormOpen && (<AddPartForm />)} */}
 				{isUserDetailsFormOpen && (<UpdateUser />)}
 				<FaultListDisplay
-					faultUrl='engineer-unresolved-faults'
+					faultUrl='engineer-unresolved-faults/list'
 					faultKeyContext='allUnresolvedKey'
 					// setNewData={setNewData}
 					/>
