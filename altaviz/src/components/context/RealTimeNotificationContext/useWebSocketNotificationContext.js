@@ -7,37 +7,31 @@ const WebSocketNotificationContext = createContext();
 export const WebSocketNotificationProvider = ({ children }) => {
     const [notifications, setNotifications] = useState(null);
     const socket = useRef(null);
-    const [serial, setSerial] = useState(0)
+    // const [serial, setSerial] = useState(0)
 
     const reconnectWebSocket = () => {
-        let checkSerial = 0
+        // let checkSerial = 0
         // Try to re-establish the WebSocket connection
+        console.log('checking for notifications')
         socket.current = new WebSocket('ws://127.0.0.1:8000/ws/notifications/');
 
         if (socket.current.readyState === 1) {
             console.log('WebSocket connection established')
+            console.log('WebSocket connected')
         }
         socket.current.onmessage = (event) => {
+            console.log('fetching notifications')
             const data = JSON.parse(event.data);
-            console.log(
-                '\ndata.message:', data.message,
-                // '\nserial:', serial,
-                // '\ncheckSerial:', checkSerial,
-            );
-            // if (serial === checkSerial) {
+            // console.log('\ndata.message:', data.message)
+            if (data.message==='WebSocket connected!') {console.log(data.message)}
+            else {
                 setNotifications(data.message);
-                // checkSerial = serial+1
-                // setSerial(prev => prev+1)
-            // } else {
-                // setNotifications([]);
-            // }
-            // localStorage.setItem('engineer', data.message)
-            // setConsumedData(true)
+                console.log('fetched notifications:', data.message)
+            }
         };
 
         socket.current.onclose = () => {
             console.log('WebSocket connection closed. Attempting to reconnect...');
-            // setTimeout(reconnectWebSocket, 1000);  // Retry connection after 1 second
         };
     };
 
