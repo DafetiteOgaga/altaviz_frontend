@@ -9,7 +9,8 @@ function usePullCompleteList(
 	urlPath, id,
 	variableContext,
 	forceTrigger=false,
-	role=null, itemsPerPage=10,
+	role=null, type=null,
+	itemsPerPage=10,
 	// type='notification'
 ) {
 	const { setNotifications } = useWebSocketNotificationContext()
@@ -40,7 +41,9 @@ function usePullCompleteList(
 		} else {
 			console.log('from database  ############'.toUpperCase(), 'id:', id)
 			setGetTrigger(true)
+			// setArrayData(null)
 		}
+		setArrayError(null)
 	}, [getTrigger, urlPath, id, variableContext, forceTrigger])
 
 	// fetch complete data from server
@@ -55,23 +58,28 @@ function usePullCompleteList(
 					'\narrayData.length:', arrayData?.length,
 				)
 				setArrayData(listData)
-				let encodedData = RotCipher(JSON.stringify(listData), encrypt)
-				localStorage.setItem(variableContext, encodedData)
+				setArrayError(null)
+				if (variableContext) {
+					let encodedData = RotCipher(JSON.stringify(listData), encrypt)
+					localStorage.setItem(variableContext, encodedData)
+				}
 				// setFreshPull(true)
-				if (localStorage.getItem(dept)) {
+				if (localStorage.getItem(dept)&&!type) {
 					console.log('removing dept ...')
 					console.log({dept})
 					localStorage.removeItem(dept)
 					console.log('removed dept ...')
 					setNotifications(null)
 					console.log('set websocket Notification to []')
+					console.log(
+						'\n00000000000000000000000000000000',
+						'\n00000000000000000000000000000000',
+						'\n00000000000000000000000000000000',
+						'\n00000000000000000000000000000000',
+						'\n00000000000000000000000000000000',
+					)
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
-				// console.log(
-				// 	'\nDone. new lengths are:',
-				// 	'\nlistData.length:', listData?.length,
-				// 	'\narrayData.length:', arrayData?.length,
-				// )
 			}
 			else if (listError) {setArrayError(listError)}
 			setGetTrigger(false)
