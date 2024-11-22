@@ -140,8 +140,8 @@ function LogFault() {
 			console.log('noselection (checked for):', !noselection);
 			setPostTrigger(true)
 			// setTriggerPendingNotifi(true);
-			localStorage.removeItem('totalfaultsKey');
-			localStorage.removeItem('faultsKey');
+			// localStorage.removeItem('totalfaultsKey');
+			// localStorage.removeItem('faultsKey');
 		} else {
 			setFormValues([initialValue]);
 			setNoselecton(true)
