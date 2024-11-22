@@ -16,7 +16,7 @@ import usePullCompleteList from './components/paginationComp/usePullCompleteList
 import { AuthContext } from './components/context/checkAuth/AuthContext';
 import { useWebSocketNotificationContext } from './components/context/RealTimeNotificationContext/useWebSocketNotificationContext';
 import { useLocation } from 'react-router-dom';
-import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
+// import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 // import Custodian from './components/SideBar/custodian/Custodian';
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
 	const notificationUrl1 = useRef(null)
 	const notificationKey1 = useRef(null)
 	const ntype1 = useRef(null)
-	const notificationUrl2 = useRef(null)
-	const notificationtKey2 = useRef(null)
-	const ntype2 = useRef(null)
+	// const notificationUrl2 = useRef(null)
+	// const notificationtKey2 = useRef(null)
+	// const ntype2 = useRef(null)
 	const dept = useLocation().pathname.split('/')[1]
 	const { authData } = useContext(AuthContext)
 	// const [notificationListUrl1, setNotificationUrl] = useState(null)
