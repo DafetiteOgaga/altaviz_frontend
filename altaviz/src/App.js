@@ -16,15 +16,26 @@ import usePullCompleteList from './components/paginationComp/usePullCompleteList
 import { AuthContext } from './components/context/checkAuth/AuthContext';
 import { useWebSocketNotificationContext } from './components/context/RealTimeNotificationContext/useWebSocketNotificationContext';
 import { useLocation } from 'react-router-dom';
+// import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 // import Custodian from './components/SideBar/custodian/Custodian';
 
 function App() {
-	const notificationUrl = useRef(null)
-	const notificatioKey = useRef(null)
+	const notificationListUrl1 = useRef(null)
+	const notificationListKey1 = useRef(null)
+	const type1 = useRef(null)
+	const notificationListUrl2 = useRef(null)
+	const notificationListKey2 = useRef(null)
+	const type2 = useRef(null)
+	const notificationUrl1 = useRef(null)
+	const notificationKey1 = useRef(null)
+	const ntype1 = useRef(null)
+	// const notificationUrl2 = useRef(null)
+	// const notificationtKey2 = useRef(null)
+	// const ntype2 = useRef(null)
 	const dept = useLocation().pathname.split('/')[1]
 	const { authData } = useContext(AuthContext)
-	// const [notificationUrl, setNotificationUrl] = useState(null)
-	// const [notificatioKey, setNotificationKey] = useState(null)
+	// const [notificationListUrl1, setNotificationUrl] = useState(null)
+	// const [notificationListKey1, setNotificationKey] = useState(null)
 	const [forceUpdates, setForceUpdates] = useState(false)
 	const { notifications } = useWebSocketNotificationContext()
 	console.log(
@@ -39,6 +50,8 @@ function App() {
 			'\n555555555555555555555555555555555555555555555555555555',
 			'\n555555555555555555555555555555555555555555555555555555',
 		)
+		const auth = authData.role
+		console.log({dept}, {notifications}, {auth})
 		localStorage.setItem(dept, notifications)
 	}
 	console.log(
@@ -69,9 +82,9 @@ function App() {
 			// }, 50);
 		}
 	}, [getUpdates])
-	const assignNotifications = (url, key) => {
+	const assignNotificationsList1 = (url, key, type=null) => {
 		console.log(
-			'\nturning on notificationUrl and notificationKey:',
+			'\nturning on notificationListUrl1 and notificationListKey1:',
 			'\n77777777777777777777777777777777777',
 			'\n77777777777777777777777777777777777',
 			'\n77777777777777777777777777777777777',
@@ -80,14 +93,65 @@ function App() {
 		)
 		console.log('authData:', !!authData)
 		console.log(
-			notificationUrl.current,
-			notificatioKey.current
+			notificationListUrl1.current,
+			notificationListKey1.current,
+			type1.current,
 		)
-		notificationUrl.current = url
-        notificatioKey.current = key
+		notificationListUrl1.current = url
+        notificationListKey1.current = key
+		type1.current = type
 		console.log(
-			notificationUrl.current,
-			notificatioKey.current
+			notificationListUrl1.current,
+			notificationListKey1.current,
+			type1.current
+		)
+	};
+	const assignNotificationsList2 = (url, key, type=null) => {
+		console.log(
+			'\nturning on notificationListUrl2 and notificationListKey2:',
+			'\n99999999999999999999999999999999999',
+			'\n99999999999999999999999999999999999',
+			'\n99999999999999999999999999999999999',
+			'\n99999999999999999999999999999999999',
+			'\n99999999999999999999999999999999999',
+		)
+		console.log('authData:', !!authData)
+		console.log(
+			notificationListUrl2.current,
+			notificationListKey2.current,
+			type2.current
+		)
+		notificationListUrl2.current = url
+        notificationListKey2.current = key
+		type2.current = type
+		console.log(
+			notificationListUrl2.current,
+			notificationListKey2.current,
+			type2.current
+		)
+	};
+	const assignNotifications1 = (url, key, type=null) => {
+		console.log(
+			'\nturning on notificationUrl1 and notificationKey1:',
+			'\n10101010101010101010101010101010101',
+			'\n10101010101010101010101010101010101',
+			'\n10101010101010101010101010101010101',
+			'\n10101010101010101010101010101010101',
+			'\n10101010101010101010101010101010101',
+		)
+		console.log('authData:', !!authData)
+		console.log(
+			notificationUrl1.current,
+			notificationKey1.current,
+			ntype1.current
+		)
+		notificationUrl1.current = url
+        notificationKey1.current = key
+		ntype1.current = type
+		console.log(
+			notificationUrl1.current,
+			notificationKey1.current,
+			ntype1.current
 		)
 	};
 	switch (getUpdates) {
@@ -95,21 +159,22 @@ function App() {
             // Custodian logged a fault
             if (dept === 'custodian') {
                 // console.log({role}, {role},{role}, {role}, {role})
-                // assignNotifications('pending-faults', 'faultsKey');
-                assignNotifications('unresolved-faults', 'allUnresolvedKey');
+                // assignNotificationsList1('pending-faults', 'faultsKey');
+				// ()
+                assignNotifications1('pending-faults', 'faultsKey', true);
+				assignNotificationsList1('unresolved-faults', 'allUnresolvedKey');
             } else if (dept === 'engineer') {
                 // console.log({role}, {role},{role}, {role}, {role})
                 // localStorage.setItem(role, notification)
-                // assignNotifications('engineer-pending-faults', 'faultsKey');
-                assignNotifications('engineer-unresolved-faults', 'allUnresolvedKey');
-            } else if (dept === 'help-desk') {
+                // assignNotificationsList1('engineer-pending-faults', 'faultsKey');
+				assignNotifications1('engineer-pending-faults', 'faultsKey', true);
+                assignNotificationsList1('engineer-pending-faults', 'faultpendingList', true);
+				assignNotificationsList2('engineer-unresolved-faults', 'allUnresolvedKey');
+            } else if (dept==='supervisor'||dept === 'help-desk') {
                 // console.log({role}, {role},{role}, {role}, {role})
-                // assignNotifications('regional-unconfirmed-faults', 'unconfirmedKey');
-                assignNotifications('region-pending-faults', 'allUnresolvedKey');
-            } else if (dept === 'supervisor') {
-                // console.log({role}, {role},{role}, {role}, {role})
-                // assignNotifications('regional-unconfirmed-faults', 'unconfirmedKey');
-                assignNotifications('region-pending-faults', 'allUnresolvedKey');
+				assignNotifications1('regional-unconfirmed-faults', 'unconfirmedKey', true);
+                assignNotificationsList1('regional-unconfirmed-faults', 'faultunconfirmedList', true);
+                assignNotificationsList2('region-pending-faults', 'allUnresolvedKey');
             }
             break;
             // add to custodian: faultsKey, allUnresolvedKey
@@ -119,26 +184,18 @@ function App() {
             // if (role === 'custodian') {
             //     setNotificationUrl('pending-faults')
             //     setNotificationKey('faultsKey')
-            //     setNotificationUrl('unresolved-faults')
-            //     setNotificationKey('allUnresolvedKey')
             // }
             // if (role === 'engineer') {
             //     setNotificationUrl('engineer-pending-faults')
             //     setNotificationKey('faultsKey')
-            //     setNotificationUrl('engineer-unresolved-faults')
-            //     setNotificationKey('allUnresolvedKey')
             // }
             // if (role === 'help-desk') {
             //     setNotificationUrl('regional-unconfirmed-faults')
             //     setNotificationKey('unconfirmedKey')
-            //     setNotificationUrl('region-pending-faults')
-            //     setNotificationKey('allUnresolvedKey')
             // }
             // if (role === 'supervisor') {
             //     setNotificationUrl('regional-unconfirmed-faults')
             //     setNotificationKey('unconfirmedKey')
-            //     setNotificationUrl('region-pending-faults')
-            //     setNotificationKey('allUnresolvedKey')
             // }
         case 'confirm resolve':
             // custodian confirmed resolution
@@ -261,14 +318,24 @@ function App() {
             // Optional: handle any unexpected notification values
             break;
     }
-	usePullCompleteList(
-		(authData?`${notificationUrl.current}/list`:null), (authData?authData.id:null),
-		(authData?notificatioKey.current:null), forceUpdates, (authData?authData.role:null)
+	usePullNotification(
+		(authData?notificationUrl1.current:null), (authData?authData.id:null),
+		(authData?notificationKey1.current:null), forceUpdates, (authData?authData.role:null),
+		ntype1.current
 	)
-	// console.log('2222222222222222222')
+	usePullCompleteList(
+		(authData?`${notificationListUrl1.current}/list`:null), (authData?authData.id:null),
+		(authData?notificationListKey1.current:null), forceUpdates, (authData?authData.role:null),
+		type1.current
+	)
+	usePullCompleteList(
+		(authData?`${notificationListUrl2.current}/list`:null), (authData?authData.id:null),
+		(authData?notificationListKey2.current:null), forceUpdates, (authData?authData.role:null),
+		type2.current
+	)
 	if (forceUpdates&&!getUpdates) {
 		console.log(
-			'\nturning off notificationUrl and notificationKey:',
+			'\nturning off notificationListUrl and notificationListKey:',
 			'\n88888888888888888888888888888888888',
 			'\n88888888888888888888888888888888888',
 			'\n88888888888888888888888888888888888',
@@ -277,15 +344,36 @@ function App() {
 		)
 		console.log('authData:', !!authData)
 		console.log(
-			notificationUrl.current,
-			notificatioKey.current
+			notificationUrl1.current,
+			notificationKey1.current,
+			ntype1.current,
+			notificationListUrl1.current,
+			notificationListKey1.current,
+			type1.current,
+			notificationListUrl2.current,
+			notificationListKey2.current,
+			type2.current,
 		)
 		setForceUpdates(false)
-		notificatioKey.current = null
-		notificationUrl.current = null
+		notificationUrl1.current = null
+		notificationKey1.current = null
+		ntype1.current = null
+		notificationListKey1.current = null
+		notificationListUrl1.current = null
+		type1.current = null
+		notificationListKey2.current = null
+		notificationListUrl2.current = null
+		type2.current = null
 		console.log(
-			notificationUrl.current,
-			notificatioKey.current
+			notificationUrl1.current,
+			notificationKey1.current,
+			ntype1.current,
+			notificationListUrl1.current,
+			notificationListKey1.current,
+			type1.current,
+			notificationListUrl2.current,
+			notificationListKey2.current,
+			type2.current
 		)
 	}
 	return (

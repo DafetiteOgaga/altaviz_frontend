@@ -32,7 +32,7 @@ function NotificationDropdownMenu({
 		// '\nbutton:', button,
 		'\nurlPath:', urlPath,
 		// '\nnotiList:', notiList,
-		// '\ntotalData:', totalData,
+		'\ntotalData:', totalData,
 		// '\nvariableContext:', variableContext,
 		// '\ntotalArrayContext:', totalArrayContext,
 		// '\nlistPageUrl:', listPageUrl,

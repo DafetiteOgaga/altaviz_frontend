@@ -39,11 +39,15 @@ function Notification ({
 }) {
 	// const { useGetDataAPI } = useContext(FetchContext);
 	const { authData } = useContext(AuthContext);
-	useEffect(() => {
-		// reset or get the updated data locally
-		localStorage.removeItem(variableContext)
-		localStorage.removeItem(`total${variableContext}`)
-	}, [])
+	///////////////////////////////////////////////
+	///////////////////////////////////////////////
+	// useEffect(() => {
+	// 	// reset or get the updated data locally
+	// 	localStorage.removeItem(variableContext)
+	// 	localStorage.removeItem(`total${variableContext}`)
+	// }, [])
+		///////////////////////////////////////////////
+	///////////////////////////////////////////////
 	// console.log()
 	const notification = usePullNotification(
 		urlPath, authData.id,
