@@ -17,13 +17,13 @@ function FaultListGen () {
 	const type = listParams.type
 	const context = listParams.context
 
-	console.log(
-		'\ndept:', dept,
-		'\ntype:', type,
-		'\ncurrUrl:', currUrl,
-		'\nlistParams:', listParams,
-		'\ncontext:', context,
-	)
+	// console.log(
+	// 	'\ndept:', dept,
+	// 	'\ntype:', type,
+	// 	'\ncurrUrl:', currUrl,
+	// 	'\nlistParams:', listParams,
+	// 	'\ncontext:', context,
+	// )
 
 	// set local variable (for engineer and custodian)
 	let localContextVariable;
@@ -48,11 +48,11 @@ function FaultListGen () {
 	const faults = usePullCompleteList(
 		urlPath, authData.id, localContextVariable,
 	)
-	console.log('urlPath:', urlPath)
+	// console.log('urlPath:', urlPath)
 	console.log('faults:', faults)
 
-	console.log('page number:', faults.pageNum)
-	console.log('FaultListGen:', faults.pageHandler(faults.pageNum, faults.arrayData))
+	// console.log('page number:', faults.pageNum)
+	// console.log('FaultListGen:', faults.pageHandler(faults.pageNum, faults.arrayData))
 
 	// frontend pagination
 	let allFaults;
@@ -72,14 +72,14 @@ function FaultListGen () {
 	// // }, [faults.pageNum, confirmReso.pageNum])
 	// }, [faults.pageNum])
 
-	console.log('faults:', faults)
+	// console.log('faults:', faults)
 	console.log('engineer:', engineer)
-	console.log('allFaults:', allFaults)
+	// console.log('allFaults:', allFaults)
 	// console.log('unityPageNum', unityPageNum)
-	console.log('faults.theTotalPage:', faults.theTotalPage)
+	// console.log('faults.theTotalPage:', faults.theTotalPage)
 	console.log(
-		'\nfaults?.arrayData::', faults?.arrayData,
-		'\nfaults?.arrayLoading:', faults?.arrayLoading,
+		// '\nfaults?.arrayData::', faults?.arrayData,
+		// '\nfaults?.arrayLoading:', faults?.arrayLoading,
 		'\nallFaults:', allFaults,
 		'\nallFaults?.length:', allFaults?.length,
 	)
