@@ -52,12 +52,12 @@ function Workshop() {
 						detailPageUrl='component-request-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
-						extraDisplayLocalKeys={[
-							'componentKey', 'totalcomponentKey',
-							'partKey', 'totalpartKey',
-							'partPendingList',	'componentPendingList',
-							'allPendingRequests'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'componentKey', 'totalcomponentKey',
+						// 	'partKey', 'totalpartKey',
+						// 	'partPendingList',	'componentPendingList',
+						// 	'allPendingRequests'
+						// ]}
 						/>
 
 					{/* unconfirmed part posts */}
@@ -81,12 +81,12 @@ function Workshop() {
 						detailPageUrl='part-fixed-details'
 						// refreshKeyList={refreshKeyList}
 						// button='Withdraw'
-						extraDisplayLocalKeys={[
-							'componentKey', 'totalcomponentKey',
-							'partKey', 'totalpartKey',
-							'partPendingList',	'componentPendingList',
-							'allPendingRequests'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'componentKey', 'totalcomponentKey',
+						// 	'partKey', 'totalpartKey',
+						// 	'partPendingList',	'componentPendingList',
+						// 	'allPendingRequests'
+						// ]}
 						/>
 				</div>
 
