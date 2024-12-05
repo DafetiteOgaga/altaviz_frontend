@@ -1,7 +1,7 @@
 import { RotContext } from "../context/RotContext";
 import { useContext } from "react";
-import usePaginationWithEncryption from "../paginationComp/usePaginationWithEncryption";
-import { AuthContext } from "../context/checkAuth/AuthContext";
+// import usePaginationWithEncryption from "../paginationComp/usePaginationWithEncryption";
+// import { AuthContext } from "../context/checkAuth/AuthContext";
 
 function FetchFromLocalStorageOrDB(key, id=null) {
 	const { decrypt, RotCipher } = useContext(RotContext);
