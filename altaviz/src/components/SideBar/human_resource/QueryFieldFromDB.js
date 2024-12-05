@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { SentenceCaseContext } from '../../context/SentenceCaseContext';
+import { useState, useEffect } from 'react';
+// import { SentenceCaseContext } from '../../context/SentenceCaseContext';
 
 function QueryFieldFromDB({ query, setIsExist }) {
 	let queryData = query.split('-')
@@ -123,10 +123,10 @@ function QueryFieldFromDB({ query, setIsExist }) {
 		<div>
 			{loading && <p style={{
 				// padding: '1rem',
-				color: '#888',
+				color: '#B5B5BD',
 				// fontSize: '1.2rem',
 				textAlign: 'center',
-			}}>Loading...</p>}
+			}}>loading ...</p>}
 			{error && <p style={{ color: 'red' }}>{error}</p>}
 			{emailResponse !== null && !loading && (
 				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
