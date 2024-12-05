@@ -66,8 +66,8 @@ function ProductDetails() {
 	return (
 		<>
 			<div className="background-color product-details-page">
-				{/* {loading && (<h2>Loading...</h2>)}
-				{error && (<h2>Loading...</h2>)} */}
+				{/* {loading && (<h2>loading ...</h2>)}
+				{error && (<h2>loading ...</h2>)} */}
 				{product &&
 				(<>
 				<div className="productDetailsTitle">
