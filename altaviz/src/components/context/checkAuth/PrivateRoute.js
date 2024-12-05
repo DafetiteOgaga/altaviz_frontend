@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 
 const PrivateRoute = () => {
@@ -8,7 +8,12 @@ const PrivateRoute = () => {
     const { isAuthenticated, loading } = useContext(AuthContext);
 	// Show a loading spinner or nothing while checking authentication
     if (loading) {
-        return <div>Loading...</div>;
+        return (<h4 style={{
+            padding: '1rem',
+            color: '#B5B5BD',
+            fontSize: '1.2rem',
+            textAlign: 'center',
+        }}>Loading ...</h4>)
     }
     // // If authenticated, but trying to access login page, redirect to /dashboard
     // if (isAuthenticated && location.pathname === '/login') {
