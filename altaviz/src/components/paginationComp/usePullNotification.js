@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
-import { useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
 const baseUrl = 'http://127.0.0.1:8000';
@@ -9,10 +9,15 @@ function usePullNotification(
 	urlPath, id,
 	variableContext,
 	forceTrigger=false,
-	role=null, type=null,
+	role=null,
+	// type=null,
+	region, wsKey,
 ) {
 	const { setNotifications } = useWebSocketNotificationContext()
-	const dept = useLocation().pathname.split('/')[1]
+	// const dept = useLocation().pathname.split('/')[1]
+	const isListData = useRef(false)
+	const ntracker = useRef(false)
+	const notificationCount = useRef(0)
 	const { encrypt, decrypt, RotCipher } = useContext(RotContext);
 	const { useGetDataAPI } = useContext(FetchContext);
 	let [totalData, setTotalData] = useState(0);
@@ -21,6 +26,7 @@ function usePullNotification(
 	const [totalError, settotalError] = useState(null)
 	const [getTrigger, setGetTrigger] = useState(false);
 	const totalArrayContext = `total${variableContext}`
+	const isRole = wsKey?role:null
 
 	const { getData:notificationData, getLoading:arrayLoading, getError:notificationError } = useGetDataAPI(
 		`${baseUrl}/${urlPath}/notification/${id}/`, getTrigger
@@ -29,11 +35,19 @@ function usePullNotification(
 		`${baseUrl}/${urlPath}/${id}/total/`, getTrigger
 	);
 	console.log('start ######################'.toUpperCase())
-	// console.log(
-	// 	'\nnoti url:', `${baseUrl}/${urlPath}/notification/${id}/`,
-	// 	'\nnoti-total url:', `${baseUrl}/${urlPath}/${id}/total/`,
-	// )
-	// console.log()
+	if (role) {
+		console.log(
+			'\nurlPath:', urlPath,
+			'\nid:', id,
+			'\nvariableContext:', variableContext,
+			'\nforceTrigger:', forceTrigger,
+			'\nrole:', role,
+			// '\ntype:', type,
+			'\nregion:', region,
+			'\nwsKey:', wsKey,
+			'\nisRole:', isRole
+		)
+	}
 
 	useEffect(() => {
 		// check and fetch from local storage if the data exist
@@ -49,9 +63,11 @@ function usePullNotification(
 			totaldecodedData = RotCipher(totaldecodedData, decrypt)
 			totaldecodedData = JSON.parse(totaldecodedData)
 			setTotalData(totaldecodedData)
-
-		} else {
-			console.log('from database  ############'.toUpperCase(), 'id:', id)
+		} else if (!decodedData&&!forceTrigger) {
+			console.log('fresh from database  ############'.toUpperCase(), 'id:', id)
+			setGetTrigger(true)
+		} else if (forceTrigger&&role&&region) {
+			console.log('update from database  ############'.toUpperCase(), 'id:', id)
 			setGetTrigger(true)
 		}
 	}, [getTrigger, urlPath, id, variableContext, totalArrayContext])
@@ -69,24 +85,25 @@ function usePullNotification(
 				)
 				setArrayData(notificationData)
 				setArrayError(null)
+				ntracker.current = true
 				if (variableContext) {
 					let encodedData = RotCipher(JSON.stringify(notificationData), encrypt)
 					localStorage.setItem(variableContext, encodedData)
 				}
-				if (localStorage.getItem(dept)&&!type) {
-					console.log('removing dept ...')
-					console.log({dept})
-					localStorage.removeItem(dept)
-					console.log('removed dept ...')
+				if (localStorage.getItem(wsKey)) {
+					// console.log('removing wsKey ...')
+					// console.log({wsKey})
+					// localStorage.removeItem(wsKey)
+					// console.log('removed wsKey ...')
 					setNotifications(null)
 					console.log('set websocket Notification to []')
-					console.log(
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-					)
+					// console.log(
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// )
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
@@ -101,24 +118,24 @@ function usePullNotification(
 				)
 				setTotalData(totalNumData)
 				settotalError(null)
-				if (totalArrayContext) {
+				if (totalArrayContext&&variableContext) {
 					let totalEncodedData = RotCipher(JSON.stringify(totalNumData), encrypt)
 					localStorage.setItem(totalArrayContext, totalEncodedData)
 				}
-				if (localStorage.getItem(dept)&&!type) {
-					console.log('removing dept ...')
-					console.log({dept})
-					localStorage.removeItem(dept)
-					console.log('removed dept ...')
+				if (localStorage.getItem(wsKey)) {
+					// console.log('removing wsKey ...')
+					// console.log({wsKey})
+					// localStorage.removeItem(wsKey)
+					// console.log('removed wsKey ...')
 					setNotifications(null)
 					console.log('set websocket Notification to []')
-					console.log(
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-						'\n00000000000000000000000000000000',
-					)
+					// console.log(
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// 	'\n00000000000000000000000000000000',
+					// )
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
@@ -135,7 +152,31 @@ function usePullNotification(
 
 	let updatedData = localStorage.getItem(variableContext)
 	let totalUpdatedData = localStorage.getItem(totalArrayContext)
-	if (updatedData&&!role) {
+	if (role) {
+		console.log(
+			'\nupdateData:', !!updatedData,
+			'\nrole:', role,
+			'\nupdatedData:', updatedData?.slice(0, 25), '...',
+			'\ntotalUpdatedData:', totalUpdatedData,
+			'\nvariable:', variableContext,
+			'\nupdatedData?.length:', updatedData?.length,
+			'\ntotalUpdatedData?.length:', totalUpdatedData?.length
+		)
+	}
+	// notificationCount.current = 0
+	useEffect(() => {
+		if (isListData.current) {
+			isListData.current = false
+		} else if (notificationData&&totalNumData&&ntracker.current) {
+			isListData.current = true
+			ntracker.current = false
+		}
+		console.log('isListData:', isListData)
+	}, [notificationData, totalNumData])
+	console.log('notificationCount.current (before):', notificationCount.current)
+	if (notificationData&&totalData) {notificationCount.current = 1}
+	console.log('notificationCount.current (after):', notificationCount.current)
+	if (updatedData?.length>2&&totalUpdatedData?.length>2&&!role) {
 		// freshPull.current = true
 		console.log(
 			'\nupdateData:', !!updatedData,
@@ -175,30 +216,19 @@ function usePullNotification(
 	console.log(
 		'\nendpoint (data):', `${baseUrl}/${urlPath}/notification/${id}/`,
 		'\nendpoint (data):', `${baseUrl}/${urlPath}/${id}/total/`,
-		{notificationData, notificationError, totalData, totalError, arrayData, arrayLoading, arrayError},
+		'\n', {notificationData, notificationError, totalNumData, totalNumError},
+		'\n', {arrayData, arrayError, totalData, totalError},
+		'\n', {arrayLoading, totaLoading},
 		'\nrole:', role,
 		(role?'\nWebsocket Notifications spinning':'\nNormal List notification'), '##############',
-		// '\nfreshPull.current:', freshPull.current,
+		'\nwsKey:', wsKey
 	)
-
-
-
-	// console.log(
-	// 	'\nnoti url:', `${baseUrl}/${urlPath}/notification/${id}/`,
-	// 	'\nnoti-total url:', `${baseUrl}/${urlPath}/${id}/total/`,
-	// 	{notificationData, arrayData},
-	// 	{totalNumData, totalData},
-	// 	{totaLoading, arrayLoading},
-	// 	{role},
-	// )
-	// console.log({})
-	// console.log()
-	// console.log({})
-	// console.log({})
+	console.log('isListData:', isListData)
 	console.log('end ######################'.toUpperCase())
 	return {
 		arrayData, arrayLoading, arrayError,
 		totalData, totaLoading, totalError,
+		notificationCount, isListData
 	}
 }
 
