@@ -46,12 +46,12 @@ function Custodian() {
 						detailPageUrl='pending/fault-gen-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 
 					{/* unconfirmed Resolutions */}
@@ -75,12 +75,12 @@ function Custodian() {
 						detailPageUrl='unconfirmed/fault-gen-details'
 						// refreshKeyList={refreshKeyList}
 						button='Confirm'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 				</div>
 				<hr style={{width: '80%'}} />
