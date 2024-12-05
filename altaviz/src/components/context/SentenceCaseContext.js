@@ -5,20 +5,22 @@ export const SentenceCaseContext = createContext();
 export const SentenceCaseProvider = ({ children }) => {
 	const toSentenceCase = (str) => {
         // console.log('str:', str)
-        let sentenceArray;
-        if (str.includes(' ')) {
-            sentenceArray = str.split(' ');
-            // console.log('sentenceArray:', sentenceArray)
-            sentenceArray = sentenceArray.map(word => word.charAt(0).toUpperCase()+word.slice(1).toLowerCase())
-            sentenceArray = sentenceArray.join(' ');
-        } else if (str.includes('-')) {
-            sentenceArray = str.split('-');
-            sentenceArray = sentenceArray.map(word => word.charAt(0).toUpperCase()+word.slice(1).toLowerCase())
-            sentenceArray = sentenceArray.join('-');
-        } else {
-            sentenceArray = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        if (str) {
+            let sentenceArray;
+            if (str.includes(' ')) {
+                sentenceArray = str.split(' ');
+                // console.log('sentenceArray:', sentenceArray)
+                sentenceArray = sentenceArray.map(word => word.charAt(0).toUpperCase()+word.slice(1).toLowerCase())
+                sentenceArray = sentenceArray.join(' ');
+            } else if (str.includes('-')) {
+                sentenceArray = str.split('-');
+                sentenceArray = sentenceArray.map(word => word.charAt(0).toUpperCase()+word.slice(1).toLowerCase())
+                sentenceArray = sentenceArray.join('-');
+            } else {
+                sentenceArray = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+            }
+            return sentenceArray;
         }
-        return sentenceArray;
     };
     function trimString(str, maxLength) {
         if (str.length > maxLength) {
