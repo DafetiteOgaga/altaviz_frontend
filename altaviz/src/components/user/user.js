@@ -4,7 +4,7 @@ import { SentenceCaseContext } from "../context/SentenceCaseContext";
 import { useContext, useState, useEffect } from "react"
 import { FetchContext } from "../context/FetchContext"
 import { useParams, useLocation } from "react-router-dom";
-import useGetWEncryptionSingleItem from "../paginationComp/useGetWEncryptionSingleItem";
+// import useGetWEncryptionSingleItem from "../paginationComp/useGetWEncryptionSingleItem";
 
 function User () {
 	const { toSentenceCase } = useContext(SentenceCaseContext);
@@ -51,10 +51,10 @@ function User () {
 			<>
 			{userLoading && <h4 style={{
 				// padding: '1rem',
-				color: '#888',
+				color: '#B5B5BD',
 				// fontSize: '1.2rem',
 				textAlign: 'center',
-			}}>Loading...</h4>}
+			}}>loading ...</h4>}
 			{userError && <h4>{userError}</h4>}
 			{userDataToState &&
 			<div className="background-color user-page">
