@@ -181,7 +181,12 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 							Previous
 						</button>
 					)}
-					{(completeFaults && pageNum > 0 && pageNum < completeFaults.length) && (
+					{/* {console.log(
+						'\ncompleteFaults:', completeFaults.length,
+						'\npageNum:', pageNum,
+						'\nallFaults:', (Math.ceil(allFaults.length/10)),
+					)} */}
+					{(completeFaults && pageNum > 0 && pageNum < Math.ceil(allFaults.length/10)) && (
 						<button onClick={() => {
 							// faults.handleNextPage();
 							setPageNum(pageNum + 1);
