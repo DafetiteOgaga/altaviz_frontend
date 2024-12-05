@@ -11,7 +11,7 @@ function AuthenticationForm() {
 	// if (backendData) console.log('backendData (authform):', backendData);
 	return (
 		<>
-            {loading && <h1>Loading...</h1>}
+            {loading && <h1>loading ...</h1>}
 				<>
 					<h1>Authenticated {authData ? 'True' : 'False'}</h1>
 					<h5>The data:</h5>
