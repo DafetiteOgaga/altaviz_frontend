@@ -193,7 +193,7 @@ function EngineerToLocation () {
 																	<p style={{margin: '0'}}><strong>New Location: </strong>
 																		<span
 																		// title={`State: ${location.location.state.name}|${location.location.state.initial}`}
-																		style={{color: 'green'}}>{toSentenceCase(location.location.location)}</span> in <span style={{color: 'seagreen'}}>{toSentenceCase(location.location.state.name)}|{location.location.state.initial}</span>
+																		style={{color: 'green'}}>{toSentenceCase(location?.location?.location)}</span> in <span style={{color: 'seagreen'}}>{toSentenceCase(location?.location?.state?.name)}|{location?.location?.state?.initial}</span>
 																	</p>
 																</div>
 																{/* ............... Select Engineers ................ */}
