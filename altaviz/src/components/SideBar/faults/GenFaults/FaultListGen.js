@@ -1,5 +1,5 @@
 import "../../sidebar_pages.css"
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 // import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
 import FaultBarGen from './FaultBarGen';
 import usePullCompleteList from "../../../paginationComp/usePullCompleteList";
@@ -17,13 +17,13 @@ function FaultListGen () {
 	const type = listParams.type
 	const context = listParams.context
 
-	// console.log(
-	// 	'\ndept:', dept,
-	// 	'\ntype:', type,
-	// 	'\ncurrUrl:', currUrl,
-	// 	'\nlistParams:', listParams,
-	// 	'\ncontext:', context,
-	// )
+	console.log(
+		'\ndept:', dept,
+		'\ntype:', type,
+		'\ncurrUrl:', currUrl,
+		'\nlistParams:', listParams,
+		'\ncontext:', context,
+	)
 
 	// set local variable (for engineer and custodian)
 	let localContextVariable;
@@ -49,7 +49,7 @@ function FaultListGen () {
 		urlPath, authData.id, localContextVariable,
 	)
 	// console.log('urlPath:', urlPath)
-	console.log('faults:', faults)
+	// console.log('faults:', faults)
 
 	// console.log('page number:', faults.pageNum)
 	// console.log('FaultListGen:', faults.pageHandler(faults.pageNum, faults.arrayData))
@@ -80,7 +80,7 @@ function FaultListGen () {
 	console.log(
 		// '\nfaults?.arrayData::', faults?.arrayData,
 		// '\nfaults?.arrayLoading:', faults?.arrayLoading,
-		'\nallFaults:', allFaults,
+		// '\nallFaults:', allFaults,
 		'\nallFaults?.length:', allFaults?.length,
 	)
 	// console.log(
@@ -92,7 +92,7 @@ function FaultListGen () {
 				{(!faults.arrayData && faults.arrayLoading) ?
 					(<p style={{
 						padding: '1rem',
-						color: '#888',
+						color: '#B5B5BD',
 						fontSize: '1.2rem',
 						textAlign: 'center',
 					}}>Loading ...</p>) :
