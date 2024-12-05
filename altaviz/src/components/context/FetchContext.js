@@ -60,7 +60,7 @@ export const FetchProviders = ({ children }) => {
 				debounceTimer.current = setTimeout(() => {
 					console.log("Fetching data for:", pageNameIs); // Optional debug log
 					fetchData();
-				}, 300); // 300ms debounce delay
+				}, 200); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
@@ -292,25 +292,35 @@ export const FetchProviders = ({ children }) => {
 				// console.log('Patch trigger is false. PATCH call not executed.');
 				return;
 			}
-			// console.log('from patch api #####');
-			// console.log('url:', url);
+			console.log('from patch api #####');
+			console.log(
+				'\nurl:', url,
+				'\ntrigger:', trigger,
+				'\nredirect:', redirectToPage
+			);
 			for (const [key, value] of formData.entries()) {
 				console.log(`item: ${key}\nvalue: ${value}`);
 			}
+			console.log('111111111111111111')
 			const patchData = async () => {
+				console.log('222222222222222222')
 				try {
+					console.log('33333333333333333')
 					if (checkNull(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
+						console.log('setting patchLoading to true')
 						setPatchLoading(true);
 						const response = await fetch(url, {
 							method: "PATCH",
 							body: formData,
 						});
+						console.log('getting and checking response')
 						if (response.ok) {
 							const responseData = await response.json();
 							setPatchData(responseData);
+							console.log('set data to state variable')
 							if (redirectToPage) {
 								redirectTo("/success");
 								const timer = setTimeout(() => {
@@ -339,7 +349,7 @@ export const FetchProviders = ({ children }) => {
 				// Apply debounce delay before calling fetchData
 				debounceTimer.current = setTimeout(() => {
 					patchData();
-				}, 300); // 300ms debounce delay
+				}, 2); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
