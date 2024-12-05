@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 // import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import { FetchContext } from "../../../context/FetchContext";
@@ -6,7 +6,7 @@ import { FetchContext } from "../../../context/FetchContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
-import { useRefreshContext } from "../../../context/RefreshContext";
+// import { useRefreshContext } from "../../../context/RefreshContext";
 
 const TopContainer = styled.div`
 	display: flex;
@@ -93,6 +93,7 @@ function AddItemToInventory({itemName}) {
 		`http://127.0.0.1:8000/${itemName==='post-part'?'parts':itemName}/`,
 		true,
 	)
+	console.log({getLoading}, {getError})
 	// const refreshCompCopm = () => handleRefresh('getItemList')
 	useEffect(() => {
 		if (getItemList) {
@@ -253,7 +254,7 @@ function AddItemToInventory({itemName}) {
 									// if (itemName.quantity === 0) return null;
 									return (
 									<option key={i} value={itemName.name}>{`${toSentenceCase(itemName.name)} ${itemName.quantity === 0 ? ' (Empty)': ''}`}</option>
-								)})) : ('Loading...')}
+								)})) : ('loading ...')}
 							</SelectItem>
 						</FieldsContainer>
 						<FieldsContainer>

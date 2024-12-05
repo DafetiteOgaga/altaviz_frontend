@@ -1,11 +1,11 @@
 import "./sidebar_pages.css"
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import usePullCompleteList from "../../../paginationComp/usePullCompleteList";
-import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
+// import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
 // import FaultBarGen from "../../faults/GenFaults/FaultBarGen";
 import UserBar from "./UserBar";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function UserProcessedList ({faultUrl, faultKeyContext}) {
 	// const [filteredFaults, setFilteredFaults] = useState(null)
@@ -22,14 +22,15 @@ function UserProcessedList ({faultUrl, faultKeyContext}) {
 	);
 	let urlEndpoint;
 	let variableContext;
+	// other departments
 	if (userParams.dept!=='human-resource') {
 		if (userParams.context === 'faultsKey') {urlEndpoint = 'user-request/list'; variableContext = 'faultpendingList';}
 		else if (userParams.context === 'unconfirmedKey') {urlEndpoint = 'regional-unconfirmed-faults/list'; variableContext = 'faultunconfirmedList';}
 	} else {
+		// hr department
 		if (userParams.context === 'faultsKey') {urlEndpoint = 'all-request-faults/list'; variableContext = 'faultpendingList';}
 		else if (userParams.context === 'updateAccount') {urlEndpoint = 'approve-user-details-update/list'; variableContext = 'updateList';}
 	}
-	// else if (userParams.context === 'unconfirmedKey') {urlEndpoint = 'regional-unconfirmed-faults/list'; variableContext = 'faultunconfirmedList';}
 	console.log(
 		'\nurl::', urlEndpoint,
 		'\nvariableContext::', variableContext,

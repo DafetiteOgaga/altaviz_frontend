@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import NotificationDropdownMenu from "./NotificationDropdownMenu";
 import styled from "styled-components";
 import usePullNotification from "../../paginationComp/usePullNotification";
@@ -34,21 +34,12 @@ function Notification ({
 	detailPageUrl,
 	button,
 	secondButton,
-	extraDisplayLocalKeys,
+	// extraDisplayLocalKeys,
 	refreshComponent,
 }) {
 	// const { useGetDataAPI } = useContext(FetchContext);
 	const { authData } = useContext(AuthContext);
-	///////////////////////////////////////////////
-	///////////////////////////////////////////////
-	// useEffect(() => {
-	// 	// reset or get the updated data locally
-	// 	localStorage.removeItem(variableContext)
-	// 	localStorage.removeItem(`total${variableContext}`)
-	// }, [])
-		///////////////////////////////////////////////
-	///////////////////////////////////////////////
-	// console.log()
+
 	const notification = usePullNotification(
 		urlPath, authData.id,
 		variableContext,
@@ -56,7 +47,7 @@ function Notification ({
 
 	console.log(
 		'\nurlPath:', urlPath,
-		'\nnotification.arrayData:', notification.arrayData,
+		'\nnotification.arrayData:', notification?.arrayData,
 		// '\nnotification.arrayLoading:', notification.arrayLoading,
 		// '\nnotification.arrayError:', notification.arrayError,
 		// '\nnotification.totalData:', notification.totalData,
@@ -67,15 +58,15 @@ function Notification ({
 		<>
 			<MainContainer>
 				<Paragraph><strong>{titleKey}: </strong></Paragraph>
-				{(notification.arrayLoading&&(!notification.arrayData&&!notification.arrayError)) ?
-				// if loading...
+				{(notification?.arrayLoading&&(!notification?.arrayData&&!notification.arrayError)) ?
+				// if loading ...
 				(<Paragraph style={{
 					// padding: '1rem',
-					color: '#888',
+					color: '#B5B5BD',
 					// fontSize: '1.2rem',
 					textAlign: 'center',
 				}}>Loading ...</Paragraph>):
-				((!notification.totalData?.total) ?
+				((!notification?.totalData?.total) ?
 					// if there is no data for notification
 					<Paragraph>{titleValue}</Paragraph> :
 					// <Paragraph>shett!</Paragraph>
@@ -96,7 +87,7 @@ function Notification ({
 					detailPageUrl={detailPageUrl}
 					button={button}
 					secondButton={secondButton}
-					extraDisplayLocalKeys={extraDisplayLocalKeys}
+					// extraDisplayLocalKeys={extraDisplayLocalKeys}
 					refreshComponent={refreshComponent}
 					// setRefresh={setRefresh}
 					/>

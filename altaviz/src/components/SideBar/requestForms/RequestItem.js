@@ -2,14 +2,14 @@ import { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FetchContext } from "../../context/FetchContext";
 // import SubmitNotification from "../../../notifications/submitNotification/SubmitNotification";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 // import ( SentenceCaseContext)
 import { RotContext } from "../../context/RotContext";
 import { useRefreshContext } from "../../context/RefreshContext";
-import useGetWEncryptionSingleItem from "../../paginationComp/useGetWEncryptionSingleItem";
+// import useGetWEncryptionSingleItem from "../../paginationComp/useGetWEncryptionSingleItem";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
-import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
+// import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
 
 const TopContainer = styled.div`
 	display: flex;
@@ -114,7 +114,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 	const [formIndex, setFormIndex] = useState(0);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	const { authData } = useContext(AuthContext);
-	const { refreshIcon, handleRefresh, handleRefreshAll } = useRefreshContext();
+	const { refreshIcon, handleRefresh } = useRefreshContext();
 	const [itemList, setItemList] = useState(null);
 	const [incompleteField, setIncompleteField] = useState(false);
 	const urlDetails = useLocation().pathname.split('/');
@@ -154,6 +154,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 		`http://127.0.0.1:8000/${itemName}s/`,
 		true,
 	)
+	console.log({getItemLoading}, {getItemError})
 	useEffect(() => {
 		if (getItemList) {
 			console.log('getItemList with encryption: ', getItemList)
@@ -299,17 +300,17 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					'\nparameters:', parameters,
 					'\npostData.responseObjs:', postData.responseObjs,
 				)
-				let localKeylist;
+				// let localKeylist;
 				let reqType;
 				let encodedData;
 				if (itemName === 'component') {
 					console.log(`for ${itemName}...`)
-					localKeylist = ['componentPendingList']
+					// localKeylist = ['componentPendingList']
 					reqType = 'requestComponent'
 					if (requestProps) {requestProps.setAddComponentObj(newRequestsPlaceholder);}
 				} else if (itemName === 'part') {
 					console.log(`for ${itemName}...`)
-					localKeylist = ['partPendingList']
+					// localKeylist = ['partPendingList']
 					reqType = 'requestPart'
 					if (requestProps) {requestProps.setAddPartObj(newRequestsPlaceholder)}
 				}
@@ -321,7 +322,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					console.log(
 						'\ndata from localStorage:', !!decodedFaultData,
 						'\nfault_id:', fault_id,
-						'\nlocalKeylist:', localKeylist,
+						// '\nlocalKeylist:', localKeylist,
 						'\nreqType:', reqType,
 						'\ndecodedFaultData:', decodedFaultData,
 						'\nurlDetails[4]-userID:', urlDetails[4],
@@ -371,9 +372,9 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 
 					);
 					// console.log();
-					[...localKeylist].forEach(key => {
-						localStorage.removeItem(key)
-					})
+					// [...localKeylist].forEach(key => {
+					// 	localStorage.removeItem(key)
+					// })
 					// localStorage.removeItem('compRequestContext')
 					// localStorage.removeItem('totalPendingCompRequest')
 
@@ -466,7 +467,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 								<option key={`Select ${toSentenceCase(itemName)}`}>Select {`${toSentenceCase(itemName)}`}</option>
 								{itemList ? (itemList.filter(itemObject => itemObject.quantity !== 0).map((item, i) => (
 									<option key={i} value={item.name}>{toSentenceCase(item.name)}</option>
-								))) : ('Loading...')}
+								))) : ('loading ...')}
 							</SelectItem>
 						</FieldsContainer>
 						<FieldsContainer>

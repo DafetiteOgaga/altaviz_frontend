@@ -19,7 +19,7 @@ function FaultListDisplay ({faultUrl, faultKeyContext}) {
 	const { authData } = useContext(AuthContext);
 
 	// const [newData, setNewData] = useState(false)
-	console.log('1111111111111111111')
+	// console.log('1111111111111111111')
 	let faults = usePullCompleteList(
 		faultUrl, authData.id, faultKeyContext
 	)
@@ -110,6 +110,8 @@ function FaultListDisplay ({faultUrl, faultKeyContext}) {
 		pointerEvents: isFading ? 'none' : 'auto',
 	}
 	console.log({dept})
+	// const emptyList = []
+	// console.log('\nemptylist.length?', !!emptyList.length)
 	return (
 		<>
 		{(!faults.arrayData && faults.arrayLoading) ?

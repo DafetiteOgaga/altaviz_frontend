@@ -24,7 +24,7 @@ function NotificationDropdownMenu({
 	detailPageUrl,
 	button,
 	secondButton,
-	extraDisplayLocalKeys
+	// extraDisplayLocalKeys
 }) {
 	// const notiParams = useParams()
 	const totalArrayContext = `total${variableContext}`
@@ -50,7 +50,7 @@ function NotificationDropdownMenu({
 	const { authData } = useContext(AuthContext)
 	const role = useLocation().pathname.split('/')[1]
 	const [formData, setFormData] = useState(new FormData());
-	const { handleRefresh, handleRefreshAll } = useRefreshContext();
+	const { handleRefresh } = useRefreshContext();
 	const {
 		// useGetDataAPI,
 		usePostDataAPI, usePutDataAPI,
@@ -105,7 +105,7 @@ function NotificationDropdownMenu({
 
 	const checkResponseData = responseData.filter(data => !!data)
 	const checkResponseError = responseError.filter(error => !!error)
-	const responseIndex = responseData.map((data, index) => !!data?index:null).filter(index => index !== null)
+	// const responseIndex = responseData.map((data, index) => !!data?index:null).filter(index => index !== null)
 
 	// click events
 	const handleClick = (e, button, id) => {
@@ -161,13 +161,14 @@ function NotificationDropdownMenu({
 	// response data and error useeffect
 	useEffect(() => {
 		if (checkResponseData || checkResponseError) {
-			if (!extraDisplayLocalKeys) extraDisplayLocalKeys = [];
+			// if (!extraDisplayLocalKeys) extraDisplayLocalKeys = [];
 			if (deleteTrigger) {
 				setDeleteTrigger(() => {
 					// console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
-				handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
+				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
+				handleRefresh([variableContext, totalArrayContext])
 			}
 			if (postTrigger) {
 				setPostTrigger(() => {
@@ -180,7 +181,8 @@ function NotificationDropdownMenu({
 					// console.log('\nsetting Trigger from ', patchTrigger, ' to ', !patchTrigger)
 					return false
 				});
-				handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
+				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
+				handleRefresh([variableContext, totalArrayContext])
 			}
 			if (putTrigger) {
 				setPutTrigger(() => {

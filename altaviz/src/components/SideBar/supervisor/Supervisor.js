@@ -85,12 +85,12 @@ function Supervisor() {
 						detailPageUrl='user-list/faultsKey'
 						// refreshKeyList={refreshKeyList}
 						// button='Approve'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 
 					{/* unconfirmed faults */}
@@ -113,12 +113,12 @@ function Supervisor() {
 						detailPageUrl='user-list/unconfirmedKey'
 						// refreshKeyList={refreshKeyList}
 						// button='helpdesk-unconfirmed'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 				</div>
 

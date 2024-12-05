@@ -4,7 +4,7 @@ import { AuthContext } from "../../../context/checkAuth/AuthContext";
 import usePullCompleteList from "../../../paginationComp/usePullCompleteList";
 import { useContext, useState, useEffect } from "react"
 import { FetchContext } from "../../../context/FetchContext";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 // import { useNavigate } from 'react-router-dom';
@@ -99,11 +99,15 @@ function DetailsUpdate () {
 		color: '#3E3E85',
 	}
 	const assertUpdate = (value1, value2) => {
+		console.log(
+			'\nvalue1:', value1,
+			'\nvalue2:', value2,
+			'\nequal:', value1 !== value2
+		)
 		if (value1 !== value2) {
 			return ({color: 'red'});
 		}
 	};
-	// console.log('check update fxn:', assertUpdate('red', 'blue'));
 	console.log(
 		'\nupdateDetailData:', updateDetailData,
 		'\nuserParams:', userParams,
@@ -114,21 +118,22 @@ function DetailsUpdate () {
 		submitHandler: submitHandler,
 		patchLoading: patchLoading,
 	}
+	if (!updateDetailData.newBranch && updateData) {updateDetailData.newBranch = updateData.branch.name}
 	return (
 		<>
 			{getLoading && <h4 style={{
 				padding: '1rem',
-				color: '#888',
+				color: '#B5B5BD',
 				fontSize: '1.2rem',
 				textAlign: 'center',
-			}}>'Loading ...'</h4>}
+			}}>Loading ...</h4>}
 			{getError && <h4>{getError}</h4>}
 			{updateData &&
 			<div className="background-color user-page">
 				<div className="user-info">
 					<div>
 						<div className="user-page">
-							<img src={`${baseUrl}/${updateData.profile_picture}`} alt="profile pic" />
+							<img src={`${baseUrl}${updateData.profile_picture}`} alt="profile pic" />
 						</div>
 						{(updateData?.role==='custodian') &&
 							<>

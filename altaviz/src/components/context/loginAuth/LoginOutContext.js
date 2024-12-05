@@ -2,8 +2,10 @@ import { createContext, useCallback, useState, useContext, useEffect } from "rea
 import { RotContext } from "../RotContext";
 // import { AuthContext } from "../checkAuth/AuthContext";
 // import { useNavigate}
-import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
+// import { CSSTransition } from "react-transition-group";
+// import './login.css'
 
 export const LoginContext = createContext();
 function CsrfToken() {
@@ -17,6 +19,7 @@ export const LoginProvider = ({ children }) => {
     const [authData, setAuthData] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
+    // const [redirecting, setRedirecting] = useState(false); // Tracks if transition should start
     const { encrypt, RotCipher, decrypt } = useContext(RotContext);
     const toDashboard = useNavigate()
 
@@ -36,9 +39,6 @@ export const LoginProvider = ({ children }) => {
 
             // Redirect to the dashboard if already authenticated and on the login page
             toDashboard(`/${decodedData.role}`);
-            // if (urlCheck[1] === 'login') {
-            //     toDashboard(`/${decodedData?.role}`);
-            // }
         }
         // setIsLogin(false);
     }, [urlCheck]);
@@ -69,6 +69,7 @@ export const LoginProvider = ({ children }) => {
             });
             const data = await response.json();
             if (response.ok) {
+                console.log('Login successful:', data);
                 console.log('Login successful:', data.message);
                 setAuthData(data);
 
@@ -77,8 +78,16 @@ export const LoginProvider = ({ children }) => {
                 localStorage.setItem('authData', encodedData);
                 console.log('saving data 111111111:', data)
 
+                // Start transition
+                // setRedirecting(true);
+
+                // Delay redirection until the transition ends
+                // setTimeout(() => {
+                toDashboard(`/${data?.role || "/"}`);
+                // }, 300); // Match this to the duration of your CSS animation
+
                 // to redirect and Refresh the page on succcess
-                toDashboard(`/${data?.role || '/'}`)
+                // toDashboard(`/${data?.role || '/'}`)
                  // to Refresh the page on succcess
                 window.location.reload();
                 // try {

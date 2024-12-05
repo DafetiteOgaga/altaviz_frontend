@@ -1,7 +1,7 @@
 // import LogFault from "../custodian/log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import Dashboard from "../dashboard/Dashboard";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 // import { AuthContext } from "../../context/checkAuth/AuthContext";
 import Notification from "../notification/Notification";
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
@@ -55,12 +55,12 @@ function Engineer() {
 						detailPageUrl='component-request-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
-						extraDisplayLocalKeys={[
-							'componentKey', 'totalcomponentKey',
-							'partKey', 'totalpartKey',
-							'partPendingList',	'componentPendingList',
-							'allPendingRequests'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'componentKey', 'totalcomponentKey',
+						// 	'partKey', 'totalpartKey',
+						// 	'partPendingList',	'componentPendingList',
+						// 	'allPendingRequests'
+						// ]}
 						/>
 
 					{/* pending part requests */}
@@ -83,12 +83,12 @@ function Engineer() {
 						detailPageUrl='part-request-details'
 						// refreshKeyList={refreshKeyList}
 						button='Withdraw'
-						extraDisplayLocalKeys={[
-							'componentKey', 'totalcomponentKey',
-							'partKey', 'totalpartKey',
-							'partPendingList',	'componentPendingList',
-							'allPendingRequests'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'componentKey', 'totalcomponentKey',
+						// 	'partKey', 'totalpartKey',
+						// 	'partPendingList',	'componentPendingList',
+						// 	'allPendingRequests'
+						// ]}
 						/>
 
 					{/* <Notification
@@ -136,12 +136,12 @@ function Engineer() {
 						listPageUrl='pending/fault-gen-list'
 						detailPageUrl='pending/fault-gen-details'
 						button='Seek Confirmation'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 
 						{/* faultsKey
@@ -162,12 +162,12 @@ function Engineer() {
 						// unapprovedHandler
 						listPageUrl='unconfirmed/fault-gen-list'
 						detailPageUrl='unconfirmed/fault-gen-details'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 				</div>
 				<hr style={{width: '80%'}} />

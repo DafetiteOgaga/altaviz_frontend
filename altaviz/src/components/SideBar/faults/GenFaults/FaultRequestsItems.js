@@ -55,7 +55,7 @@ function FaultRequestsItem ({
 }) {
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
-		'\nrequestItemsObj.updateCompLocalStorage.isDone:', requestItemsObj.updateCompLocalStorage.isDone,
+		// '\nrequestItemsObj.updateCompLocalStorage.isDone:', requestItemsObj.updateCompLocalStorage.isDone,
 		'\nrequestItemsObj.role:', requestItemsObj.role,
 		'\nrequest:', request,
 		'\nrequestItemsObj.canMakeRequests:', requestItemsObj.canMakeRequests,
@@ -98,13 +98,13 @@ function FaultRequestsItem ({
 	return (
 		<>
 		{/* loads requests from db */}
-		{requestItemsObj.updateCompLocalStorage.isDone?
-		(<>
+		{/* {requestItemsObj.updateCompLocalStorage.isDone? */}
+		<>
 		{/* human-resource and supervisor can approve/reject requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
 		{((requestItemsObj.role==='supervisor'||requestItemsObj.role==='human-resource') && !requestItemsObj.faultsItem?.confirm_resolve &&
 				!requestItemsObj.faultsItem?.verify_resolve && !request.approved && !request.rejected && requestItemsObj.canApproveOrRejectRequests
 			)&&
-				(<>
+				<>
 					<FaIcon
 					iconParameters={iconParameters}
 					icon='check'
@@ -117,7 +117,7 @@ function FaultRequestsItem ({
 					btnState='rejected'
 					color={{color: 'red'}}
 					/>
-				</>)}
+				</>}
 
 			{/* engineers and supervisor can delete requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
 			{((requestItemsObj.role==='engineer'||requestItemsObj.role==='supervisor') && requestItemsObj.canMakeRequests && !requestItemsObj.faultsItem?.verify_resolve &&
@@ -135,8 +135,8 @@ function FaultRequestsItem ({
 				style={{color: '#333'}}>
 					{toSentenceCase(request.name.name)}
 			</Link>
-		</>)
-		:(toSentenceCase(request.name.name))}
+		</>
+		{/* :(toSentenceCase(request.name.name))} */}
 			: <span>
 				{request.quantityRequested} {request.quantityRequested === 1 ? 'piece' : 'pieces'}
 			</span> <span style={{

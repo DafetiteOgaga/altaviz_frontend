@@ -54,7 +54,7 @@ export default Sidebar;
 // function SideBar() {
 // 	const { data, loading, error } = useFetch('http://localhost:8000');
 
-// 	if (loading) return <p>Loading...</p>;
+// 	if (loading) return <p>loading ...</p>;
 // 	if (error) return <p>Error: {error}</p>;
 // 	console.log(data);
 
