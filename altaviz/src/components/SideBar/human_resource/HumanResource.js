@@ -141,12 +141,12 @@ function HumanResource() {
 						detailPageUrl='component-request-details'
 						// refreshKeyList={refreshKeyList}
 						button='Approve'
-						extraDisplayLocalKeys={[
-							'componentKey', 'totalcomponentKey',
-							'partKey', 'totalpartKey',
-							'partPendingList',	'componentPendingList',
-							'allPendingRequests'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'componentKey', 'totalcomponentKey',
+						// 	'partKey', 'totalpartKey',
+						// 	'partPendingList',	'componentPendingList',
+						// 	'allPendingRequests'
+						// ]}
 						/>
 
 					{/* unconfirmed part posts */}
@@ -230,12 +230,12 @@ function HumanResource() {
 						// refreshKeyList={refreshKeyList}
 						// button='Approve'
 						// secondButton='Reject'
-						extraDisplayLocalKeys={[
-							'faultsKey', 'totalfaultsKey',
-							'unconfirmedKey', 'totalunconfirmedKey',
-							'faultpendingList',	'faultunconfirmedList',
-							'allUnresolvedKey'
-						]}
+						// extraDisplayLocalKeys={[
+						// 	'faultsKey', 'totalfaultsKey',
+						// 	'unconfirmedKey', 'totalunconfirmedKey',
+						// 	'faultpendingList',	'faultunconfirmedList',
+						// 	'allUnresolvedKey'
+						// ]}
 						/>
 				</div>
 				<hr style={{width: '80%'}} />
