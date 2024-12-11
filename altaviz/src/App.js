@@ -18,11 +18,13 @@ import { useWebSocketNotificationContext } from './components/context/RealTimeNo
 import { useLocation } from 'react-router-dom';
 // import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
 // import Custodian from './components/SideBar/custodian/Custodian';
+// import Notification from './components/SideBar/notification/Notification';
 
 function App() {
 	// const [makeRefresh, setMakeRefresh] = useState(false)
 	const keyList = useRef([])
 	const nTotalNotifications = useRef(0)
+	const NotificationString = useRef(null)
 	const nCounter = useRef([])
 	// const wsKey = useRef(null)
 	const notificationListUrl1 = useRef(null)
@@ -77,8 +79,10 @@ function App() {
 		)
 		const auth = authData.role
 		console.log({dept}, {notifications}, {auth})
-		wsKey = notifications?.split('-')[0]
-		localStorage.setItem(wsKey, notifications)
+		if (notifications?.split('-')[0]!=='deliveries point') {
+			wsKey = notifications?.split('-')[0]
+			localStorage.setItem(wsKey, notifications)
+		}
 	}
 	console.log(
 		'\n2222222222222222222222222222222222222222222222222222222',
@@ -105,11 +109,16 @@ function App() {
 		'\nwsKey:', wsKey,
 	)
 	useEffect(() => {
+		console.log(
+			'\nwsKey:', wsKey,
+			'\nkeyList.current.includes(wsKey):', keyList.current.includes(wsKey),
+			'\nkeyList.current:', keyList.current,
+		)
 		if (wsKey && !keyList.current.includes(wsKey)) {
 			keyList.current.push(wsKey)
 			console.log("Updated keyList:", keyList.current);
 		}
-	}, [wsKey])
+	}, [wsKey, notifications])
 	console.log('\nkeyList.current:', keyList.current)
 	useEffect(() => {
 		if (getUpdates) {
@@ -308,7 +317,7 @@ function App() {
 	};
 	let region;
 	let websocketAlert;
-	if (notifications) {[websocketAlert, region] = getUpdates.split('-')}
+	if (notifications&&wsKey) {[websocketAlert, region] = getUpdates.split('-')}
 	console.log(
 		'\nwebsocketAlert:', websocketAlert,
 		'\nauthData?.region?.name:', authData?.region?.name,
@@ -335,6 +344,7 @@ function App() {
 				// nTotalNotifications.current = 3
             }
 			nTotalNotifications.current = 3
+			NotificationString.current = websocketAlert
             break;
         case 'confirm resolve':
             // custodian confirmed resolution
@@ -346,7 +356,7 @@ function App() {
 				assignNotificationsList3('unresolved-faults', 'allUnresolvedKey');
             } else if (dept === 'engineer') {
 				assignNotifications1('engineer-pending-faults', 'faultsKey');
-				assignNotifications2('regional-unconfirmed-faults', 'unconfirmedKey');
+				assignNotifications2('engineer-unconfirmed-faults', 'unconfirmedKey');
 				assignNotificationsList1('engineer-pending-faults', 'faultpendingList');
 				assignNotificationsList2('engineer-unconfirmed-faults', 'faultunconfirmedList');
 				assignNotificationsList3('engineer-unresolved-faults', 'allUnresolvedKey');
@@ -358,6 +368,7 @@ function App() {
 				assignNotificationsList3('regional-unconfirmed-faults', 'faultunconfirmedList');
 			}
 			nTotalNotifications.current = 5
+			NotificationString.current = websocketAlert
             break;
         case 'fault deleted':
             // fault deleted
@@ -385,6 +396,7 @@ function App() {
 				assignNotificationsList1('approve-user-details-update', 'updateList');
             }
 			nTotalNotifications.current = 2
+			NotificationString.current = websocketAlert
             break;
         case 'approve or reject fixed parts':
             // hr approved/rejected fixed parts
@@ -398,6 +410,7 @@ function App() {
 				}
 			}
 			nTotalNotifications.current = 3
+			NotificationString.current = websocketAlert
             break;
 
         // workshop
@@ -421,6 +434,7 @@ function App() {
 				}
 			}
 			nTotalNotifications.current = 3
+			NotificationString.current = websocketAlert
             break;
 
         // workshop/engineer/supervisor
@@ -465,6 +479,7 @@ function App() {
 				assignNotificationsList4('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 6
 			}
+			NotificationString.current = websocketAlert
             break;
 
         // engineer/supervisor
@@ -503,6 +518,7 @@ function App() {
 				assignNotificationsList3('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 4
 			}
+			NotificationString.current = websocketAlert
             break;
         case 'verify resolve':
             // engineer verified resolution
@@ -540,6 +556,7 @@ function App() {
 				assignNotificationsList2('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 3
 			}
+			NotificationString.current = websocketAlert
             break;
         case 'component request deleted':
             // component request deleted
@@ -586,6 +603,7 @@ function App() {
 				assignNotificationsList3('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 4
 			}
+			NotificationString.current = websocketAlert
             break;
         case 'approve/reject part request':
             // supervisor/hr approve/reject single part request
@@ -621,6 +639,7 @@ function App() {
 				assignNotificationsList3('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 4
 			}
+			NotificationString.current = websocketAlert
             break;
         case 'approve/reject components and/or parts request':
             // supervisor/hr approve/reject components and/or parts request
@@ -658,6 +677,7 @@ function App() {
 				assignNotificationsList3('all-request-faults', 'faultpendingList');
 				nTotalNotifications.current = 4
 			}
+			NotificationString.current = websocketAlert
             break;
         case 'assigned engineer to new location':
             // supervisor assigned engineer to new location
@@ -832,12 +852,18 @@ function App() {
 				'\nnCounter.current.length === nTotalNotifications.current:', nCounter.current.length===nTotalNotifications.current,
 			)
 
-			for (let i = 0; i < keyList.current.length; i++) {
-				console.log('removing key:', keyList.current[i])
-                localStorage.removeItem(keyList.current[i]);
-			}
-			console.log('keyList.current:', keyList.current)
+			console.log({wsKey}, {websocketAlert})
+			console.log(
+				'\nNotificationString.current:', NotificationString.current
+			)
+			// for (let i = 0; i < keyList.current.length; i++) {
+			// 	console.log('removing key:', keyList.current[i])
+            //     localStorage.removeItem(keyList.current[i]);
+			// }
+			localStorage.removeItem(NotificationString.current)
+			// console.log('keyList.current:', keyList.current)
 			keyList.current = []
+			keyList.current.pop(NotificationString.current)
 			console.log('keyList.current:', keyList.current)
 
 			console.log(
