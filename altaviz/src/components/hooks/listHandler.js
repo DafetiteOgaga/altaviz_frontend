@@ -17,13 +17,14 @@ function listHandler(listValue) {
 export default listHandler;
 
 function listHandle(listValue) {
+	console.log('\nlistValue:', listValue)
 	let newList = [];
 	for (let i = 0; i < listValue.length; i++) {
 		if (i === 4) {
 			newList.push('Click to See All');
 			break;
 		}
-		// console.log('title:', listValue[i].title.name);
+		console.log('\ntitle:', listValue[i].title.name);
 		newList.push({
 			title: listValue[i].title.name,
 			id: listValue[i].id,

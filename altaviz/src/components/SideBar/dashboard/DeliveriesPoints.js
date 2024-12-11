@@ -1,17 +1,32 @@
 import { FetchContext } from "../../context/FetchContext";
 import { useContext, useState, useEffect } from "react";
+import { useWebSocketNotificationContext } from "../../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
 function Deliveries({id}) {
-	// const [getTrigger, setGetTrigger] = useState(true);
+	const { notifications } = useWebSocketNotificationContext()
+	// const [refresh, setRefresh] = useState(true);
+	const [getTrigger, setGetTrigger] = useState(false);
 	const [deliveries, setDeliveries] = useState(null);
 	const [error, setError] = useState(null);
 	const { useGetDataAPI } = useContext(FetchContext);
 	const { getData, getLoading, getError } = useGetDataAPI(
-		`http://127.0.0.1:8000/deliveries/${id}/`, true,
+		`http://127.0.0.1:8000/deliveries/${id}/`, getTrigger,
 	)
+	useEffect(() => {setGetTrigger(true)}, [])
+	useEffect(() => {
+		console.log(
+			'\n09090909090909090909090909090909',
+			'\n09090909090909090909090909090909',
+		)
+		if (notifications?.split('-')[0]==='deliveries point') {
+			setGetTrigger(true)
+			localStorage.removeItem(theString);
+		}
+	}, [notifications])
 	useEffect(() => {
 		if (getData) {
             setDeliveries(getData);
+			setGetTrigger(false)
         }
         if (getError) {
 			setError('Error fetching value')
@@ -26,6 +41,12 @@ function Deliveries({id}) {
 			'\nerror:', error
 		)
 	}
+	const theString = notifications?.split('-')[0]
+	console.log(
+		'\nnotifications:', notifications,
+		'\ntheString:', theString,
+	)
+	// console.log({refresh})
 	return (
 		<>
 			{getLoading && <span style={{

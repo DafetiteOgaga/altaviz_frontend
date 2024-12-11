@@ -31,16 +31,16 @@ function NotificationDropdownMenu({
 	console.log(
 		// '\nbutton:', button,
 		'\nurlPath:', urlPath,
-		// '\nnotiList:', notiList,
+		'\nnotiList:', notiList,
 		'\ntotalData:', totalData,
-		// '\nvariableContext:', variableContext,
+		'\nvariableContext:', variableContext,
 		// '\ntotalArrayContext:', totalArrayContext,
-		// '\nlistPageUrl:', listPageUrl,
-		// '\ndetailPageUrl:', detailPageUrl,
-		// '\nhandler:', handler,
-		// '\npatchUrl:', patchUrl,
-		// '\npostUrl:', postUrl,
-		// '\nputUrl:', putUrl,
+		'\nlistPageUrl:', listPageUrl,
+		'\ndetailPageUrl:', detailPageUrl,
+		'\nhandler:', handler,
+		'\npatchUrl:', patchUrl,
+		'\npostUrl:', postUrl,
+		'\nputUrl:', putUrl,
 		// '\nsecondButton:', secondButton,
 		// '\ndeleteUrl:', deleteUrl,
 		// '\nextraDisplayLocalKeys:', extraDisplayLocalKeys,
@@ -205,7 +205,7 @@ function NotificationDropdownMenu({
 	useEffect(() => {
 		let newList;
 		if (notiList) {
-			// console.log('\nnotiList:', notiList)
+			console.log('\nnotiList:', notiList)
 			if (handler === 'help-desk' || handler === 'supervisor'||
 				handler === 'human-resource') {
 				// for helpdesk, supervisor, human-resource components
@@ -233,6 +233,7 @@ function NotificationDropdownMenu({
 				setCleanedList(newList)
 			} else {
 				// other
+				console.log('\nnotiList 111:', notiList)
 				newList = listHandle(notiList);
 				setCleanedList(newList)
 			}
