@@ -16,9 +16,6 @@ import usePullCompleteList from './components/paginationComp/usePullCompleteList
 import { AuthContext } from './components/context/checkAuth/AuthContext';
 import { useWebSocketNotificationContext } from './components/context/RealTimeNotificationContext/useWebSocketNotificationContext';
 import { useLocation } from 'react-router-dom';
-// import { type } from '@testing-library/user-event/dist/cjs/utility/type.js';
-// import Custodian from './components/SideBar/custodian/Custodian';
-// import Notification from './components/SideBar/notification/Notification';
 
 function App() {
 	// const [makeRefresh, setMakeRefresh] = useState(false)
