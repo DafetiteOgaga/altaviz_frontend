@@ -530,7 +530,7 @@ function FaultDetailsGen({searchFaults}) {
 		'\nappovedAt:', appovedAt,
 		'\ncompRequestAt:', compRequestAt,
 		'\npartRequestAt:', partRequestAt,
-		'\napproved_at:', faultsItem?.requestPart?.find(request => request.approved_at).approved_at
+		'\napproved_at:', (faultsItem?.requestPart||[])?.find(request => request.approved_at)?.approved_at
 	)
 
 	// check requests status
@@ -972,7 +972,7 @@ function FaultDetailsGen({searchFaults}) {
 										</div>}
 									</div>)}
 
-									{/* engineer component and parts requests buttons */}
+									{/* engineer component, part requests and seek buttons */}
 									{(canMakeRequests && !faultsItem?.verify_resolve) &&
 									<div
 									style={buttonStyle}>
