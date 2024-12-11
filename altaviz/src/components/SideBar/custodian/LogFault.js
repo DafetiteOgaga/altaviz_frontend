@@ -1,5 +1,5 @@
 import "../sidebar_pages.css";
-import useGetWithEncryption from "../../paginationComp/useGetWithEncryption";
+// import useGetWithEncryption from "../../paginationComp/useGetWithEncryption";
 import { useState , useContext, useEffect, useRef } from "react";
 import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
@@ -22,7 +22,7 @@ function LogFault() {
 	// post setup
 	const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
-	const { usePostDataAPI } = useContext(FetchContext);
+	const { usePostDataAPI, useGetDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
 		'http://127.0.0.1:8000/fault/',
 		formData,
@@ -30,20 +30,25 @@ function LogFault() {
 		currentPage,
 	);
 	// get setup
-	const faultNames = useGetWithEncryption(
-		'http://127.0.0.1:8000/fault-name/',
-		'faultnames',
+	const { getData, getLoading, getError } = useGetDataAPI(
+		`http://127.0.0.1:8000/fault-name/`,
+		true,
 	)
+	////// const faultNames = useGetWithEncryption(
+	// 	'http://127.0.0.1:8000/fault-name/',
+	// 	'faultnames',
+	// )
 	useEffect(() => {
-		console.log('faultNames', faultNames)
-        if (faultNames.getData) {
-			console.log('faultNames getData: ', faultNames.getData)
-            setFaultNamesList(faultNames.getData)
-        } else if (faultNames.localDataStoreVar) {
-			console.log('faultNames localDataStoreVar: ', faultNames.localDataStoreVar)
-            setFaultNamesList(faultNames.localDataStoreVar)
+		console.log('getData', getData)
+        if (getData) {
+			console.log('getData: ', getData)
+            setFaultNamesList(getData)
         }
-    }, [faultNames])
+		// else if (faultNames) {
+		// 	console.log('faultNames localDataStoreVar: ', faultNames)
+        //     setFaultNamesList(faultNames)
+        // }
+    }, [getData])
 	console.log('faultNamesList:', faultNamesList);
 	useEffect(() => {
 		if (postData || postError) {
@@ -199,6 +204,7 @@ function LogFault() {
 														<label htmlFor={`fault-${field.id}`}>Fault:</label>
 														{/* <label htmlFor={`fault-${field.id}`}>Fault:</label> */}
 														<select
+														style={{borderRadius: '5px'}}
 														ref={refInput}
 														id={`fault-${field.id}`}
 														name={`fault-${field.id}`}
@@ -258,6 +264,7 @@ function LogFault() {
 											<div className="input-field textarea-box">
 												<label htmlFor={`other-${field.id}`}>Others:</label>
 												<textarea
+												style={{borderRadius: '4px'}}
 												type="text"
 												name={`other-${field.id}`}
 												id={`other-${field.id}`}
