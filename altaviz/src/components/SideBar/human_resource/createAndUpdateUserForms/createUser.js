@@ -740,9 +740,9 @@ function CreateUser () {
 	let stateLocationsList;
 	let stateStatesList;
 	let stateBranchesList;
-	let extractedStates;
-	let NigStates;
-	let combinedStates;
+	// let extractedStates;
+	// let NigStates;
+	// let combinedStates;
 	// let filteredStateLocation;
 	console.log('Custodian:', newUser.role === 'Custodian')
 	if (newUser.role) {
@@ -757,11 +757,11 @@ function CreateUser () {
 			stateStatesList = filteredStates
 			stateLocationsList = filteredLocations
 		}
-		if (stateStatesList) {
-			extractedStates = stateStatesList.map(state => state.name)
-			NigStates = statesInNig.map(state => state.toLowerCase())
-			combinedStates = [...new Set([...extractedStates, ...NigStates])]
-		}
+		// if (stateStatesList) {
+		// 	extractedStates = stateStatesList.map(state => state.name)
+		// 	NigStates = statesInNig.map(state => state.toLowerCase())
+		// 	combinedStates = [...new Set([...extractedStates, ...NigStates])]
+		// }
 	}
 	// console.log('Custodian:', newUser.role === 'Custodian')
 	// console.log('custodianList (outside):', custodianList)
@@ -813,28 +813,28 @@ function CreateUser () {
 		}
 		return null;
 	};
-	if (combinedStates) {
-	// 	// let extractedStates = stateStatesList.map(state => state.name)
-	// 	// let NigStates = statesInNig.map(state => state.toLowerCase())
-	// 	// const combinedStates = [...new Set([...extractedStates, ...NigStates])]
-	// 	// const combinedFilteredStates = [...new Set(combinedStates)];
+	// if (combinedStates) {
+	// // 	// let extractedStates = stateStatesList.map(state => state.name)
+	// // 	// let NigStates = statesInNig.map(state => state.toLowerCase())
+	// // 	// const combinedStates = [...new Set([...extractedStates, ...NigStates])]
+	// // 	// const combinedFilteredStates = [...new Set(combinedStates)];
 
-		console.log(
-	// 	'kkkkkkkkkkkkkkkkkkkkk',
-	// 	'\nstatesInNig:', NigStates,
-	// 	'\nextractedStates:', extractedStates,
-		'\ncombinedStates:', combinedStates,
-	// 	// '\ncombinedFilteredStates:', combinedFilteredStates,
-		);
 	// 	console.log(
-	// 	'mmmmmmmmmmmmmmmmmmmmm',
-	// 	'\nlen states in nig:', NigStates?.length,
-	// 	'\nlen extractedStates:', extractedStates?.length,
-	// 	'\nlen combinedStates:', combinedStates?.length,
-	// 	// '\nlen combinedFilteredStates:', combinedFilteredStates.length,
+	// // 	'kkkkkkkkkkkkkkkkkkkkk',
+	// // 	'\nstatesInNig:', NigStates,
+	// // 	'\nextractedStates:', extractedStates,
+	// 	'\ncombinedStates:', combinedStates,
+	// // 	// '\ncombinedFilteredStates:', combinedFilteredStates,
 	// 	);
+	// // 	console.log(
+	// // 	'mmmmmmmmmmmmmmmmmmmmm',
+	// // 	'\nlen states in nig:', NigStates?.length,
+	// // 	'\nlen extractedStates:', extractedStates?.length,
+	// // 	'\nlen combinedStates:', combinedStates?.length,
+	// // 	// '\nlen combinedFilteredStates:', combinedFilteredStates.length,
+	// // 	);
 
-	}
+	// }
 	const styleObj = {
 		fontWeight: 'bold',
 		margin: '0',
@@ -933,9 +933,9 @@ function CreateUser () {
 														stateStatesList.map((stateName, i) => (
 															<option key={i} value={stateName.name}>{toSentenceCase(stateName.name)}</option>
 														))} */}
-														{combinedStates &&
-														combinedStates.map((stateName, i) => (
-															<option key={i} value={stateName}>{toSentenceCase(stateName)}</option>
+														{stateStatesList &&
+														stateStatesList.map((stateName, i) => (
+															<option key={i} value={stateName.name}>{toSentenceCase(stateName.name)}</option>
 														))}
 													</SelectItem>
 												</div>
