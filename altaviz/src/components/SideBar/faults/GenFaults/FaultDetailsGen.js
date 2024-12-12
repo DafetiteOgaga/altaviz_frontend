@@ -509,8 +509,14 @@ function FaultDetailsGen({searchFaults}) {
 
 	const loggedAt = new Date(faultsItem?.created_at)
 	const resolvedAt = faultsItem?.resolved_at ? new Date(faultsItem?.resolved_at) : null;
-	let approvedRequest = faultsItem?.requestStatus ? (faultsItem?.requestPart?.some(request => request.approved) || faultsItem?.requestComponent?.some(request => request.approved)):null
-	let rejectRequest = faultsItem?.requestStatus ? (faultsItem?.requestPart?.some(request => request.rejected) ||faultsItem?.requestComponent?.some(request => request.rejected)):null
+	let approvedRequest = faultsItem?.requestStatus ?
+		((Array.isArray(faultsItem?.requestPart)&&(faultsItem?.requestPart?.some(request => request.approved))) ||
+		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.approved))):
+		null
+	let rejectRequest = faultsItem?.requestStatus ?
+		(((Array.isArray(faultsItem?.requestPart))&&(faultsItem?.requestPart?.some(request => request.rejected))) ||
+		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.rejected))):
+		null
 	const appovedAt = (approvedRequest || rejectRequest) ?
 		new Date(
 			faultsItem?.requestPart?.find(request => request.approved_at).approved_at ||
