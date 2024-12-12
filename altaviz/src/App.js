@@ -978,10 +978,8 @@ function App() {
 			// regionList2.current,
 		)
 	}
-	// useEffect(() => {
-	// 	console.log('refreshing ...')
-	// 	if (makeRefresh) {setMakeRefresh(!makeRefresh)}
-	// }, [makeRefresh])
+	const baseUrl = process.env.REACT_APP_API_BASE_URL;
+	console.log('\nbase url:', baseUrl)
 	return (
 		<div className="app-container">
 			<div style={{paddingBottom: '1em'}}>
