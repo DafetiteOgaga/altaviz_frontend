@@ -28,21 +28,6 @@ function Dashboard() {
 		'authData:', authData,
 		'custodianCheck:', custodianCheck
 	)
-	// const assignNotifications = (url, key) => {
-    //     setServerUrl(url);
-    //     setLocalKey(key);
-    // };
-	// if (localStorage.getItem(authData.role)) {
-	// 	assignNotifications('engineer-pending-faults', 'faultsKey');
-	// 	assignNotifications('engineer-unresolved-faults', 'allUnresolvedKey');
-	// }
-	// const updates = useForceDBPullWEncryption(
-	// 	`http://127.0.0.1:8000/${serverUrl}/notification/${authData.id}/`,
-	// 	localKey, !!serverUrl
-	// );
-	// const updates = usePullNotification(serverUrl, authData.id, localKey, !!serverUrl);
-	// if (updates.isDone) {localStorage.removeItem(authData.role)}
-	// if (authData?.role === department) redirectTo(`/${authData?.role}`)
 	return (
 		<>
 			<div style={{paddingTop: '2rem'}}>
