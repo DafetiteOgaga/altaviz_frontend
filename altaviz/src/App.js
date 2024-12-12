@@ -4,7 +4,7 @@ import { useContext, useEffect, useState, useRef } from 'react';
 import './App.css';
 import './components/fonts.css';
 // import Testfetchapi from './components/Testfetchapi';
-import SideBar from './components/SideBar/sidebarCompoent/SideBar';
+import SideBar from './components/SideBar/sidebarComponent/SideBar';
 import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
@@ -978,8 +978,9 @@ function App() {
 			// regionList2.current,
 		)
 	}
-	const baseUrl = process.env.REACT_APP_API_BASE_URL;
-	console.log('\nbase url:', baseUrl)
+	const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+	console.log('\napiBaseUrl url:', apiBaseUrl
+	)
 	return (
 		<div className="app-container">
 			<div style={{paddingBottom: '1em'}}>
