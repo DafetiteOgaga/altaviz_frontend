@@ -1,12 +1,13 @@
 // import logo from "../../logo/altaviz_logo.png"
 import "./profile.css"
-import { useContext, useState, useEffect } from "react"
-import { FetchContext } from "../context/FetchContext"
+import { useContext } from "react"
+// import { FetchContext } from "../context/FetchContext"
 import { AuthContext } from "../context/checkAuth/AuthContext";
 import { useParams, useLocation } from "react-router-dom";
-import useGetWEncryptionSingleItem from "../paginationComp/useGetWEncryptionSingleItem";
-import { initial } from 'lodash';
+// import { initial } from 'lodash';
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 function Profile () {
 	const { authData } = useContext(AuthContext)
 	console.log('authData', authData)
@@ -16,35 +17,6 @@ function Profile () {
 	const para = useParams().id
 	console.log('location:', locatn)
 	console.log('para:', para)
-	// const [postTrigger, setPostTrigger] = useState(false);
-	// const [formData, setFormData] = useState(new FormData());
-	// const { useGetDataAPI } = useContext(FetchContext);
-	// const user = useGetWEncryptionSingleItem(
-	// 	`http://127.0.0.1:8000/user/${para}/`,
-	// 	`user-${para}`,
-	// 	// isRefresh
-	// )
-	// const { getData, getLoading } = useGetDataAPI(
-	// 	// `http://127.0.0.1:8000/user/${para}/`,
-	// 	`http://127.0.0.1:8000/user/${para}/`,
-	// );
-	// useEffect(() => {
-	// 	if (user.getData || user.localDataStoreVar) {
-	// 		console.log('user:', user)
-	// 		if (user.getData) setauthData(user.getData)
-	// 		if (user.localDataStoreVar) setauthData(user.localDataStoreVar)
-	// 	}
-	// }, [user.getData, user.localDataStoreVar])
-	// useEffect(() => {
-	// 	if (user.getData) {
-	// 		// setResponse(true);
-	// 		console.log('profile data:', user.getData)
-	// 		setauthData(user.getData)
-	// 		// console.log('is_active:', getData.is_active)
-	// 	}
-	// }, [user.getData])
-	// console.log('user:', user)
-	// console.log('getData:', user.getData)
 	console.log(`user-${para}`)
 	// console.log('authData:', authData)
 	return (
@@ -54,7 +26,7 @@ function Profile () {
 					<div className="user-info">
 						<div>
 							<div className="user-page">
-								<img src={`http://127.0.0.1:8000/${authData.profile_picture}`} alt="profile pic" />
+								<img src={`${apiBaseUrl}/${authData.profile_picture}`} alt="profile pic" />
 								{/* <img src={`/${authData.profile_picture}`} alt="profile pic" /> */}
 							</div>
 							{authData.role === 'custodian' &&
