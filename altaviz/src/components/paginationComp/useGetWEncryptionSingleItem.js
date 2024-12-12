@@ -2,18 +2,14 @@ import { useState, useEffect, useContext } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
 
-const baseUrl = 'http://127.0.0.1:8000/'
 function useGetWEncryptionSingleItem(
-	baseUrl,
 	storageName='temp',
 	refresh=false
 ) {
 	const { encrypt, decrypt, RotCipher } = useContext(RotContext);
 	const { useGetDataAPI } = useContext(FetchContext);
 	const [getTrigger, setGetTrigger] = useState(false);
-	// const [pageUrl, setPageUrl] = useState(baseUrl);
 	const { getData, getLoading, getError } = useGetDataAPI(
-		baseUrl,
 		getTrigger,
 	);
 	// const [pageNum, setPageNum] = useState(1);
