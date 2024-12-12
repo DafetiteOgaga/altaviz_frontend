@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 // import { SentenceCaseContext } from '../../context/SentenceCaseContext';
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 function QueryFieldFromDB({ query, setIsExist }) {
 	let queryData = query.split('-')
 	let qtype = queryData[queryData.length - 2];
@@ -59,7 +61,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 
 		setLoading(true);
 		setError(null); // Reset error state
-		let url = `http://127.0.0.1:8000/${qtype}-check/?
+		let url = `${apiBaseUrl}/${qtype}-check/?
 		query=${encodeURIComponent(qtext.toLowerCase())}&
 		qtype=${encodeURIComponent(qtype)}&
 		qstate=${encodeURIComponent(qstate)}&
