@@ -31,7 +31,8 @@ function Buttons ({buttonProps}) {
 	</>)
 }
 
-const baseUrl = 'http://127.0.0.1:8000' // consider putting this in a global context API
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 function DetailsUpdate () {
 	const { toSentenceCase, trimString } = useContext(SentenceCaseContext)
 	const { authData } = useContext(AuthContext)
@@ -49,7 +50,7 @@ function DetailsUpdate () {
 	if (updateDetailData) {updateDetailData = updateDetailData.find(update => update.id === Number(userParams.updateID))}
 	const { useGetDataAPI, usePatchDataAPI } = useContext(FetchContext);
 	const { getData, getError, getLoading } = useGetDataAPI(
-		`${baseUrl}/user/${userID}/`, true
+		`user/${userID}/`, true
 	);
 	// const [response, setResponse] = useState(false);
 	useEffect(() => {
@@ -66,7 +67,7 @@ function DetailsUpdate () {
 	const [formData, setFormData] = useState(new FormData());
 	console.log('patchTrigger (11111):', patchTrigger)
 	const { patchData, patchLoading, patchError } = usePatchDataAPI(
-		`${baseUrl}/approve-user-details-update/${authData.id}/`,
+		`approve-user-details-update/${authData.id}/`,
 		formData, patchTrigger, // `/user/${userParams.id}`,
 	);
 	useEffect(() => {
@@ -88,8 +89,7 @@ function DetailsUpdate () {
 		setPatchTrigger(true);
 		console.log('PATCH TRIGGERED');
     };
-	console.log(updateData ? `baseUrl: ${baseUrl}/user/${updateData.id}/` : '');
-	// console.log('MY baseUrl:', !!updateData)
+	console.log(updateData ? `apiBaseUrl: ${apiBaseUrl}/user/${updateData.id}/` : '');
 	console.log('patchError:', patchError)
 	console.log('patchLoading:', patchLoading)
 	console.log('patchData:', patchData)
@@ -133,7 +133,7 @@ function DetailsUpdate () {
 				<div className="user-info">
 					<div>
 						<div className="user-page">
-							<img src={`${baseUrl}${updateData.profile_picture}`} alt="profile pic" />
+							<img src={`${apiBaseUrl}${updateData.profile_picture}`} alt="profile pic" />
 						</div>
 						{(updateData?.role==='custodian') &&
 							<>
