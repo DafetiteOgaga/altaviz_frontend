@@ -20,7 +20,7 @@ function Header() {
 				</a>
 				<Navigation />
 			</div>
-			<h4>searchbar goes here</h4>
+			<h6>Beta version 10.01</h6>
 			{/* <span>header end</span> */}
 		</header>
 	)
