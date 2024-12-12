@@ -8,6 +8,8 @@ import { RotContext } from '../../context/RotContext';
 // import { useLocationon } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 const FaultSearch = () => {
     const department = useLocation().pathname.split('/')[1];
     const { RotCipher, encrypt } = useContext(RotContext);
@@ -66,7 +68,7 @@ const FaultSearch = () => {
             setFaultLoading(true); // Show loading
             // fault search
             try {
-                const faultUrl = `http://127.0.0.1:8000/fault-search/?${searchQuery}`;
+                const faultUrl = `${apiBaseUrl}/fault-search/?${searchQuery}`;
                 console.log(
                     // 'term', term.toString(),
                     '\nsearchParams(string):', searchParams.toString(),
@@ -95,7 +97,7 @@ const FaultSearch = () => {
             if (department==='human-resource') {
                 setRequestLoading(true)
                 try {
-                    const requestUrl = `http://127.0.0.1:8000/request-search/?${searchQuery}`;
+                    const requestUrl = `${apiBaseUrl}/request-search/?${searchQuery}`;
                     console.log(
                         // 'term', term.toString(),
                         '\nsearchParams(string):', searchParams.toString(),
