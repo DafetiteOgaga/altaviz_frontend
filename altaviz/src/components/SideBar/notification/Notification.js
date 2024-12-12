@@ -17,7 +17,6 @@ const Paragraph = styled.p`
 	// color: #2b2929;
 	// text-decoration: none;
 `
-// const baseUrl = 'http://127.0.0.1:8000';
 function Notification ({
 	urlPath,
 	variableContext,
