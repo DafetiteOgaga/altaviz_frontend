@@ -66,18 +66,6 @@ function RequestsDetails() {
 	const [deleteTrigger, setDeleteTrigger] = useState(false);
 	const [patchTrigger, setPatchTrigger] = useState(false);
 
-	// useEffect(() => {
-	// 	console.log('in onerender useeffect qqqqqqqqqqqqqqqqqqqqq'.toUpperCase())
-	// 	console.log('triggering onerender to pull from db hhhhhhhhhhhhhhhhhhhh'.toUpperCase())
-	// 	console.log('onerender (before):', oneRender.current)
-	// 	oneRender.current = true
-	// 	console.log('onerender (after):', oneRender.current)
-	// }, [])
-	// const updatePendingFault = useForceDBPullWEncryption(
-	// 	`http://127.0.0.1:8000/engineer-pending-faults/list/${authData.id}/`,
-	// 	'allUnresolvedKey',
-	// 	oneRender.current
-	// )
 	console.log('newDataAAAAAAAAA:', authData)
 	console.log('auth data id: ', authData.id)
 	console.log('auth data name: ', authData.first_name)
@@ -209,11 +197,11 @@ function RequestsDetails() {
 		'\nconstructed url:', `${(requestType==='part'&&dept==='workshop')?('post-part/'+requestItem?.id):itemUrl}`
 	)
 	const { deleteData, deleteLoading, deleteError } = useDeleteDataAPI(
-		`http://127.0.0.1:8000/${(requestType==='part'&&dept==='workshop')?('post-part/'+requestItem?.id):itemUrl}/delete/`,
+		`${(requestType==='part'&&dept==='workshop')?('post-part/'+requestItem?.id):itemUrl}/delete/`,
 		deleteTrigger,
 	);
 	const { patchData, patchLoading, patchError } = usePatchDataAPI(
-		`http://127.0.0.1:8000/${requestParamDetails.faultID?`request-${requestType}`:'post-part'}/${authData?.id}/`,
+		`${requestParamDetails.faultID?`request-${requestType}`:'post-part'}/${authData?.id}/`,
 		formData, patchTrigger,
 	);
 	console.log(
