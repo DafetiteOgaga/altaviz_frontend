@@ -72,7 +72,7 @@ function AddInventoryName({inventoryName}) {
     const { usePostDataAPI } = useContext(FetchContext);
 
     const { postData, postLoading, postError } = usePostDataAPI(
-        `http://127.0.0.1:8000/${inventoryName}-name/`,
+        `${inventoryName}-name/`,
         formData,
         postTrigger,
     );
