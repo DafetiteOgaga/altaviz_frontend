@@ -2,9 +2,9 @@ import "./sidebar_pages.css"
 import { useLocation } from 'react-router-dom'
 import { useContext, useEffect, useState } from "react";
 import usePullCompleteList from "../../paginationComp/usePullCompleteList";
-import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
+// import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
 // import FaultDetailsGenTest from "./yyyyyyyyyyyyFaultDetailsGenTest";
-import FaultBarGen from "../faults/GenFaults/FaultBarGen";
+// import FaultBarGen from "../faults/GenFaults/FaultBarGen";
 import RequestBar from "./RequestBar";
 // import FaultDetailsGenTest from "./FaultDetailsGenTest";
 import { AuthContext } from '../../context/checkAuth/AuthContext';
@@ -19,11 +19,6 @@ function RequestListDisplay ({requestUrl, requestKeyContext}) {
 	const requests = usePullCompleteList(
 		requestUrl, authData.id, requestKeyContext
 	)
-	
-	// const faults = usePaginationWithEncryption(
-	// 	`http://127.0.0.1:8000/${requestUrl}/${authData.id}/`,
-	// 	10, `${requestKeyContext}`
-	// )
 
 	const allRequests = requests?.pageHandler(requests?.pageNum, requests?.arrayData)
 	console.log(
