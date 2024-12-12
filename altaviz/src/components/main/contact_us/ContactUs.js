@@ -5,6 +5,8 @@ import { GlobalContext } from '../../context/Context';
 // import useFetchPost from '../hooks/useFetchPost';
 import "./contactus.css"
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 const Contact = () => {
 	const fields = {
 		name: '',
@@ -24,7 +26,7 @@ const Contact = () => {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [submitTrigger, setSubmitTrigger] = useState(false);
 	// const [ IsSubmitted, setIsSubmitted] = useState(false);
-    usePostDataAPI('http://localhost:8000/contact-us/', formData, submitTrigger, fields);
+    usePostDataAPI(`${apiBaseUrl}/contact-us/`, formData, submitTrigger, fields);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;

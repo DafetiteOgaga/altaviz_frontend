@@ -4,7 +4,6 @@ import { RotContext } from "../context/RotContext";
 // import { useLocation } from 'react-router-dom'
 import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
-const baseUrl = 'http://127.0.0.1:8000';
 function usePullCompleteList(
 	urlPath, id,
 	variableContext,
@@ -29,7 +28,7 @@ function usePullCompleteList(
 	const [getTrigger, setGetTrigger] = useState(false);
 
 	const { getData:listData, getLoading:arrayLoading, getError:listError } = useGetDataAPI(
-		`${baseUrl}/${urlPath}/${id}/`, getTrigger
+		`${urlPath}/${id}/`, getTrigger
 	);
 	console.log('start ######################'.toUpperCase())
 	if (role) {
@@ -195,7 +194,7 @@ function usePullCompleteList(
 	}
 	if (role) {
 		console.log(
-			'\nendpoint:', `${baseUrl}/${urlPath}/${id}/`,
+			'\nendpoint:', `${urlPath}/${id}/`,
 			{listData, listError, arrayData, arrayLoading, arrayError},
 			'\nrole:', role,
 			'\nfor:', variableContext,

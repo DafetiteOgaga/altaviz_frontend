@@ -4,8 +4,9 @@ import { SentenceCaseContext } from "../context/SentenceCaseContext";
 import { useContext, useState, useEffect } from "react"
 import { FetchContext } from "../context/FetchContext"
 import { useParams, useLocation } from "react-router-dom";
-// import useGetWEncryptionSingleItem from "../paginationComp/useGetWEncryptionSingleItem";
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 function User () {
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	// const [response, setResponse] = useState(false);
@@ -18,17 +19,8 @@ function User () {
 	// const [formData, setFormData] = useState(new FormData());
 	const { useGetDataAPI } = useContext(FetchContext);
 	const { getData:userData, getError:userError, getLoading:userLoading } = useGetDataAPI(
-		`http://127.0.0.1:8000/user/${para}/`, true
+		`user/${para}/`, true
 	);
-	// const user = useGetWEncryptionSingleItem(
-	// 	`http://127.0.0.1:8000/user/${para}/`,
-	// 	`user-${para}`,
-	// 	// isRefresh
-	// )
-	// const { getData, getLoading } = useGetDataAPI(
-	// 	// `http://127.0.0.1:8000/user/${para}/`,
-	// 	`http://127.0.0.1:8000/user/${para}/`,
-	// );
 	useEffect(() => {
 		if (userData) {
 			console.log('userData:', userData)
@@ -61,7 +53,7 @@ function User () {
 				<div className="user-info">
 					<div>
 						<div className="user-page">
-							<img src={`http://127.0.0.1:8000/${userDataToState.profile_picture}`} alt="profile pic" />
+							<img src={`${apiBaseUrl}/${userDataToState.profile_picture}`} alt="profile pic" />
 						</div>
 						{userDataToState.role === 'custodian' &&
 							<div className="uDetaisRight">

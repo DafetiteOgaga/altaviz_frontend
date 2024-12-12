@@ -48,19 +48,3 @@ function Sidebar() {
 }
 
 export default Sidebar;
-
-
-// import useFetch from '../../hooks/useFetch';
-// function SideBar() {
-// 	const { data, loading, error } = useFetch('http://localhost:8000');
-
-// 	if (loading) return <p>loading ...</p>;
-// 	if (error) return <p>Error: {error}</p>;
-// 	console.log(data);
-
-// 	return (
-// 			<h1>SideBar</h1>
-// 	);
-// }
-
-// export default SideBar;

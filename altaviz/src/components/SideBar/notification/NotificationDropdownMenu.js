@@ -74,7 +74,7 @@ function NotificationDropdownMenu({
 
 	// patch
 	({ patchData:responseData[0], patchLoading:responseLoading[0], patchError:responseError[0] } = usePatchDataAPI(
-			`http://127.0.0.1:8000/${(urlPath==='post-part'&&role==='human-resource')?urlPath:patchUrl}/${authData.id}/`,
+			`${(urlPath==='post-part'&&role==='human-resource')?urlPath:patchUrl}/${authData.id}/`,
 			formData,
 			patchTrigger,
 			// `/${authData.department.name}`
@@ -82,14 +82,14 @@ function NotificationDropdownMenu({
 
 	// delete
 	({ deleteData:responseData[1], deleteLoading:responseLoading[1], deleteError:responseError[1] } = useDeleteDataAPI(
-			`http://127.0.0.1:8000/${deleteUrl}/${faultId}/delete/`,
+			`${deleteUrl}/${faultId}/delete/`,
 			deleteTrigger,
 			// `/${authData.department.name}`
 		));
 
 	// post
 	({ postData:responseData[2], postLoading:responseLoading[2], postError:responseError[2] } = usePostDataAPI(
-			`http://127.0.0.1:8000/${postUrl}/${faultId}/`,
+			`${postUrl}/${faultId}/`,
 			formData,
 			postTrigger,
 			// `/${authData.department.name}`
@@ -97,7 +97,7 @@ function NotificationDropdownMenu({
 
 	// put
 	({ putData:responseData[3], putLoading:responseLoading[3], putError:responseError[3] } = usePutDataAPI(
-			`http://127.0.0.1:8000/${putUrl}/${faultId}/`,
+			`${putUrl}/${faultId}/`,
 			formData,
 			putTrigger,
 			// `/${authData.department.name}`

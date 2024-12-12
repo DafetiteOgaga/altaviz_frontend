@@ -189,7 +189,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// patch
 	({ patchData:responseData[0], patchLoading:responseLoading[0], patchError:responseError[0] } = usePatchDataAPI(
-			`http://127.0.0.1:8000/${patchUrlName.current}/${authData.id}/`,
+			`${patchUrlName.current}/${authData.id}/`,
 			formData, patchTrigger,
 			// dashboard,
 			// `/${authData.department.name}`
@@ -197,7 +197,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// delete
 	({ deleteData:responseData[1], deleteLoading:responseLoading[1], deleteError:responseError[1] } = useDeleteDataAPI(
-			`http://127.0.0.1:8000/${requeste?(requeste+'/'+itemId):('fault/'+itemId)}/delete/`,
+			`${requeste?(requeste+'/'+itemId):('fault/'+itemId)}/delete/`,
 			deleteTrigger,
 			// `${requeste?null:dashboard}`,
 			// `/${authData.role}`
@@ -205,7 +205,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// post
 	({ postData:responseData[2], postLoading:responseLoading[2], postError:responseError[2] } = usePostDataAPI(
-			// `http://127.0.0.1:8000/${postUrl}/${itemId}/`,
+			// `${postUrl}/${itemId}/`,
 			formData,
 			postTrigger,
 			// `/${authData.department.name}`
@@ -213,7 +213,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// put
 	({ putData:responseData[3], putLoading:responseLoading[3], putError:responseError[3] } = usePutDataAPI(
-			// `http://127.0.0.1:8000/${putUrl}/${itemId}/`,
+			// `${putUrl}/${itemId}/`,
 			formData,
 			putTrigger,
 			// `/${authData.department.name}`
@@ -509,8 +509,14 @@ function FaultDetailsGen({searchFaults}) {
 
 	const loggedAt = new Date(faultsItem?.created_at)
 	const resolvedAt = faultsItem?.resolved_at ? new Date(faultsItem?.resolved_at) : null;
-	let approvedRequest = faultsItem?.requestStatus ? (faultsItem?.requestPart?.some(request => request.approved) || faultsItem?.requestComponent?.some(request => request.approved)):null
-	let rejectRequest = faultsItem?.requestStatus ? (faultsItem?.requestPart?.some(request => request.rejected) ||faultsItem?.requestComponent?.some(request => request.rejected)):null
+	let approvedRequest = faultsItem?.requestStatus ?
+		((Array.isArray(faultsItem?.requestPart)&&(faultsItem?.requestPart?.some(request => request.approved))) ||
+		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.approved))):
+		null
+	let rejectRequest = faultsItem?.requestStatus ?
+		(((Array.isArray(faultsItem?.requestPart))&&(faultsItem?.requestPart?.some(request => request.rejected))) ||
+		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.rejected))):
+		null
 	const appovedAt = (approvedRequest || rejectRequest) ?
 		new Date(
 			faultsItem?.requestPart?.find(request => request.approved_at).approved_at ||

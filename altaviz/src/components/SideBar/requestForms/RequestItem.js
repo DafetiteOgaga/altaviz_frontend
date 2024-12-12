@@ -6,7 +6,6 @@ import { useLocation, useParams } from "react-router-dom";
 // import ( SentenceCaseContext)
 import { RotContext } from "../../context/RotContext";
 import { useRefreshContext } from "../../context/RefreshContext";
-// import useGetWEncryptionSingleItem from "../../paginationComp/useGetWEncryptionSingleItem";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 // import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
@@ -142,7 +141,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 	// if (!parameters.type) console.log('no parameters.type so defaulting to:', {faultType})
 	const { postData, postLoading, postError } = usePostDataAPI(
 		// pass a prop for component or part
-		`http://127.0.0.1:8000/request-${itemName}/`,
+		`request-${itemName}/`,
 		formData,
 		postTrigger,
 		// `${fauxltId?`/${parameters.dept}/${parameters.type?parameters.type:faultType}/fault-gen-list/`:fasultId}`
@@ -150,8 +149,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 	// get setup
 	// compponentList
 	const { getData:getItemList, getLoading:getItemLoading, getError:getItemError } = useGetDataAPI(
-		// `http://127.0.0.1:8000/${itemName==='post-part'?'parts':itemName}/`,
-		`http://127.0.0.1:8000/${itemName}s/`,
+		`${itemName}s/`,
 		true,
 	)
 	console.log({getItemLoading}, {getItemError})
@@ -162,13 +160,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			setItemList(getItemList)
 		}
 	}, [getItemList])
-	// const itemsRequestList = useGetWEncryptionSingleItem(
-	// 	// pass a prop for component or part
-	// 	`http://127.0.0.1:8000/${itemName}s/`,
-	// 	// localkey+sList
-	// 	localKey,
-	// 	// isRefresh,
-	// )
 	// local key goes here
 	const refreshItem = () => handleRefresh(localKey)
 	// useEffect(() => {

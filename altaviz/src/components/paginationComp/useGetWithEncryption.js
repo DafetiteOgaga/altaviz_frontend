@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
 
-const baseUrl = 'http://127.0.0.1:8000/'
 function useGetWithEncryption(
 	baseUrl,
 	storageName='temp',

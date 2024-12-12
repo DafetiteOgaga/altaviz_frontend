@@ -126,7 +126,7 @@ function CreateUser () {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
-		'http://127.0.0.1:8000/user/',
+		`user/`,
 		formData,
 		postTrigger,
 		'/human-resource',
@@ -138,12 +138,12 @@ function CreateUser () {
 
 	//custodian
 	const custodian = useGetWithEncryption(
-		'http://127.0.0.1:8000/banks/',
+		`banks/`,
 		'custodian',
 	)
 	// not custodian
 	const notCustodian = useGetWithEncryption(
-		'http://127.0.0.1:8000/states/',
+		`states/`,
 		'notCustodian',
 	)
 

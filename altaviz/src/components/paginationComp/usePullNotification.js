@@ -4,7 +4,6 @@ import { RotContext } from "../context/RotContext";
 // import { useLocation } from 'react-router-dom';
 import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
-const baseUrl = 'http://127.0.0.1:8000';
 function usePullNotification(
 	urlPath, id,
 	variableContext,
@@ -29,10 +28,10 @@ function usePullNotification(
 	const isRole = wsKey?role:null
 
 	const { getData:notificationData, getLoading:arrayLoading, getError:notificationError } = useGetDataAPI(
-		`${baseUrl}/${urlPath}/notification/${id}/`, getTrigger
+		`${urlPath}/notification/${id}/`, getTrigger
 	);
 	const { getData:totalNumData, getLoading:totaLoading, getError:totalNumError } = useGetDataAPI(
-		`${baseUrl}/${urlPath}/${id}/total/`, getTrigger
+		`${urlPath}/${id}/total/`, getTrigger
 	);
 	console.log('start ######################'.toUpperCase())
 	if (role) {
@@ -214,8 +213,8 @@ function usePullNotification(
 		)
 	}
 	console.log(
-		'\nendpoint (data):', `${baseUrl}/${urlPath}/notification/${id}/`,
-		'\nendpoint (data):', `${baseUrl}/${urlPath}/${id}/total/`,
+		'\nendpoint (data):', `${urlPath}/notification/${id}/`,
+		'\nendpoint (data):', `${urlPath}/${id}/total/`,
 		'\n', {notificationData, notificationError, totalNumData, totalNumError},
 		'\n', {arrayData, arrayError, totalData, totalError},
 		'\n', {arrayLoading, totaLoading},

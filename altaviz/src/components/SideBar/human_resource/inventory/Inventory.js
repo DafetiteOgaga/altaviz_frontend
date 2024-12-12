@@ -41,7 +41,7 @@ function Inventory() {
 	// get setup
 	// inventoryComponents
 	const inventoryComponents = useGetWithEncryption(
-		'http://127.0.0.1:8000/components/',
+		`components/`,
 		'inventoryComponents',
 		// isRefresh,
 	)
@@ -74,7 +74,7 @@ function Inventory() {
 
 	// inventoryParts
 	const inventoryParts = useGetWithEncryption(
-		'http://127.0.0.1:8000/parts/',
+		`parts/`,
 		'inventoryParts',
 		// isRefresh,
 	)

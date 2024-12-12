@@ -12,7 +12,8 @@ function CsrfToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
         document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
 }
-const url = 'http://127.0.0.1:8000'
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 export const LoginProvider = ({ children }) => {
     const urlCheck = useLocation().pathname.split('/')
     // const [isLogin, setIsLogin] = useState(false);
@@ -47,7 +48,6 @@ export const LoginProvider = ({ children }) => {
     const Login = useCallback(
         async (email, password,
             trigger = false,
-            baseUrl = url
         ) => {
         if (!trigger) {
             console.log('Login trigger is false. POST call not executed.'.toUpperCase());
@@ -62,7 +62,7 @@ export const LoginProvider = ({ children }) => {
         formData.append('csrfmiddlewaretoken', CsrfToken());  // Add CSRF token to FormData
 
         try {
-            const response = await fetch(`${baseUrl}/login/`, {
+            const response = await fetch(`${apiBaseUrl}/login/`, {
                 method: 'POST',
                 credentials: 'include',
                 body: formData,
@@ -122,9 +122,9 @@ export const LoginProvider = ({ children }) => {
     // if (urlCheck[1] === 'login') setIsLogin(true)
 
    // Logout function
-    const Logout = useCallback(async (baseUrl = url) => {
+    const Logout = useCallback(async () => {
         try {
-            const response = await fetch(`${baseUrl}/logout/`, {
+            const response = await fetch(`${apiBaseUrl}/logout/`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

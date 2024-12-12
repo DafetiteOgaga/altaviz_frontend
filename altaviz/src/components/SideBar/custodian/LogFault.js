@@ -24,20 +24,16 @@ function LogFault() {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI, useGetDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
-		'http://127.0.0.1:8000/fault/',
+		`fault/`,
 		formData,
 		postTrigger,
 		currentPage,
 	);
 	// get setup
 	const { getData, getLoading, getError } = useGetDataAPI(
-		`http://127.0.0.1:8000/fault-name/`,
+		`fault-name/`,
 		true,
 	)
-	////// const faultNames = useGetWithEncryption(
-	// 	'http://127.0.0.1:8000/fault-name/',
-	// 	'faultnames',
-	// )
 	useEffect(() => {
 		console.log('getData', getData)
         if (getData) {

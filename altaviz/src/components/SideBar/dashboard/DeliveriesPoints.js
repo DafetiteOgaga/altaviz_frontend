@@ -10,7 +10,7 @@ function Deliveries({id}) {
 	const [error, setError] = useState(null);
 	const { useGetDataAPI } = useContext(FetchContext);
 	const { getData, getLoading, getError } = useGetDataAPI(
-		`http://127.0.0.1:8000/deliveries/${id}/`, getTrigger,
+		`deliveries/${id}/`, getTrigger,
 	)
 	useEffect(() => {setGetTrigger(true)}, [])
 	useEffect(() => {

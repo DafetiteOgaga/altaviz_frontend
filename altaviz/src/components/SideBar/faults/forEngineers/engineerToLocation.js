@@ -53,7 +53,6 @@ const NewFieldContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 `
-const baseUrl = 'http://127.0.0.1:8000'
 function EngineerToLocation () {
 	const navigate = useNavigate()
 	const currentPage = useLocation().pathname
@@ -82,17 +81,17 @@ function EngineerToLocation () {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI, useGetDataAPI, usePatchDataAPI } = useContext(FetchContext);
 
-	console.log('url:', `${baseUrl}/new-location-assignment/list/8/`)
+	console.log('url:', `new-location-assignment/list/8/`)
 	const { getData:newLocationsData, getLoading:newLocationsLoading, getError:newLocationsError } = useGetDataAPI(
-		`${baseUrl}/new-location-assignment/list/${authData.id}/`,
+		`new-location-assignment/list/${authData.id}/`,
 		getNewLocationTrigger
 	);
 	const { getData:regionEngineersData, getLoading:regionEngineersLoading, getError:regionEngineersError } = useGetDataAPI(
-		`${baseUrl}/region-engineers/${authData.id}/`,
+		`region-engineers/${authData.id}/`,
 		getRegionEngineersTrigger
 	);
 	const { patchData, patchLoading, patchError } = usePatchDataAPI(
-		`${baseUrl}/new-location-assignment/${authData.id}/`,
+		`new-location-assignment/${authData.id}/`,
 		formData, patchTrigger
 	);
 	useEffect(() => {

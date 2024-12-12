@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 export const FetchContext = createContext();
 const checkNull = (url) => url.split('/').some(list => list === 'null')
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 export const FetchProviders = ({ children }) => {
 	// post states
 	
@@ -26,7 +28,7 @@ export const FetchProviders = ({ children }) => {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
-						const response = await fetch(url);
+						const response = await fetch(`${apiBaseUrl}/${url}`);
 						if (!response.ok) {
 							console.log({response})
 							console.log(`Error fetching data for ${url}: ${response.statusText}`)
@@ -102,7 +104,7 @@ export const FetchProviders = ({ children }) => {
 						throw new Error("found null in url provided");
 					} else {
 						setPostLoading(true);
-						const response = await fetch(url, {
+						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "POST",
 							body: formData,
 						});
@@ -115,7 +117,7 @@ export const FetchProviders = ({ children }) => {
 								// redirect to put starts here
 								if (userConfirmed) {
 									// console.log('using put request')
-									const putResponse = await fetch(url, {
+									const putResponse = await fetch(`${apiBaseUrl}/${url}`, {
 										method: "PATCH",
 										body: formData,
 									});
@@ -222,7 +224,7 @@ export const FetchProviders = ({ children }) => {
 						throw new Error("found null in url provided");
 					} else {
 						setPutLoading(true);
-						const response = await fetch(url, {
+						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "PUT",
 							body: formData,
 						});
@@ -312,7 +314,7 @@ export const FetchProviders = ({ children }) => {
 					} else {
 						console.log('setting patchLoading to true')
 						setPatchLoading(true);
-						const response = await fetch(url, {
+						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "PATCH",
 							body: formData,
 						});
@@ -388,7 +390,7 @@ export const FetchProviders = ({ children }) => {
 						throw new Error("found null in url provided");
 					} else {
 						setDeleteLoading(true);
-						const response = await fetch(url, {
+						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "DELETE",
 						});
 						// console.log('response ok:', response.ok)

@@ -83,14 +83,14 @@ function AddItemToInventory({itemName}) {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI, useGetDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
-		`http://127.0.0.1:8000/${itemName}/${itemName==='post-part'?authData.id+'/':''}`,
+		`${itemName}/${itemName==='post-part'?authData.id+'/':''}`,
 		formData,
 		postTrigger,
 	);
 	// get setup
 	// compponentList
 	const { getData:getItemList, getLoading, getError } = useGetDataAPI(
-		`http://127.0.0.1:8000/${itemName==='post-part'?'parts':itemName}/`,
+		`${itemName==='post-part'?'parts':itemName}/`,
 		true,
 	)
 	console.log({getLoading}, {getError})
