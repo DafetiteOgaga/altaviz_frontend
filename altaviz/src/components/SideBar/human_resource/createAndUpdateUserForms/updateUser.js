@@ -46,6 +46,8 @@ const NewFieldContainer = styled.div`
 	flex-direction: row;
 `
 
+const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
+console.log('\napiBaseUrl:', apiBaseUrl)
 function UpdateUser () {
 	const { authData } = useContext(AuthContext)
 	const initailFormValues = {
@@ -93,7 +95,7 @@ function UpdateUser () {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
-		`http://127.0.0.1:8000/user-details-update/${authData.id}/`,
+		`user-details-update/${authData.id}/`,
 		formData,
 		postTrigger,
 		// `/${authData.role}`,
@@ -101,7 +103,7 @@ function UpdateUser () {
 
 	// with state, bank and region
 	const custodian = useGetWithEncryption(
-		`http://127.0.0.1:8000/custodian-details-update/
+		`custodian-details-update/
 		${authData.branch.region.id}/
 		${authData.branch.state.name}/
 		${authData.branch.bank.name}`,
@@ -110,7 +112,7 @@ function UpdateUser () {
 	// not custodian - this should be to just locations inline
 	// with state, bank and region
 	const notCustodian = useGetWithEncryption(
-		`http://127.0.0.1:8000/others-details-update/
+		`others-details-update/
 		${authData.branch.region.id}/
 		${authData.branch.state.name}/`,
 		'notCustodian',
@@ -428,7 +430,7 @@ function UpdateUser () {
 		}
 		else {
 			const profilePicture = document.getElementById('createImage')
-			profilePicture.src=`http://127.0.0.1:8000/${authData.profile_picture}`
+			profilePicture.src=`${apiBaseUrl}/${authData.profile_picture}`
 			// profilePicture.style.display = 'block';
 		}
 	}
@@ -725,7 +727,7 @@ function UpdateUser () {
 												}}
 												disabled={!isEditable}
 												/>
-												{<img id="createImage" src={`http://127.0.0.1:8000${authData.profile_picture}`} alt="Profile pic" style={{...profilePictureStyle, border: '1px solid #333',}} />}
+										{<img id="createImage" src={`${apiBaseUrl}/${authData.profile_picture}`} alt="Profile pic" style={{...profilePictureStyle, border: '1px solid #333',}} />}
 											</div>
 											<div className="input-field">
 												<Label htmlFor="aboutme">About Me:</Label>
