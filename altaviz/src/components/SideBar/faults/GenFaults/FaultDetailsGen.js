@@ -189,7 +189,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// patch
 	({ patchData:responseData[0], patchLoading:responseLoading[0], patchError:responseError[0] } = usePatchDataAPI(
-			`http://127.0.0.1:8000/${patchUrlName.current}/${authData.id}/`,
+			`${patchUrlName.current}/${authData.id}/`,
 			formData, patchTrigger,
 			// dashboard,
 			// `/${authData.department.name}`
@@ -197,7 +197,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// delete
 	({ deleteData:responseData[1], deleteLoading:responseLoading[1], deleteError:responseError[1] } = useDeleteDataAPI(
-			`http://127.0.0.1:8000/${requeste?(requeste+'/'+itemId):('fault/'+itemId)}/delete/`,
+			`${requeste?(requeste+'/'+itemId):('fault/'+itemId)}/delete/`,
 			deleteTrigger,
 			// `${requeste?null:dashboard}`,
 			// `/${authData.role}`
@@ -205,7 +205,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// post
 	({ postData:responseData[2], postLoading:responseLoading[2], postError:responseError[2] } = usePostDataAPI(
-			// `http://127.0.0.1:8000/${postUrl}/${itemId}/`,
+			// `${postUrl}/${itemId}/`,
 			formData,
 			postTrigger,
 			// `/${authData.department.name}`
@@ -213,7 +213,7 @@ function FaultDetailsGen({searchFaults}) {
 
 	// put
 	({ putData:responseData[3], putLoading:responseLoading[3], putError:responseError[3] } = usePutDataAPI(
-			// `http://127.0.0.1:8000/${putUrl}/${itemId}/`,
+			// `${putUrl}/${itemId}/`,
 			formData,
 			putTrigger,
 			// `/${authData.department.name}`
