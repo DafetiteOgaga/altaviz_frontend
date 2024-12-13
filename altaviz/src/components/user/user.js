@@ -53,7 +53,7 @@ function User () {
 				<div className="user-info">
 					<div>
 						<div className="user-page">
-							<img src={`${apiBaseUrl}/${userDataToState.profile_picture}`} alt="profile pic" />
+							<img src={`${apiBaseUrl}${userDataToState.profile_picture}`} alt="profile pic" />
 						</div>
 						{userDataToState.role === 'custodian' &&
 							<div className="uDetaisRight">
