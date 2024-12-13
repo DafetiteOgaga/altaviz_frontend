@@ -12,6 +12,9 @@ import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import { useRefreshContext } from "../../context/RefreshContext";
 // import useForceDBPullWEncryption from '../../paginationComp/useForceDBPullWEncryption';
 
+const removeHyphen = (text) => {
+    return text.split('-').join(' ');
+}
 function Dashboard() {
 	// const redirectTo = useNavigate()
 	// const [serverUrl, setServerUrl] = useState(null)
@@ -91,7 +94,7 @@ function Dashboard() {
 							</div>
 							<div className="input-field">
 								<p><strong>Role: </strong>
-									{toSentenceCase(authData.role)}
+									{toSentenceCase(removeHyphen(authData.role))}
 								</p>
 							</div>
 							{(!custodianCheck&&authData.role!=='human-resource') &&

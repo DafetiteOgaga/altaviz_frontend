@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { FaSync, FaSpinner } from 'react-icons/fa';
-import { AuthContext } from './checkAuth/AuthContext';
+// import { AuthContext } from './checkAuth/AuthContext';
 import { RotContext } from './RotContext';
 import { useNavigate, useLocation } from 'react-router-dom'
 

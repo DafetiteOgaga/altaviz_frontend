@@ -44,14 +44,20 @@ const NewFieldContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 `
-const statesInNig = [
-	'Abuja', 'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa',
-	'Benue', 'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti',
-	'Enugu', 'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi',
-	'Kogi', 'Kwara', 'Lagos', 'Nassarawa', 'Niger', 'Ogun', 'Ondo', 'Osun',
-	'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara',
-]
+// const statesInNig = [
+// 	'Abuja', 'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa',
+// 	'Benue', 'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti',
+// 	'Enugu', 'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi',
+// 	'Kogi', 'Kwara', 'Lagos', 'Nassarawa', 'Niger', 'Ogun', 'Ondo', 'Osun',
+// 	'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara',
+// ]
 
+const addHyphen = (text) => {
+    return text.split(' ').join('-');
+}
+const removeHyphen = (text) => {
+    return text.split('-').join(' ');
+}
 function CreateUser () {
 	const initailFormValues = {
 		role: "",
@@ -89,6 +95,8 @@ function CreateUser () {
 	const [isEmailExist, setIsEmailExist] = useState(false);
 	const [newBankQuery, setNewBankQuery] = useState('');
 	const [isNewBankExist, setIsNewBankExist] = useState(false);
+	const [regionQuery, setRegionQuery] = useState('');
+	const [isRegionExist, setIsRegionExist] = useState(false);
 	const [newLocationQuery, setNewLocationQuery] = useState('');
 	const [isNewLocationExist, setIsNewLocationExist] = useState(false);
 	const [newBranchQuery, setNewBranchQuery] = useState('');
@@ -113,6 +121,7 @@ function CreateUser () {
 	const [isRequired, setIsRequired] = useState(true);
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
+	const [regionStateList, setRegionStateList] = useState(null)
 	const [bankStateList, setBankStateList] = useState(null)
 	const [bankBankList, setBankBankList] = useState(null)
 	const [bankStateLocationList, setBankStateLocationList] = useState(null)
@@ -121,6 +130,7 @@ function CreateUser () {
 	const [notCustodianList, setNotCustodianList] = useState(null)
 	const [custodianList, setCustodianList] = useState(null)
 	const [filteredStates, setFilteredStates] = useState(null);
+	const [filteredRegions, setFilteredRegions] = useState(null);
 	const [filteredLocations, setFilteredLocations] = useState(null);
 	const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
@@ -148,12 +158,12 @@ function CreateUser () {
 	)
 
 	useEffect(() => {
-		// get banks for custodian
+		// get for custodian
 		if (custodian) {
 			console.log('custodian with encryption: ', custodian)
 			setCustodianList(custodian.localDataStoreVar)
 		}
-		// get states for non custodian
+		// get for non custodian
 		if (notCustodian) {
 			console.log('notCustodian with encryption: ', notCustodian)
 			setNotCustodianList(notCustodian.localDataStoreVar)
@@ -163,8 +173,41 @@ function CreateUser () {
 	useEffect(() => {
 		console.log('start ##############'.toUpperCase())
 		// for non custodian
-		// for states
+		// for regions
 		if (newUser.role !== 'Custodian' && notCustodianList) {
+			console.log('regions (non custodian) ##############'.toUpperCase())
+			console.log(
+				'\nnotCustodianList: ', notCustodianList,
+				// '\nlocalStorage: ', locations.localDataStoreVar,
+				// '\nnewUser.region:', newUser.region,
+			)
+			// if (locationListValue) {
+			const stateRegions = []
+			// console.log('locationListValue:', locationListValue)
+			console.log('999999999999999999')
+			for (let i = 0; i < notCustodianList.length; i++) {
+				console.log('2222222222222222222:', notCustodianList[i])
+				console.log(
+					'\nnotCustodianList[i].name:', notCustodianList[i],
+					// '\nnewUser.region:', newUser.region,
+				)
+				// if (notCustodianList[i].name === newUser.region) {
+					console.log('44444444444444444444')
+					console.log('found:'.toUpperCase(), notCustodianList[i])
+					stateRegions.push(notCustodianList[i].name)
+					// setFound(true)
+					// break;
+				// }
+			}
+			console.log(
+				// '\nnewuser.region:', newUser.region,
+				'\nstateRegions:', stateRegions,
+			)
+			// console.log('newuser.region:', newUser.region)
+			setFilteredRegions(stateRegions.flat())
+		}
+		// for states
+		if (newUser.role !== 'Custodian' && notCustodianList && filteredRegions) {
 			console.log('regions > states (non custodian) ##############'.toUpperCase())
 			console.log(
 				'\nnotCustodianList: ', notCustodianList,
@@ -232,6 +275,38 @@ function CreateUser () {
 
 
 		// for custodian
+		// for regions
+		if (newUser.role === 'Custodian' && custodianList) {
+			console.log('regions (custodian) ##############'.toUpperCase())
+			console.log(
+				'\ncustodianList: ', custodianList,
+				// '\nlocalStorage: ', locations.localDataStoreVar,
+				// '\nnewUser.region:', newUser.region,
+			)
+			// if (locationListValue) {
+			const regionStates = []
+			// console.log('locationListValue:', locationListValue)
+			console.log('555555555555555555555')
+			for (let i = 0; i < custodianList.length; i++) {
+				console.log('66666666666666666666:', custodianList[i])
+				console.log(
+					'\ncustodianList[i].name:', custodianList[i],
+					// '\nnewUser.region:', newUser.region,
+				)
+				// if (custodianList[i].name === newUser.region) {
+					console.log('7777777777777777777777')
+					console.log('found:'.toUpperCase(), custodianList[i])
+					regionStates.push(custodianList[i].name)
+					// setFound(true)
+					// break;
+				// }
+			}
+			console.log(
+				// '\nnewuser.region:', newUser.region,
+				'\nbankStates:', regionStates.flat(),
+			)
+			setRegionStateList(regionStates.flat())
+		}
 		// for states
 		if (newUser.role === 'Custodian' && custodianList) {
 			console.log('regions > states (custodian) ##############'.toUpperCase())
@@ -359,6 +434,13 @@ function CreateUser () {
 	}, [custodianList, notCustodianList, newUser.role, newUser.bank, newUser.state, newUser.location, newUser.region])
 
 	useEffect(() => {
+		if (newUser.role) {
+			setNewUser((prev) => ({
+				...prev, region: '', state: '', bank: '', location: '', branch: '',
+			}));
+		}
+	}, [newUser.role]);
+	useEffect(() => {
 		if (newUser.region) {
 			setNewUser((prev) => ({
 				...prev, state: '', bank: '', location: '', branch: '',
@@ -478,7 +560,13 @@ function CreateUser () {
 	const HandleUserCreationInputChange = (e) => {
 		const { name, value, type, files } = e.target;
 		// const checkValue = value;
-		if (['email', 'username', 'newBank', 'newLocation', 'newBranch']
+		console.log(
+			'\nname:', name,
+			'\nvalue:', value,
+			'\nnewUser.role:', newUser.role,
+			'\nnewUser.region:', newUser.region,
+		)
+		if (['email', 'username', 'newBank', 'newLocation', 'newBranch', 'region']
 			.includes(name)) {
 				console.log('eeeeeeeeeeeeeeeeeeeeee'.toUpperCase())
 			// ||name === 'email'||name === 'email' {
@@ -491,6 +579,12 @@ function CreateUser () {
 				}
 			} else if (name === 'username') {
 				setUsernameQuery(`${name}-${value}`)
+			} else if (name === 'region') {
+				console.log(
+					'\nnewUser.role:', newUser.role,
+					'\nname-value:', `${name}-${value}`
+				)
+				setRegionQuery(`${removeHyphen(newUser.role.toLocaleLowerCase())}-${name}-${value}`)
 			} else if (name === 'newBank') {
 				setNewBankQuery(`${newUser.region}-${newUser.state}-${name}-${value}`)
 			} else if (name === 'newLocation') {
@@ -564,7 +658,7 @@ function CreateUser () {
 		}
 	};
 
-	const fieldsExist = !(isEmailExist || isUsernameExist || isNewBankExist || isNewLocationExist || isNewBranchExist)
+	const fieldsExist = !(isEmailExist || isUsernameExist || isNewBankExist|| isRegionExist || isNewLocationExist || isNewBranchExist)
 	// setFieldStatus(fieldsExist)
 	const handleFormSubmission = (e) => {
 		e.preventDefault();
@@ -736,6 +830,7 @@ function CreateUser () {
 	// console.log('XXXXX branches list: (global sc0pe)', bankBranchList)
 	// let statecustodianList;
 	// let stateStateList;
+	let stateRegionList;
 	let stateBanksList;
 	let stateLocationsList;
 	let stateStatesList;
@@ -747,6 +842,7 @@ function CreateUser () {
 	console.log('Custodian:', newUser.role === 'Custodian')
 	if (newUser.role) {
 		if (newUser.role === 'Custodian') {
+			stateRegionList = regionStateList
 			stateBranchesList = bankBranchList
 			stateLocationsList = bankLocationList
 			stateBanksList = bankBankList
@@ -754,6 +850,7 @@ function CreateUser () {
 			// stateStatesList = bankStateLocationList
 			// stateStatesBranchesList = bankStateLocationBranchList
 		} else {
+			stateRegionList = filteredRegions
 			stateStatesList = filteredStates
 			stateLocationsList = filteredLocations
 		}
@@ -770,16 +867,16 @@ function CreateUser () {
 	// console.log('bankStateLocationList (outside):', bankStateLocationList)
 	// console.log('bankStateLocationBranchList (outside):', bankStateLocationBranchList)
 	// console.log('filteredStates (outside):', filteredStates)
-	// console.log('notCustodianList (outside):', notCustodianList)
-	// console.log('statecustodianList (Req:banks-outside):', statecustodianList)
-	// console.log('stateStateList (Req:states-outside):', stateStateList)
+	console.log('regionStateList (outside):', regionStateList)
+	console.log('filteredRegions (Req:region-outside):', filteredRegions)
+	console.log('stateRegionList (Req:regions-outside):', stateRegionList)
 	console.log('stateBranchesList (Req:branches-outside):', stateBranchesList)
 	console.log('stateBanksList (Req:banks-outside):', stateBanksList)
 	console.log('stateLocationsList (Req:location-outside):', stateLocationsList)
 	console.log('stateStatesList (Req:states-outside):', stateStatesList)
 	// console.log('stateStatesBranchesList (Req:branches-outside):', stateStatesBranchesList)
 
-	let all = !(isEmailExist === isUsernameExist === isNewBankExist === isNewLocationExist === isNewBranchExist)
+	let all = !(isEmailExist === isUsernameExist === isNewBankExist === isRegionExist === isNewLocationExist === isNewBranchExist)
 	console.log(
 		'\nnewUser.branch:', newUser.branch,
 		'\nnewUser.newBranch:', newUser.newBranch,
@@ -787,6 +884,8 @@ function CreateUser () {
 		'\nnewUser.newBank:', newUser.newBank,
 		'\nnewUser.location:', newUser.location,
 		'\nnewUser.newLocation:', newUser.newLocation,
+		'\nnewUser.role:', newUser.role,
+		'\nnewUser.region:', newUser.region,
 	)
 	console.log(
 		// use these values to further validate
@@ -795,6 +894,7 @@ function CreateUser () {
 		'\nemail field exist:', isEmailExist,
 		'\nusername field exist:', isUsernameExist,
 		'\nnew bank field exist:', isNewBankExist,
+		'\nrole exist:', isRegionExist,
 		'\nnew location field exist:', isNewLocationExist,
 		'\nnew branch field exist:', isNewBranchExist,
 		'\nall fields good:', all,
@@ -813,28 +913,10 @@ function CreateUser () {
 		}
 		return null;
 	};
-	// if (combinedStates) {
-	// // 	// let extractedStates = stateStatesList.map(state => state.name)
-	// // 	// let NigStates = statesInNig.map(state => state.toLowerCase())
-	// // 	// const combinedStates = [...new Set([...extractedStates, ...NigStates])]
-	// // 	// const combinedFilteredStates = [...new Set(combinedStates)];
-
-	// 	console.log(
-	// // 	'kkkkkkkkkkkkkkkkkkkkk',
-	// // 	'\nstatesInNig:', NigStates,
-	// // 	'\nextractedStates:', extractedStates,
-	// 	'\ncombinedStates:', combinedStates,
-	// // 	// '\ncombinedFilteredStates:', combinedFilteredStates,
-	// 	);
-	// // 	console.log(
-	// // 	'mmmmmmmmmmmmmmmmmmmmm',
-	// // 	'\nlen states in nig:', NigStates?.length,
-	// // 	'\nlen extractedStates:', extractedStates?.length,
-	// // 	'\nlen combinedStates:', combinedStates?.length,
-	// // 	// '\nlen combinedFilteredStates:', combinedFilteredStates.length,
-	// // 	);
-
-	// }
+	console.log(
+		'\ncustodian:', custodian,
+		'\nnotCustodian:', notCustodian
+	)
 	const styleObj = {
 		fontWeight: 'bold',
 		margin: '0',
@@ -878,12 +960,15 @@ function CreateUser () {
 												'Human Resources',
 											].map((dept) => {
 												return (
-												<option key={dept} value={dept}>
+												<option key={dept} value={addHyphen(dept)}>
 												{dept}
 												</option>
 											)})}
 											</SelectItem>
 										</div>
+										{(newUser.region&&(newUser.role==='Help-Desk'||newUser.role==='Supervisor')) && <QueryFieldFromDB
+										query={regionQuery}
+										setIsExist={setIsRegionExist} />}
 									</div>
 								</div>
 								{(dept.nothing) &&
@@ -903,12 +988,12 @@ function CreateUser () {
 												>
 													<option>Select Region</option>
 													{
-													[
-														'region_1',
-														'region_2',
-														'region_3',
-													]
-													.map((region, i) => (
+													// [
+													// 	'region_1',
+													// 	'region_2',
+													// 	'region_3',
+													// ]
+													stateRegionList && stateRegionList?.map((region, i) => (
 														<option key={i} value={region}>{toSentenceCase(region)}</option>
 													))}
 												</SelectItem>
@@ -962,17 +1047,6 @@ function CreateUser () {
 													<option>Select Bank</option>
 													<option value="Enter a New Bank">Enter a New Bank</option>
 													{
-													// [
-													// 	'UBA',
-													// 	'WEMA Bank',
-													// 	'FCMB',
-													// 	'Ecobank',
-													// 	'Union Bank',
-													// 	'Fidelity Bank',
-													// 	'Heritage Bank',
-													// 	'Polaris Bank',
-													// 	'Access Bank',
-													// ]
 													stateBanksList &&
 													stateBanksList.map((bank, i) => {
 														return (

@@ -20,7 +20,7 @@ const PrivateRoute = () => {
     //     return <Navigate to="/dashboard" replace />;
     // }
 	console.log('is authenticated from private route:', isAuthenticated);
-    return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+    return isAuthenticated ? <Outlet /> : <Navigate to="/" replace />;
 };
 
 export default PrivateRoute;
