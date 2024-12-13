@@ -26,7 +26,7 @@ function Profile () {
 					<div className="user-info">
 						<div>
 							<div className="user-page">
-								<img src={`${apiBaseUrl}/${authData.profile_picture}`} alt="profile pic" />
+								<img src={`${apiBaseUrl}${authData.profile_picture}`} alt="profile pic" />
 								{/* <img src={`/${authData.profile_picture}`} alt="profile pic" /> */}
 							</div>
 							{authData.role === 'custodian' &&

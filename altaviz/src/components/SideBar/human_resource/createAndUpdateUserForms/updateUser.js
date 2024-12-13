@@ -51,17 +51,17 @@ console.log('\napiBaseUrl:', apiBaseUrl)
 function UpdateUser () {
 	const { authData } = useContext(AuthContext)
 	const initailFormValues = {
-		branch: authData.branch.name,
+		branch: authData?.branch?.name,
 		newBranch: "",
 		// state: authData.role==='custodian'?authData.branch.state.name:authData.state.name,
-		location: authData.role==='custodian'?authData.branch.location.location:authData.location.location,
+		location: (authData?.role==='custodian')?(authData?.branch?.location?.location):(authData?.location?.location),
 		newLocation: "",
-		region: authData.role==='custodian'?authData.branch?.region.name:authData.region.name,
-		last_name: authData.last_name,
-		middle_name: authData.middle_name,
-		wphone: authData.wphone,
-		address: authData.address,
-		aboutme: authData.aboutme,
+		region: (authData?.role==='custodian')?(authData?.branch?.region?.name):(authData?.region?.name),
+		last_name: authData?.last_name,
+		middle_name: authData?.middle_name,
+		wphone: authData?.wphone,
+		address: authData?.address,
+		aboutme: authData?.aboutme,
 		profile_picture: null,
 		// dummy: '',
 	}
@@ -95,37 +95,39 @@ function UpdateUser () {
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI } = useContext(FetchContext);
 	const { postData, postLoading, postError } = usePostDataAPI(
-		`user-details-update/${authData.id}/`,
+		`user-details-update/${authData?.id}/`,
 		formData,
 		postTrigger,
 		// `/${authData.role}`,
 	);
 
+	console.log('2222222222222')
+	console.log('authData:', authData)
 	// with state, bank and region
 	const custodian = useGetWithEncryption(
 		`custodian-details-update/
-		${authData.branch.region.id}/
-		${authData.branch.state.name}/
-		${authData.branch.bank.name}`,
+		${authData?.branch?.region?.id}/
+		${authData?.branch?.state?.name}/
+		${authData?.branch?.bank?.name}`,
 		'custodian',
 	)
 	// not custodian - this should be to just locations inline
 	// with state, bank and region
 	const notCustodian = useGetWithEncryption(
 		`others-details-update/
-		${authData.branch.region.id}/
-		${authData.branch.state.name}/`,
+		${authData?.region?.id}/
+		${authData?.state?.name}/`,
 		'notCustodian',
 	)
 
 	useEffect(() => {
 		// get locations and branches for custodian
-		if (authData.role==='custodian'&&custodian.localDataStoreVar) {
+		if (authData?.role==='custodian'&&custodian.localDataStoreVar) {
 			console.log('custodian with encryption: ', custodian)
 			setCustodianList(custodian.localDataStoreVar[0].banks[0].locations)
 		}
 		// get locations for non custodian
-		if (authData.role!=='custodian'&&notCustodian.localDataStoreVar) {
+		if (authData?.role!=='custodian'&&notCustodian.localDataStoreVar) {
 			console.log('notCustodian with encryption: ', notCustodian)
 			setNotCustodianList(notCustodian.localDataStoreVar[0].locations)
 		}
@@ -138,7 +140,7 @@ function UpdateUser () {
 			'\nlocation', newUser.location,
 		)
 		// get branches for each location
-		if (authData.role === 'custodian' && custodianList) {
+		if (authData?.role === 'custodian' && custodianList) {
 			console.log('location > branches (custodian) ##############'.toUpperCase())
 			console.log('\ncustodianList: ', custodianList)
 			const locationBranches = []
@@ -173,9 +175,9 @@ function UpdateUser () {
 	let stateLocationsList;
 	// let stateStatesList;
 	let stateBranchesList;
-	console.log('Custodian:', authData.role === 'custodian')
-	if (authData.role) {
-		if (authData.role === 'custodian') {
+	console.log('Custodian:', authData?.role === 'custodian')
+	if (authData?.role) {
+		if (authData?.role === 'custodian') {
 			stateLocationsList = custodianList
 			stateBranchesList = locationBranchesList
 		} else {
@@ -243,11 +245,11 @@ function UpdateUser () {
 				console.log('eeeeeeeeeeeeeeeeeeeeee'.toUpperCase())
 			if (name === 'newLocation') {
 				setNewLocationQuery(
-					`${authData.branch.bank.name}-${authData.region.name}-${authData.role==='custodian'?authData.branch.state.name:authData.state.name}-${name}-${value}`
+					`${authData?.branch?.bank?.name}-${authData?.region?.name}-${(authData?.role==='custodian')?(authData?.branch?.state?.name):(authData?.state?.name)}-${name}-${value}`
 				)
 			} else if (name === 'newBranch') {
 				setNewBranchQuery(`${newUser.location === 'Enter a New Location' ?
-						newUser.newLocation : newUser.location}-${authData.branch.bank.name}-${authData.region.name}-${authData.role==='custodian'?authData.branch.state.name:authData.state.name}-${name}-${value}`
+						newUser.newLocation : newUser.location}-${authData?.branch?.bank?.name}-${authData?.region?.name}-${(authData?.role==='custodian')?(authData?.branch?.state?.name):(authData?.state?.name)}-${name}-${value}`
 				)
 			}
 		}
@@ -369,8 +371,8 @@ function UpdateUser () {
 				newFormData.append(key, value);
 				updatedSamp = { ...updatedSamp, [key]: value };
 			});
-			newFormData.append('bank', authData.branch.bank.name)
-			newFormData.append('state', authData.branch.state.name)
+			newFormData.append('bank', authData?.branch?.bank?.name)
+			newFormData.append('state', authData?.branch?.state?.name)
 			newFormData.append('branchID', branchID==='Enter a New Branch'?-1:branchID)
 			setFormData(newFormData);
 			setPostTrigger(true);
@@ -430,7 +432,7 @@ function UpdateUser () {
 		}
 		else {
 			const profilePicture = document.getElementById('createImage')
-			profilePicture.src=`${apiBaseUrl}/${authData.profile_picture}`
+			profilePicture.src=`${apiBaseUrl}${authData?.profile_picture}`
 			// profilePicture.style.display = 'block';
 		}
 	}
@@ -502,7 +504,7 @@ function UpdateUser () {
 			'\nnoncostodian',
 			'\n\nnotCustodian', notCustodian,
 			'\nnotCustodianList', notCustodianList,
-			'\n\nauthData.profile_picture', authData.profile_picture,
+			'\n\nauthData.profile_picture', authData?.profile_picture,
 		)
 	}
 
@@ -550,7 +552,7 @@ function UpdateUser () {
 													onChange={HandleUserCreationInputChange}
 													disabled={!isEditable}
 													>
-													<option value={authData.role==='custodian'?authData.branch.location.location:authData.location.location}>{authData.role==='custodian'?authData.branch.location.location:authData.location.location}</option>
+													<option value={(authData?.role==='custodian')?(authData?.branch?.location?.location):(authData?.location?.location)}>{(authData?.role==='custodian')?(authData?.branch?.location?.location):(authData?.location?.location)}</option>
 													<option value="Enter a New Location">Enter a New Location</option>
 														{stateLocationsList &&
 														stateLocationsList.map((selectedLocation, i) => {
@@ -581,7 +583,7 @@ function UpdateUser () {
 												}
 											</div>)}
 											{/* ............... branch ................ */}
-											{((authData.role === 'custodian') &&
+											{((authData?.role === 'custodian') &&
 											// (newUser.location !== (authData.branch.location.location||authData.location.location)) && (newUser.location === 'Select Location')) && (
 											<div className="input-field">
 												<Label htmlFor="branch">Branch:</Label>
@@ -601,10 +603,10 @@ function UpdateUser () {
 													{/* <option value={newUser.branch}>{isEditable?'Select Branch':newUser.branch}</option> */}
 													<option value={newUser.branch}>
 														{newUser.location === (
-															authData.role==='custodian'?
-															authData.branch.location.location:authData.location.location
+															(authData?.role==='custodian')?
+															(authData?.branch?.location?.location):(authData?.location?.location)
 														)?
-																(!isEditable?authData.branch.name:(newUser.branch==='')?'Select Branch':newUser
+																(!isEditable?(authData?.branch?.name):(newUser.branch==='')?'Select Branch':newUser
 															.branch) : (
 																	newUser.location==='Enter a New Location'||newUser.branch===''
 																)?
@@ -727,7 +729,7 @@ function UpdateUser () {
 												}}
 												disabled={!isEditable}
 												/>
-										{<img id="createImage" src={`${apiBaseUrl}/${authData.profile_picture}`} alt="Profile pic" style={{...profilePictureStyle, border: '1px solid #333',}} />}
+										{<img id="createImage" src={`${apiBaseUrl}${authData?.profile_picture}`} alt="Profile pic" style={{...profilePictureStyle, border: '1px solid #333',}} />}
 											</div>
 											<div className="input-field">
 												<Label htmlFor="aboutme">About Me:</Label>

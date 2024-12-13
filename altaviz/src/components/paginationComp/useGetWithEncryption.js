@@ -7,6 +7,8 @@ function useGetWithEncryption(
 	storageName='temp',
 	refresh=false
 ) {
+	console.log('3333333333')
+	console.log({baseUrl})
 	const { encrypt, decrypt, RotCipher } = useContext(RotContext);
 	const { useGetDataAPI } = useContext(FetchContext);
 	const [getTrigger, setGetTrigger] = useState(false);
