@@ -10,7 +10,7 @@ const LogoutButton = () => {
         const result = await Logout();
         if (result.success) {
 			console.log('Logout:', result.success);
-            navigate('/login');  // Redirect to login page after logout
+            navigate('/');  // Redirect to login page after logout
         } else {
             console.error('Logout failed');
         }
