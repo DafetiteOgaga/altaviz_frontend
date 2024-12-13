@@ -11,6 +11,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 	let qregion;
 	let qbank;
 	let qlocation;
+	let qrole;
 	console.log(
 		'\nquery:', query,
 		'\nqueryData:', queryData,
@@ -18,7 +19,9 @@ function QueryFieldFromDB({ query, setIsExist }) {
 		// 'query length:', query.length
 	)
 	if (queryData.length > 2) {
-		if (qtype === 'newBank') {
+		if (qtype === 'region') {
+			[qrole, qtype, qtext] = queryData;
+		} else if (qtype === 'newBank') {
 			[qregion, qstate, qtype, qtext] = queryData;
 		} else if (qtype === 'newLocation') {
 			[qbank, qregion, qstate, qtype, qtext] = queryData;
@@ -32,6 +35,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 		'\nqlocaton:', qlocation,
 		'\nqbank:', qbank,
 		'\nqregion:', qregion,
+		'\nqrole:', qrole,
 		'\nqstate:', qstate,
 		'\nqtype:', qtype,
 		'\nqtext:', qtext,
@@ -42,6 +46,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 	const [newBankResponse, setNewBankResponse] = useState(null);
 	const [newLocationResponse, setNewLocationResponse] = useState(null);
 	const [newBranchResponse, setNewBranchResponse] = useState(null);
+	const [roleResponse, setRoleResponse] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
@@ -55,6 +60,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 				setNewBankResponse(null);
 				setNewLocationResponse(null);
 				setNewBranchResponse(null);
+				setRoleResponse(null);
 				setIsExist(true);
 				return;
 			}
@@ -64,6 +70,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 		let url = `${apiBaseUrl}/${qtype}-check/?
 		query=${encodeURIComponent(qtext.toLowerCase())}&
 		qtype=${encodeURIComponent(qtype)}&
+		qrole=${encodeURIComponent(qrole)}&
 		qstate=${encodeURIComponent(qstate)}&
 		qregion=${encodeURIComponent(qregion)}&
 		qbank=${encodeURIComponent(qbank)}&
@@ -99,6 +106,10 @@ function QueryFieldFromDB({ query, setIsExist }) {
 				const newBranch = await fetch(url);
 				const newBranchData = await newBranch.json();
 				setNewBranchResponse(newBranchData.response);
+			} else if (qtype === 'region') {
+				const role = await fetch(url);
+				const roleData = await role.json();
+				setRoleResponse(roleData.response);
 			}
 		} catch (err) {
 			console.error('Error fetching from the backend:', err);
@@ -117,6 +128,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 	if (qtype === 'newBank') setIsExist(!!newBankResponse)
 	if (qtype === 'newLocation') setIsExist(!!newLocationResponse)
 	if (qtype === 'newBranch') setIsExist(!!newBranchResponse)
+	if (qtype === 'region') setIsExist(!!roleResponse)
 	const displayStylings = {
 		fontSize: 'small',
 		fontStyle: 'italic',
@@ -149,6 +161,11 @@ function QueryFieldFromDB({ query, setIsExist }) {
 			{newBranchResponse !== null && !loading && (
 				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!newBranchResponse ? 'red' : 'green')}}>{qtext} is {!!newBranchResponse ? 'Already taken' : 'Available'}</span>
+			)}
+			{roleResponse !== null && !loading && (
+				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
+				<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</span>
+				// <span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned</span>
 			)}
 		</div>
 	);
