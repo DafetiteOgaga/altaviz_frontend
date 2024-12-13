@@ -957,7 +957,7 @@ function CreateUser () {
 												'Workshop',
 												'Help Desk',
 												'Supervisor',
-												'Human Resources',
+												'Human Resource',
 											].map((dept) => {
 												return (
 												<option key={dept} value={addHyphen(dept)}>
