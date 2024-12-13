@@ -55,6 +55,9 @@ const NewFieldContainer = styled.div`
 const addHyphen = (text) => {
     return text.split(' ').join('-');
 }
+const removeHyphen = (text) => {
+    return text.split('-').join(' ');
+}
 function CreateUser () {
 	const initailFormValues = {
 		role: "",
@@ -92,6 +95,8 @@ function CreateUser () {
 	const [isEmailExist, setIsEmailExist] = useState(false);
 	const [newBankQuery, setNewBankQuery] = useState('');
 	const [isNewBankExist, setIsNewBankExist] = useState(false);
+	const [regionQuery, setRegionQuery] = useState('');
+	const [isRegionExist, setIsRegionExist] = useState(false);
 	const [newLocationQuery, setNewLocationQuery] = useState('');
 	const [isNewLocationExist, setIsNewLocationExist] = useState(false);
 	const [newBranchQuery, setNewBranchQuery] = useState('');
@@ -153,12 +158,12 @@ function CreateUser () {
 	)
 
 	useEffect(() => {
-		// get banks for custodian
+		// get for custodian
 		if (custodian) {
 			console.log('custodian with encryption: ', custodian)
 			setCustodianList(custodian.localDataStoreVar)
 		}
-		// get states for non custodian
+		// get for non custodian
 		if (notCustodian) {
 			console.log('notCustodian with encryption: ', notCustodian)
 			setNotCustodianList(notCustodian.localDataStoreVar)
@@ -429,6 +434,13 @@ function CreateUser () {
 	}, [custodianList, notCustodianList, newUser.role, newUser.bank, newUser.state, newUser.location, newUser.region])
 
 	useEffect(() => {
+		if (newUser.role) {
+			setNewUser((prev) => ({
+				...prev, region: '', state: '', bank: '', location: '', branch: '',
+			}));
+		}
+	}, [newUser.role]);
+	useEffect(() => {
 		if (newUser.region) {
 			setNewUser((prev) => ({
 				...prev, state: '', bank: '', location: '', branch: '',
@@ -548,7 +560,13 @@ function CreateUser () {
 	const HandleUserCreationInputChange = (e) => {
 		const { name, value, type, files } = e.target;
 		// const checkValue = value;
-		if (['email', 'username', 'newBank', 'newLocation', 'newBranch']
+		console.log(
+			'\nname:', name,
+			'\nvalue:', value,
+			'\nnewUser.role:', newUser.role,
+			'\nnewUser.region:', newUser.region,
+		)
+		if (['email', 'username', 'newBank', 'newLocation', 'newBranch', 'region']
 			.includes(name)) {
 				console.log('eeeeeeeeeeeeeeeeeeeeee'.toUpperCase())
 			// ||name === 'email'||name === 'email' {
@@ -561,6 +579,12 @@ function CreateUser () {
 				}
 			} else if (name === 'username') {
 				setUsernameQuery(`${name}-${value}`)
+			} else if (name === 'region') {
+				console.log(
+					'\nnewUser.role:', newUser.role,
+					'\nname-value:', `${name}-${value}`
+				)
+				setRegionQuery(`${removeHyphen(newUser.role.toLocaleLowerCase())}-${name}-${value}`)
 			} else if (name === 'newBank') {
 				setNewBankQuery(`${newUser.region}-${newUser.state}-${name}-${value}`)
 			} else if (name === 'newLocation') {
@@ -634,7 +658,7 @@ function CreateUser () {
 		}
 	};
 
-	const fieldsExist = !(isEmailExist || isUsernameExist || isNewBankExist || isNewLocationExist || isNewBranchExist)
+	const fieldsExist = !(isEmailExist || isUsernameExist || isNewBankExist|| isRegionExist || isNewLocationExist || isNewBranchExist)
 	// setFieldStatus(fieldsExist)
 	const handleFormSubmission = (e) => {
 		e.preventDefault();
@@ -852,7 +876,7 @@ function CreateUser () {
 	console.log('stateStatesList (Req:states-outside):', stateStatesList)
 	// console.log('stateStatesBranchesList (Req:branches-outside):', stateStatesBranchesList)
 
-	let all = !(isEmailExist === isUsernameExist === isNewBankExist === isNewLocationExist === isNewBranchExist)
+	let all = !(isEmailExist === isUsernameExist === isNewBankExist === isRegionExist === isNewLocationExist === isNewBranchExist)
 	console.log(
 		'\nnewUser.branch:', newUser.branch,
 		'\nnewUser.newBranch:', newUser.newBranch,
@@ -860,6 +884,8 @@ function CreateUser () {
 		'\nnewUser.newBank:', newUser.newBank,
 		'\nnewUser.location:', newUser.location,
 		'\nnewUser.newLocation:', newUser.newLocation,
+		'\nnewUser.role:', newUser.role,
+		'\nnewUser.region:', newUser.region,
 	)
 	console.log(
 		// use these values to further validate
@@ -868,6 +894,7 @@ function CreateUser () {
 		'\nemail field exist:', isEmailExist,
 		'\nusername field exist:', isUsernameExist,
 		'\nnew bank field exist:', isNewBankExist,
+		'\nrole exist:', isRegionExist,
 		'\nnew location field exist:', isNewLocationExist,
 		'\nnew branch field exist:', isNewBranchExist,
 		'\nall fields good:', all,
@@ -939,6 +966,9 @@ function CreateUser () {
 											)})}
 											</SelectItem>
 										</div>
+										{(newUser.region&&(newUser.role==='Help-Desk'||newUser.role==='Supervisor')) && <QueryFieldFromDB
+										query={regionQuery}
+										setIsExist={setIsRegionExist} />}
 									</div>
 								</div>
 								{(dept.nothing) &&
@@ -1017,17 +1047,6 @@ function CreateUser () {
 													<option>Select Bank</option>
 													<option value="Enter a New Bank">Enter a New Bank</option>
 													{
-													// [
-													// 	'UBA',
-													// 	'WEMA Bank',
-													// 	'FCMB',
-													// 	'Ecobank',
-													// 	'Union Bank',
-													// 	'Fidelity Bank',
-													// 	'Heritage Bank',
-													// 	'Polaris Bank',
-													// 	'Access Bank',
-													// ]
 													stateBanksList &&
 													stateBanksList.map((bank, i) => {
 														return (
