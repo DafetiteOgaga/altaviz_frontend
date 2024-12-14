@@ -40,17 +40,8 @@ const getRequests = (localPendingFaults, id, requestType) => {
 
 function RequestsDetails() {
 	const action = useRef(null)
-	// const forcePull = useRef(false)
-	// const oneRender = useRef(false)
-	// const [tempIDs, setTempIDs] = useState(null)
-	// const [newIDs, setNewIDs] = useState(null)
 	const { decrypt, RotCipher , encrypt} = useContext(RotContext);
-	// const [newData, setNewData] =useState(null)
-	// const { useGetDataAPI } = useContext(FetchContext);
-	// const [getTrigger, setGetTrigger] = useState(false);
 	const navigate = useNavigate();
-	// const { handleRefresh } = useRefreshContext();
-	// const [itemID, setItemID] = useState(null)
 	const location = useLocation().pathname.split('/');
 	const requestType = location[2].split('-')[0]
 	const dept = location[1]
@@ -59,8 +50,6 @@ function RequestsDetails() {
 	const { TimeDifference } = useContext(TimeDifferenceContext);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	const requestParamDetails = useParams()
-	// delete setup
-	// const [formData, setFormData] = useState(new FormData());
 	const { useDeleteDataAPI, usePatchDataAPI } = useContext(FetchContext)
 	const [formData, setFormData] = useState(new FormData());
 	const [deleteTrigger, setDeleteTrigger] = useState(false);
