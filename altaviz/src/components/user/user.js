@@ -4,11 +4,12 @@ import { SentenceCaseContext } from "../context/SentenceCaseContext";
 import { useContext, useState, useEffect } from "react"
 import { FetchContext } from "../context/FetchContext"
 import { useParams, useLocation } from "react-router-dom";
+import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function User () {
-	const { toSentenceCase } = useContext(SentenceCaseContext);
+	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
 	// const [response, setResponse] = useState(false);
 	const [userDataToState, setuserDataToState] = useState(false);
 	const locatn = useLocation()
@@ -86,12 +87,12 @@ function User () {
 						<h4>Region: {toSentenceCase(userDataToState.region.name)}</h4>
 						{userDataToState.role !== 'custodian' &&
 							<>
-								<h4>deliveries: {userDataToState.deliveries}</h4>
-								<h4>Pendings: {userDataToState.pendings}</h4>
+								<h4>deliveries: {<Deliveries id={userDataToState.id} />}</h4>
+								{/* <h4>Pendings: {userDataToState.pendings}</h4> */}
 							</>}
-						<h4>Address: {toSentenceCase(userDataToState.address)}</h4>
+						<h4>Address: {userDataToState.address}</h4>
 						<h4>Status: {!userDataToState.is_deleted ? 'Active' : 'Inactive'}</h4>
-						<h4>About Me: {userDataToState.aboutme && toSentenceCase(userDataToState.aboutme)}</h4>
+						<h4>About Me: {trimString(userDataToState.aboutme||'', 50)}</h4>
 					</div>
                 </div>
             </div>}
