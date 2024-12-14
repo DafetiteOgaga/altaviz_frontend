@@ -16,10 +16,11 @@ const TopContainer = styled.div`
 `
 const BorderLineContainer = styled.div`
 	display: flex;
-	gap: 3rem;
+	gap:1rem;
 	/* border: 1px solid black; */
 	border-radius: 0.5rem;
-	padding: 1rem;
+	padding: 0.5rem 1rem;
+	// padding-bottom: 1rem;
 	margin-bottom: 0.5rem;
 `
 const FieldsContainer = styled.div`
@@ -33,11 +34,12 @@ const Label = styled.label`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 21px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -199,6 +201,14 @@ function AddInventoryName({inventoryName}) {
 	console.log('formvalue:', formValue)
 	const incrementAddMoreButtonCount = () => setFormIndex(prev => prev + 1)
 	const decrementAddMoreButtonCount = () => setFormIndex(prev => prev - 1)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -227,6 +237,7 @@ function AddInventoryName({inventoryName}) {
 							<input
 								id={`item-${index}`}
 								name="item"
+								style={style.input}
 								ref={refInput}
 								value={formValue.item}
 								placeholder={` Enter ${inventoryName} name`}
