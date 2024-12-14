@@ -105,15 +105,6 @@ function usePaginationWithEncryption(
 				});
 				return newData;
 			});
-			// setLocalDataStoreVar(prevData => {
-			// 	const newData = prevData ? [...prevData, ...getData.results] : [...getData.results];
-			// 	// getData.results.forEach(item => {
-			// 	// 	if (!newData.some(existingItem => existingItem.id === item.id)) {
-			// 	// 		newData.push(item);
-			// 	// 	}
-			// 	// });
-			// 	return newData;
-			// });
 			const newPagiDetails = {
 				count: getData.count,
 				next: getData.next,
