@@ -181,7 +181,7 @@ function UserBar ({allUsers, page, loading}) {
 													<div style={{alignContent: 'center'}}>
 														{
 															<p><strong>Requests: </strong>
-																{(engineer?.faults?.some(fault => fault.requestStatus === true)) ? (
+																{(engineer?.faults?.some?.(fault => fault.requestStatus === true)) ? (
 																	<span style={{
 																		color: '#87823E',
 																		padding: ' 0 0.3rem',
@@ -204,7 +204,7 @@ function UserBar ({allUsers, page, loading}) {
 													<div style={{alignContent: 'center'}}>
 														{
 															<p><strong>Requests: </strong>
-																{(engineer?.faults?.some(fault => fault.requestStatus === true)) ? (
+																{(engineer?.faults?.some?.(fault => fault.requestStatus === true)) ? (
 																	<span style={{
 																		backgroundColor: 'green',
 																		color: 'white',
