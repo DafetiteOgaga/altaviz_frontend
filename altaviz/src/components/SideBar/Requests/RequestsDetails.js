@@ -68,20 +68,11 @@ function RequestsDetails() {
 
 	console.log('newDataAAAAAAAAA:', authData)
 	console.log('auth data id: ', authData.id)
-	console.log('auth data name: ', authData.first_name)
-	console.log('auth dataXXXXXX:', authData)
 	console.log(
 		'\nrequestParamDetails:', requestParamDetails,
 		'\nrequestParamDetailsID:', requestParamDetails.id,
 		'\nrequestType:', requestType
 	)
-
-	// console.log(
-	// 	'\nvariable:', `${requestType}Key`,
-	// )
-
-	// let allRequests;
-	// allRequests = [...FetchFromLocalStorageOrDB(localVariable, itemUrl)]
 	const requestSearch = localStorage.getItem('searchRequestData')
 	let allRequests;
 	let allRequestsKey = 'allUnresolvedKey';
@@ -92,23 +83,15 @@ function RequestsDetails() {
 		// let localPendingFaults = localStorage.getItem(allRequestsKey);
 		if (localPendingFaults) {
 			localPendingFaults = JSON.parse(RotCipher(localPendingFaults, decrypt))
-			console.log(
-				'allgood here'
-			)
-			// localPendingFaults = localPendingFaults.filter(fault => fault.id === Number(requestParamDetails.faultID))[0]
-			// console.log('\nlocalPendingFaults current fault:', localPendingFaults)
-			// if (localPendingFaults.requestStatus) {
-			// 	if (requestType==='part') allRequests = localPendingFaults.requestPart;
-			// 	if (requestType==='component') allRequests = localPendingFaults.requestComponent;
-			// 	console.log('allRequests (', requestType, '):', allRequests)
-			// 	// setTempIDs(allRequests.map(request => request.id))
-			// }
+			console.log('allgood here')
 			allRequests = getRequests(localPendingFaults,requestParamDetails.faultID, requestType)
+			console.log({allRequests})
 		}
 	} else if (requestSearch) {
 		allRequests = localStorage.getItem('searchRequestData')
 		allRequests = RotCipher(allRequests, decrypt)
 		allRequests = JSON.parse(allRequests)
+		console.log({allRequests})
 	} else {
 		// console.log('localStorage response:', localStorage.getItem(`${requestType}PendingList`))
 		if (localStorage.getItem(`${requestType}PendingList`)) {
@@ -154,7 +137,7 @@ function RequestsDetails() {
 		'\nrequestType:', requestType,
 	)
 
-	const itemExist = !allRequests?.find(request => request.id === comparisonID)
+	const itemExist = !allRequests?.find?.(request => request.id === comparisonID)
 	useEffect(() => {
 		if (itemExist) {
 			console.log('request with ID:', comparisonID, 'not found.')
@@ -163,18 +146,12 @@ function RequestsDetails() {
 		}
 	}, [itemExist])
 	let requestItem;
-	// if (!allRequests.map(request => request.id).includes(comparisonID) && requestParamDetails.dept === 'engineer') {
-	// 	comparisonID = allRequests.reduce((maxID, request) => {
-	// 		return request.id > maxID ? request.id : maxID;
-	// 	}, 0)
-	// }
-	
-	// else if (requestParamDetails.dept==='workshop')
-	requestItem = allRequests.filter(data => {
-		console.log('requestID:', data.id, '-', data.type)
+	requestItem = allRequests.find?.(data => {
+		// console.log(`\nrequestID: ${data.id} - type: ${data.type} - requestType: ${requestType} - type = requtype: ${data.type === ((!data.fault&&requestType==='part')?`fixed-${requestType}`:requestType)}`)
+		console.log(`\nrequestID: ${data.id} - type: ${data.type} - requestType: ${requestType} - dynamic type: ${(dept==='human-resource'&&requestType==='part')?`fixed-${requestType}`:requestType}\ntype = requtype: ${data.type === (dept==='human-resource'?`fixed-${requestType}`:requestType)}`)
 		// return data.id === comparisonID && data.type === (location[2].split('-')[1]==='fixed'?`fixed-${requestType}`:requestType)
-		return data.id === comparisonID && data.type === (!data.fault?`fixed-${requestType}`:requestType)
-	})[0]
+		return data.id === comparisonID && data.type === ((dept==='human-resource'&&requestType==='part')?`fixed-${requestType}`:requestType)
+	})
 	console.log('\nrequestItem:', requestItem,)
 	if (requestSearch) {
 		requestItem = allRequests.filter(request => (
@@ -454,7 +431,7 @@ function RequestsDetails() {
 							<span style={{paddingRight: '5rem'}}>
 								<Link
 								style={{color: '#333'}}
-								to={`/${dept}/${requestType==='part'?'part':'component'}-request-list/`}>
+								to={`/${dept}/${dept==='custodian'?'pending/fault-gen-list/':`${requestType==='part'?'part':'component'}-request-list/`}`}>
 									{(dept !== 'help-desk'&&dept !== 'supervisor') && 'Back to List'}
 								</Link>
 							</span>
