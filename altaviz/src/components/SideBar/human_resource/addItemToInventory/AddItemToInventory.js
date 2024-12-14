@@ -18,7 +18,7 @@ const BorderLineContainer = styled.div`
 	gap: 3rem;
 	/* border: 1px solid black; */
 	border-radius: 0.5rem;
-	padding: 1rem;
+	padding: 0.5rem 1rem;
 	padding-bottom: 0;
 	margin-bottom: 0.5rem;
 `
@@ -36,11 +36,12 @@ const SelectItem = styled.select`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 20px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -234,6 +235,14 @@ function AddItemToInventory({itemName}) {
 		'\nlocation:', location,
 		'\ndept:', dept,
 	)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -245,6 +254,7 @@ function AddItemToInventory({itemName}) {
 							<SelectItem
 								id={`${form.name}-${index}`}
 								name='name'
+								style={style.input}
 								value={form.name}
 								onChange={(e) => valueHandler(e, index)}
 							>
@@ -262,6 +272,7 @@ function AddItemToInventory({itemName}) {
 							<SelectItem
 								id={`${form.quantity}${index}`}
 								name='quantity'
+								style={style.input}
 								value={form.quantity}
 								onChange={(e) => valueHandler(e, index)}
 							>
