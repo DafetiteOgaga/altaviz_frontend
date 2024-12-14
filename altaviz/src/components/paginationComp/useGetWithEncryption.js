@@ -61,7 +61,7 @@ function useGetWithEncryption(
 				setLocalDataStoreVar(prevData => {
 					const newData = prevData ? [...prevData] : [];
 					getData.forEach(item => {
-						if (!newData.some(existingItem => existingItem.id === item.id)) {
+						if (!newData.some?.(existingItem => existingItem.id === item.id)) {
 							newData.push(item);
 						}
 					});
