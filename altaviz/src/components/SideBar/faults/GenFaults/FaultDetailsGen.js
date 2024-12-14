@@ -20,6 +20,7 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { RotContext } from "../../../context/RotContext";
 import { CheckAndFetchFromStorage } from "../../../hooks/fetchFromClient";
 import RequestItem from '../../requestForms/RequestItem';
+// import { RotContext } from "../../../context/RotContext";
 
 function removeKeys(keys) {
 	for (let i = 0; i < keys.length; i++) {
@@ -28,6 +29,7 @@ function removeKeys(keys) {
 }
 
 function FaultDetailsGen({searchFaults}) {
+	// const { encrypt, decrypt, RotCipher } = useContext(RotContext)
 	// const justARender = useRef(false)
 	const navigate = useNavigate();
 	const [remount, setRemount] = useState(true)
@@ -52,7 +54,7 @@ function FaultDetailsGen({searchFaults}) {
 	const [timeStyle, setTimeStyle] = useState({});
 	const { authData } = useContext(AuthContext);
 	const { TimeDifference } = useContext(TimeDifferenceContext);
-	const { toSentenceCase } = useContext(SentenceCaseContext);
+	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
 	const FaultParamDetals = useParams()
 	// const dept = FaultParamDetals.dept
 	// const localVariable = FaultParamDetals.type
@@ -104,7 +106,7 @@ function FaultDetailsGen({searchFaults}) {
 	// console.log('troubleshoot: data[0]:', allFaults[0]);
 	// console.log('troubleshoot: allFaults IDs:', allFaults.map(fault => fault.id));
 	// console.log('troubleshoot: FaultParamDetals.id:', Number(FaultParamDetals.id));
-	if (!allFaults?.find(fault => fault.id === Number(FaultParamDetals.id))) {
+	if (!allFaults?.find?.(fault => fault.id === Number(FaultParamDetals.id))) {
 		console.log('fault with ID:', FaultParamDetals.id, 'not found.')
 		console.log('redirecting to dashboard ...')
 		navigate('/success', { state: {currentPage: `/${authData.role}`, time: 50}})
@@ -224,11 +226,11 @@ function FaultDetailsGen({searchFaults}) {
 		'\nresponseError:', responseError,
 		'\nresponseLoading:', responseLoading,
 	)
-	const responseErrorValue = responseError.find(error => !!error)
-	const responseDataValue = responseData.find(data => !!data)
-	const responseIndex = responseData.findIndex(data => !!data)
+	const responseErrorValue = responseError.find?.(error => !!error)
+	const responseDataValue = responseData.find?.(data => !!data)
+	const responseIndex = responseData.findIndex?.(data => !!data)
 	console.log(
-		'\nany:', responseData.some(data => !!data),
+		'\nany:', responseData.some?.(data => !!data),
 		'\nresponseErrorValue:', responseErrorValue,
 		'\nResponseIndex:', responseIndex,
 		'\nresponseDataValue:', responseDataValue,
@@ -254,17 +256,6 @@ function FaultDetailsGen({searchFaults}) {
 				// 	'\nresponse error:', checkResponseError
 				// )
 			}
-			// console.log(
-			// 	'\ncheckResponseData:', checkResponseData,
-			// 	'\ncheckResponseError:', checkResponseError,
-			// 	'\nResponseIndex:', responseIndex,
-			// 	'\nresponseData:', responseData,
-			// 	'\nresponseData:', responseData.some(item => item),
-			// 	'\nitem:', responseData[responseIndex],
-			// 	'\nmessage:', responseData[responseIndex]?.msg,
-			// 	'\nresponseError:', responseError,
-			// 	'\nresponseLoading:', responseLoading,
-			// )
 			const removeList = [
 				'faultsKey', 'totalfaultsKey',
 				'unconfirmedKey', 'totalunconfirmedKey',
@@ -461,7 +452,7 @@ function FaultDetailsGen({searchFaults}) {
 			}
 			// handleRefresh([variableContext, totalArrayContext])
 		}
-		if (responseData.some(item => item)) {
+		if (responseData.some?.(item => item)) {
 			console.log('\ndatabase response is successful'.toUpperCase())
 			// handleRefreshAll()
 		}
@@ -510,23 +501,23 @@ function FaultDetailsGen({searchFaults}) {
 	const loggedAt = new Date(faultsItem?.created_at)
 	const resolvedAt = faultsItem?.resolved_at ? new Date(faultsItem?.resolved_at) : null;
 	let approvedRequest = faultsItem?.requestStatus ?
-		((Array.isArray(faultsItem?.requestPart)&&(faultsItem?.requestPart?.some(request => request.approved))) ||
-		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.approved))):
+		((faultsItem?.requestPart?.some?.(request => request.approved)) ||
+		(faultsItem?.requestComponent?.some?.(request => request.approved))):
 		null
 	let rejectRequest = faultsItem?.requestStatus ?
-		(((Array.isArray(faultsItem?.requestPart))&&(faultsItem?.requestPart?.some(request => request.rejected))) ||
-		((Array.isArray(faultsItem?.requestComponent))&&faultsItem?.requestComponent?.some(request => request.rejected))):
+		((faultsItem?.requestPart?.some?.(request => request.rejected)) ||
+		(faultsItem?.requestComponent?.some?.(request => request.rejected))):
 		null
 	const appovedAt = (approvedRequest || rejectRequest) ?
 		new Date(
-			faultsItem?.requestPart?.find(request => request.approved_at).approved_at ||
-			faultsItem?.requestComponent?.find(request => request.approved_at).approved_at
+			faultsItem?.requestPart?.find?.(request => request.approved_at).approved_at ||
+			faultsItem?.requestComponent?.find?.(request => request.approved_at).approved_at
 		) : null;
 
 	const compRequestAt = (faultsItem?.requestComponent) ?
-		new Date(faultsItem?.requestComponent?.find(request => request.requested_at).requested_at):null
+		new Date(faultsItem?.requestComponent?.find?.(request => request.requested_at).requested_at):null
 	const partRequestAt = (faultsItem?.requestPart) ?
-		new Date(faultsItem?.requestPart?.find(request => request.requested_at).requested_at):null
+		new Date(faultsItem?.requestPart?.find?.(request => request.requested_at).requested_at):null
 
 	console.log(
 		'\nloggedAt:', loggedAt,
@@ -536,16 +527,16 @@ function FaultDetailsGen({searchFaults}) {
 		'\nappovedAt:', appovedAt,
 		'\ncompRequestAt:', compRequestAt,
 		'\npartRequestAt:', partRequestAt,
-		'\napproved_at:', (faultsItem?.requestPart||[])?.find(request => request.approved_at)?.approved_at
+		'\napproved_at:', (faultsItem?.requestPart||[])?.find?.(request => request.approved_at)?.approved_at
 	)
 
 	// check requests status
 	const checkStatus = faultsItem?.requestStatus;
-	const checkRequests = (faultsItem?.requestComponent?(faultsItem?.requestComponent?.some(request => {
+	const checkRequests = (faultsItem?.requestComponent?(faultsItem?.requestComponent?.some?.(request => {
 		return (!request?.approved&&!request?.rejected)})):null)||
-		(faultsItem?.requestPart?(faultsItem?.requestPart?.some(request => {
+		(faultsItem?.requestPart?(faultsItem?.requestPart?.some?.(request => {
 			return (!request?.approved&&!request?.rejected)})):null)
-		// }))
+	console.log({checkRequests})
 
 	// permissions
 	// can make requests (engineers and supervisors)
@@ -556,10 +547,10 @@ function FaultDetailsGen({searchFaults}) {
 	let hasApprovedPartRequests;
 	let hasApprovedComponentRequests;
 	if (faultsItem?.requestPart) {
-		hasApprovedPartRequests = faultsItem?.requestPart.some(request => request.approved)
+		hasApprovedPartRequests = faultsItem?.requestPart.some?.(request => request.approved)
 	}
 	if (faultsItem?.requestComponent) {
-		hasApprovedComponentRequests = faultsItem?.requestComponent.some(request => request.approved)
+		hasApprovedComponentRequests = faultsItem?.requestComponent.some?.(request => request.approved)
 	}
 
 	// can approve/reject requests (supervisors and human resource)
@@ -714,6 +705,13 @@ function FaultDetailsGen({searchFaults}) {
 		tempDetailsID = localStorage.getItem('temporaryIDValue')
 	}
 	console.log({tempDetailsID})
+	let searchedData = localStorage.getItem('searchData')
+	if (searchedData) {
+		searchedData = RotCipher(searchedData, decrypt)
+		searchedData = JSON.parse(searchedData)
+		searchedData = searchedData?.map?.(fault => fault.id)
+		console.log(searchedData)
+	}
 	return (
 		<>
 			<div className="background-color custodian-page">
@@ -877,7 +875,7 @@ function FaultDetailsGen({searchFaults}) {
 										<div className="cust-row">
 											<div className="input-field-other">
 												<p><strong>Other: </strong>
-													{faultsItem?.other ? faultsItem?.other : 'No other details'}
+													{faultsItem?.other ? trimString(faultsItem?.other, 300) : 'No other details'}
 												</p>
 											</div>
 										</div>
@@ -899,6 +897,7 @@ function FaultDetailsGen({searchFaults}) {
 													<FaultRequestsItem
 													requestItemsObj={requestItemsObj}
 													request={component}
+													searchedData={searchedData}
 													type='component'
 													/>
 												</li>))}
@@ -915,6 +914,7 @@ function FaultDetailsGen({searchFaults}) {
 													<FaultRequestsItem
 													requestItemsObj={requestItemsObj}
 													request={part}
+													searchedData={searchedData}
 													type='part'
 													/>
 												</li>))}
@@ -930,13 +930,13 @@ function FaultDetailsGen({searchFaults}) {
 											<div className="input-field to_user">
 												<p><strong>{approvedRequest ? 'Approved': 'Rejected'} By: </strong>
 													<Link
-													// to={`/user/${faultsItem?.requestPart ? faultsItem?.requestPart[0]?.approved_by?.id : faultsItem?.requestComponent[0]?.approved_by?.id}`}
+													to={`/user/${faultsItem?.requestComponent?.find?.(user => user?.approved_by?.id)?.approved_by?.id||faultsItem?.requestPart?.find?.(user => user?.approved_by?.id)?.approved_by?.id}`}
 													style={{color: '#333'}}>
 														{console.log(
-															'\npart:', faultsItem?.requestPart?.find(user => user.approved_by?.first_name).approved_by?.first_name,
-															'\ncomponent:', faultsItem?.requestComponent?.find(user => user.approved_by?.first_name).approved_by?.first_name,
+															'\npart:', faultsItem?.requestPart?.find?.(user => user.approved_by?.first_name)?.approved_by?.first_name,
+															'\ncomponent:', faultsItem?.requestComponent?.find?.(user => user.approved_by?.first_name)?.approved_by?.first_name,
 														)}
-														{toSentenceCase((faultsItem?.requestPart?.find(user => user.approved_by?.first_name).approved_by?.first_name)??(faultsItem?.requestComponent?.find(user => user.approved_by?.first_name).approved_by?.first_name))}
+														{toSentenceCase((faultsItem?.requestComponent?.find?.(user => user.approved_by?.first_name).approved_by?.first_name)||(faultsItem?.requestPart?.find?.(user => user.approved_by?.first_name).approved_by?.first_name))}
 													</Link>
 												</p>
 											</div>
@@ -962,7 +962,7 @@ function FaultDetailsGen({searchFaults}) {
 												handleClick(e, {type: {id: faultsItem?.id, button: 'confirm'}})
 											}}
 											>
-												{responseLoading.some(item => item) ? 'Confirming' : 'Confirm Resolution'}
+												{responseLoading.some?.(item => item) ? 'Confirming' : 'Confirm Resolution'}
 											</h5>
 										</div>}
 										{(!hasApprovedPartRequests && !hasApprovedComponentRequests && !faultsItem?.verify_resolve) &&
@@ -973,7 +973,7 @@ function FaultDetailsGen({searchFaults}) {
 												handleClick(e, {type: {id: faultsItem?.id, button: 'withdraw'}})
 											}}
 											>
-												{responseLoading.some(item => item) ? 'Witdrawing' : 'Withdraw Fault'}
+												{responseLoading.some?.(item => item) ? 'Witdrawing' : 'Withdraw Fault'}
 											</h5>
 										</div>}
 									</div>)}
@@ -1006,7 +1006,7 @@ function FaultDetailsGen({searchFaults}) {
 												patchUrlName.current = 'pending-faults';
 											}}
 											>
-												{responseLoading.some(item => item) ? 'Seeking ...' : 'Seek Confirmation'}
+												{responseLoading.some?.(item => item) ? 'Seeking ...' : 'Seek Confirmation'}
 											</h5>
 										</div>
 									</div>}
