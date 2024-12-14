@@ -697,7 +697,7 @@ function App() {
 		// ntype1.current,
 		isRegion, websocketAlert
 	)
-	if (noti1.isListData.current&&!nCounter.current.some(check=>check==='one')&&nTotalNotifications.current) {nCounter.current.push('one')}
+	if (noti1.isListData.current&&!nCounter.current.some?.(check=>check==='one')&&nTotalNotifications.current) {nCounter.current.push('one')}
 	console.log(
 		'\nnoti1.isListData.current:', noti1.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -710,7 +710,7 @@ function App() {
 		// ntype2.current,
 		isRegion, websocketAlert
 	)
-	if (noti2.isListData.current&&!nCounter.current.some(check=>check==='two')&&nTotalNotifications.current) {nCounter.current.push('two')}
+	if (noti2.isListData.current&&!nCounter.current.some?.(check=>check==='two')&&nTotalNotifications.current) {nCounter.current.push('two')}
 	console.log(
 		'\nnoti2.isListData.current:', noti2.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -723,7 +723,7 @@ function App() {
 		// type1.current,
 		isRegion, websocketAlert
 	)
-	if (noti3.isListData.current&&!nCounter.current.some(check=>check==='three')&&nTotalNotifications.current) {nCounter.current.push('three')}
+	if (noti3.isListData.current&&!nCounter.current.some?.(check=>check==='three')&&nTotalNotifications.current) {nCounter.current.push('three')}
 	console.log(
 		'\nnoti3.isListData.current:', noti3.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -736,7 +736,7 @@ function App() {
 		// type2.current,
 		isRegion, websocketAlert
 	)
-	if (noti4.isListData.current&&!nCounter.current.some(check=>check==='four')&&nTotalNotifications.current) {nCounter.current.push('four')}
+	if (noti4.isListData.current&&!nCounter.current.some?.(check=>check==='four')&&nTotalNotifications.current) {nCounter.current.push('four')}
 	console.log(
 		'\nnoti4.isListData.current:', noti4.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -749,7 +749,7 @@ function App() {
 		// type3.current,
 		isRegion, websocketAlert
 	)
-	if (noti5.isListData.current&&!nCounter.current.some(check=>check==='five')&&nTotalNotifications.current) {nCounter.current.push('five')}
+	if (noti5.isListData.current&&!nCounter.current.some?.(check=>check==='five')&&nTotalNotifications.current) {nCounter.current.push('five')}
 	console.log(
 		'\nnoti5.isListData.current:', noti5.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -762,7 +762,7 @@ function App() {
 		// type4.current,
 		isRegion, websocketAlert
 	)
-	if (noti6.isListData.current&&!nCounter.current.some(check=>check==='six')&&nTotalNotifications.current) {nCounter.current.push('six')}
+	if (noti6.isListData.current&&!nCounter.current.some?.(check=>check==='six')&&nTotalNotifications.current) {nCounter.current.push('six')}
 	console.log(
 		'\nnoti6.isListData.current:', noti6.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
@@ -775,7 +775,7 @@ function App() {
 		// ntype2.current,
 		isRegion, websocketAlert
 	)
-	if (noti7.isListData.current&&!nCounter.current.some(check=>check==='seven')&&nTotalNotifications.current) {nCounter.current.push('seven')}
+	if (noti7.isListData.current&&!nCounter.current.some?.(check=>check==='seven')&&nTotalNotifications.current) {nCounter.current.push('seven')}
 	console.log(
 		'\nnoti7.isListData.current:', noti7.isListData.current,
 		'\nnCounter.current.length:', nCounter.current.length,
