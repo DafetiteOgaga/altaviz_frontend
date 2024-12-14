@@ -27,6 +27,8 @@ function Dashboard() {
 	// let componentPage = useLocation();
 	// componentPage = componentPage.pathname;
 	const custodianCheck = (authData?.role==='custodian') ?? null
+	const supervisorAndHelpDesk = !!authData?.branch?.name
+	const notAvailable = 'not available yet'
 	console.log(
 		'authData:', authData,
 		'custodianCheck:', custodianCheck
@@ -121,22 +123,22 @@ function Dashboard() {
 							<>
 								<div className="input-field">
 									<p><strong>Help Desk: </strong>
-										{authData?.branch.name ?
+										{supervisorAndHelpDesk ?
 										<Link
 										style={{color: '#333'}}
 										to={`/user/${authData?.branch?.region?.helpdesk?.id}`}>
 											{toSentenceCase(authData.branch.region.helpdesk.first_name || authData.branch.region.helpdesk.username)}
-										</Link>: <span>Not Available</span>}
+										</Link>: <span>{toSentenceCase(notAvailable)}</span>}
 									</p>
 								</div>
 								<div className="input-field">
 									<p><strong>Supervisor: </strong>
-										{authData?.branch.name ?
+										{supervisorAndHelpDesk ?
 										<Link
 										style={{color: '#333'}}
 										to={`/user/${authData.branch.region.supervisor.id}`}>
 											{toSentenceCase(authData.branch.region.supervisor.first_name || authData.branch.region.supervisor.username)}
-										</Link>: <span>Not Available</span>}
+										</Link>: <span>{toSentenceCase(notAvailable)}</span>}
 									</p>
 								</div>
 							</>}
