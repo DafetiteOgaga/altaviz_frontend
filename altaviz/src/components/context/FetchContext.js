@@ -2,7 +2,7 @@ import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const FetchContext = createContext();
-const checkNull = (url) => url.split('/').some(list => list === 'null')
+const checkNull = (url) => url.split('/').some?.(list => list === 'null')
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 export const FetchProviders = ({ children }) => {
