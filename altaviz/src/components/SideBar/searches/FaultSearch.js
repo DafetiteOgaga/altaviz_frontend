@@ -196,6 +196,14 @@ const FaultSearch = () => {
         '\napprovedRequest:', approvedRequest,
         '\nrejectedRequest:', rejectedRequest,
     );
+    const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
     return (
         <>
             <hr style={{width: '80%'}} />
@@ -211,6 +219,7 @@ const FaultSearch = () => {
                     {/* input field */}
                     <input
                     style={{
+                        ...style.input,
                         width: '18%',
                     }}
                     ref={refInput}
