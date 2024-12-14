@@ -9,7 +9,7 @@ function Navigation() {
   return (
     <nav className='nav-h1'>
       <ul className='header-ul'>
-        <li><Link to="/">Home</Link></li>
+        {/* <li><Link to="/">Home</Link></li> */}
         <li><DropdownMenu /></li>
         {/* <li><Link to="/products">Products</Link></li> */}
         <li><Link to="/about">About</Link></li>
