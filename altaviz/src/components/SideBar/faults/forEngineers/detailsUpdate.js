@@ -13,6 +13,8 @@ function Buttons ({buttonProps}) {
 	const buttonStyle = {
 		display: 'flex',
 		justifyContent:'space-evenly',
+		color: '#555',
+		fontSize: '19px',
 	}
 	return (
 	<>
@@ -47,7 +49,7 @@ function DetailsUpdate () {
 		`approve-user-details-update/list`, authData.id,
 		'updateDetailData',
 	).arrayData
-	if (updateDetailData) {updateDetailData = updateDetailData.find(update => update.id === Number(userParams.updateID))}
+	if (updateDetailData) {updateDetailData = updateDetailData.find?.(update => update.id === Number(userParams.updateID))}
 	const { useGetDataAPI, usePatchDataAPI } = useContext(FetchContext);
 	const { getData, getError, getLoading } = useGetDataAPI(
 		`user/${userID}/`, true
@@ -118,7 +120,11 @@ function DetailsUpdate () {
 		submitHandler: submitHandler,
 		patchLoading: patchLoading,
 	}
-	if (!updateDetailData.newBranch && updateData) {updateDetailData.newBranch = updateData.branch.name}
+	if (updateDetailData?.newBranch==='' && updateData) {updateDetailData.newBranch = updateData.branch.name}
+	console.log(
+		'\nupdateDetailData:', updateDetailData,
+		'\nupdateDetailData?.newBranch:', updateDetailData?.newBranch
+	)
 	return (
 		<>
 			{getLoading && <h4 style={{
