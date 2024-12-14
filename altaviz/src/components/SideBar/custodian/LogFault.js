@@ -174,6 +174,14 @@ function LogFault() {
 	console.log('no selection:', noselection)
 	const incrementAddMoreButtonCount = () => setFormIndex(prev => prev + 1)
 	const decrementAddMoreButtonCount = () => setFormIndex(prev => prev - 1)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<div className="dash-form">
@@ -200,7 +208,7 @@ function LogFault() {
 														<label htmlFor={`fault-${field.id}`}>Fault:</label>
 														{/* <label htmlFor={`fault-${field.id}`}>Fault:</label> */}
 														<select
-														style={{borderRadius: '5px'}}
+														style={{...style.input, borderRadius: '5px'}}
 														ref={refInput}
 														id={`fault-${field.id}`}
 														name={`fault-${field.id}`}
@@ -260,7 +268,7 @@ function LogFault() {
 											<div className="input-field textarea-box">
 												<label htmlFor={`other-${field.id}`}>Others:</label>
 												<textarea
-												style={{borderRadius: '4px'}}
+												style={{...style.input, borderRadius: '4px'}}
 												type="text"
 												name={`other-${field.id}`}
 												id={`other-${field.id}`}

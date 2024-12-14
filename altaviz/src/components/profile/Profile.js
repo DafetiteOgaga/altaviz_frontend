@@ -1,14 +1,17 @@
 // import logo from "../../logo/altaviz_logo.png"
 import "./profile.css"
 import { useContext } from "react"
+import { SentenceCaseContext } from "../context/SentenceCaseContext";
 // import { FetchContext } from "../context/FetchContext"
 import { AuthContext } from "../context/checkAuth/AuthContext";
 import { useParams, useLocation } from "react-router-dom";
+import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 // import { initial } from 'lodash';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function Profile () {
+	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
 	const { authData } = useContext(AuthContext)
 	console.log('authData', authData)
 	// const [response, setResponse] = useState(false);
@@ -31,9 +34,9 @@ function Profile () {
 							</div>
 							{authData.role === 'custodian' &&
 								<div className="uDetaisRight">
-									<h4>Bank: {authData.branch.bank.name}</h4>
-									<h4>State: {authData.branch.state.name}|{authData.branch.state.initial}</h4>
-									<h4>Branch: {authData.branch.name}</h4>
+									<h4>Bank: {toSentenceCase(authData.branch.bank.name)}</h4>
+									<h4>State: {toSentenceCase(authData.branch.state.name)}|{authData.branch.state.initial}</h4>
+									<h4>Branch: {toSentenceCase(authData.branch.name)}</h4>
 									{/* <h4>Location: {(authData.custodian.location) ? (authData.custodian.location) : 'None'}</h4> */}
 								</div>
 								}
@@ -47,20 +50,24 @@ function Profile () {
 							}}
 						></div>
 						<div className="user-page uDetaisLeft">
-							<h4>First Name: {authData.first_name}</h4>
-							<h4>Middle Name: {authData.middle_name}</h4>
-							<h4>Last Name: {authData.last_name}</h4>
-							<h4>Username: {authData.username}</h4>
+							<h4>First Name: {toSentenceCase(authData.first_name)}</h4>
+							<h4>Middle Name: {toSentenceCase(authData.middle_name)}</h4>
+							<h4>Last Name: {toSentenceCase(authData.last_name)}</h4>
+							<h4>Username: {toSentenceCase(authData.username)}</h4>
 							<h4>Phone: {authData.phone}</h4>
 							<h4>Whatsapp: {authData.wphone}</h4>
 							<h4>Email: {authData.email}</h4>
-							<h4>Role: {authData.role}</h4>
-							<h4>Location: {authData.location.location}</h4>
-							<h4>deliveries: {authData.deliveries}</h4>
-							<h4>Pendings: {authData.pendings}</h4>
+							<h4>Role: {toSentenceCase(authData.role)}</h4>
+							<h4>Location: {toSentenceCase(authData.location.location)}</h4>
+							<h4>Region: {toSentenceCase(authData.region.name)}</h4>
+							{authData.role !== 'custodian' &&
+								<>
+									<h4>deliveries: {<Deliveries id={authData.id} />}</h4>
+									{/* <h4>Pendings: {userDataToState.pendings}</h4> */}
+								</>}
 							<h4>Address: {authData.address}</h4>
 							<h4>Status: {!authData.is_deleted ? 'Active' : 'Inactive'}</h4>
-							<h4>About Me: {authData.aboutme}</h4>
+							<h4>About Me: {trimString(authData.aboutme, 100)}</h4>
 						</div>
 					</div>
 				</div>

@@ -10,7 +10,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export const LoginContext = createContext();
 function CsrfToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]')?.value ||
-        document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+        document.cookie.split('; ').find?.(row => row.startsWith('csrftoken='))?.split('=')[1];
 }
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)

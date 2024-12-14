@@ -51,7 +51,7 @@ function FaIcon ({iconParameters, icon, btnState, color}) {
 function FaultRequestsItem ({
 	request,
 	requestItemsObj,
-	type
+	type, searchedData
 }) {
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
@@ -67,6 +67,7 @@ function FaultRequestsItem ({
 		'\nrequestItemsObj.faultsItem:', requestItemsObj.faultsItem,
 		'\nrequestItemsObj.FaultParamDetals:', requestItemsObj.FaultParamDetals,
 		'\ntype:', type,
+		'\nsearchedData@', searchedData
 	)
 	const iconParameters = {
 		request: request,
@@ -95,6 +96,8 @@ function FaultRequestsItem ({
 			color: 'red',
 		}
 	}
+	const isSearchedFault = searchedData?.some?.(faultID => faultID === requestItemsObj.faultsItem.id)
+	console.log({isSearchedFault})
 	return (
 		<>
 		{/* loads requests from db */}
@@ -131,10 +134,11 @@ function FaultRequestsItem ({
 					/>
 				)}
 				{/* link to the current request */}
+				{!isSearchedFault ?
 				<Link to={`/${requestItemsObj.FaultParamDetals.dept}/${type}-request-details/${requestItemsObj.FaultParamDetals.id}/${request.id}/`}
 				style={{color: '#333'}}>
 					{toSentenceCase(request.name.name)}
-			</Link>
+			</Link>: toSentenceCase(request.name.name)}
 		</>
 		{/* :(toSentenceCase(request.name.name))} */}
 			: <span>

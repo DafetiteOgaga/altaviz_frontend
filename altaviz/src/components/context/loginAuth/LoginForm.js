@@ -1,5 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { LoginContext } from "./LoginOutContext";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // import { CSSTransition } from "react-transition-group";
 // import { useNavigate } from 'react-router-dom'
 // import './login.css'
@@ -18,7 +19,7 @@ const styles = {
 		textAlign: "center",
 		marginTop: "0",
 		marginBottom: "10px",
-		color: "#333",
+		color: "#788",
 	},
 	form: {
 		display: "flex",
@@ -30,7 +31,7 @@ const styles = {
 		flexDirection: "column",
 	},
 	label: {
-		// marginBottom: "5px",
+		marginBottom: "5px",
 		fontSize: "14px",
 		color: "#555",
 	},
@@ -42,7 +43,7 @@ const styles = {
 	},
 	button: {
 		padding: "10px",
-		margin: "0 140px",
+		// margin: "0 140px",
 		fontSize: "16px",
 		color: "#fff",
 		backgroundColor: "#B5B5BD",
@@ -73,10 +74,15 @@ const styles = {
 
 function LoginForm() {
 	// const toDashboard = useNavigate()
+	const refInput = useRef(null);
 	const [isHover, setIsHover] = useState(false);
 	const [isActive, setIsActive] = useState(false);
 	const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	useEffect(() => {
+        refInput.current.focus();
+    }, [])
 	// const [loginTrigger, setLoginTrigger] = useState(false);
 
 	const getButtonStyle = () => {
@@ -103,11 +109,22 @@ function LoginForm() {
 			// setLoginTrigger(false);ogagadafetite@gmail.com
 	};
 
-	// useEffect(() => {
-	// 	if (result?.data) {
-	// 		toDashboard(`/${result.data?.role || "/"}`);
-	// 	}
-	// }, [result])
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	}
+	const visiButtonStyle = {
+		position: 'absolute',
+		right: '444px',
+		top: '63.3%',
+		transform: 'translateY(-50%)',
+		color: '#999',
+		background: 'none',
+		border: 'none',
+		cursor: 'pointer',
+		padding: '0',
+		margin: '0',
+		fontSize: '19px',
+	}
 
 	console.log('email:', email);
 	console.log('password:', password);
@@ -126,6 +143,7 @@ function LoginForm() {
 				<div style={styles.inputGroup}>
 					<label htmlFor="email" style={styles.label}>Email</label>
 					<input
+						ref={refInput}
 						id="email"
 						type="email"
 						placeholder="Enter your email"
@@ -137,15 +155,26 @@ function LoginForm() {
 				</div>
 				<div style={styles.inputGroup}>
 					<label htmlFor="password" style={styles.label}>Password</label>
-					<input
-						id="password"
-						type="password"
-						placeholder="Enter your password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-						style={styles.input}
-						required
-					/>
+					{/* <div style={{position: 'relative'}}> */}
+						<input
+							id="password"
+							type={showPassword ? 'text' : 'password'}
+							placeholder="Enter your password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							style={{...styles.input, position: 'relative'}}
+							required
+						/>
+					{/* </div> */}
+					<button
+					type="button"
+					onClick={togglePasswordVisibility}
+					style={{
+						...visiButtonStyle,
+					}}
+					>
+						{showPassword ? <FaEyeSlash /> : <FaEye />}
+					</button>
 				</div>
 				{/* <button type="submit" style={styles.button} disabled={authLoading}> */}
 				<button

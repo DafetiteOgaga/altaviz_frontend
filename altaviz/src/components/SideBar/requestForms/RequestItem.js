@@ -20,7 +20,7 @@ const BorderLineContainer = styled.div`
 	gap: 3rem;
 	/* border: 1px solid black; */
 	border-radius: 0.5rem;
-	padding: 1rem;
+	padding: 0.5rem 1rem;
 	padding-bottom: 0;
 	margin-bottom: 0.5rem;
 `
@@ -38,11 +38,12 @@ const SelectItem = styled.select`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 20px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -439,6 +440,14 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 		// '\nlastID:', requestProps.lastID
 		'\nrequestProps.faultDetails:', requestProps?.faultDetails
 	)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<form>
@@ -451,6 +460,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 							<SelectItem
 								id={`${labelTitle.name}-${index}`}
 								name='name'
+								style={style.input}
 								value={labelTitle.name}
 								onChange={(e) => valueHandler(e, index)}
 							>
@@ -467,6 +477,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 								id={`${labelTitle.quantity}${index}`}
 								name='quantity'
 								value={labelTitle.quantity}
+								style={style.input}
 								onChange={(e) => valueHandler(e, index)}
 							>
 								<option>0</option>

@@ -15,7 +15,8 @@ const MainButtonContainer = styled.div`
 	justify-content: space-evenly;
 `
 const Label = styled.label`
-	font-size: large;
+	font-size: 14px;
+	color: '#555;
 `
 const SelectItem = styled.select`
 	height: 100%;
@@ -23,11 +24,12 @@ const SelectItem = styled.select`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 25px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -815,12 +817,13 @@ function CreateUser () {
 		right: '125px',
 		top: '60%',
 		transform: 'translateY(-50%)',
-		color: '#333',
+		color: '#999',
 		background: 'none',
 		border: 'none',
 		cursor: 'pointer',
 		padding: '0',
 		margin: '0',
+		fontSize: '20px',
 	}
 	// const temp = {
 	// 	loading: false,
@@ -922,6 +925,14 @@ function CreateUser () {
 		margin: '0',
 		transition: 'opacity 0.05s ease-out',
 	}
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<div className="dash-form">
@@ -941,6 +952,7 @@ function CreateUser () {
 										<Label htmlFor="role">Role:</Label>
 										<div>
 											<SelectItem
+											style={style.input}
 											id="role"
 											name="role"
 											ref={refInput}
@@ -983,6 +995,7 @@ function CreateUser () {
 												<SelectItem
 												name="region"
 												id="region"
+												style={style.input}
 												value={newUser.region}
 												onChange={HandleUserCreationInputChange}
 												>
@@ -1009,6 +1022,7 @@ function CreateUser () {
 													<SelectItem
 													name="state"
 													id="state"
+													style={style.input}
 													ref={refInput}
 													value={newUser.state}
 													onChange={HandleUserCreationInputChange}
@@ -1034,7 +1048,7 @@ function CreateUser () {
 												<Label htmlFor="bank">Bank:</Label>
 												<NewFieldContainer>
 													<SelectItem
-													style={{width: '35%',}}
+													style={{...style.input, width: '35%',}}
 													name="bank"
 													id="bank"
 													ref={refInput}
@@ -1056,7 +1070,7 @@ function CreateUser () {
 													{newUser.bank === 'Enter a New Bank' && (
 													<NewFieldContainer>
 														<input
-														style={{width: '100%',}}
+														style={{...style.input, width: '100%',}}
 														type="text"
 														name="newBank"
 														id="newBank"
@@ -1087,7 +1101,7 @@ function CreateUser () {
 												<Label htmlFor="location">Location:</Label>
 												<NewFieldContainer>
 													<SelectItem
-													style={{width: '35%',}}
+													style={{...style.input, width: '35%',}}
 													name="location"
 													id="location"
 													ref={refInput}
@@ -1108,7 +1122,7 @@ function CreateUser () {
 													{newUser.location === 'Enter a New Location' && (
 														<NewFieldContainer>
 															<input
-															style={{width: '100%',}}
+															style={{...style.input, width: '100%',}}
 															type="text"
 															name="newLocation"
 															id="newLocation"
@@ -1135,7 +1149,7 @@ function CreateUser () {
 												<Label htmlFor="branch">Branch:</Label>
 												<NewFieldContainer>
 													<SelectItem
-													style={{width: '35%',}}
+													style={{...style.input, width: '35%',}}
 													name="branch"
 													id="branch"
 													ref={refInput}
@@ -1154,7 +1168,7 @@ function CreateUser () {
 													{newUser.branch === 'Enter a New Branch' && (
 													<NewFieldContainer>
 														<input
-														style={{width: '100%',}}
+														style={{...style.input, width: '100%',}}
 														type="text"
 														name="newBranch"
 														id="newBranch"
@@ -1184,6 +1198,7 @@ function CreateUser () {
 												type="text"
 												name="first_name"
 												id="first_name"
+												style={style.input}
 												value={newUser.first_name}
 												onChange={HandleUserCreationInputChange}
 												placeholder=' Required'
@@ -1196,6 +1211,7 @@ function CreateUser () {
 												type="text"
 												name="last_name"
 												id="last_name"
+												style={style.input}
 												value={newUser.last_name}
 												onChange={HandleUserCreationInputChange}
 												placeholder=' Required'
@@ -1210,6 +1226,7 @@ function CreateUser () {
 												<input
 												type="text"
 												name="middle_name"
+												style={style.input}
 												value={newUser.middle_name}
 												id="middle_name"
 												onChange={HandleUserCreationInputChange}
@@ -1221,6 +1238,7 @@ function CreateUser () {
 												type="email"
 												name="email"
 												id="email"
+												style={style.input}
 												value={newUser.email}
 												required={isRequired}
 												// onFocus={handleFocus}
@@ -1241,7 +1259,7 @@ function CreateUser () {
 												<div>
 													<span style={{fontSize: 'large'}}>+234 </span>
 													<input
-													style={{width: '70%'}}
+													style={{...style.input, width: '70%'}}
 													type="tel"
 													name="phone"
 													id="phone"
@@ -1263,7 +1281,7 @@ function CreateUser () {
 												<div>
 													<span style={{fontSize: 'large'}}>+234 </span>
 													<input
-													style={{width: '70%'}}
+													style={{...style.input, width: '70%'}}
 													type="tel"
 													name="wphone"
 													id="wphone"
@@ -1286,7 +1304,7 @@ function CreateUser () {
 											<div className="input-field">
 												<Label htmlFor="dob">Date of Birth:</Label>
 												<input
-												style={{width: '30%'}}
+												style={{...style.input, width: '30%'}}
 												max={new Date().toISOString().split("T")[0]} // Set max to today's date
 												type="date"
 												name="dob"
@@ -1303,6 +1321,7 @@ function CreateUser () {
 													<SelectItem
 													name="gender"
 													id="gender"
+													style={style.input}
 													value={newUser.gender}
 													onChange={HandleUserCreationInputChange}
 													>
@@ -1338,6 +1357,7 @@ function CreateUser () {
 													type={showPassword1 ? 'text' : 'password'}
 													name="password1"
 													id="password1"
+													style={style.input}
 													value={newUser.password1}
 													// required
 													onChange={HandleUserCreationInputChange}
@@ -1363,6 +1383,7 @@ function CreateUser () {
 													type={showPassword2 ? 'text' : 'password'}
 													name="password2"
 													id="password2"
+													style={style.input}
 													value={newUser.password2}
 													// required
 													onChange={HandleUserCreationInputChange}
@@ -1390,6 +1411,7 @@ function CreateUser () {
 												type="text"
 												name="address"
 												id="address"
+												style={style.input}
 												value={newUser.address}
 												onChange={HandleUserCreationInputChange}
 												placeholder=' Required'
@@ -1403,6 +1425,7 @@ function CreateUser () {
 												name="username"
 												value={newUser.username}
 												id="username"
+												style={style.input}
 												onChange={HandleUserCreationInputChange}
 												placeholder=' Required'
 												/>
@@ -1421,6 +1444,7 @@ function CreateUser () {
 												accept="image/*"
 												name="profile_picture"
 												id="profile_picture"
+												style={style.input}
 												onChange={(e) => {
 													HandleUserCreationInputChange(e);
 												}}
@@ -1433,6 +1457,7 @@ function CreateUser () {
 												value={newUser.aboutme}
 												name="aboutme"
 												id="aboutme"
+												style={style.input}
 												onChange={HandleUserCreationInputChange}
 												/>
 											</div>

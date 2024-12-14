@@ -109,9 +109,13 @@ function HumanResource() {
 				localStorage.removeItem('notCustodian');
 				localStorage.removeItem('custodian');
 			}
+			if (!updateUser) {
+				localStorage.removeItem('notCustodian');
+				localStorage.removeItem('custodian');
+			}
             // localStorage.removeItem('searchData');
         };
-    }, [isSearchOpen, createUser]);
+    }, [isSearchOpen, createUser, updateUser]);
 	const backgroundStyle = {
 		backgroundColor:  '#E5E5E5',
 		borderTopLeftRadius: '1rem',

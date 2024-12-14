@@ -31,6 +31,7 @@ function usePullCompleteList(
 		`${urlPath}/${id}/`, getTrigger
 	);
 	console.log('start ######################'.toUpperCase())
+	console.log('url:', `${urlPath}/${id}/`)
 	if (role) {
 		console.log(
 			'\nurlPath:', urlPath,

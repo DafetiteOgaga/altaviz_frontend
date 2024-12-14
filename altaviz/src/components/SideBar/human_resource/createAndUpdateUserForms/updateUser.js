@@ -24,11 +24,12 @@ const SelectItem = styled.select`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 22px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -103,20 +104,22 @@ function UpdateUser () {
 
 	console.log('2222222222222')
 	console.log('authData:', authData)
+	console.log(
+		'\nauthData?.branch?.region?.id:', authData?.branch?.region?.id,
+		'\nauthData?.branch?.state?.name:', authData?.branch?.state?.name,
+		'\nauthData?.branch?.bank?.name:', authData?.branch?.bank?.name,
+		'\nauthData?.region?.id or authData.id(for workshop):', authData?.region?.id,
+		'\nauthData?.state?.name:', authData?.state?.name,
+	)
 	// with state, bank and region
 	const custodian = useGetWithEncryption(
-		`custodian-details-update/
-		${authData?.branch?.region?.id}/
-		${authData?.branch?.state?.name}/
-		${authData?.branch?.bank?.name}`,
+		`custodian-details-update/${authData?.branch?.region?.id}/${authData?.branch?.state?.name}/${authData?.branch?.bank?.name}`,
 		'custodian',
 	)
 	// not custodian - this should be to just locations inline
 	// with state, bank and region
 	const notCustodian = useGetWithEncryption(
-		`others-details-update/
-		${authData?.region?.id}/
-		${authData?.state?.name}/`,
+		`others-details-update/${authData?.region?.id}/${authData?.state?.name}/`,
 		'notCustodian',
 	)
 
@@ -124,12 +127,12 @@ function UpdateUser () {
 		// get locations and branches for custodian
 		if (authData?.role==='custodian'&&custodian.localDataStoreVar) {
 			console.log('custodian with encryption: ', custodian)
-			setCustodianList(custodian.localDataStoreVar[0].banks[0].locations)
+			setCustodianList(custodian?.localDataStoreVar[0]?.banks[0]?.locations)
 		}
 		// get locations for non custodian
 		if (authData?.role!=='custodian'&&notCustodian.localDataStoreVar) {
 			console.log('notCustodian with encryption: ', notCustodian)
-			setNotCustodianList(notCustodian.localDataStoreVar[0].locations)
+			setNotCustodianList(notCustodian?.localDataStoreVar[0]?.locations)
 		}
 	}, [custodian, notCustodian])
 
@@ -522,6 +525,14 @@ function UpdateUser () {
 		'\nrSwitch:', rSwitch,
 		'\n', {authData}
 	)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<div className="dash-form">
@@ -544,7 +555,7 @@ function UpdateUser () {
 												<Label htmlFor="location">Location:</Label>
 												<NewFieldContainer>
 													<SelectItem
-													style={{width: '35%',}}
+													style={{...style.input, width: '35%',}}
 													name="location"
 													id="location"
 													ref={refInput}
@@ -562,7 +573,7 @@ function UpdateUser () {
 													{newUser.location === 'Enter a New Location' && (
 														<NewFieldContainer>
 															<input
-															style={{width: '100%',}}
+															style={{...style.input, width: '100%',}}
 															type="text"
 															name="newLocation"
 															id="newLocation"
@@ -589,7 +600,7 @@ function UpdateUser () {
 												<Label htmlFor="branch">Branch:</Label>
 												<NewFieldContainer>
 													<SelectItem
-													style={{width: '35%',}}
+													style={{...style.input, width: '35%',}}
 													name="branch"
 													id="branch"
 													ref={refInput}
@@ -624,7 +635,7 @@ function UpdateUser () {
 													{newUser.branch === 'Enter a New Branch' && (
 													<NewFieldContainer>
 														<input
-														style={{width: '100%',}}
+														style={{...style.input, width: '100%',}}
 														type="text"
 														name="newBranch"
 														id="newBranch"
@@ -654,6 +665,7 @@ function UpdateUser () {
 												type="text"
 												name="last_name"
 												id="last_name"
+												style={style.input}
 												value={newUser.last_name}
 												onChange={HandleUserCreationInputChange}
 												disabled={!isEditable}
@@ -666,6 +678,7 @@ function UpdateUser () {
 												<input
 												type="text"
 												name="middle_name"
+												style={style.input}
 												value={newUser.middle_name}
 												id="middle_name"
 												onChange={HandleUserCreationInputChange}
@@ -681,7 +694,7 @@ function UpdateUser () {
 												<div>
 													<span style={{fontSize: 'large'}}>+234 </span>
 													<input
-													style={{width: '70%'}}
+													style={{...style.input, width: '70%'}}
 													type="tel"
 													name="wphone"
 													id="wphone"
@@ -705,6 +718,7 @@ function UpdateUser () {
 												type="text"
 												name="address"
 												id="address"
+												style={style.input}
 												value={newUser.address}
 												onChange={HandleUserCreationInputChange}
 												disabled={!isEditable}
@@ -723,6 +737,7 @@ function UpdateUser () {
 												accept="image/*"
 												name="profile_picture"
 												id="profile_picture"
+												style={style.input}
 												// value={newUser.profile_picture}
 												onChange={(e) => {
 													HandleUserCreationInputChange(e);
@@ -737,6 +752,7 @@ function UpdateUser () {
 												value={newUser.aboutme}
 												name="aboutme"
 												id="aboutme"
+												style={style.input}
 												onChange={HandleUserCreationInputChange}
 												disabled={!isEditable}
 												/>

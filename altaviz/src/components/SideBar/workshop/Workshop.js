@@ -4,7 +4,7 @@ import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 // import RequestComponentForm from "./addAndRequestCompParts/requestComponentsForm/RequestComponentForm";
 import Dashboard from "../dashboard/Dashboard";
 import RequestItem from "../requestForms/RequestItem";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import RequestListDisplay from "../Requests/RequestListDisplay";
 // import RequestsList from "../Requests/RequestsList";
 import Notification from "../notification/Notification";
@@ -26,6 +26,14 @@ function Workshop() {
 		justifyContent: 'space-around',
 		padding: '1rem 0'
 	}
+	useEffect(() => {
+        return () => {
+			if (!isUserDetailsFormOpen) {
+				localStorage.removeItem('notCustodian');
+				localStorage.removeItem('custodian');
+			}
+        };
+    }, [isUserDetailsFormOpen]);
 	return (
 		<>
 			<div className="background-color custodian-page">

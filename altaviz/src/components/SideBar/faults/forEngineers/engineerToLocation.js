@@ -1,18 +1,8 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components"
-// import { useNavigate } from 'react-router-dom'
-// import { AuthContext } from "../../context/checkAuth/AuthContext";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-// import useGetWithEncryption from "../../paginationComp/useGetWithEncryption";
-// import QueryFieldFromDB from "../human_resource/QueryFieldFromDB";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
-// import { FetchContext
-import Engineer from "../../engineer/Engineer";
-import { first, initial } from "lodash";
 import { useNavigate, useLocation } from 'react-router-dom';
-// import useNavigation from '../../hooks/useNavigate';
-// import { useLocation } from 'react-router-dom';
 import { FetchContext } from '../../../context/FetchContext';
 
 const MainButtonContainer = styled.div`
@@ -22,9 +12,9 @@ const MainButtonContainer = styled.div`
 	// flex-direction: row;
 	justify-content: space-evenly;
 `
-const Label = styled.label`
-	font-size: large;
-`
+// const Label = styled.label`
+// 	font-size: large;
+// `
 const SelectItem = styled.select`
 	height: 100%;
 	margin: 0
@@ -32,11 +22,12 @@ const SelectItem = styled.select`
 const MainButton = styled.h6`
 	text-decoration: none;
 	white-space: pre;
-	color: #2b2929;
+	color: #555;
 	padding: 0 0.7rem;
 	border: 0.01px solid;
 	border-radius: 5px;
 	font-family: sans-serif;
+	font-size: 20px;
 	background-color: #E5E5E5;
 	// font-weight: 900;
 	margin: 0;
@@ -57,29 +48,29 @@ function EngineerToLocation () {
 	const navigate = useNavigate()
 	const currentPage = useLocation().pathname
 	const { authData } = useContext(AuthContext)
-	const [rSwitch, setRSwitch] = useState(null)
+	// const [rSwitch, setRSwitch] = useState(null)
 	const [newLocations, setNewLocations] = useState(null);
-	const [showNotifi, setShowNotifi] = useState(false);
+	// const [showNotifi, setShowNotifi] = useState(false);
 	const [isEditable, setIsEditable] = useState(false);
 	const [regionEngineers, setRegionEngineers] = useState(null);
 	const [selectedEngineers, setSelectedEngineers] = useState({});
-	const [newBranchQuery, setNewBranchQuery] = useState('');
-	const [isNewBranchExist, setIsNewBranchExist] = useState(false);
+	// const [newBranchQuery, setNewBranchQuery] = useState('');
+	// const [isNewBranchExist, setIsNewBranchExist] = useState(false);
 	const { toSentenceCase } = useContext(SentenceCaseContext)
-	const [newUser, setNewUser] = useState([]);
-	const [newUserError, setNewUserError] = useState({});
-	const [showError, setShowError] = useState(false);
+	// const [newUser, setNewUser] = useState([]);
+	// const [newUserError, setNewUserError] = useState({});
+	// const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
-	const [locationBranchesList, setLocationBranchesList] = useState(null)
+	// const [locationBranchesList, setLocationBranchesList] = useState(null)
 	// const [bankBranchList, setBankBranchList] = useState(null)
-	const [notCustodianList, setNotCustodianList] = useState(null)
-	const [custodianList, setCustodianList] = useState(null)
+	// const [notCustodianList, setNotCustodianList] = useState(null)
+	// const [custodianList, setCustodianList] = useState(null)
 	const [getNewLocationTrigger, setGetNewLocationTrigger] = useState(true);
 	const [getRegionEngineersTrigger, setGetRegionEngineersTrigger] = useState(true);
 	const [patchTrigger, setPatchTrigger] = useState(false);
-	const [postTrigger, setPostTrigger] = useState(false);
+	// const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
-	const { usePostDataAPI, useGetDataAPI, usePatchDataAPI } = useContext(FetchContext);
+	const { useGetDataAPI, usePatchDataAPI } = useContext(FetchContext);
 
 	console.log('url:', `new-location-assignment/list/8/`)
 	const { getData:newLocationsData, getLoading:newLocationsLoading, getError:newLocationsError } = useGetDataAPI(
@@ -160,6 +151,14 @@ function EngineerToLocation () {
 		'\nregionEngineersError:', regionEngineersError,
 		'\nselectedEngineers:', selectedEngineers
 	)
+	const style = {
+		input: {
+			padding: "4px",
+			fontSize: "16px",
+			border: "1px solid #ccc",
+			borderRadius: "5px",
+		}
+	}
 	return (
 		<>
 			<div className="background-color custodian-page">
@@ -200,7 +199,7 @@ function EngineerToLocation () {
 																	<NewFieldContainer>
 																		<label>Select Engineer:</label>
 																		<SelectItem
-																		style={{width: '45%',}}
+																		style={{...style.input, width: '45%',}}
 																		name={`${location.location.location}-${location.location.id}`}
 																		id={`${location.location.location}-${location.location.id}`}
 																		ref={refInput}
