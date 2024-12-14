@@ -117,7 +117,7 @@ function Dashboard() {
 									</Link>):'An Engineer will be Assigned shortly'}
 								</p>
 							</div>}
-							{(authData.role !== 'human-resource' && authData.role !== 'workshop') &&
+							{(authData?.role !== 'human-resource' && authData?.role !== 'workshop') &&
 							<>
 								<div className="input-field">
 									<p><strong>Help Desk: </strong>
