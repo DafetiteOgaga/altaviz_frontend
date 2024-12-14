@@ -83,7 +83,7 @@ function userRequestHandler(listValue) {
 		// 	'listValue:', listValue[i],
 		// 	'listValue.title:', listValue[i].engineer.first_name,
 		// );
-		if (newList.some((newListitem) => newListitem.id === listValue[i].engineer.id)) continue
+		if (newList.some?.((newListitem) => newListitem.id === listValue[i].engineer.id)) continue
 		// console.log('############# apending:', listValue[i].engineer.first_name);
 		// console.log(listValue[i].engineer.first_name, 'in', Object.values(newList), ':', newList.includes(listValue[i].engineer.id));
 		newList.push({
