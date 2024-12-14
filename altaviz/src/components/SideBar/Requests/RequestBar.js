@@ -61,7 +61,7 @@ function RequestBar ({allRequests, total=null, page, type=null, found=null}) {
 		},
 	}
 	// request.quantityRequested?'Request':'Fixed'
-	const partType = allRequests.some(item => item.quantityRequested)?'Request':'Fixed'
+	const partType = allRequests.some?.(item => item.quantityRequested)?'Request':'Fixed'
 	console.log({partType}, {requestUrlType})
 	const backgroundStyle = {
 		backgroundColor:  '#E5E5E5',
