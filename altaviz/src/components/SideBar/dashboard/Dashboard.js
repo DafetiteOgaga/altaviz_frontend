@@ -121,20 +121,22 @@ function Dashboard() {
 							<>
 								<div className="input-field">
 									<p><strong>Help Desk: </strong>
+										{authData?.branch.name ?
 										<Link
 										style={{color: '#333'}}
-										to={`/user/${authData.branch.region.helpdesk.id}`}>
+										to={`/user/${authData?.branch?.region?.helpdesk?.id}`}>
 											{toSentenceCase(authData.branch.region.helpdesk.first_name || authData.branch.region.helpdesk.username)}
-										</Link>
+										</Link>: <span>Not Available</span>}
 									</p>
 								</div>
 								<div className="input-field">
 									<p><strong>Supervisor: </strong>
+										{authData?.branch.name ?
 										<Link
 										style={{color: '#333'}}
 										to={`/user/${authData.branch.region.supervisor.id}`}>
 											{toSentenceCase(authData.branch.region.supervisor.first_name || authData.branch.region.supervisor.username)}
-										</Link>
+										</Link>: <span>Not Available</span>}
 									</p>
 								</div>
 							</>}
