@@ -135,7 +135,7 @@ function QueryFieldFromDB({ query, setIsExist }) {
 	}
 	return (
 		<div>
-			{loading && <span style={{...displayStylings, color: '#777'}}>loading ...</span>}
+			{loading && <span style={{...displayStylings, color: '#777'}}>checking ...</span>}
 			{error && <span style={{...displayStylings, color: 'red'}}>{error}</span>}
 
 			{emailResponse !== null && !loading && (
