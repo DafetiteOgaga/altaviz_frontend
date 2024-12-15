@@ -8,6 +8,23 @@ import { useParams, useLocation } from "react-router-dom";
 import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 // import { initial } from 'lodash';
 
+const separateChars = (text) => {
+	// Extract specific chunks using slice
+	const separated1 = text.slice(0, 3); // First 3 characters
+	const separated2 = text.slice(3, 7); // Next 4 characters
+	const separated3 = text.slice(7, 10); // Last 3 characters
+
+	// Log the separated chunks
+	console.log('separated1:', separated1);
+	console.log('separated2:', separated2);
+	console.log('separated3:', separated3);
+
+	// Combine the chunks with a space
+	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
+
+	return concatenated;
+};
+
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function Profile () {
@@ -54,8 +71,8 @@ function Profile () {
 							<h4>Middle Name: {toSentenceCase(authData.middle_name)}</h4>
 							<h4>Last Name: {toSentenceCase(authData.last_name)}</h4>
 							<h4>Username: {toSentenceCase(authData.username)}</h4>
-							<h4>Phone: {authData.phone}</h4>
-							<h4>Whatsapp: {authData.wphone}</h4>
+							<h4>Phone: {separateChars(authData.phone)}</h4>
+							<h4>Whatsapp: {separateChars(authData.wphone)}</h4>
 							<h4>Email: {authData.email}</h4>
 							<h4>Role: {toSentenceCase(authData.role)}</h4>
 							<h4>Location: {toSentenceCase(authData.location.location)}</h4>
