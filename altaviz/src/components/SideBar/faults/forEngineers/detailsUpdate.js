@@ -144,10 +144,10 @@ function DetailsUpdate () {
 						{(updateData?.role==='custodian') &&
 							<>
 								<div className="uDetaisRight">
-									<h4>Bank: {toSentenceCase(updateData.branch.bank.name)}</h4>
-									<h4>State: {toSentenceCase(updateData.branch.state.name)}</h4>
-									<h4>Branch: <span style={assertUpdate(updateData.branch.name, updateDetailData.newBranch)}>{toSentenceCase(updateData.branch.name)}</span>{' -> '}<span style={newStyle}>{toSentenceCase(updateDetailData.newBranch)}</span></h4>
-									<h4>Location: <span style={assertUpdate(updateData.branch.location.location, updateDetailData.newLocation)}>{toSentenceCase(updateData.branch.location.location)}</span>{' -> '}<span style={newStyle}>{toSentenceCase(updateDetailData.newLocation)}</span></h4>
+									<h4>Bank: {toSentenceCase(updateData?.branch?.bank?.name)}</h4>
+									<h4>State: {toSentenceCase(updateData?.branch?.state?.name)}</h4>
+									<h4>Branch: <span style={assertUpdate(updateData?.branch?.name, updateDetailData?.newBranch)}>{toSentenceCase(updateData?.branch?.name)}</span>{' -> '}<span style={newStyle}>{toSentenceCase(updateDetailData?.newBranch)}</span></h4>
+									<h4>Location: <span style={assertUpdate(updateData?.branch?.location?.location, updateDetailData?.newLocation)}>{toSentenceCase(updateData?.branch?.location?.location)}</span>{' -> '}<span style={newStyle}>{toSentenceCase(updateDetailData?.newLocation)}</span></h4>
 									{/* <p>Request ID: {updateData[0].id}</p> */}
 								</div>
 								<Buttons buttonProps={buttonProps} />
