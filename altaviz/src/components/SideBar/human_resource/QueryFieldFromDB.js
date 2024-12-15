@@ -135,13 +135,9 @@ function QueryFieldFromDB({ query, setIsExist }) {
 	}
 	return (
 		<div>
-			{loading && <p style={{
-				// padding: '1rem',
-				color: '#B5B5BD',
-				// fontSize: '1.2rem',
-				textAlign: 'center',
-			}}>loading ...</p>}
-			{error && <p style={{ color: 'red' }}>{error}</p>}
+			{loading && <span style={{...displayStylings, color: '#777'}}>loading ...</span>}
+			{error && <span style={{...displayStylings, color: 'red'}}>{error}</span>}
+
 			{emailResponse !== null && !loading && (
 				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!emailResponse ? 'red' : 'green')}}>{qtext} is {!!emailResponse ? 'Already taken' : 'Available'}</span>
