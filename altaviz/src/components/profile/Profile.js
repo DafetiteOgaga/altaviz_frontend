@@ -8,27 +8,10 @@ import { useParams, useLocation } from "react-router-dom";
 import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 // import { initial } from 'lodash';
 
-const separateChars = (text) => {
-	// Extract specific chunks using slice
-	const separated1 = text.slice(0, 3); // First 3 characters
-	const separated2 = text.slice(3, 7); // Next 4 characters
-	const separated3 = text.slice(7, 10); // Last 3 characters
-
-	// Log the separated chunks
-	console.log('separated1:', separated1);
-	console.log('separated2:', separated2);
-	console.log('separated3:', separated3);
-
-	// Combine the chunks with a space
-	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
-
-	return concatenated;
-};
-
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function Profile () {
-	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
+	const { toSentenceCase, trimString, separateChars } = useContext(SentenceCaseContext);
 	const { authData } = useContext(AuthContext)
 	console.log('authData', authData)
 	// const [response, setResponse] = useState(false);
@@ -84,7 +67,7 @@ function Profile () {
 								</>}
 							<h4>Address: {authData.address}</h4>
 							<h4>Status: {!authData.is_deleted ? 'Active' : 'Inactive'}</h4>
-							<h4>About Me: {trimString(authData.aboutme, 100)}</h4>
+							<h4>About Me: {trimString(authData?.aboutme||'', 100)}</h4>
 						</div>
 					</div>
 				</div>
