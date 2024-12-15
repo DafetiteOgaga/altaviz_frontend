@@ -54,12 +54,6 @@ const NewFieldContainer = styled.div`
 // 	'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara',
 // ]
 
-const addHyphen = (text) => {
-    return text.split(' ').join('-');
-}
-const removeHyphen = (text) => {
-    return text.split('-').join(' ');
-}
 function CreateUser () {
 	const initailFormValues = {
 		role: "",
@@ -109,7 +103,7 @@ function CreateUser () {
 	// const [fieldStatus, setFieldStatus] = useState(false);
 	// const [inputText, setInputText] = useState('');
 	// const [isExist, setIsExist] = useState(null);
-	const { toSentenceCase } = useContext(SentenceCaseContext)
+	const { toSentenceCase, addHyphen, removeHyphen } = useContext(SentenceCaseContext)
 	const [newUser, setNewUser] = useState(initailFormValues);
 	const [newUserError, setNewUserError] = useState({});
 	const [showNotifi, setShowNotifi] = useState(false);

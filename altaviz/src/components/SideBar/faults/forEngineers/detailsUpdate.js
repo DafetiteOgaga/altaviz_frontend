@@ -9,23 +9,6 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 // import { useNavigate } from 'react-router-dom';
 
-const separateChars = (text) => {
-	// Extract specific chunks using slice
-	const separated1 = text.slice(0, 3); // First 3 characters
-	const separated2 = text.slice(3, 7); // Next 4 characters
-	const separated3 = text.slice(7, 10); // Last 3 characters
-
-	// Log the separated chunks
-	console.log('separated1:', separated1);
-	console.log('separated2:', separated2);
-	console.log('separated3:', separated3);
-
-	// Combine the chunks with a space
-	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
-
-	return concatenated;
-};
-
 function Buttons ({buttonProps}) {
 	const buttonStyle = {
 		display: 'flex',
@@ -53,7 +36,7 @@ function Buttons ({buttonProps}) {
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function DetailsUpdate () {
-	const { toSentenceCase, trimString } = useContext(SentenceCaseContext)
+	const { toSentenceCase, trimString, separateChars } = useContext(SentenceCaseContext)
 	const { authData } = useContext(AuthContext)
 	const navigate = useNavigate()
 	const [updateData, setUpdateData] = useState(null)
@@ -199,7 +182,7 @@ function DetailsUpdate () {
 							</>}
 						<h4>Address: {toSentenceCase(updateData.address)}</h4>
 						<h4>Status: {!updateData.is_deleted ? 'Yes' : 'No'}</h4>
-						<h4>About Me: {trimString(updateData.aboutme??'', 40)}</h4>
+						<h4>About Me: {trimString(updateData.aboutme||'', 40)}</h4>
 						{updateData.role!=='custodian' && <Buttons buttonProps={buttonProps} />}
 					</div>
                 </div>

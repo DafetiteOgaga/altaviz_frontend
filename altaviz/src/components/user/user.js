@@ -6,27 +6,10 @@ import { FetchContext } from "../context/FetchContext"
 import { useParams, useLocation } from "react-router-dom";
 import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 
-const separateChars = (text) => {
-	// Extract specific chunks using slice
-	const separated1 = text.slice(0, 3); // First 3 characters
-	const separated2 = text.slice(3, 7); // Next 4 characters
-	const separated3 = text.slice(7, 10); // Last 3 characters
-
-	// Log the separated chunks
-	console.log('separated1:', separated1);
-	console.log('separated2:', separated2);
-	console.log('separated3:', separated3);
-
-	// Combine the chunks with a space
-	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
-
-	return concatenated;
-};
-
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function User () {
-	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
+	const { toSentenceCase, trimString, separateChars } = useContext(SentenceCaseContext);
 	// const [response, setResponse] = useState(false);
 	const [userDataToState, setuserDataToState] = useState(false);
 	const locatn = useLocation()
