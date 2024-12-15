@@ -12,29 +12,9 @@ import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import { useRefreshContext } from "../../context/RefreshContext";
 // import useForceDBPullWEncryption from '../../paginationComp/useForceDBPullWEncryption';
 
-const removeHyphen = (text) => {
-    return text.split('-').join(' ');
-}
-const separateChars = (text) => {
-	// Extract specific chunks using slice
-	const separated1 = text.slice(0, 3); // First 3 characters
-	const separated2 = text.slice(3, 7); // Next 4 characters
-	const separated3 = text.slice(7, 10); // Last 3 characters
-
-	// Log the separated chunks
-	console.log('separated1:', separated1);
-	console.log('separated2:', separated2);
-	console.log('separated3:', separated3);
-
-	// Combine the chunks with a space
-	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
-
-	return concatenated;
-};
-
 function Dashboard() {
 	const { authData } = useContext(AuthContext);
-	const { toSentenceCase } = useContext(SentenceCaseContext);
+	const { toSentenceCase, separateChars, removeHyphen } = useContext(SentenceCaseContext);
 	const { refreshIcon } = useRefreshContext();
 	const department = useLocation().pathname.split('/')[1]
 	const custodianCheck = (authData?.role==='custodian') ?? null
