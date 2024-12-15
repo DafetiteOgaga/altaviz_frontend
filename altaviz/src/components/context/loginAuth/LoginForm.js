@@ -71,6 +71,19 @@ const styles = {
 		fontSize: "16px",
 	},
 };
+const visiButtonStyle = {
+	position: 'absolute',
+	right: '3%',
+	top: '60%',
+	transform: 'translateY(-50%)',
+	color: '#999',
+	background: 'none',
+	border: 'none',
+	cursor: 'pointer',
+	padding: '0',
+	margin: '0',
+	fontSize: '19px',
+}
 
 function LoginForm() {
 	// const toDashboard = useNavigate()
@@ -112,19 +125,6 @@ function LoginForm() {
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	}
-	const visiButtonStyle = {
-		position: 'absolute',
-		right: '444px',
-		top: '63.3%',
-		transform: 'translateY(-50%)',
-		color: '#999',
-		background: 'none',
-		border: 'none',
-		cursor: 'pointer',
-		padding: '0',
-		margin: '0',
-		fontSize: '19px',
-	}
 
 	console.log('email:', email);
 	console.log('password:', password);
@@ -149,32 +149,40 @@ function LoginForm() {
 						placeholder="Enter your email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						style={styles.input}
+						style={{
+							...styles.input,
+							width: '100%',
+							boxSizing: 'border-box',
+						}}
 						required
 					/>
 				</div>
-				<div style={styles.inputGroup}>
+				<div style={{...styles.inputGroup}}>
 					<label htmlFor="password" style={styles.label}>Password</label>
-					{/* <div style={{position: 'relative'}}> */}
+					<div style={{position: 'relative'}}>
 						<input
 							id="password"
 							type={showPassword ? 'text' : 'password'}
 							placeholder="Enter your password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							style={{...styles.input, position: 'relative'}}
+							style={{
+								...styles.input,
+								width: '100%',
+								boxSizing: 'border-box',
+							}}
 							required
 						/>
-					{/* </div> */}
-					<button
-					type="button"
-					onClick={togglePasswordVisibility}
-					style={{
-						...visiButtonStyle,
-					}}
-					>
-						{showPassword ? <FaEyeSlash /> : <FaEye />}
-					</button>
+						<button
+						type="button"
+						onClick={togglePasswordVisibility}
+						style={{
+							...visiButtonStyle,
+						}}
+						>
+							{showPassword ? <FaEyeSlash /> : <FaEye />}
+						</button>
+					</div>
 				</div>
 				{/* <button type="submit" style={styles.button} disabled={authLoading}> */}
 				<button
