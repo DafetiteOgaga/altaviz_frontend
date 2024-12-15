@@ -44,6 +44,24 @@ const NewFieldContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 `
+
+const separateChars = (text) => {
+	// Extract specific chunks using slice
+	const separated1 = text.slice(0, 3); // First 3 characters
+	const separated2 = text.slice(3, 7); // Next 4 characters
+	const separated3 = text.slice(7, 10); // Last 3 characters
+
+	// Log the separated chunks
+	console.log('separated1:', separated1);
+	console.log('separated2:', separated2);
+	console.log('separated3:', separated3);
+
+	// Combine the chunks with a space
+	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
+
+	return concatenated;
+};
+
 function EngineerToLocation () {
 	const navigate = useNavigate()
 	const currentPage = useLocation().pathname
@@ -213,7 +231,7 @@ function EngineerToLocation () {
 																			console.log({engineer})
 																			return (
 																			<option key={engineer.first_name + i} value={`${engineer.first_name})-(${engineer.email})-(${engineer.id}`}
-																			title={`Location: ${engineer.location.location}\nState: ${engineer.state.name}\nPhone: ${engineer.phone}\nWhatsapp: ${engineer.wphone}`}>
+																			title={`Location: ${engineer.location.location}\nState: ${engineer.state.name}\nPhone: ${separateChars(engineer.phone)}\nWhatsapp: ${separateChars(engineer.wphone)}`}>
 																				{toSentenceCase(engineer.first_name)}
 																			</option>
 																		)})}

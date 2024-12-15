@@ -6,6 +6,23 @@ import { FetchContext } from "../context/FetchContext"
 import { useParams, useLocation } from "react-router-dom";
 import Deliveries from "../SideBar/dashboard/DeliveriesPoints";
 
+const separateChars = (text) => {
+	// Extract specific chunks using slice
+	const separated1 = text.slice(0, 3); // First 3 characters
+	const separated2 = text.slice(3, 7); // Next 4 characters
+	const separated3 = text.slice(7, 10); // Last 3 characters
+
+	// Log the separated chunks
+	console.log('separated1:', separated1);
+	console.log('separated2:', separated2);
+	console.log('separated3:', separated3);
+
+	// Combine the chunks with a space
+	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
+
+	return concatenated;
+};
+
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function User () {
@@ -79,8 +96,8 @@ function User () {
 						<h4>Middle Name: {toSentenceCase(userDataToState.middle_name)}</h4>
 						<h4>Last Name: {toSentenceCase(userDataToState.last_name)}</h4>
 						<h4>Username: {toSentenceCase(userDataToState.username)}</h4>
-						<h4>Phone: {userDataToState.phone}</h4>
-						<h4>Whatsapp: {userDataToState.wphone}</h4>
+						<h4>Phone: {separateChars(userDataToState.phone)}</h4>
+						<h4>Whatsapp: {separateChars(userDataToState.wphone)}</h4>
 						<h4>Email: {userDataToState.email}</h4>
 						<h4>Role: {toSentenceCase(userDataToState.role)}</h4>
 						<h4>Location: {toSentenceCase(userDataToState.location.location)}</h4>

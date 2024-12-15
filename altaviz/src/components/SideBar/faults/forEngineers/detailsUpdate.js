@@ -9,6 +9,23 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 // import { useNavigate } from 'react-router-dom';
 
+const separateChars = (text) => {
+	// Extract specific chunks using slice
+	const separated1 = text.slice(0, 3); // First 3 characters
+	const separated2 = text.slice(3, 7); // Next 4 characters
+	const separated3 = text.slice(7, 10); // Last 3 characters
+
+	// Log the separated chunks
+	console.log('separated1:', separated1);
+	console.log('separated2:', separated2);
+	console.log('separated3:', separated3);
+
+	// Combine the chunks with a space
+	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
+
+	return concatenated;
+};
+
 function Buttons ({buttonProps}) {
 	const buttonStyle = {
 		display: 'flex',
@@ -170,8 +187,8 @@ function DetailsUpdate () {
 						<h4>Middle Name: {toSentenceCase(updateData.middle_name)}</h4>
 						<h4>Last Name: {toSentenceCase(updateData.last_name)}</h4>
 						<h4>Username: {toSentenceCase(updateData.username)}</h4>
-						<h4>Phone: {updateData.phone}</h4>
-						<h4>Whatsapp: {updateData.wphone}</h4>
+						<h4>Phone: {separateChars(updateData.phone)}</h4>
+						<h4>Whatsapp: {separateChars(updateData.wphone)}</h4>
 						<h4>Email: {updateData.email}</h4>
 						<h4>Role: {toSentenceCase(updateData.role)}</h4>
 						{updateData.role !== 'custodian' &&
