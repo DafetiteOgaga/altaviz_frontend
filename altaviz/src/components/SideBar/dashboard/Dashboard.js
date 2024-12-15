@@ -15,24 +15,37 @@ import { useRefreshContext } from "../../context/RefreshContext";
 const removeHyphen = (text) => {
     return text.split('-').join(' ');
 }
+const separateChars = (text) => {
+	// Extract specific chunks using slice
+	const separated1 = text.slice(0, 3); // First 3 characters
+	const separated2 = text.slice(3, 7); // Next 4 characters
+	const separated3 = text.slice(7, 10); // Last 3 characters
+
+	// Log the separated chunks
+	console.log('separated1:', separated1);
+	console.log('separated2:', separated2);
+	console.log('separated3:', separated3);
+
+	// Combine the chunks with a space
+	const concatenated = [separated1, separated2, separated3].filter(Boolean).join(' ');
+
+	return concatenated;
+};
+
 function Dashboard() {
-	// const redirectTo = useNavigate()
-	// const [serverUrl, setServerUrl] = useState(null)
-    // const [localKey, setLocalKey] = useState(null)
 	const { authData } = useContext(AuthContext);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
 	const { refreshIcon } = useRefreshContext();
-	// const message = 'from dashboard:'
 	const department = useLocation().pathname.split('/')[1]
-	// let componentPage = useLocation();
-	// componentPage = componentPage.pathname;
 	const custodianCheck = (authData?.role==='custodian') ?? null
 	const supervisorAndHelpDesk = !!authData?.branch?.name
 	const notAvailable = 'not available yet'
 	console.log(
-		'authData:', authData,
-		'custodianCheck:', custodianCheck
+		'\nauthData:', authData,
+		'\ncustodianCheck:', custodianCheck,
+		'\ncheck:', separateChars('8038091572'),
 	)
+	// console.log()
 	return (
 		<>
 			<div style={{paddingTop: '2rem'}}>
@@ -156,12 +169,12 @@ function Dashboard() {
 							</div>
 							<div className="input-field">
 								<p><strong>Phone No.: </strong>
-									{authData.phone}
+									+234 {separateChars(authData.phone)}
 								</p>
 							</div>
 							<div className="input-field">
 								<p><strong>Whatsapp No.: </strong>
-									{authData.wphone}
+									+234 {separateChars(authData.wphone)}
 								</p>
 							</div>
 						</div>
