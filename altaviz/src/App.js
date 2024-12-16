@@ -15,6 +15,7 @@ import usePullNotification from './components/paginationComp/usePullNotification
 import usePullCompleteList from './components/paginationComp/usePullCompleteList';
 import { AuthContext } from './components/context/checkAuth/AuthContext';
 import { useWebSocketNotificationContext } from './components/context/RealTimeNotificationContext/useWebSocketNotificationContext';
+import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -61,6 +62,8 @@ function App() {
 	// const [notificationListKey1, setNotificationKey] = useState(null)
 	const [forceUpdates, setForceUpdates] = useState(false)
 	const { notifications } = useWebSocketNotificationContext()
+	const { data:firebaseNotification } = useFirebase()
+	console.log({firebaseNotification})
 	console.log(
 		'\nnotifications:', notifications,
 		'\nauthData.role:', authData?.role,

@@ -101,8 +101,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 		'itemName:', itemName,
         '\nrequestProps:', requestProps,
         '\nvKey:', vKey,
-        // '\nlastID:', lastID,
-		// '\nrecievedNewRequest.current:', recievedNewRequest.current
 	)
 	// const navigateTo = useNavigate()
 	const parameters = useParams()
@@ -130,16 +128,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 	const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI, useGetDataAPI } = useContext(FetchContext);
-
-	// let faultType;
-	// if (!parameters.type && parameters.dept === 'engineer') {
-	// 	if (itemKeys.includes('faultsKey')) {
-	// 		faultType = 'pending'
-	// 	} else {
-	// 		faultType = 'unresolved';
-	// 	}
-	// }
-	// if (!parameters.type) console.log('no parameters.type so defaulting to:', {faultType})
 	const { postData, postLoading, postError } = usePostDataAPI(
 		// pass a prop for component or part
 		`request-${itemName}/`,
@@ -163,14 +151,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 	}, [getItemList])
 	// local key goes here
 	const refreshItem = () => handleRefresh(localKey)
-	// useEffect(() => {
-	// 	if (itemsRequestList) {
-	// 		if (itemsRequestList.localDataStoreVar) setItemList(itemsRequestList.localDataStoreVar)
-	// 		if (itemsRequestList.getData) setItemList(itemsRequestList.getData)
-	// 		console.log(`${localKey} with encryption:`, itemsRequestList)
-	// 		// setItemList(itemsRequestList.localDataStoreVar)
-	// 	}
-	// }, [itemsRequestList])
 	console.log('itemList:', itemList);
 
 	const valueHandler = (e, index) => {
@@ -237,21 +217,9 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 		console.log('areFieldsValidated:', areFieldsValidated())
 		if (areFieldsValidated()) {
 			console.log('formvalues:', formValues)
-			// validatedData.current = formValues
-			// tag the app to force pull on next visit to request details
-			// const forcePull = RotCipher(JSON.stringify(true), encrypt)
-			// localStorage.setItem('forcePullRequests', forcePull);
-
-			// console.log(`setting recievedNewRequest.current from ${recievedNewRequest.current} to ${!recievedNewRequest.current} (start)`)
-			// recievedNewRequest.current = true;
 			setPostTrigger(true);
 		} else {
 			console.log('Incomplete field(s) detected, not submitting form');
-			///////////////////////////////////////////////////
-			///////////////////////////////////////////////////
-            // setFormValues(formValues.map(() => ({...defaultValues})));
-			///////////////////////////////////////////////////
-			///////////////////////////////////////////////////
             return;
 		}
 	}
@@ -266,8 +234,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			if (postData) {
 				setPostResponse(true)
 				console.log('about to refresh ...'.toUpperCase())
-				// localStorage.removeItem('compRequestContext')
-				// refreshDetails();
 				console.log('refreshing ...'.toUpperCase())
 			};
 			// let newRequestsPlaceholder = []
@@ -363,17 +329,8 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 						// '\nnewlyFaults:', newlyFaults,
 
 					);
-					// console.log();
-					// [...localKeylist].forEach(key => {
-					// 	localStorage.removeItem(key)
-					// })
-					// localStorage.removeItem('compRequestContext')
-					// localStorage.removeItem('totalPendingCompRequest')
-
 					encodedData = RotCipher(JSON.stringify(updatedFaults), encrypt)
 					localStorage.setItem(localPK, encodedData);
-					// update allUnresolvedKey in the storage
-					// console.log('\nnewlyFaults:', newlyFaults)
 					let allUnresolvedKey = localStorage.getItem('allUnresolvedKey')
 					if (allUnresolvedKey) {
 						allUnresolvedKey = RotCipher(allUnresolvedKey, decrypt)
@@ -388,12 +345,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 						localStorage.setItem('allUnresolvedKey', allUnresolvedKey);
 						console.log('updated allUnresolvedKey in localStorage')
 					}
-					// localStorage.setItem(localPK, encodedData);
-
 					if (encodedData) {console.log('updated', localPK, 'in localStorage')}
-					// console.log(`setting recievedNewRequest.current from ${recievedNewRequest.current} to ${!recievedNewRequest.current} (end)`)
-					// recievedNewRequest.current = false;
-					// setRefresh(true);
 				}
 			}
 		}
@@ -405,9 +357,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			},2500)
 			return () => clearTimeout(delay);
         }
-		// if (noselection) {const timer = setInterval(() => {setNoselecton(false);}, 3000); // 3 secs
-		// 	return () => clearTimeout(timer)
-		// }
     }, [postResponse]); //, noselection]);
 	useEffect(() => {
 		if (incompleteField) {
@@ -498,14 +447,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 								Remove
 							</button>
 						</div>}
-						{/* <div>
-							<button
-								type="button"
-								onClick={() => removeFieldSet(index)}
-							>
-								Remove
-							</button>
-						</div> */}
 					</BorderLineContainer>
 					{/* <div className="input-field textarea-box"> */}
 					<TextFieldsContainer style={{paddingLeft: '1rem'}}>

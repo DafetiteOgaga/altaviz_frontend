@@ -2,25 +2,13 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import "../../sidebar_pages.css"
 import FaultRequestsItem from "./FaultRequestsItems";
-// import usePullCompleteList from "../../../paginationComp/usePullCompleteList";
-// import { FaTimes, FaCheck } from "react-icons/fa";
-// import useForceDBPullWEncryption from "../../../paginationComp/useForceDBPullWEncryption";
-// import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
 import { FetchContext } from "../../../context/FetchContext";
-// import FetchFromLocalStorageOrDB from "../../../hooks/fetchFromLocalStorage";
 import { TimeDifferenceContext } from "../../../context/timeDifference/TimeDifferenceContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
-// import { useRefreshContext } from "../../../context/RefreshContext";
-// import RequestComponentForm from "../requestForms/RequestComponentForm";
-// import RequestPartForm from "../requestForms/RequestPartForm";
-// import RequestItem
-// import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
-// import { FetchFromLocalStorageOrDBForEngineer } from "../../../hooks/FetchFromLocalStorageOrDB";
 import { RotContext } from "../../../context/RotContext";
 import { CheckAndFetchFromStorage } from "../../../hooks/fetchFromClient";
 import RequestItem from '../../requestForms/RequestItem';
-// import { RotContext } from "../../../context/RotContext";
 
 function removeKeys(keys) {
 	for (let i = 0; i < keys.length; i++) {
@@ -29,13 +17,8 @@ function removeKeys(keys) {
 }
 
 function FaultDetailsGen({searchFaults}) {
-	// const { encrypt, decrypt, RotCipher } = useContext(RotContext)
-	// const justARender = useRef(false)
 	const navigate = useNavigate();
 	const [remount, setRemount] = useState(true)
-	// const checkRequest = useRef(true)
-	// const maxPartID = useRef()
-	// const maxComponentID = useRef()
 	const patchUrlName = useRef(null)
 	// const recievedNewRequest = useRef(false)
 	const [addPartObj, setAddPartObj] = useState([])
@@ -56,8 +39,6 @@ function FaultDetailsGen({searchFaults}) {
 	const { TimeDifference } = useContext(TimeDifferenceContext);
 	const { toSentenceCase, trimString } = useContext(SentenceCaseContext);
 	const FaultParamDetals = useParams()
-	// const dept = FaultParamDetals.dept
-	// const localVariable = FaultParamDetals.type
 
 	const {
 		usePostDataAPI, usePutDataAPI,
@@ -82,16 +63,6 @@ function FaultDetailsGen({searchFaults}) {
 			return !prev
 		})
 	}
-	// localStorage.setItem('test', 'testing')
-	// console.log('newDataAAAAAAAAA:', authData)
-	// console.log('FaultParamDetals:', FaultParamDetals)
-	// console.log(
-	// 	'\nFaultDetalsID:', FaultParamDetals.id,
-	// 	'\ndept:', FaultParamDetals.dept,
-	// 	'\nFaultDetalsType:', FaultParamDetals.type,
-	// 	'\nlocation:', {location},
-	// 	'\nlocation[4]:', location[4]
-	// )
 
 	console.log('11111111111111111111')
 	let allFaults = [];
@@ -103,9 +74,6 @@ function FaultDetailsGen({searchFaults}) {
 	])
 	console.log('22222222222222222222')
 	console.log('allFaults:', allFaults)
-	// console.log('troubleshoot: data[0]:', allFaults[0]);
-	// console.log('troubleshoot: allFaults IDs:', allFaults.map(fault => fault.id));
-	// console.log('troubleshoot: FaultParamDetals.id:', Number(FaultParamDetals.id));
 	if (!allFaults?.find?.(fault => fault.id === Number(FaultParamDetals.id))) {
 		console.log('fault with ID:', FaultParamDetals.id, 'not found.')
 		console.log('redirecting to dashboard ...')
@@ -193,16 +161,12 @@ function FaultDetailsGen({searchFaults}) {
 	({ patchData:responseData[0], patchLoading:responseLoading[0], patchError:responseError[0] } = usePatchDataAPI(
 			`${patchUrlName.current}/${authData.id}/`,
 			formData, patchTrigger,
-			// dashboard,
-			// `/${authData.department.name}`
 		));
 
 	// delete
 	({ deleteData:responseData[1], deleteLoading:responseLoading[1], deleteError:responseError[1] } = useDeleteDataAPI(
 			`${requeste?(requeste+'/'+itemId):('fault/'+itemId)}/delete/`,
 			deleteTrigger,
-			// `${requeste?null:dashboard}`,
-			// `/${authData.role}`
 		));
 
 	// post
@@ -236,10 +200,6 @@ function FaultDetailsGen({searchFaults}) {
 		'\nresponseDataValue:', responseDataValue,
 	)
 
-	// console.log('faultsItem:', faultsItem)
-	// console.log('Single fault details:',faultsItem)
-
-	// response data and error useeffect
 	useEffect(() => {
 		// if (checkResponseData || checkResponseError) {
 		if (responseDataValue || responseErrorValue) {
@@ -461,27 +421,7 @@ function FaultDetailsGen({searchFaults}) {
 		responseData, responseLoading, responseError
 	])
 
-	// const testData = {
-	// 	approved: false,
-	// 	approved_at: new Date(),
-	// 	approved_by: {id: 0.000765544, first_name: 'skipname'},
-	// 	fault: null,
-	// 	id: 0.000012345678909,
-	// 	name: {name: '...'},
-	// 	quantityRequested: 7,
-	// 	rejected: false,
-	// 	requested_at: new Date(),
-	// 	user: null
-	// }
 	const { wholeDaysBetweenDates, wholeHoursBetweenDates, RDDaysBetweenDates, RDhoursBetweenDates } = TimeDifference({date1: faultsItem?.created_at});
-	// console.log('created_at #####:', faultsItem?.created_at);
-	// console.log('created_at typeof #####:', typeof(faultsItem.created_at));
-	// console.log(
-	// 	'\ndays diff #####:', wholeDaysBetweenDates,
-	// 	'\nraw days diff #####:', RDDaysBetweenDates,
-	// 	'\nhours diff #####:', wholeHoursBetweenDates,
-	// 	'\nraw hours diff #####:', RDhoursBetweenDates
-	// );
 	useEffect(() => {
 		if (RDDaysBetweenDates < 1) {
 			setTimeStyle({
@@ -556,25 +496,6 @@ function FaultDetailsGen({searchFaults}) {
 	// can approve/reject requests (supervisors and human resource)
 	const canApproveOrRejectRequests = ((faultsItem?.supervised_by.region.trim() === authData.userRegion.trim()) && authData.role === 'supervisor') || authData.role === 'human-resource'
 
-	// console.log('faultsItem:', faultsItem)
-	// console.log('faultsItem.id:', faultsItem?.id)
-	// console.log('authData.username.trim():', authData?.username.trim())
-	// console.log('faultsItem.logged_by.branch.trim():', faultsItem?.logged_by?.branch?.name.trim())
-	// console.log('authData.region.name.trim():', authData?.branch.region?.name.trim())
-	// console.log(
-	// 	{hasApprovedPartRequests},
-	// 	{hasApprovedComponentRequests}
-	// )
-	// console.log(
-	// 	'\nfaultsItem?.logged_by.branch.id:', faultsItem?.logged_by.branch.id,
-	// 	'\nfaultsItem?.logged_by.branch.name:', faultsItem?.logged_by.branch.name,
-	// 	'\nauthData.branch.id:', authData.branch.id,
-	// 	'\nauthData.branch.name:', authData.branch.name,
-	// 	'\ncanConfirmOrWithdraw:', canConfirmOrWithdraw,
-	// )
-	// console.log('canMakeRequests:', canMakeRequests)
-	// console.log('useParams:', useParams())
-
 	// styles
 	const activeStyles = {
 		backgroundColor: '#8A8A93',
@@ -601,27 +522,9 @@ function FaultDetailsGen({searchFaults}) {
 		display: 'flex',
 		justifyContent: 'space-evenly'
 	}
-	// console.log(
-	// 	'\ncompRequestAt:', compRequestAt,
-	// 	'\npartRequestAt:', partRequestAt,
-	// 	'\ncheckStatus:', checkStatus,
-	// )
 	console.log(
 		{deleteTrigger}
 	)
-
-	// if (faultsItem?.requestPart||faultsItem?.requestComponent) {
-	// 	if (faultsItem?.requestPart) {
-	// 		maxPartID.current = [...faultsItem?.requestPart, ...addPartObj].reduce((maxID, request) => {
-	// 			return request.id > maxID ? request.id : maxID;
-	// 		}, 0)
-	// 	}
-	// 	if (faultsItem?.requestComponent) {
-	// 		maxComponentID.current = [...faultsItem?.requestComponent, ...addComponentObj].reduce((maxID, request) => {
-	// 			return request.id > maxID ? request.id : maxID;
-	// 		}, 0)
-	// 	}
-	// }
 
 	console.log(
 		'\n', {addComponentObj},
@@ -647,11 +550,6 @@ function FaultDetailsGen({searchFaults}) {
 			)
 		}
 	}
-	// console.log(
-	// 	'\ncombinedComponentListOfItems:', combinedComponentListOfItems,
-	// 	'\ncombinedPartListOfItems:', combinedPartListOfItems,
-	// 	'\ncheckRequest.current:', checkRequest.current,
-	// )
 
 	let storedData = localStorage.getItem('compRequestContext');
 	// const { decrypt, RotCipher } = useContext(RotContext);
@@ -659,16 +557,6 @@ function FaultDetailsGen({searchFaults}) {
 		storedData = JSON.parse(RotCipher(storedData, decrypt))
 		// console.log('\nstoredData:', storedData,)
 	}
-	// console.log(
-	// 	'role:', authData.role,
-	// 	'\ncanConfirm or withdraw:', canConfirmOrWithdraw,
-	// 	'\ncanApprove or reject:', canApproveOrRejectRequests,
-	// 	'\ncanMake requests:', canMakeRequests,
-	// 	'\nfault verified:', !faultsItem?.verify_resolve,
-	// 	// '\nrequest status:', faultsItem?.requestStatus,
-	// 	'\ncheck requests:', checkStatus,
-	// 	'\nrequeste:', requeste,
-	// )
 
 	const requestItemsObj = {
 		// updateCompLocalStorage: updateCompLocalStorage,
@@ -1023,30 +911,10 @@ function FaultDetailsGen({searchFaults}) {
 											itemName='part'
 											/>)}
 
-									{/* {console.log(
-										'role:', authData.role,
-										'\ncanConfirm or withdraw:', canConfirmOrWithdraw,
-										'\ncanApprove or reject:', canApproveOrRejectRequests,
-										'\ncanMake requests:', canMakeRequests,
-										
-										'\nverify level:', !faultsItem?.verify_resolve,
-										'\nrequest status:', faultsItem?.requestStatus,
-										'\ncheck requests:', checkStatus,
-										'\nrequeste:', requeste,
-									)} */}
-
 									{/* supervisor and human-resource approve/reject request butttons */}
 									{(canApproveOrRejectRequests && !faultsItem?.confirm_resolve && !faultsItem?.verify_resolve &&
 									faultsItem?.requestStatus && checkStatus && checkRequests) &&
 									<div style={buttonStyle}>
-										{/* {console.log(
-											'faultItem.requestPart:', faultsItem?.requestPart,
-											'faultItem.requestPart[0]:', faultsItem?.requestPart[0],
-										)}
-										{console.log(
-											'\ncheckStatus:', checkStatus,
-											'\ncheckRequests:', checkRequests
-											)} */}
 										<div className="custum-button">
 											<h5
 											onClick={(e) => {
