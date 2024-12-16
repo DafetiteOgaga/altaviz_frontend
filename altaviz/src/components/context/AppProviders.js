@@ -11,6 +11,7 @@ import { RefreshProvider } from "./RefreshContext";
 // import { RefreshComponentProvider } from "./refreshContext/TriggerRefresh";
 // import { SSENotificationProvider } from "./SSEContext/SSENotificationContext";
 import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
+import { FirebaseProvider } from "./RealTimeNotificationContext/FirebaseContextNotification";
 
 const providers = [
 	// the first is the child
@@ -18,8 +19,7 @@ const providers = [
 	SentenceCaseProvider,
 	// SharedDataProvider,
 	TimeDifferenceProvider,
-	// SSENotificationProvider,
-	// WebSocketNotificationProvider,
+	FirebaseProvider,
 	WebSocketNotificationProvider,
 	FetchProviders,
 	AuthProvider,
