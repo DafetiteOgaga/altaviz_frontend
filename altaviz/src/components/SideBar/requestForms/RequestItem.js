@@ -300,7 +300,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					)
 					if (parameters.dept === 'supervisor') {
 						let supervisorFaults = decodedFaultData
-							.filter(supervisorFault => supervisorFault.id === authData.id)[0]?.faults;
+							?.filter?.(supervisorFault => supervisorFault.id === authData.id)[0]?.faults;
 						console.log(
 							'\nsupervisorFaults after filtering:', supervisorFaults,
 							// '\nspread after filtering:', {...packaged, ...{faultsArray: supervisorFaults}}
