@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { RotContext } from "../../context/RotContext";
 import { useRefreshContext } from "../../context/RefreshContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
+import { useFirebase } from "../../context/RealTimeNotificationContext/FirebaseContextNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 // import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
 
@@ -397,6 +398,8 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			borderRadius: "5px",
 		}
 	}
+	const { data:firebaseNotification } = useFirebase()
+	console.log({firebaseNotification})
 	return (
 		<>
 			<form>
