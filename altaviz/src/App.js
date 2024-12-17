@@ -21,6 +21,7 @@ import { useLocation } from 'react-router-dom';
 function App() {
 	// const [makeRefresh, setMakeRefresh] = useState(false)
 	const keyList = useRef([])
+	const firebaseNotificationKey = useRef(null)
 	const nTotalNotifications = useRef(0)
 	const NotificationString = useRef(null)
 	const nCounter = useRef([])
@@ -63,13 +64,78 @@ function App() {
 	const [forceUpdates, setForceUpdates] = useState(false)
 	const { notifications } = useWebSocketNotificationContext()
 	const { data:firebaseNotification } = useFirebase()
-	console.log({firebaseNotification})
+	console.log('firebaseNotification:', firebaseNotification)
+	console.log('\nfirebaseNotificationKey.current:', firebaseNotificationKey.current)
+	let firebaseKey = Object.keys?.(firebaseNotification||{})?.find?.(key => key)
+	console.log(
+		'\nfirebaseKey:', firebaseKey,
+		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
+		'\nfirebaseNotificationKey === firebaseKey:', firebaseNotificationKey.current === firebaseKey,
+		'\nfirebaseNotificationKey === null:', firebaseKey === null,
+		'\nfirebaseNotificationKey === undefined:', firebaseKey === undefined)
+	// console.log('firebaseNotificationKey.current:', firebaseNotificationKey.current)
+	// const noNewEntry = firebaseKey === firebaseNotificationKey.current && firebaseKey !== undefined
+	// useEffect(() => {
+	// 	console.log(
+	// 		'\n2222222222222222222222222222',
+	// 		'\n2222222222222222222222222222',
+	// 		'\n2222222222222222222222222222',
+	// 		'\n2222222222222222222222222222',
+	// 		'\nfirebaseKey:', firebaseKey,
+	// 		'\nfirebaseKey !== undefined:', firebaseKey !== undefined,
+	// 		// '\nfirebaseKey !== firebaseNotificationKey.current:', firebaseKey !== firebaseNotificationKey.current,
+	// 	)
+	// 	// if (firebaseKey !== undefined && firebaseKey !== firebaseNotificationKey.current) {
+	// 		console.log(
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 			'\ngggggggggggggggggggggggggggg',
+	// 		)
+	// 		// console.log('firebaseNotificationKey.current:', firebaseNotificationKey.current)
+	// 		// firebaseNotificationKey.current = firebaseKey
+	// 		// console.log('firebaseNotificationKey.current:', firebaseNotificationKey.current)
+	// 	}
+	// }, [firebaseKey])
+	// console.log('firebaseNotificationKey.current:', firebaseNotificationKey.current)
+	let notificationText;
+	// let timestamp;
+	let dateAndTime;
+	if (firebaseKey) {
+		notificationText = firebaseNotification[firebaseKey].timestamp
+		const timestamp = firebaseNotification[firebaseKey].timestamp
+		// Trim microseconds (last 3 digits)
+		const cleanTimestamp = timestamp.slice(0, 23) + "Z";
+		// Convert to a JavaScript Date object
+		dateAndTime = new Date(cleanTimestamp);
+	}
+
+	console.log(
+		'\nfirebaseKey:', firebaseKey,
+		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
+		'\nvalues:', firebaseNotification?.[firebaseKey],
+		'\nnotificationText:', notificationText,
+		'\ndateAndTime:', dateAndTime,
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		// '\nnoNewEntry:', noNewEntry,
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+		'\nkkkkkkkkkkkkkkkkkkkkkkkkkkkk',
+	)
 	console.log(
 		'\nnotifications:', notifications,
 		'\nauthData.role:', authData?.role,
 	)
 	let wsKey;
-	if (notifications && authData) {
+	if (![undefined, firebaseNotificationKey.current].includes(firebaseKey) && authData) {
 		console.log(
 			'\n555555555555555555555555555555555555555555555555555555',
 			'\n555555555555555555555555555555555555555555555555555555',
@@ -78,11 +144,15 @@ function App() {
 			'\n555555555555555555555555555555555555555555555555555555',
 		)
 		const auth = authData.role
-		console.log({dept}, {notifications}, {auth})
+		console.log({dept}, {notifications}, {auth}, {firebaseKey})
 		if (notifications?.split('-')[0]!=='deliveries point') {
-			wsKey = notifications?.split('-')[0]
-			localStorage.setItem(wsKey, notifications)
+			wsKey = notifications?.split('-')[0]||'not setting anything to local storage'
+			// localStorage.setItem(wsKey, notifications)
 		}
+		console.log({firebaseKey})
+		firebaseNotificationKey.current = firebaseKey
+		// firebaseKey = null
+		console.log({firebaseKey})
 	}
 	console.log(
 		'\n2222222222222222222222222222222222222222222222222222222',
