@@ -6,10 +6,10 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 function FaIcon ({iconParameters, icon, btnState, color}) {
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
-		'\niconParameters.requestItemsObj:', iconParameters.requestItemsObj,
-		'\nrequestItemsObj:', iconParameters.requestItemsObj,
-		'\nrequest:', iconParameters.request,
-		'\ntype:', iconParameters.type,
+		// '\niconParameters.requestItemsObj:', iconParameters.requestItemsObj,
+		// '\nrequestItemsObj:', iconParameters.requestItemsObj,
+		// '\nrequest:', iconParameters.request,
+		// '\ntype:', iconParameters.type,
 	)
 	const iconStyles = {
 		cursor: 'pointer',
@@ -56,18 +56,18 @@ function FaultRequestsItem ({
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
 		// '\nrequestItemsObj.updateCompLocalStorage.isDone:', requestItemsObj.updateCompLocalStorage.isDone,
-		'\nrequestItemsObj.role:', requestItemsObj.role,
-		'\nrequest:', request,
-		'\nrequestItemsObj.canMakeRequests:', requestItemsObj.canMakeRequests,
-		'\nrequestItemsObj.canApproveOrRejectRequests:', requestItemsObj.canApproveOrRejectRequests,
+		// '\nrequestItemsObj.role:', requestItemsObj.role,
+		// '\nrequest:', request,
+		// '\nrequestItemsObj.canMakeRequests:', requestItemsObj.canMakeRequests,
+		// '\nrequestItemsObj.canApproveOrRejectRequests:', requestItemsObj.canApproveOrRejectRequests,
 		// '\nrequestItemsObj.patchUrlName.current:', requestItemsObj.patchUrlName.current,
 		// '\nrequestItemsObj.setRequeste:', requestItemsObj.setRequeste,
 		// '\nrequestItemsObj.setItemId:', requestItemsObj.setItemId,
 		// '\nrequestItemsObj.handleClick:', requestItemsObj.handleClick,
-		'\nrequestItemsObj.faultsItem:', requestItemsObj.faultsItem,
-		'\nrequestItemsObj.FaultParamDetals:', requestItemsObj.FaultParamDetals,
-		'\ntype:', type,
-		'\nsearchedData@', searchedData
+		// '\nrequestItemsObj.faultsItem:', requestItemsObj.faultsItem,
+		// '\nrequestItemsObj.FaultParamDetals:', requestItemsObj.FaultParamDetals,
+		// '\ntype:', type,
+		// '\nsearchedData:', searchedData
 	)
 	const iconParameters = {
 		request: request,
@@ -97,7 +97,7 @@ function FaultRequestsItem ({
 		}
 	}
 	const isSearchedFault = searchedData?.some?.(faultID => faultID === requestItemsObj.faultsItem.id)
-	console.log({isSearchedFault})
+	// console.log({isSearchedFault})
 	return (
 		<>
 		{/* loads requests from db */}
