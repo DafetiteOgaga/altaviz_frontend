@@ -483,7 +483,11 @@ function FaultDetailsGen({searchFaults}) {
 	const canMakeRequests = faultsItem?.assigned_to.username.trim() === authData.username.trim()
 
 	// can confirm/withdraw faults (custodians)
-	const canConfirmOrWithdraw = (faultsItem?.logged_by?.branch?.id === authData?.branch?.id)
+	const canConfirmOrWithdraw = (
+		faultsItem?.logged_by?.branch?.id === authData?.branch?.id &&
+		faultsItem?.logged_by?.branch?.bank?.name === authData?.branch?.bank?.name &&
+		faultsItem?.logged_by?.branch?.state?.id === authData?.branch?.state?.id
+	)
 	let hasApprovedPartRequests;
 	let hasApprovedComponentRequests;
 	if (faultsItem?.requestPart) {
@@ -941,7 +945,16 @@ function FaultDetailsGen({searchFaults}) {
 					</div>
 			</div>
 			{console.log(
-				'\ncanConfirmOrWithdraw:', canConfirmOrWithdraw
+				'\ncanConfirmOrWithdraw:', canConfirmOrWithdraw,
+				'\nfaultsItem?.logged_by?.branch?.id:', faultsItem?.logged_by?.branch?.id,
+				'\nfaultsItem?.logged_by?.branch?.bank?.name:', faultsItem?.logged_by?.branch?.bank?.name,
+				'\nfaultsItem?.logged_by?.branch?.state?.id:', faultsItem?.logged_by?.branch?.state.id,
+				'\nauthData?.branch?.id:', authData?.branch?.id,
+				'\nauthData?.branch?.bank?.name:', authData?.branch?.bank?.name,
+				'\nauthData?.branch?.state?.id:', authData?.branch?.state?.id,
+				'\nauthData:', authData,
+				'\nfaultsItem:', faultsItem,
+				// faultsItem?.logged_by?.branch?.id === authData?.branch?.id
 			)}
 		</>
 	);
