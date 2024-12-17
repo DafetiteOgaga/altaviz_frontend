@@ -486,7 +486,8 @@ function FaultDetailsGen({searchFaults}) {
 	const canConfirmOrWithdraw = (
 		faultsItem?.logged_by?.branch?.id === authData?.branch?.id &&
 		faultsItem?.logged_by?.branch?.bank?.name === authData?.branch?.bank?.name &&
-		faultsItem?.logged_by?.branch?.state?.id === authData?.branch?.state?.id
+		faultsItem?.logged_by?.branch?.state?.id === authData?.branch?.state?.id &&
+		authData?.role === 'custodian'
 	)
 	let hasApprovedPartRequests;
 	let hasApprovedComponentRequests;
@@ -954,6 +955,7 @@ function FaultDetailsGen({searchFaults}) {
 				'\nauthData?.branch?.state?.id:', authData?.branch?.state?.id,
 				'\nauthData:', authData,
 				'\nfaultsItem:', faultsItem,
+				'\nauthData?.role === custodian:', authData?.role === 'custodian'
 				// faultsItem?.logged_by?.branch?.id === authData?.branch?.id
 			)}
 		</>
