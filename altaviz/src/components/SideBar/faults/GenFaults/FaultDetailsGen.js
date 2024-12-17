@@ -483,7 +483,7 @@ function FaultDetailsGen({searchFaults}) {
 	const canMakeRequests = faultsItem?.assigned_to.username.trim() === authData.username.trim()
 
 	// can confirm/withdraw faults (custodians)
-	const canConfirmOrWithdraw = (faultsItem?.logged_by.branch.id === authData.branch.id)
+	const canConfirmOrWithdraw = (faultsItem?.logged_by?.branch?.id === authData?.branch?.id)
 	let hasApprovedPartRequests;
 	let hasApprovedComponentRequests;
 	if (faultsItem?.requestPart) {
@@ -940,6 +940,9 @@ function FaultDetailsGen({searchFaults}) {
 							</>}
 					</div>
 			</div>
+			{console.log(
+				'\ncanConfirmOrWithdraw:', canConfirmOrWithdraw
+			)}
 		</>
 	);
 };
