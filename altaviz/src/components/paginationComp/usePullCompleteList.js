@@ -2,7 +2,9 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
 // import { useLocation } from 'react-router-dom'
-import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
+// import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
+
+const checkUrl = (url) => {return url.split('/').some(urlPart => urlPart === "null")}
 
 function usePullCompleteList(
 	urlPath, id,
@@ -10,10 +12,10 @@ function usePullCompleteList(
 	forceTrigger=false,
 	role=null,
 	// type=null,
-	region, wsKey,
+	region,
 	itemsPerPage=10,
 ) {
-	const { setNotifications } = useWebSocketNotificationContext()
+	// const { setNotifications } = useWebSocketNotificationContext()
 	// const keyList = useRef([])
 	const notificationCount = useRef(0)
 	const isListData = useRef(false)
@@ -39,50 +41,36 @@ function usePullCompleteList(
 			'\nvariableContext:', variableContext,
 			'\nforceTrigger:', forceTrigger,
 			'\nrole:', role,
-			// '\ntype:', type,
 			'\nregion:', region,
-			'\nwsKey:', wsKey,
+			'\ngetTrigger:', getTrigger,
 		)
 	}
-	// keyList.current = []
-	// const keyList = useRef([])
-	// useEffect(() => {
-	// 	console.log(
-	// 		'\nbefore',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 	)
-	// 	if (wsKey && !keyList.current.includes(wsKey)) {
-	// 		keyList.current.push(wsKey)
-	// 		console.log("Updated keyList:", keyList.current);
-	// 	}
-	// 	console.log(
-	// 		'\nafter',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 		'\n1234567890123456789012345678901234567890',
-	// 	)
-	// }, [wsKey])
-	// console.log('\nkeyList.current:', keyList.current)
 	useEffect(() => {
 		// check and fetch from local storage if the data exist
 		let decodedData;
 		decodedData = localStorage.getItem(variableContext)
+		console.log(
+			{decodedData}, {forceTrigger},
+			{role},	{region}, {getTrigger},
+			{urlPath}, {variableContext}
+		)
 		if (decodedData&&!forceTrigger) {
-			console.log('from local storage  ############'.toUpperCase(), 'id:', id)
+			const localV = '\nfrom local storage  ############'.toUpperCase()
+			console.log(localV.repeat(7))
+			console.log('id:', id)
 			decodedData = RotCipher(decodedData, decrypt)
 			decodedData = JSON.parse(decodedData)
 			setArrayData(decodedData);
-		} else if (!decodedData&&!forceTrigger) {
-			console.log('fresh from database  ############'.toUpperCase(), 'id:', id)
+		} else if (!decodedData&&!forceTrigger&&urlPath&&!checkUrl(urlPath)) {
+			const newV = '\nfresh from database  ############'.toUpperCase()
+			console.log(newV.repeat(7))
+			console.log('id:', id)
 			setGetTrigger(true)
-		} else if (forceTrigger&&role&&region) {
-			console.log('update from database  ############'.toUpperCase(), 'id:', id)
+		} else if (forceTrigger&&role&&region&&urlPath&&!checkUrl(urlPath)) {
+			// either update by region here, checking the value of region against authData.region
+			const updateV = '\nupdate from database  ############'.toUpperCase()
+			console.log(updateV.repeat(7))
+			console.log('id:', id)
 			setGetTrigger(true)
 		}
 		setArrayError(null)
@@ -106,29 +94,6 @@ function usePullCompleteList(
 				if (variableContext) {
 					let encodedData = RotCipher(JSON.stringify(listData), encrypt)
 					localStorage.setItem(variableContext, encodedData)
-				}
-				// setFreshPull(true)
-				if (localStorage.getItem(wsKey)) {
-					console.log('removing wsKey ...')
-					console.log({wsKey})
-					// keyList.current?.forEach(key => {
-					// 	console.log('removing key:', key)
-					// 	localStorage.removeItem(key);
-					// });
-					// console.log('\nkeyList.current:', keyList.current)
-					// keyList.current = []
-					// console.log('set keyList.current to []')
-					// localStorage.removeItem(wsKey)
-					// console.log('removed wsKey ...')
-					setNotifications(null)
-					console.log('set websocket Notification to []')
-					// console.log(
-					// 	'\n00000000000000000000000000000000',
-					// 	'\n00000000000000000000000000000000',
-					// 	'\n00000000000000000000000000000000',
-					// 	'\n00000000000000000000000000000000',
-					// 	'\n00000000000000000000000000000000',
-					// )
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
@@ -232,7 +197,6 @@ function usePullCompleteList(
 	// 	'\npageNum:', pageNum,
 	// 	'\nrole (argument i.e authData.role):', role,
 	// 	'\ndept:', dept,
-	// 	'\nwsKey:', wsKey
 	// )
 	console.log('isListData:', isListData)
 	console.log('end ######################'.toUpperCase())
