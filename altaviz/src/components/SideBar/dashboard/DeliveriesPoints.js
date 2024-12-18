@@ -76,7 +76,7 @@ function Deliveries({id}) {
 	// console.log({refresh})
 	return (
 		<>
-			{!getLoading && <span style={{
+			{getLoading && <span style={{
 				color: '#888',
 				// textAlign: 'center',
 			}}>Loading ...</span>}
