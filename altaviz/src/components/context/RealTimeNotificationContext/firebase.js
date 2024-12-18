@@ -28,7 +28,7 @@ const db = getDatabase(app);
 // Example listener function
 const listenForChanges = () => {
 	console.log('inside listenForChanges fxn')
-	const dbRef = ref(db, 'notifications/5/');  // Change 'notifications/' to your desired path in the database
+	const dbRef = ref(db, 'notifications/');  // Change 'notifications/' to your desired path in the database
 		onValue(dbRef, (snapshot) => {
 			const data = snapshot.val();
 			console.log('New data:', data); // Do something with the new data, like updating your state
