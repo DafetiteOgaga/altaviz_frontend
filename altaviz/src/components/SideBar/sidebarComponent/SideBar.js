@@ -23,7 +23,7 @@ function Sidebar() {
         }
     };
 	const dept = authData?.role
-	const deptStyles = {
+	const disableStyles = {
 		color: '#999',
 		pointerEvents: 'none',
 		cursor: 'default'
@@ -37,17 +37,17 @@ function Sidebar() {
 				<h2>Sections</h2>
 				<ul className='sidebar-ul'>
 					{/* <Link to="/"><li>Home</li></Link> */}
-					<Link style={dept==='custodian'?null:deptStyles} to={`/${dept}`}><li>Custodian</li></Link>
-					<Link style={dept==='workshop'?null:deptStyles} to={`/${dept}`}><li>Workshop</li></Link>
-					<Link style={dept==='engineer'?null:deptStyles} to={`/${dept}`}><li>Engineer</li></Link>
-					<Link style={dept==='help-desk'?null:deptStyles} to={`/${dept}`}><li>Help Desk</li></Link>
-					<Link style={dept==='supervisor'?null:deptStyles} to={`/${dept}`}><li>Supervisor</li></Link>
-					<Link style={dept==='human-resource'?null:deptStyles} to={`/${dept}`}><li>Human Resource</li></Link>
+					<Link style={dept==='custodian'?null:disableStyles} to={`/${dept}`}><li>Custodian</li></Link>
+					<Link style={dept==='workshop'?null:disableStyles} to={`/${dept}`}><li>Workshop</li></Link>
+					<Link style={dept==='engineer'?null:disableStyles} to={`/${dept}`}><li>Engineer</li></Link>
+					<Link style={dept==='help-desk'?null:disableStyles} to={`/${dept}`}><li>Help Desk</li></Link>
+					<Link style={dept==='supervisor'?null:disableStyles} to={`/${dept}`}><li>Supervisor</li></Link>
+					<Link style={dept==='human-resource'?null:disableStyles} to={`/${dept}`}><li>Human Resource</li></Link>
 					{!isAuthenticated ?
 						(<Link to="/login"><li>Login</li></Link>) :
 						(<Link onClick={logHandler} to="/"><li>Logout</li></Link>)
 					}
-					<Link to="/profile"><li>Profile</li></Link>
+					<Link style={authData?null:disableStyles} to="/profile"><li>Profile</li></Link>
 					{
 					apiBaseUrl==='http://127.0.0.1:8000' &&
 					<>
