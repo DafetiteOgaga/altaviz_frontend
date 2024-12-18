@@ -12,7 +12,7 @@ export const FirebaseProvider = ({ children }) => {
 	const [data, setData] = useState(null);
 
 	useEffect(() => {
-		const dbRef = ref(db, 'notifications/5/'); // Adjust the path as needed
+		const dbRef = ref(db, 'notifications/'); // Adjust the path as needed
 		onValue(dbRef, (snapshot) => {
 		const value = snapshot.val();
 		setData(value);

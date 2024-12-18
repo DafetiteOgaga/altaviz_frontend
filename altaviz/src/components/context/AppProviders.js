@@ -10,7 +10,7 @@ import { RotProvider } from "./RotContext";
 import { RefreshProvider } from "./RefreshContext";
 // import { RefreshComponentProvider } from "./refreshContext/TriggerRefresh";
 // import { SSENotificationProvider } from "./SSEContext/SSENotificationContext";
-import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
+// import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
 import { FirebaseProvider } from "./RealTimeNotificationContext/FirebaseContextNotification";
 
 const providers = [
@@ -20,7 +20,7 @@ const providers = [
 	// SharedDataProvider,
 	TimeDifferenceProvider,
 	FirebaseProvider,
-	WebSocketNotificationProvider,
+	// WebSocketNotificationProvider,
 	FetchProviders,
 	AuthProvider,
 	LoginProvider,

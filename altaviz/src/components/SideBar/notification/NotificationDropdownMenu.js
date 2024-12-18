@@ -205,7 +205,11 @@ function NotificationDropdownMenu({
 	useEffect(() => {
 		let newList;
 		if (notiList) {
-			console.log('\nnotiList:', notiList)
+			console.log(
+				'\nnotiList:', notiList,
+				'\nvariableContext:', variableContext,
+				'\nurlPath:', urlPath,
+			)
 			if (handler === 'help-desk' || handler === 'supervisor'||
 				handler === 'human-resource') {
 				// for helpdesk, supervisor, human-resource components

@@ -1,10 +1,13 @@
 import { FetchContext } from "../../context/FetchContext";
-import { useContext, useState, useEffect } from "react";
-import { useWebSocketNotificationContext } from "../../context/RealTimeNotificationContext/useWebSocketNotificationContext";
+import { useContext, useRef, useState, useEffect } from "react";
+// import { useWebSocketNotificationContext } from "../../context/RealTimeNotificationContext/useWebSocketNotificationContext";
+import { useFirebase } from "../../context/RealTimeNotificationContext/FirebaseContextNotification";
 
 function Deliveries({id}) {
-	const { notifications } = useWebSocketNotificationContext()
+	// const { notifications } = useWebSocketNotificationContext()
+	const { data:firebaseNotification } = useFirebase()
 	// const [refresh, setRefresh] = useState(true);
+	const firebaseNotificationKey = useRef(null)
 	const [getTrigger, setGetTrigger] = useState(false);
 	const [deliveries, setDeliveries] = useState(null);
 	const [error, setError] = useState(null);
@@ -12,17 +15,46 @@ function Deliveries({id}) {
 	const { getData, getLoading, getError } = useGetDataAPI(
 		`deliveries/${id}/`, getTrigger,
 	)
+	console.log('firebaseNotification:', firebaseNotification)
+	let firebaseKey = Object.keys?.(firebaseNotification||{})?.find?.(key => key)
+	console.log(
+		'\nfirebaseKey:', firebaseKey,
+		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
+		'\nfirebaseNotificationKey === firebaseKey:', firebaseNotificationKey.current === firebaseKey,
+		'\nfirebaseNotificationKey === null:', firebaseKey === null,
+		'\nfirebaseNotificationKey === undefined:', firebaseKey === undefined
+	)
+	let notificationText;
+	// let timestamp;
+	// let dateAndTime;
+	if (firebaseKey) {
+		notificationText = firebaseNotification[firebaseKey].message
+		// const timestamp = firebaseNotification[firebaseKey].timestamp
+		// Trim microseconds (last 3 digits)
+		// const cleanTimestamp = timestamp.slice(0, 23) + "Z";
+		// Convert to a JavaScript Date object
+		// dateAndTime = new Date(cleanTimestamp);
+	}
+	const theString = notificationText?.split('-')[0]
+	console.log(
+		// '\nnotifications:', notifications,
+		'\ntheString:', theString,
+	)
 	useEffect(() => {setGetTrigger(true)}, [])
 	useEffect(() => {
 		console.log(
 			'\n09090909090909090909090909090909',
 			'\n09090909090909090909090909090909',
 		)
-		if (notifications?.split('-')[0]==='deliveries point') {
+		if (![undefined, firebaseNotificationKey.current].includes(firebaseKey) && (notificationText?.split('-')[0]==='deliveries point')) {
 			setGetTrigger(true)
 			localStorage.removeItem(theString);
+			console.log({firebaseKey})
+			firebaseNotificationKey.current = firebaseKey
+			// firebaseKey = null
+			console.log({firebaseKey})
 		}
-	}, [notifications])
+	}, [firebaseKey, notificationText, theString])
 	useEffect(() => {
 		if (getData) {
             setDeliveries(getData);
@@ -41,21 +73,14 @@ function Deliveries({id}) {
 			'\nerror:', error
 		)
 	}
-	const theString = notifications?.split('-')[0]
-	console.log(
-		'\nnotifications:', notifications,
-		'\ntheString:', theString,
-	)
 	// console.log({refresh})
 	return (
 		<>
-			{getLoading && <span style={{
-				// padding: '1rem',
+			{!getLoading && <span style={{
 				color: '#888',
-				// fontSize: '1.2rem',
-				textAlign: 'center',
+				// textAlign: 'center',
 			}}>Loading ...</span>}
-			{error && <span>{error?.msg}</span>}
+			{error && <span style={{color: 'red'}}>{error?.msg}</span>}
 			{deliveries && <span>{deliveries?.msg?deliveries?.msg:deliveries?.deliveries}</span>}
 		</>
 	);
