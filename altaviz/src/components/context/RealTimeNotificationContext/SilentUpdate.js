@@ -26,7 +26,7 @@ const assignNotifications = (notificationUrlRef, notificationKeyRef, url, key, l
 };
 
 
-function SilentUpdate (firebaseNotification) {
+function useSilentUpdate (firebaseNotification) {
 	console.log({firebaseNotification})
 	const firebaseNotificationKey = useRef(null)
 	const nTotalNotifications = useRef(0)
@@ -830,4 +830,4 @@ function SilentUpdate (firebaseNotification) {
 		)
 	}
 }
-export default SilentUpdate;
+export default useSilentUpdate;
