@@ -691,19 +691,18 @@ function FaultDetailsGen({searchFaults}) {
 													</p>
 												</div>
 											</>}
-											{/* {faultsItem.requestStatus && */}
+									
 											<div className="input-field">
 												<p><strong>Status: </strong>
 													<span
 													// style={(!faultsItem?.verify_resolve) ? statusStyle.pending : (faultsItem?.confirm_resolve) ? statusStyle.approved : statusStyle.unconfirmed}>
 													style={(tempDetailsID||faultsItem?.confirm_resolve)?statusStyle.approved:(!faultsItem?.confirm_resolve&&faultsItem?.verify_resolve)?statusStyle.unconfirmed:statusStyle.pending}>
-														{/* {(!faultsItem?.verify_resolve ? 'Pending ' : (faultsItem?.confirm_resolve ? 'Resolved' : 'Unconfirmed Resolution '))} */}
 														{((tempDetailsID||faultsItem?.confirm_resolve)?'Resolved ':((!faultsItem?.confirm_resolve&&faultsItem?.verify_resolve)?'Unconfirmed Resolution':'Pending '))}
 													</span>
 													{(!tempDetailsID&&!faultsItem?.confirm_resolve) &&
 													<span
 													style={timeStyle}>
-														{'('}{ + (RDDaysBetweenDates < 1) ?
+														{'('}{(RDDaysBetweenDates < 1) ?
 															'Less than ' + wholeHoursBetweenDates + ' ' +
 															(RDhoursBetweenDates < 1 ? 'hour':'hours') +
 															' ago' :

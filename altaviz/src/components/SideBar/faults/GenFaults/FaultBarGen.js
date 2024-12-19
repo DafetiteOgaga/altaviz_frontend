@@ -3,8 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
+import { TimeDifferenceContext } from "../../../context/timeDifference/TimeDifferenceContext";
 
 function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
+	const { TimeDifference } = useContext(TimeDifferenceContext);
 	const { authData } = useContext(AuthContext);
 	const barParams = useParams()
 	const [pageNum, setPageNum] = useState(1)
@@ -62,6 +64,24 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 		borderTopLeftRadius: '1rem',
 		borderTopRightRadius: '1rem',
 	}
+	const daysStyles = {
+		overdue: {
+            color:'white',
+			backgroundColor: 'red',
+			borderRadius: '3px',
+			fontSize: 'x-small',
+			padding: '0.21rem',
+			paddingBottom: '0.2px',
+            // borderRadius: '3px',
+            // border: '1px dotted',
+            fontWeight: 'bolder',
+			// textAlign: 'center',
+			// marginbottom: '20px',
+        },
+		notDue: {
+			display: 'none'
+		}
+	}
 	return (
 		<>
 			<div
@@ -91,6 +111,7 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 							style={{listStyleType: 'none'}}>
 								{completeFaults &&
 								completeFaults.map((fault, index) => {
+									const { wholeDaysBetweenDates, wholeHoursBetweenDates, RDDaysBetweenDates, RDhoursBetweenDates } = TimeDifference({date1: fault?.created_at});
 									// console.log({fault})
 									return (
 								<li key={fault.id}>
@@ -132,7 +153,10 @@ function FaultBarGen ({allFaults, page, total=null, type=null, found=null}) {
 																padding: '0 0.7rem',
 																fontWeight: 'bold'
 															}}>{(((fault.requestComponent?.length)??0)+((fault.requestPart?.length)??0))}</span>
-														</>) : 'No'}
+														</>) : 'No '}
+														<span style={RDDaysBetweenDates > 0 ? daysStyles.overdue: daysStyles.notDue}															>
+															{wholeDaysBetweenDates}d
+														</span>
 												</p>
 											</div>}
 											{/* fault status and helpdesk */}
