@@ -2,12 +2,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Home from '../home/Home';
 import About from '../main/about/About';
-// import Products from '../main/Products';
 import ContactUs from '../main/contact_us/ContactUs';
 import Testfetchapi from '../Testfetchapi';
-// import Custodian from '../SideBar/custodian/Custodian';
-// import CustodianForm from '../SideBar/custodian/CustodianForm';
-// import CustodianLandingPage from '../SideBar/custodian/CustodianLandingPage';
 import Custodian from '../SideBar/custodian/Custodian';
 import Workshop from '../SideBar/workshop/Workshop';
 import Engineer from '../SideBar/engineer/Engineer';
@@ -15,62 +11,23 @@ import HelpDesk from '../SideBar/help_desk/HelpDesk';
 import Supervisor from '../SideBar/supervisor/Supervisor';
 import HumanResource from '../SideBar/human_resource/HumanResource';
 import Inventory from '../SideBar/human_resource/inventory/Inventory';
-// import RequestDetails from '../SideBar/xxrequestApprovedPendingResolved/request/RequestDetails';
-// import RequestList from '../SideBar/xxrequestApprovedPendingResolved/request/RequestList';
-// import Product1 from '../products/Product1';
-// import Product2 from '../products/Product2';
-// import Product3 from '../products/Product3';
-// import ConfirmResoDetails from '../SideBar/custodian/confirmResolution/ConfirmResoDetails';
-// import ConfirmResoDetails from '../SideBar/confirmResolution/ConfirmResoDetails';
-// import ConfirmResoList from '../SideBar/custodian/confirmResolution/ConfirmResoList';
-
 import PageNotFound from '../PageNotFound';
 import Success from '../success/Success';
 import ProductDetails from '../products/ProductDetails';
 import DropdownMenu from '../header/product_dropdown_menu/DropdownMenu';
-// import About from './components/About';
-// import Contact from './components/Contact';
-// import Navigation from '../header/Navigation';
-// import Category from '../Category';
 import User from '../user/user';
 import LoginForm from '../context/loginAuth/LoginForm';
 import PrivateRoute from '../context/checkAuth/PrivateRoute';
 import AuthenticationForm from '../context/loginAuth/AuthenticationForm';
-
 import DetailsUpdate from '../SideBar/faults/forEngineers/detailsUpdate';
-
-// import FaultDetails from '../SideBar/faults/Faults/FaultDetails';
-// import FaultList from '../SideBar/faults/Faults/FaultList';
-
 import FaultDetailsGen from '../SideBar/faults/GenFaults/FaultDetailsGen';
 import FaultListGen from '../SideBar/faults/GenFaults/FaultListGen';
-
-// import UnconfirmedResoDetails from '../SideBar/faults/UnconfirmedReso/UnconfirmedResoDetails';
-// import UnconfirmedResoList from '../SideBar/faults/UnconfirmedReso/UnconfirmedResoList';
 import RequestsDetails from '../SideBar/Requests/RequestsDetails';
 import RequestsList from '../SideBar/Requests/RequestsList';
-// import ApprovedCompRequestsList from '../SideBar/Requests/ApprovedCompRequestsList';
-// import ApprovedCompRequestsDetails from '../SideBar/Requests/ApprovedCompRequestsDetails';
-
-// import PartRequestsDetails from '../SideBar/partRequests/PartRequestsDetails';
-// import PartRequestsList from '../SideBar/partRequests/PartRequestsList';
-// import ApprovedPartRequestsList from '../SideBar/partRequests/ApprovedPartRequestsList';
-// import ApprovedPartRequestsDetails from '../SideBar/partRequests/ApprovedPartRequestsDetails';
-
-// import UnapprovedList from '../SideBar/unapproved/UnapprovedList';
-// import UnapprovedPostDetails from '../SideBar/unapproved/UnapprovedPostDetails';
-// import ApprovedPartDetails from '../SideBar/unapproved/ApprovedPartDetails';
-// import ApprovedPartsList from '../SideBar/unapproved/ApprovedPartsList';
-
 import UserProcessedList from '../SideBar/faults/forEngineers/UserProcessedList';
-// import UsersNotification from '../SideBar/faults/UsersNotificationList/UsersNotificationList';
-
 import EngineerToLocation from '../SideBar/faults/forEngineers/engineerToLocation';
-
-// import DetailsUpdateList from '../SideBar/human_resource/userUpdateRequests/detailsUpdateList';
-
 import Profile from '../profile/Profile';
-// import UserProcessedList from '../SideBar/faults/engineerFaults/UserFaultList';
+import ChatRoom from '../SideBar/chatsSetup/ChatRoom';
 
 function AppRoutes() {
   return (
@@ -87,6 +44,7 @@ function AppRoutes() {
         <Route path="/test" element={<Testfetchapi />} />
         {/* private routes */}
         <Route element={<PrivateRoute />}>
+          <Route path="/chatroom" element={<ChatRoom />} />
           <Route path="/custodian" element={<Custodian />} />
           {/* <Route path="/custodian/form" element={<CustodianForm />} /> */}
           <Route path="/workshop" element={<Workshop />} />
