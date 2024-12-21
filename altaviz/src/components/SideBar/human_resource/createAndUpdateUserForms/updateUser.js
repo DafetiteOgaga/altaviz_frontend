@@ -770,6 +770,14 @@ function UpdateUser () {
 							<MainButton
 								onClick={handleFormSubmission}
 								type="submit"
+								role="button"
+								tabIndex="0"
+								onKeyDown={(e) => {
+									if (e.key === 'Enter') {
+										e.preventDefault();  // Prevents default form submission behavior
+										handleFormSubmission();  // Calls your form submission function
+									}
+								}}
 								disabled={postLoading}>
 								{postLoading ? 'Updating...' : 'Update Details'}
 							</MainButton>
