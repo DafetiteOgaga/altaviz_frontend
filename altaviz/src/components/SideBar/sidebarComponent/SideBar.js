@@ -43,14 +43,18 @@ function Sidebar() {
 					<Link style={dept==='help-desk'?null:disableStyles} to={`/${dept}`}><li>Help Desk</li></Link>
 					<Link style={dept==='supervisor'?null:disableStyles} to={`/${dept}`}><li>Supervisor</li></Link>
 					<Link style={dept==='human-resource'?null:disableStyles} to={`/${dept}`}><li>Human Resource</li></Link>
+					<Link style={isAuthenticated?null:disableStyles} to="/chatroom"><li>Chat Room</li></Link>
+					{/* {apiBaseUrl==='http://127.0.0.1:8000' &&
+						<Link to="/chatroom"><li>Chat Room</li></Link>
+					} */}
 					{!isAuthenticated ?
 						(<Link to="/login"><li>Login</li></Link>) :
 						(<Link onClick={logHandler} to="/"><li>Logout</li></Link>)
 					}
-					<Link style={authData?null:disableStyles} to="/profile"><li>Profile</li></Link>
-					{
-					apiBaseUrl==='http://127.0.0.1:8000' &&
+					<Link style={isAuthenticated?null:disableStyles} to="/profile"><li>Profile</li></Link>
+					{apiBaseUrl==='http://127.0.0.1:8000' &&
 					<>
+						{/* <Link to="/chatroom"><li>Chat Room</li></Link> */}
 						<Link to="/test-auth"><li>test authentication</li></Link>
 						<Link to="/test"><li>testing backend</li></Link>
 					</>}

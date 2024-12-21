@@ -270,6 +270,14 @@ function AddInventoryName({inventoryName}) {
 				<MainButton
 				onClick={handleSubmit}
 				type="submit"
+				role="button"
+				tabIndex="0"
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						e.preventDefault();  // Prevents default form submission behavior
+						handleSubmit();  // Calls your form submission function
+					}
+				}}
 				disabled={postLoading}>
 					{postLoading ? 'Creating...' : 'Create Item'}
 				</MainButton>

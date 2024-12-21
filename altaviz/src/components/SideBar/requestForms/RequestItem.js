@@ -490,6 +490,14 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					<MainButton
 					onClick={handleSubmit}
 					type="submit"
+					role="button"
+					tabIndex="0"
+					onKeyDown={(e) => {
+						if (e.key === 'Enter') {
+							e.preventDefault();  // Prevents default form submission behavior
+							handleSubmit();  // Calls your form submission function
+						}
+					}}
 					disabled={postLoading}>
 						{/* switch between component and part props here */}
 						{postLoading ? 'Requesting...' : `Request ${toSentenceCase(itemName)}`}

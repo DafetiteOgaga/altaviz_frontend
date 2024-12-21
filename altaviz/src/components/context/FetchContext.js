@@ -6,10 +6,6 @@ const checkNull = (url) => url.split('/').some?.(list => list === 'null')
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 export const FetchProviders = ({ children }) => {
-	// post states
-	
-	// put states
-	
 	const redirectTo = useNavigate()
 
 	// get request
@@ -104,13 +100,21 @@ export const FetchProviders = ({ children }) => {
 						throw new Error("found null in url provided");
 					} else {
 						setPostLoading(true);
+						// setPostData(null);
 						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "POST",
 							body: formData,
 						});
 						if (response.ok) {
 							const responseData = await response.json();
-							// console.log('response', responseData.msg);
+							const three = '\n8888888888888888888888888888888'
+							console.log(
+								'\n#############################',
+								three.repeat(4),
+								'\nresponse:', responseData,
+								three.repeat(4),
+								'\n#############################'
+							)
 							if (responseData.msg === 'pending update request') {
 								const userConfirmed = window.confirm('An Update Request exists.\nSelect OK to Replace the last Update Request');
 
@@ -160,9 +164,9 @@ export const FetchProviders = ({ children }) => {
 						}
 					}
 				} catch (error) {
-				setPostError(error.message);
+					setPostError(error.message);
 				} finally {
-				setPostLoading(false);
+					setPostLoading(false);
 				}
 			};
 
@@ -189,7 +193,7 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 		// }, [trigger, url, formData, redirectToPage]);
-		}, [trigger]);
+		}, [trigger, url]);
 
 		// Function to trigger the post request
 		// const initiatePost = () => setTrigger(true);
@@ -251,7 +255,6 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 			// Reference for debounce timer
-		// const debounceTimer = useRef(null);
 			if (trigger) {
 				if (debounceTimer.current) {
 					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
@@ -273,7 +276,7 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 		// }, [trigger, url, formData, redirectToPage]);
-		}, [trigger]);
+		}, [trigger, url]);
 
 		// Function to trigger the post request
 		// const initiatePost = () => setTrigger(true);
@@ -363,7 +366,7 @@ export const FetchProviders = ({ children }) => {
 					clearTimeout(debounceTimer.current);
 				}
 			};
-		}, [trigger]);
+		}, [trigger, url]);
 	
 		return { patchData, patchLoading, patchError };
 	}
@@ -440,7 +443,7 @@ export const FetchProviders = ({ children }) => {
 					clearTimeout(debounceTimer.current);
 				}
 			};
-		}, [trigger]);
+		}, [trigger, url]);
 	
 		return { deleteData, deleteLoading, deleteError };
 	}
