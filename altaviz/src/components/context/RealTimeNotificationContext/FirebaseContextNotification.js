@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { ref, onValue } from "firebase/database";
-import { db } from "./firebase";  // Import your firebase setup
+import { db } from "./firebaseNotification";  // Import your firebase setup
 
 const FirebaseContext = createContext();
 
