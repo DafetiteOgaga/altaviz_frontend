@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import usePullNotification from '../../paginationComp/usePullNotification';
 import usePullCompleteList from '../../paginationComp/usePullCompleteList';
 import { AuthContext } from '../checkAuth/AuthContext';
-// import { useFirebase } from './FirebaseContextNotification';
 
 
 const assignNotifications = (notificationUrlRef, notificationKeyRef, url, key, logPrefix) => {
@@ -126,6 +125,8 @@ function useSilentUpdate (firebaseNotification) {
 			'\n555555555555555555555555555555555555555555555555555555',
 			'\n555555555555555555555555555555555555555555555555555555',
 		)
+		nCounter.current = []
+		nTotalNotifications.current = 0
 		const auth = authData.role
 		console.log({dept}, {notificationText}, {auth}, {firebaseKey})
 		if (notificationText?.split('-')[0]!=='deliveries point') {

@@ -1,5 +1,6 @@
-// import SSENotification from "./context/SSEContext/SSENotification";
+// import { listenForUpdates } from "./context/RealTimeNotificationContext/useChatsNotification";
 function Testfetchapi() {
+	// listenForUpdates(7)
 	// const { authData } = useContext(AuthContext);
 	// console.log('authData', authData);
 	return (
