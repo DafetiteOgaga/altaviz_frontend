@@ -18,6 +18,30 @@ const getCurrentContactID = (currentChatID) => {
 	}
 }
 
+function detectDayStatus(dateString) {
+	const inputDate = new Date(dateString); // Convert the input string to a Date object
+	const today = new Date(); // Current date and time
+
+	// Remove the time part for comparison
+	const inputDateWithoutTime = new Date(inputDate.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+	const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+	// Calculate the difference in days
+	const diffInTime = todayWithoutTime - inputDateWithoutTime; // Difference in milliseconds
+	const diffInDays = diffInTime / (1000 * 60 * 60 * 24); // Convert to days
+
+	// Format the time as "hh:mm AM/PM"
+	const formattedTime = inputDate.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+
+	if (diffInDays === 0) {
+		return `Today at ${formattedTime}`;
+	} else if (diffInDays === 1) {
+		return `Yesterday at ${formattedTime}`;
+	} else {
+		return inputDate.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) + ` at ${formattedTime}`;
+	}
+}
+
 const ChatRoom = () => {
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	// const [messages, setMessages] = useState([
@@ -253,6 +277,10 @@ const ChatRoom = () => {
 					{messages?.map?.((message, index) => {
 						console.log('message:', message)
 						let [isUsername, isMessage] = message?.message?.split?.('=')||[null, null]
+						let when = message.timestamp
+						// console.log({when})
+						when = detectDayStatus(when)
+						console.log({when})
 						isUsername = isUsername === authData?.username
 						const xxx = '\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 						console.log(
@@ -285,20 +313,32 @@ const ChatRoom = () => {
 										alt={`${(isUsername)?(authData.first_name):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name)}'s avatar`}
 										style={styles.avatar}/>
 
-										{/* Message Content */}
-										<div
-										style={{
-											...styles.message,
-											alignSelf: (isUsername)?"flex-end":"flex-start",
-											backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
-											padding: '0 10px'
-										}}>
-											{/* user first name */}
-											<strong>
-												{(isUsername)?'You':toSentenceCase(message?.user?.first_name||'')}
-											</strong>
-												{/* message */}
-												: {isMessage}
+										<div>
+											{/* Message Content */}
+											<div
+											style={{
+												...styles.message,
+												alignSelf: (isUsername)?"flex-end":"flex-start",
+												// backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+												display: 'flex', flexDirection: 'row',
+											}}>
+												{/* user first name */}
+												<strong style={{
+													...styles.noWrapText,
+													backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+													padding: '0 0 0 10px', borderRadius: (isUsername)?'10px 0 0 10px':'10px 0 0 0',
+													}}>
+													{(isUsername)?'You':toSentenceCase(message?.user?.first_name||'')}
+												</strong>
+													{/* message */}
+													<span style={{
+														...styles.noWrapText,
+														backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+														padding: '0 10px 0 0', borderRadius: (isUsername)?'0 10px 0 0':'0 10px 10px 0',
+														}}>: {isMessage}</span>
+											</div>
+											{/* timestamp */}
+											<span style={{...styles.timestampST, flexDirection: (isUsername)?"row-reverse":"row"}}>{when}</span>
 										</div>
 									</>}
 								</div>
@@ -483,6 +523,17 @@ const styles = {
 		borderRadius: "8px",
 		maxWidth: "70%",
 		wordWrap: "break-word",
+	},
+	noWrapText: {
+		whiteSpace: 'nowrap',
+		// overflow: 'hidden',
+		// textOverflow: 'ellipsis'
+	},
+	timestampST: {
+		color: 'grey',
+		fontSize: '12px',
+		display: 'flex',
+		fontStyle: 'italic',
 	},
 	notification: {
 		backgroundColor: "blue",
