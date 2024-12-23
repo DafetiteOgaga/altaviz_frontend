@@ -4,6 +4,8 @@ import usePullCompleteList from "../../paginationComp/usePullCompleteList";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 // import { FetchContext } from "../../context/FetchContext";
 import usePostRequest from "./PostChat";
+// import { listenForUpdates, stopListening } from "../../context/RealTimeNotificationContext/useChatsNotification";
+import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl url:', apiBaseUrl)
@@ -20,6 +22,10 @@ const ChatRoom = () => {
 	// 	{ sender: "John", avatar: "https://i.pravatar.cc/40?u=John", content: "Hey there!" },
 	// 	{ sender: "Jane", avatar: "https://i.pravatar.cc/40?u=Jane", content: "Hi! How are you?" },
 	// ]);
+	const oldID = useRef(null)
+	const firebaseNotificationKey = useRef(null)
+	const { chatNotifications:fromContext, deleteNotification, listenForUpdates, stopListening } = useChatNotification();
+	const [chatNotification, setChatNotification] = useState(null);
 	const [messages, setMessages] = useState(null);
 	const [isHovered, setIsHovered] = useState(null);
 	// const [currentChatID, setCurrentChatID] = useState(null)
@@ -76,6 +82,13 @@ const ChatRoom = () => {
 		console.log({id})
 		// setCurrentChatID(id);
 		getCurrentContactID(currentChatID)
+		// `chat-notifications/${receiverID}/${notificationKey}/sendersList/${sendersID}`);
+		console.log(
+			'\nreceierID:', authData.id,
+			'\nsendersID:', oldID.current,
+			'\nfirebaseKey:', firebaseNotificationKey.current,
+		)
+		deleteNotification(authData.id, oldID.current, firebaseNotificationKey.current)
 		// currentChatID.current = id
 		setGetTrigger(true);
 		console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
@@ -149,13 +162,72 @@ const ChatRoom = () => {
 	console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
 	console.log({messages})
 	console.log('postchat data:', postChatData)
-	const chatroomHeader = everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name||'Chat Room'
+	const chatStore = localStorage.getItem('chatID')
+	const currentBuddy = everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name
+	const chatroomHeader = currentBuddy||'Chat Room'
 	console.log(
 		'\n!currentMessage.trim()', !currentMessage.trim(),
 		'\npostChatLoading:', postChatLoading,
 	)
 	const disableButton = !currentMessage.trim()||postChatLoading
 	console.log('getChatData.arrayData:', getChatData.arrayData)
+
+	// pollination for realtime chats
+	useEffect(() => {
+		if (currentBuddy && chatStore && apiBaseUrl!=='http://127.0.0.1:8000' && apiBaseUrl!=='http://localhost:8000') {
+			const intervalId = setInterval(() => {
+				setGetTrigger((prev) => !prev);
+			}, 1500);
+			return () => clearInterval(intervalId);
+		}
+	}, [currentBuddy, chatStore]);
+
+	const firebaseChatValue = useRef(null) // delete afterwards
+	useEffect(() => {
+		// const receiverID = 7
+		console.log('\nreceiverIDreceiverIDreceiverIDreceiverID'.repeat(5))
+
+		// Start listening for updates
+		listenForUpdates(authData?.id, (data) => {
+			console.log('\ndata.firebaseChatKey:', data?.firebaseChatKey);
+			console.log('\ndata.firebaseChatValue:', data?.firebaseChatValue);
+			console.log('\ndata.firebaseChatValue.notificationCount:', data?.firebaseChatValue?.notificationCount);
+			const chatNotificationObjects = {
+				values: data?.firebaseChatValue?.sendersList,
+				idList: Object.keys(data?.firebaseChatValue?.sendersList||{}).map(num => Number(num))
+			}
+			firebaseNotificationKey.current = data?.firebaseChatKey
+			firebaseChatValue.current = chatNotificationObjects
+			setChatNotification(chatNotificationObjects)
+		});
+
+		// Cleanup on unmount
+		return () => stopListening(authData?.id);
+	}, [authData,
+		// listenForUpdates, stopListening
+	]);
+	if (!disableButton) {
+		deleteNotification(authData.id, oldID.current, firebaseNotificationKey.current)
+	}
+	console.log('chatNotification:'.repeat(5), chatNotification)
+	console.log({apiBaseUrl})
+	console.log(
+		'\nfirebaseChatValue.current:', firebaseChatValue.current,
+		'\nauthData.id:', authData.id,
+		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
+	)
+	console.log(
+		'\nreceierID:', authData.id,
+		'\nsendersID:', oldID.current,
+		'\nfirebaseKey:', firebaseNotificationKey.current,
+	)
+	console.log(
+		'\nmessages:', messages?.length,
+		'\ngetChatData:', getChatData?.arrayData,
+
+	)
+	console.log({fromContext})
+	// const notiNum = 7
 	return (
 		// grid container
 		<div style={styles.boxContainer}>
@@ -163,9 +235,6 @@ const ChatRoom = () => {
 			<div style={{...styles.chatContainer, border: "1px solid #ccc", backgroundColor: "#E5E5E5",}}>
 				{/* Chat Header */}
 				<div style={{...styles.chatHeader, backgroundColor: "#3E3E97",}}>
-					{/* this heading will change dynamically
-						based on user you are chatting with
-						or general group */}
 					{console.log(
 						'\nmessages in jsx:', messages,
 						'\nmessages.find in jsx:', messages?.find?.(name=>name),
@@ -175,45 +244,62 @@ const ChatRoom = () => {
 
 				{/* Chat Messages Area */}
 				{<div style={styles.chatMessages}>
+					{/* typing status */}
+					{/* <div style={styles.typingStatus}>
+                        <strong>User 1</strong> is typing...
+                    </div> */}
 					{messages?.map?.((message, index) => {
+						console.log('message:', message)
+						let [isUsername, isMessage] = message?.message?.split?.('=')||[null, null]
+						isUsername = isUsername === authData?.username
 						const xxx = '\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 						console.log(
 							xxx.repeat(5),
                             '\nmessage in jsx:', message,
                             // '\nmessage.sender in jsx:', message?.sender,
                         )
+						const newMessageMarke = chatNotification?.values?.[currentChatID.current]?.notificationCount
 						return (
-							<div
-								key={index}
-								style={{
-								...styles.messageContainer,
-								flexDirection: (message?.message?.split?.('=')[0]===authData?.username)?"row-reverse":"row",
-								}}
-							>
-								{message?.message&&
-								<>
-									{/* User Avatar */}
-									<img
-									src={`${apiBaseUrl}${(message?.message?.split?.('=')[0]===authData?.username)?(authData.profile_picture):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.profile_picture)}`}
-									alt={`${(message?.message?.split?.('=')[0]===authData?.username)?(authData.first_name):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name)}'s avatar`}
-									style={styles.avatar}/>
-
-									{/* Message Content */}
-									<div
+							<>
+							{console.log(
+								'\nid in noti:', chatNotification?.idList?.includes?.(currentChatID.current),
+								'\nchatNotification:', chatNotification,
+								'\ncontact id:',
+								'\nmessage:', message?.message, 'index', index
+								)}
+								{/* {index===newMessageMarke?<span style={styles.newMessage}>New Chats</span>:null} */}
+								<div
+									key={index}
 									style={{
-										...styles.message,
-										alignSelf: (message?.message?.split?.('=')[0]===authData?.username)?"flex-end":"flex-start",
-										backgroundColor: (message?.message?.split?.('=')[0]===authData?.username)?"#DCF8C6":"#F0F0F0",
-									}}>
-										{/* user first name */}
-										<strong>
-											{(message?.message?.split?.('=')[0]===authData?.username)?'You':message?.user?.first_name}
-										</strong>
-											{/* message */}
-											: {message?.message?.split?.('=')[1]}
-									</div>
-								</>}
-							</div>
+									...styles.messageContainer,
+									flexDirection: (isUsername)?"row-reverse":"row",
+									}}
+								>
+									{message?.message&&
+									<>
+										{/* User Avatar */}
+										<img
+										src={`${apiBaseUrl}${(isUsername)?(authData.profile_picture):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.profile_picture)}`}
+										alt={`${(isUsername)?(authData.first_name):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name)}'s avatar`}
+										style={styles.avatar}/>
+
+										{/* Message Content */}
+										<div
+										style={{
+											...styles.message,
+											alignSelf: (isUsername)?"flex-end":"flex-start",
+											backgroundColor: (isUsername)?"#DCF8C6":"transparent",
+										}}>
+											{/* user first name */}
+											<strong>
+												{(isUsername)?'You':message?.user?.first_name}
+											</strong>
+												{/* message */}
+												: {isMessage}
+										</div>
+									</>}
+								</div>
+							</>
 							)})}
 				</div>}
 
@@ -256,11 +342,24 @@ const ChatRoom = () => {
 				</div>
 				{/* contact box */}
 				<div style={styles.chatBoxArea}>
-					{everyone?.arrayData?.filter?.(user => user.id!==authData.id)?.map?.((avatar, index) => (
+					{everyone?.arrayData
+					?.sort?.((a, b) => {
+						if (chatNotification?.idList?.includes(a.id)) return -1;
+						// // If b.id matches chatNotification.senderID, it should come first
+						// if (a.id !== chatNotification?.senderID && b.id === chatNotification?.senderID) return 1;
+						return 0; // If both or neither match, maintain original order
+					})
+					?.filter?.(user => {
+						// console.log({user})
+						return user.id!==authData.id
+					})?.map?.((avatar, index) => {
+						const activeNotification = chatNotification?.idList?.includes(avatar.id)
+						return (
 					<div key={index}>
 						<div
-						style={{...styles.contactListContainer, backgroundColor: isHovered===index ? 'yellow' : 'transparent',}}
+						style={{...styles.contactListContainer, backgroundColor: isHovered===index ? '#D9D9DF' : 'transparent',}}
 						onClick={() => {
+							oldID.current = localStorage.getItem('chatID')
 							localStorage.setItem('chatID', avatar.id);
 							setChatID(avatar.id);
 						}}
@@ -271,6 +370,7 @@ const ChatRoom = () => {
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
 								e.preventDefault();  // Prevents default form submission behavior
+								oldID.current = localStorage.getItem('chatID')
 								localStorage.setItem('chatID', avatar.id);
 								setChatID(avatar.id);
 							}
@@ -284,11 +384,17 @@ const ChatRoom = () => {
 
 							{/* Name of contact */}
 							<div style={{...styles.message, alignSelf: "flex-start"}}>
-								<strong>{avatar.first_name}</strong>: ({avatar.id})
+								<strong>{avatar.first_name}</strong>: ({avatar.id})<span> </span>
+
+								{/* notification dot */}
+								<span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span>
+
+								{/* online status */}
+								{/* <span> </span><span style={styles.online}>online</span> */}
 							</div>
 						</div>
 					</div>
-					))}
+					)})}
 				</div>
 			</div>
 		</div>
@@ -310,7 +416,7 @@ const styles = {
 		borderRadius: "8px",
 		display: "flex",
 		flexDirection: "column",
-		height: "500px",
+		height: "650px",
 		// backgroundColor: "#E5E5E5",
 	},
 	chatHeader: {
@@ -322,7 +428,7 @@ const styles = {
 	},
 	chatBoxArea: {
 		padding: "0 0 0 20px",
-		height: "500px", // Set a fixed height for the scrollable area
+		height: "650px", // Set a fixed height for the scrollable area
 		overflowY: "auto", // Enable vertical scrolling
 	},
 	chatMessages: {
@@ -332,6 +438,14 @@ const styles = {
 		display: "flex",
 		flexDirection: "column-reverse", // Reverse the order of the messages (newest at the bottom)
 		gap: "10px",
+	},
+	newMessage: {
+		backgroundColor: 'rgb(197, 197, 248)'     ,
+		color: 'white',
+		// padding: '5px',
+		borderRadius: '5px',
+		textAlign: 'center',
+		// margin: '-5px'
 	},
 	messageContainer: {
 		display: "flex",
@@ -350,16 +464,44 @@ const styles = {
 		// gap: "10px",
 	},
 	avatar: {
-		width: "40px",
-		height: "40px",
+		width: "30px",
+		height: "30px",
 		borderRadius: "50%",
 		border: "1px solid #ccc",
 	},
+	typingStatus: {
+		colr: '',
+		fontSize: "13px",
+		fontStyle: "italic",
+		color: 'darkslategrey'
+		// darkslategrey, slategrey, olive, grey
+	},
 	message: {
-		padding: "10px 10px 0 0",
+		padding: "o 10px 0 0",
 		borderRadius: "8px",
 		maxWidth: "70%",
 		wordWrap: "break-word",
+	},
+	notification: {
+		backgroundColor: "blue",
+		// backgroundColor: "#3E3E97",
+		color: "white",
+		borderRadius: "50%",
+		padding: "2px 5px",
+		fontSize: "12px",
+		fontWeight: 'bolder',
+		fontStyle: "italic",
+	},
+	greater: {
+		padding: "3px 4px",
+	},
+	less: {
+		padding: "2px 6px 2px 5px",
+	},
+	online: {
+		color: "green",
+		fontSize: "12px",
+		fontStyle: "italic",
 	},
 	chatInput: {
 		display: "flex",
