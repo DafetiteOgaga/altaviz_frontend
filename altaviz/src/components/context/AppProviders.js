@@ -12,6 +12,7 @@ import { RefreshProvider } from "./RefreshContext";
 // import { SSENotificationProvider } from "./SSEContext/SSENotificationContext";
 // import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
 import { FirebaseProvider } from "./RealTimeNotificationContext/FirebaseContextNotification";
+import { NotificationProvider } from "./RealTimeNotificationContext/useChatsNotification";
 
 const providers = [
 	// the first is the child
@@ -20,6 +21,7 @@ const providers = [
 	// SharedDataProvider,
 	TimeDifferenceProvider,
 	FirebaseProvider,
+	NotificationProvider,
 	// WebSocketNotificationProvider,
 	FetchProviders,
 	AuthProvider,
