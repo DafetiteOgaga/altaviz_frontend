@@ -386,9 +386,9 @@ const ChatRoom = () => {
 
 							{/* Name of contact */}
 							<div style={{...styles.message, alignSelf: "flex-start"}}>
-								<strong>{toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
+								<strong style={{whiteSpace: 'pre'}}> {toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
 
-								{/* notification dot */}
+								{/* notification dot alert */}
 								<span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span>
 
 								{/* online status */}
