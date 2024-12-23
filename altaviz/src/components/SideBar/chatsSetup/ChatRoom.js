@@ -234,7 +234,7 @@ const ChatRoom = () => {
 			{/* Chat room container */}
 			<div style={{...styles.chatContainer, border: "1px solid #ccc", backgroundColor: "#E5E5E5",}}>
 				{/* Chat Header */}
-				<div style={{...styles.chatHeader, backgroundColor: "#3E3E97",}}>
+				<div style={{...styles.chatHeader, backgroundColor: "#3e3e9762",}}>
 					{console.log(
 						'\nmessages in jsx:', messages,
 						'\nmessages.find in jsx:', messages?.find?.(name=>name),
@@ -288,7 +288,8 @@ const ChatRoom = () => {
 										style={{
 											...styles.message,
 											alignSelf: (isUsername)?"flex-end":"flex-start",
-											backgroundColor: (isUsername)?"#DCF8C6":"transparent",
+											backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+											padding: '0 10px'
 										}}>
 											{/* user first name */}
 											<strong>
@@ -337,7 +338,7 @@ const ChatRoom = () => {
 			{/* contact container */}
 			<div style={{...styles.chatContainer, backgroundColor: "#F0F0F0",}}>
 				{/* Chat Header */}
-				<div style={{...styles.chatHeader, backgroundColor: "#9c9c9c",}}>
+				<div style={{...styles.chatHeader, backgroundColor: "#9c9c9ca4",}}>
 					<h3 style={{margin: '0'}}>Contacts</h3>
 				</div>
 				{/* contact box */}
