@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/checkAuth/AuthContext";
 import usePostRequest from "./PostChat";
 // import { listenForUpdates, stopListening } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
+import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl url:', apiBaseUrl)
@@ -18,6 +19,7 @@ const getCurrentContactID = (currentChatID) => {
 }
 
 const ChatRoom = () => {
+	const { toSentenceCase } = useContext(SentenceCaseContext)
 	// const [messages, setMessages] = useState([
 	// 	{ sender: "John", avatar: "https://i.pravatar.cc/40?u=John", content: "Hey there!" },
 	// 	{ sender: "Jane", avatar: "https://i.pravatar.cc/40?u=Jane", content: "Hi! How are you?" },
@@ -239,7 +241,7 @@ const ChatRoom = () => {
 						'\nmessages in jsx:', messages,
 						'\nmessages.find in jsx:', messages?.find?.(name=>name),
 					)}
-					<h3 style={{margin: '0'}}>{chatroomHeader}</h3>
+					<h3 style={{margin: '0'}}>{toSentenceCase(chatroomHeader)}</h3>
 				</div>
 
 				{/* Chat Messages Area */}
@@ -267,14 +269,14 @@ const ChatRoom = () => {
 								'\ncontact id:',
 								'\nmessage:', message?.message, 'index', index
 								)}
+								{/* new message bar (in chats) */}
 								{/* {index===newMessageMarke?<span style={styles.newMessage}>New Chats</span>:null} */}
 								<div
 									key={index}
 									style={{
 									...styles.messageContainer,
 									flexDirection: (isUsername)?"row-reverse":"row",
-									}}
-								>
+									}}>
 									{message?.message&&
 									<>
 										{/* User Avatar */}
@@ -293,7 +295,7 @@ const ChatRoom = () => {
 										}}>
 											{/* user first name */}
 											<strong>
-												{(isUsername)?'You':message?.user?.first_name}
+												{(isUsername)?'You':toSentenceCase(message?.user?.first_name||'')}
 											</strong>
 												{/* message */}
 												: {isMessage}
@@ -375,8 +377,7 @@ const ChatRoom = () => {
 								localStorage.setItem('chatID', avatar.id);
 								setChatID(avatar.id);
 							}
-						}}
-						>
+						}}>
 							{/* contact avatar*/}
 							<img src={`${apiBaseUrl}${avatar.profile_picture}`}
 							alt='avatar'
@@ -385,7 +386,7 @@ const ChatRoom = () => {
 
 							{/* Name of contact */}
 							<div style={{...styles.message, alignSelf: "flex-start"}}>
-								<strong>{avatar.first_name}</strong>: ({avatar.id})<span> </span>
+								<strong>{toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
 
 								{/* notification dot */}
 								<span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span>
