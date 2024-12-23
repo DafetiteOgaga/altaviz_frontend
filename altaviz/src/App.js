@@ -32,7 +32,7 @@ function App() {
 			alignItems: 'center',
 			color: 'black',
 			textAlign: 'center',  // Center text horizontally
-			padding: '30px 0',      // Add some padding to prevent text from touching the edges
+			padding: '30px 0',      // Add some padding to prevent text from touching the box edges
 			paddingTop: '70px',
 			boxSizing: 'border-box',
 			flexDirection: 'column',
@@ -42,6 +42,7 @@ function App() {
 			marginBottom: '30px'
 		}
 	}
+	// console.log('chatsUpdates?.notificationCount:', chatsUpdates?.notificationCount)
 	return (
 		<>
 			{deviceType.toLowerCase() !== 'pc' ? (
@@ -61,7 +62,9 @@ function App() {
 						<div className="body-minus-header">
 							<div className="sub-root">
 								<div>
-									<SideBar className="sidebar" />
+									<SideBar
+									// NotificationCount={chatsUpdates?.notificationCount||0}
+									className="sidebar" />
 									<Announcements />
 								</div>
 								<main>
