@@ -7,6 +7,11 @@ import usePostRequest from "./PostChat";
 // import { listenForUpdates, stopListening } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
+import { useLocation } from "react-router-dom";
+import { every, isEqual } from 'lodash';
+import OnlineStatus from "./OnlineStatus";
+import { update } from 'firebase/database';
+
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl url:', apiBaseUrl)
@@ -43,6 +48,8 @@ function detectDayStatus(dateString) {
 }
 
 const ChatRoom = () => {
+	const onlineList = useRef([]);
+	const location = useLocation().pathname.split('/')[1]
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	// const [messages, setMessages] = useState([
 	// 	{ sender: "John", avatar: "https://i.pravatar.cc/40?u=John", content: "Hey there!" },
@@ -50,7 +57,10 @@ const ChatRoom = () => {
 	// ]);
 	const oldID = useRef(null)
 	const firebaseNotificationKey = useRef(null)
-	const { chatNotifications:fromContext, deleteNotification, listenForUpdates, stopListening } = useChatNotification();
+	const { chatNotifications:fromContext, deleteNotification,
+		listenForUpdates, stopListening, isOnline, observer,
+		// listenForPresence,
+		updatePresence, presenceData } = useChatNotification();
 	const [chatNotification, setChatNotification] = useState(null);
 	const [messages, setMessages] = useState(null);
 	const [isHovered, setIsHovered] = useState(null);
@@ -61,23 +71,33 @@ const ChatRoom = () => {
 	const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
 	const { authData } = useContext(AuthContext)
+	const [currentMessage, setCurrentMessage] = useState("");
 	// const { useGetDataAPI, usePostDataAPI,
 	// 	usePatchDataAPI, useDeleteDataAPI } = useContext(FetchContext)
 	// const { getData:getChatData, getLoading:getChatLoading, getError:getChatError } = useGetDataAPI(
-	// 	`chat-user/${currentChatID}/${authData.id}/`, getTrigger
-	// );
+	// const prevData = useRef(presenceData)
+	useEffect(() => {
+		// updatePresence(authData.id, 'online')
+		// listenForPresence()
+		if (currentMessage.trim()) {updatePresence(authData.id, 'typing')}
+		else if (!currentMessage.trim()) {updatePresence(authData.id, 'online')}
+		return () => {
+			// if (location!=='chatroom') {
+				updatePresence(authData.id, 'offline')}
+			// }
+	}, [currentMessage])
 	const getChatData = usePullCompleteList(
 		`chat-user/${currentChatID.current}`, `${authData.id}`,
 		'chats', getTrigger, authData.role, authData.region.name
 	)
-	console.log('getChatData.arrayData:', getChatData.arrayData)
-	console.log(
-		'\nbefore:',
-		'\ncurrentChatID:', currentChatID.current,
-		'\nauthData.id:', authData.id,
-		'\npostTrigger:', postTrigger,
-		'\nurl:', `chat-user/${currentChatID.current}/${authData.id}/`,
-	)
+	// console.log('getChatData.arrayData:', getChatData.arrayData)
+	// console.log(
+	// 	'\nbefore:',
+	// 	'\ncurrentChatID:', currentChatID.current,
+	// 	'\nauthData.id:', authData.id,
+	// 	'\npostTrigger:', postTrigger,
+	// 	'\nurl:', `chat-user/${currentChatID.current}/${authData.id}/`,
+	// )
 	if (!currentChatID.current) {getCurrentContactID(currentChatID)}
 	// const { postData:, postLoading:, postError: } = usePostDataAPI(
 	// 	`chat-user/${currentChatID.current}/${authData.id}/`,
@@ -86,15 +106,14 @@ const ChatRoom = () => {
 	const { postData:postChatData, postError:postChatError, postLoading:postChatLoading } = usePostRequest({
 		currentChatID, authData, formData, postTrigger,
 	});
-	console.log(
-		'\nafter:',
-		'\ncurrentChatID:', currentChatID.current,
-		'\nauthData.id:', authData.id,
-		'\npostTrigger:', postTrigger,
-		'\nurl:', `chat-user/${currentChatID.current}/${authData.id}/`,
-	)
+	// console.log(
+	// 	'\nafter:',
+	// 	'\ncurrentChatID:', currentChatID.current,
+	// 	'\nauthData.id:', authData.id,
+	// 	'\npostTrigger:', postTrigger,
+	// 	'\nurl:', `chat-user/${currentChatID.current}/${authData.id}/`,
+	// )
 	// State to hold messages and the current input
-	const [currentMessage, setCurrentMessage] = useState("");
 	const everyone = usePullCompleteList(
 		`all-users`, 0, 'everyone',
 		everyoneTrigger, authData.role, authData.region.name
@@ -105,28 +124,28 @@ const ChatRoom = () => {
 		}
 	}, [])
 	const setChatID = (id) => {
-		console.log({id})
+		// console.log({id})
 		// setCurrentChatID(id);
 		getCurrentContactID(currentChatID)
 		// `chat-notifications/${receiverID}/${notificationKey}/sendersList/${sendersID}`);
-		console.log(
-			'\nreceierID:', authData.id,
-			'\nsendersID:', oldID.current,
-			'\nfirebaseKey:', firebaseNotificationKey.current,
-		)
+		// console.log(
+		// 	'\nreceierID:', authData.id,
+		// 	'\nsendersID:', oldID.current,
+		// 	'\nfirebaseKey:', firebaseNotificationKey.current,
+		// )
 		deleteNotification(authData.id, oldID.current, firebaseNotificationKey.current)
 		// currentChatID.current = id
 		setGetTrigger(true);
-		console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
+		// console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
 	}
 	useEffect(() => {
 		const one = '\n11111111111111111111111111111111'
 		// const two = '\n22222222222222222222222222222222'
 		// const three = '\n333333333333333333333333333333333'
 		if (getChatData.arrayData) {
-			console.log(one.repeat(5))
+			// console.log(one.repeat(5))
 			setMessages(getChatData.arrayData)
-			console.log('getChatData.arrayData:', getChatData.arrayData)
+			// console.log('getChatData.arrayData:', getChatData.arrayData)
 			setGetTrigger(false);
 		}
 		if (everyone.arrayData && everyoneTrigger) {
@@ -138,65 +157,75 @@ const ChatRoom = () => {
 		'\neveryone.arrayData:', everyone.arrayData,
 		'\neveryone.arrayLoading:', everyone.arrayLoading,
 		'\neveryone.arrayError:', everyone.arrayError,
-		'\ngetTrigger:', getTrigger,
-		'\npostTrigger:', postTrigger,
-		'\npostChatData:', postChatData,
-		'\ngetChatData.arrayData:', getChatData.arrayData,
-		'\ngetChatData.arrayLoading:', getChatData.arrayLoading,
-		'\ngetChatData.arrayError:', getChatData.arrayError,
+	// 	'\ngetTrigger:', getTrigger,
+	// 	'\npostTrigger:', postTrigger,
+	// 	'\npostChatData:', postChatData,
+	// 	'\ngetChatData.arrayData:', getChatData.arrayData,
+	// 	'\ngetChatData.arrayLoading:', getChatData.arrayLoading,
+	// 	'\ngetChatData.arrayError:', getChatData.arrayError,
 	)
+	
 	// 12345
 	useEffect(() => {
-		console.log({postChatData}, {postTrigger})
+		// console.log({postChatData}, {postTrigger})
 		if (postChatData || postChatError) {
 			const yyy = '\nyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy'
-			console.log(yyy.repeat(8))
+			// console.log(yyy.repeat(8))
 			setPostTrigger(() => {
-				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
+				// console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
 				return false
 			});
 			setCurrentMessage("");
 			setFormData(new FormData());
 			if (postChatData) {
 				const sss = '\nsssssssssssssssssssssssssssssssssssssss'
-				console.log(sss.repeat(6))
-				console.log('postchat data:', postChatData)
-				console.log(sss.repeat(6))
+				// console.log(sss.repeat(6))
+				// console.log('postchat data:', postChatData)
+				// console.log(sss.repeat(6))
 				// setMessages(prev => [...prev, postChatData])
 				setGetTrigger(true)
-			} else console.log(postChatError)
+			}
+			// else console.log(postChatError)
         }
     }, [postTrigger, postChatData, postChatLoading, postChatError])
 
 	// Function to handle sending messages
 	const handleSendMessage = (e) => {
 		e.preventDefault();
-		console.log('handleSendMessage() triggered');
+		// console.log('handleSendMessage() triggered');
 		if (currentMessage.trim()) {
-			console.log('currentMessage:', currentMessage.trim())
+			// console.log('currentMessage:', currentMessage.trim())
 			const newFormData = new FormData();
 			newFormData.append("currentUser", authData.email);
 			newFormData.append("message", `${authData.username}=${currentMessage}`);
 			setPostTrigger(true);
 			setFormData(newFormData);
-			console.log({postTrigger})
+			// console.log({postTrigger})
 			// ¬`!1"£$%^&&*())_-0+={}][:;@'~#<,>.?/]
 		}
 	};
+
+	const handleTyping = (e) => {
+		const value = e.target.value
+		if (value.trim()) {
+			// updatePresence(authData.id, 'typing')
+		}
+		setCurrentMessage(value)
+	}
 	// all-users/
 	
-	console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
-	console.log({messages})
-	console.log('postchat data:', postChatData)
+	// console.log('url:', `chat-user/${currentChatID.current}/${authData.id}/`)
+	// console.log({messages})
+	// console.log('postchat data:', postChatData)
 	const chatStore = localStorage.getItem('chatID')
 	const currentBuddy = everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name
 	const chatroomHeader = currentBuddy||'Chat Room'
-	console.log(
-		'\n!currentMessage.trim()', !currentMessage.trim(),
-		'\npostChatLoading:', postChatLoading,
-	)
+	// console.log(
+	// 	'\n!currentMessage.trim()', !currentMessage.trim(),
+	// 	'\npostChatLoading:', postChatLoading,
+	// )
 	const disableButton = !currentMessage.trim()||postChatLoading
-	console.log('getChatData.arrayData:', getChatData.arrayData)
+	// console.log('getChatData.arrayData:', getChatData.arrayData)
 
 	// pollination for realtime chats
 	useEffect(() => {
@@ -211,13 +240,13 @@ const ChatRoom = () => {
 	const firebaseChatValue = useRef(null) // delete afterwards
 	useEffect(() => {
 		// const receiverID = 7
-		console.log('\nreceiverIDreceiverIDreceiverIDreceiverID'.repeat(5))
+		// console.log('\nreceiverIDreceiverIDreceiverIDreceiverID'.repeat(5))
 
 		// Start listening for updates
 		listenForUpdates(authData?.id, (data) => {
-			console.log('\ndata.firebaseChatKey:', data?.firebaseChatKey);
-			console.log('\ndata.firebaseChatValue:', data?.firebaseChatValue);
-			console.log('\ndata.firebaseChatValue.notificationCount:', data?.firebaseChatValue?.notificationCount);
+			// console.log('\ndata.firebaseChatKey:', data?.firebaseChatKey);
+			// console.log('\ndata.firebaseChatValue:', data?.firebaseChatValue);
+			// console.log('\ndata.firebaseChatValue.notificationCount:', data?.firebaseChatValue?.notificationCount);
 			const chatNotificationObjects = {
 				values: data?.firebaseChatValue?.sendersList,
 				idList: Object.keys(data?.firebaseChatValue?.sendersList||{}).map(num => Number(num))
@@ -235,25 +264,52 @@ const ChatRoom = () => {
 	if (!disableButton) {
 		deleteNotification(authData.id, oldID.current, firebaseNotificationKey.current)
 	}
-	console.log('chatNotification:'.repeat(5), chatNotification)
-	console.log({apiBaseUrl})
-	console.log(
-		'\nfirebaseChatValue.current:', firebaseChatValue.current,
-		'\nauthData.id:', authData.id,
-		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
-	)
-	console.log(
-		'\nreceierID:', authData.id,
-		'\nsendersID:', oldID.current,
-		'\nfirebaseKey:', firebaseNotificationKey.current,
-	)
-	console.log(
-		'\nmessages:', messages?.length,
-		'\ngetChatData:', getChatData?.arrayData,
+	// console.log('chatNotification:'.repeat(5), chatNotification)
+	// console.log({apiBaseUrl})
+	// console.log(
+	// 	'\nfirebaseChatValue.current:', firebaseChatValue.current,
+	// 	'\nauthData.id:', authData.id,
+	// 	'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
+	// )
+	// console.log(
+	// 	'\nreceierID:', authData.id,
+	// 	'\nsendersID:', oldID.current,
+	// 	'\nfirebaseKey:', firebaseNotificationKey.current,
+	// )
+	// console.log(
+	// 	'\nmessages:', messages?.length,
+	// 	'\ngetChatData:', getChatData?.arrayData,
 
-	)
-	console.log({fromContext})
-	// const notiNum = 7
+	// )
+	// console.log({fromContext})
+	// console.log({presenceData}, {location})
+	// console.log('deep eq:', (!isEqual(presenceData, prevData.current)))
+	console.log({isOnline})
+	const timeInterval = (apiBaseUrl==='http://127.0.0.1:8000'||apiBaseUrl==='localhost:8000')?100000:3500
+	// const timeInterval = 3500000000
+	useEffect(() => {
+		const update = setInterval(() => {
+			onlineList.current = []; // Reset before observing
+			everyone?.arrayData?.forEach?.((item) => {
+				observer(item.id, (status) => {
+					console.log("Received observation status:", status);
+					if (status === 'online' || status === 'typing') {
+						if (!onlineList.current.includes(item.id)) {
+							onlineList.current.push(item.id);
+						}
+					}
+				});
+			});
+			console.log({ onlineList: onlineList.current }); // Log inside the interval
+		}, timeInterval);
+
+		return () => {
+			onlineList.current = []; // Cleanup on unmount
+			clearInterval(update);
+		};
+	}, [everyone?.arrayData]);
+
+	console.log({onlineList})
 	return (
 		// grid container
 		<div style={styles.boxContainer}>
@@ -261,42 +317,36 @@ const ChatRoom = () => {
 			<div style={{...styles.chatContainer, border: "1px solid #ccc", backgroundColor: "#E5E5E5",}}>
 				{/* Chat Header */}
 				<div style={{...styles.chatHeader, backgroundColor: "#3e3e9762",}}>
-					{console.log(
-						'\nmessages in jsx:', messages,
-						'\nmessages.find in jsx:', messages?.find?.(name=>name),
-					)}
 					<h3 style={{margin: '0'}}>{toSentenceCase(chatroomHeader)}</h3>
 				</div>
 
 				{/* Chat Messages Area */}
 				{<div style={styles.chatMessages}>
 					{/* typing status */}
-					{/* <div style={styles.typingStatus}>
-                        <strong>User 1</strong> is typing...
-                    </div> */}
+					<OnlineStatus id={chatStore} currentBuddy={currentBuddy} typing={true}/>
 					{messages?.map?.((message, index) => {
-						console.log('message:', message)
+						// console.log('message:', message)
 						let [isUsername, isMessage] = message?.message?.split?.('=')||[null, null]
 						let when = message.timestamp
 						// console.log({when})
 						when = detectDayStatus(when)
-						console.log({when})
+						// console.log({when})
 						isUsername = isUsername === authData?.username
 						const xxx = '\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-						console.log(
-							xxx.repeat(5),
-                            '\nmessage in jsx:', message,
-                            // '\nmessage.sender in jsx:', message?.sender,
-                        )
+						// console.log(
+						// 	xxx.repeat(5),
+                        //     '\nmessage in jsx:', message,
+                        //     // '\nmessage.sender in jsx:', message?.sender,
+                        // )
 						const newMessageMarke = chatNotification?.values?.[currentChatID.current]?.notificationCount
 						return (
 							<>
-							{console.log(
+							{/* {console.log(
 								'\nid in noti:', chatNotification?.idList?.includes?.(currentChatID.current),
 								'\nchatNotification:', chatNotification,
 								'\ncontact id:',
 								'\nmessage:', message?.message, 'index', index
-								)}
+								)} */}
 								{/* new message bar (in chats) */}
 								{/* {index===newMessageMarke?<span style={styles.newMessage}>New Chats</span>:null} */}
 								<div
@@ -353,7 +403,7 @@ const ChatRoom = () => {
 						type="text"
 						placeholder="Type your message..."
 						value={currentMessage}
-						onChange={(e) => setCurrentMessage(e.target.value)}
+						onChange={(e) => handleTyping(e)}
 						style={styles.inputField}
 						// disabled={chatroomHeader==='Chat Room'}
 						/>
@@ -387,8 +437,8 @@ const ChatRoom = () => {
 				<div style={styles.chatBoxArea}>
 					{everyone?.arrayData
 					?.sort?.((a, b) => {
-						if (chatNotification?.idList?.includes(a.id)) return -1;
-						// // If b.id matches chatNotification.senderID, it should come first
+						// if (chatNotification?.idList?.includes(a.id)) return -1;
+						if (onlineList.current?.includes(a.id)) return -1
 						// if (a.id !== chatNotification?.senderID && b.id === chatNotification?.senderID) return 1;
 						return 0; // If both or neither match, maintain original order
 					})
@@ -429,10 +479,10 @@ const ChatRoom = () => {
 								<strong style={{whiteSpace: 'pre'}}> {toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
 
 								{/* notification dot alert */}
-								<span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span>
+								{/* <span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span> */}
 
 								{/* online status */}
-								{/* <span> </span><span style={styles.online}>online</span> */}
+								<OnlineStatus id={avatar.id} />
 							</div>
 						</div>
 					</div>
