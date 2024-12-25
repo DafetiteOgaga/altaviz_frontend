@@ -319,7 +319,7 @@ function HumanResource() {
 							{...activeStyles} :
 							{}}
 					onClick={toggleRequestList}>
-						Requests with Faults
+						Faults with Requests
 					</h5>
 					{/* search button and form */}
 					<h5
