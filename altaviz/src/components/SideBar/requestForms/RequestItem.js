@@ -99,7 +99,7 @@ function updateFaults(packaged) {
 
 function RequestItem({itemName, vKey=null, requestProps=null}) {
 	console.log(
-		'itemName:', itemName,
+		'\nitemName:', itemName,
         '\nrequestProps:', requestProps,
         '\nvKey:', vKey,
 	)
@@ -442,7 +442,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 						<div>
 							<button
 								type="button"
-								onClick={() => {
+								onClick={(e) => {
 									removeFieldSet(index);
 									decrementAddMoreButtonCount();
 								}}
@@ -494,8 +494,8 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					tabIndex="0"
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') {
-							e.preventDefault();  // Prevents default form submission behavior
-							handleSubmit();  // Calls your form submission function
+							// e.preventDefault();  // Prevents default form submission behavior
+							handleSubmit(e);  // Calls your form submission function
 						}
 					}}
 					disabled={postLoading}>
@@ -509,7 +509,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 				{(formIndex < 4) &&
 					<MainButton
 					type="button"
-					onClick={() => {
+					onClick={(e) => {
 						addFieldSet();
 						incrementAddMoreButtonCount();
 					}}>
