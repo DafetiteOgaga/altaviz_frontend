@@ -1,4 +1,5 @@
-// import { listenForUpdates } from "./context/RealTimeNotificationContext/useChatsNotification";
+import OnlineStatus from "./SideBar/chatsSetup/OnlineStatus";
+
 function Testfetchapi() {
 	// listenForUpdates(7)
 	// const { authData } = useContext(AuthContext);
@@ -6,7 +7,7 @@ function Testfetchapi() {
 	return (
 		<>
 			<h2>Test Page</h2>
-			{/* <SSENotification /> */}
+			<OnlineStatus id={5} />
 			<p>Test Page ends</p>
 		</>
 	);

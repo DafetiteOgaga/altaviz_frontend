@@ -79,8 +79,8 @@ function User () {
 						<h4>Middle Name: {toSentenceCase(userDataToState.middle_name)}</h4>
 						<h4>Last Name: {toSentenceCase(userDataToState.last_name)}</h4>
 						<h4>Username: {toSentenceCase(userDataToState.username)}</h4>
-						<h4>Phone: {separateChars(userDataToState.phone)}</h4>
-						<h4>Whatsapp: {separateChars(userDataToState.wphone)}</h4>
+						<h4>Phone: +234 {separateChars(userDataToState.phone)}</h4>
+						<h4>Whatsapp: +234 {separateChars(userDataToState.wphone)}</h4>
 						<h4>Email: {userDataToState.email}</h4>
 						<h4>Role: {toSentenceCase(userDataToState.role)}</h4>
 						<h4>Location: {toSentenceCase(userDataToState.location.location)}</h4>

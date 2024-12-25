@@ -19,16 +19,6 @@ function Engineer() {
 		justifyContent: 'space-around',
 		padding: '1rem 0'
 	}
-	// const isReload = !!localStorage.getItem('reload')
-	// useEffect(() => {
-	// 	if (isReload) {
-	// 		setNewData(prev => {
-	// 			console.log('refreshing FaultListDisplay i.e setting', prev, 'to', !prev)
-	// 			return !prev
-	// 		})
-	// 		localStorage.removeItem('reload')
-	// 	}
-	// }, [isReload])
 	return (
 		<>
 			<div className="background-color custodian-page">

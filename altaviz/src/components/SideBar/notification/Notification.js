@@ -33,7 +33,6 @@ function Notification ({
 	detailPageUrl,
 	button,
 	secondButton,
-	// extraDisplayLocalKeys,
 	refreshComponent,
 }) {
 	// const { useGetDataAPI } = useContext(FetchContext);
@@ -60,7 +59,6 @@ function Notification ({
 				{(notification?.arrayLoading&&(!notification?.arrayData&&!notification.arrayError)) ?
 				// if loading ...
 				(<Paragraph style={{
-					// padding: '1rem',
 					color: '#B5B5BD',
 					// fontSize: '1.2rem',
 					textAlign: 'center',

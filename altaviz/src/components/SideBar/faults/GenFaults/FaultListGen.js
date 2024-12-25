@@ -1,4 +1,4 @@
-import "../../sidebar_pages.css"
+import "./sidebar_pages.css"
 import { useContext } from "react";
 // import usePaginationWithEncryption from "../../../paginationComp/usePaginationWithEncryption";
 import FaultBarGen from './FaultBarGen';
@@ -102,12 +102,11 @@ function FaultListGen () {
 					<FaultBarGen allFaults={allFaults} page={faults.pageNum} total={type?faults.arrayData.length:`${engineer}'s`} />
 
 					{/* frontend pagination/navigation buttons */}
-					<div style={{
+					<div className="custodian-page button" style={{
 							display: 'flex',
 							justifyContent: 'center',
 							gap: '1rem',
 							paddingBottom: '1.5rem',
-							fontSize: '1.1rem',
 							backgroundColor: '#E5E5E5',
 							}}>
 						{(faults.arrayData && faults.pageNum > 1) && (
@@ -116,7 +115,8 @@ function FaultListGen () {
 							</button>
 						)}
 						{(faults.arrayData && faults.pageNum > 0 && faults.pageNum < faults.theTotalPage) && (
-							<button onClick={() => {
+							<button style={{fontSize: '1.1rem',}}
+							onClick={() => {
 								// faults.handleNextPage();
 								faults.setPageNum(faults.pageNum + 1);
 								}}>

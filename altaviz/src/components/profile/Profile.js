@@ -54,8 +54,8 @@ function Profile () {
 							<h4>Middle Name: {toSentenceCase(authData.middle_name)}</h4>
 							<h4>Last Name: {toSentenceCase(authData.last_name)}</h4>
 							<h4>Username: {toSentenceCase(authData.username)}</h4>
-							<h4>Phone: {separateChars(authData.phone)}</h4>
-							<h4>Whatsapp: {separateChars(authData.wphone)}</h4>
+							<h4>Phone: +234 {separateChars(authData.phone)}</h4>
+							<h4>Whatsapp: +234 {separateChars(authData.wphone)}</h4>
 							<h4>Email: {authData.email}</h4>
 							<h4>Role: {toSentenceCase(authData.role)}</h4>
 							<h4>Location: {toSentenceCase(authData.location.location)}</h4>
