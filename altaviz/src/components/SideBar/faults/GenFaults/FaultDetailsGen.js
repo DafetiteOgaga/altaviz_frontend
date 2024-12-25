@@ -561,7 +561,6 @@ function FaultDetailsGen({searchFaults}) {
 	// const { decrypt, RotCipher } = useContext(RotContext);
 	if (storedData) {
 		storedData = JSON.parse(RotCipher(storedData, decrypt))
-		// console.log('\nstoredData:', storedData,)
 	}
 
 	const requestItemsObj = {
