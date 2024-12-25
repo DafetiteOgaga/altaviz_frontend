@@ -9,8 +9,11 @@ import useSilentUpdate from './components/context/RealTimeNotificationContext/Si
 import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import useDeviceType from './components/deviceType/DeviceType';
 import altaviz from './logo/altaviz_logo.png';
+// import { useChatNotification } from './components/context/RealTimeNotificationContext/useChatsNotification';
 
 function App() {
+	// const { createNotification } = useChatNotification();
+	// createNotification('online', 'IT FUCKING WORKED again!!!')
 	const deviceType = useDeviceType()
 	console.log({deviceType})
 	const { data:firebaseNotification } = useFirebase()
@@ -19,29 +22,6 @@ function App() {
 	const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 	console.log('\napiBaseUrl url:', apiBaseUrl)
 	console.log({deviceType})
-	const mAndTstyle = {
-		mainContainer: {
-			height: '100vh',
-			backgroundColor: 'lightgray',
-			padding: '0 30px',
-			paddingTop: '80px',
-		},
-		mobileAndTabNotReady: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			color: 'black',
-			textAlign: 'center',  // Center text horizontally
-			padding: '30px 0',      // Add some padding to prevent text from touching the box edges
-			paddingTop: '70px',
-			boxSizing: 'border-box',
-			flexDirection: 'column',
-		},
-		h: {
-			marginTop: '0',
-			marginBottom: '30px'
-		}
-	}
 	// console.log('chatsUpdates?.notificationCount:', chatsUpdates?.notificationCount)
 	return (
 		<>
@@ -83,3 +63,27 @@ function App() {
 }
 
 export default App;
+
+const mAndTstyle = {
+	mainContainer: {
+		height: '100vh',
+		backgroundColor: 'lightgray',
+		padding: '0 30px',
+		paddingTop: '80px',
+	},
+	mobileAndTabNotReady: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		color: 'black',
+		textAlign: 'center',  // Center text horizontally
+		padding: '30px 0',      // Add some padding to prevent text from touching the box edges
+		paddingTop: '70px',
+		boxSizing: 'border-box',
+		flexDirection: 'column',
+	},
+	h: {
+		marginTop: '0',
+		marginBottom: '30px'
+	}
+}
