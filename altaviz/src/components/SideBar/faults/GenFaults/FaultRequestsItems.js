@@ -28,6 +28,7 @@ function FaIcon ({iconParameters, icon, btnState, color}) {
 				iconParameters.requestItemsObj.setRequeste(`${btnState}-${iconParameters.type}`)
 				iconParameters.requestItemsObj.setItemId(iconParameters.request?.id);
 				iconParameters.requestItemsObj.handleClick(e, {type: {id: iconParameters.request?.id, button: `${btnState.slice(0, -1)}`, typeOfRequest: `${iconParameters.type}`}})
+				// setRefresh(prev => !prev)
 			}}
 			title={`${toSentenceCase(btnState.slice(0, -1))} ${toSentenceCase(iconParameters.request.name.name)} Request`}
 			/>}
@@ -42,6 +43,7 @@ function FaIcon ({iconParameters, icon, btnState, color}) {
 				iconParameters.requestItemsObj.setRequeste(`${btnState==='rejected'?btnState:'request'}-${iconParameters.type}`)
 				iconParameters.requestItemsObj.setItemId(iconParameters.request?.id);
 				iconParameters.requestItemsObj.handleClick(e, {type: {id: iconParameters.request?.id, button: `${btnState==='rejected'?btnState.slice(0, -2):'withdraw'}`, typeOfRequest: `${iconParameters.type}`}})
+				// setRefresh(prev => !prev)
 			}}
 			title={`${btnState==='rejected'?toSentenceCase(btnState.slice(0, -2)):'Delete'} ${toSentenceCase(iconParameters.request.name.name)} Request`}
 			/>}
@@ -53,8 +55,10 @@ function FaultRequestsItem ({
 	requestItemsObj,
 	type, searchedData
 }) {
+	// const [refresh, setRefresh] = useState(false)
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
+		// '\nrefresh:', refresh,
 		// '\nrequestItemsObj.updateCompLocalStorage.isDone:', requestItemsObj.updateCompLocalStorage.isDone,
 		// '\nrequestItemsObj.role:', requestItemsObj.role,
 		// '\nrequest:', request,
@@ -74,6 +78,9 @@ function FaultRequestsItem ({
 		requestItemsObj: requestItemsObj,
 		type: type
 	}
+	// useEffect(() => {
+	// 	return () => {console.log('Component unmounted or cleanup triggered')}
+	// }, [refresh])
 	// const iconStyles = {
 	// 	cursor: 'pointer',
 	// 	padding: '0 0.20rem',
@@ -113,12 +120,14 @@ function FaultRequestsItem ({
 					icon='check'
 					btnState='approved'
 					color={{color: 'green'}}
+					// setRefresh={setRefresh}
 					/>
 					<FaIcon
 					iconParameters={iconParameters}
 					icon='times'
 					btnState='rejected'
 					color={{color: 'red'}}
+					// setRefresh={setRefresh}
 					/>
 				</>}
 
@@ -131,6 +140,7 @@ function FaultRequestsItem ({
 					icon='times'
 					btnState='request'
 					color={{}}
+					// setRefresh={setRefresh}
 					/>
 				)}
 				{/* link to the current request */}
