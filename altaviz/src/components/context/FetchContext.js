@@ -15,7 +15,7 @@ export const FetchProviders = ({ children }) => {
 		const [getError, setGetError] = useState(null);
 
 		// Reference for debounce timer
-		const debounceTimer = useRef(null);
+		const getDebounceTimer = useRef(null);
 
 		useEffect(() => {
 			const fetchData = async () => {
@@ -47,29 +47,27 @@ export const FetchProviders = ({ children }) => {
 				// console.log(`localKey: ${key}`) //, Value: ${value}`);
 			}
 			const pageNameIs = url.split('127.0.0.1:8000')[1]
-			// Reference for debounce timer
-			// const debounceTimer = useRef(null);
 			if (trigger) {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
-				}
+				// if (debounceTimer.current) {
+				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				// }
 	
 				// Apply debounce delay before calling fetchData
-				debounceTimer.current = setTimeout(() => {
+				getDebounceTimer.current = setTimeout(() => {
 					console.log("Fetching data for:", pageNameIs); // Optional debug log
 					fetchData();
-				}, 200); // 300ms debounce delay
+				}, 500); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
 	
-			// Cleanup: Clear the timer on component unmount or dependency change
-			return () => {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current);
-				}
-			};
+			// // Cleanup: Clear the timer on component unmount or dependency change
+			// return () => {
+			// 	if (getDebounceTimer.current) {
+			// 		clearTimeout(getDebounceTimer.current);
+			// 	}
+			// };
 		}, [url, trigger]);
 		return { getData, getLoading, getError };
 	}
@@ -80,7 +78,7 @@ export const FetchProviders = ({ children }) => {
 		const [postLoading, setPostLoading] = useState(false);
 		const [postError, setPostError] = useState(null);
 		// Reference for debounce timer
-		const debounceTimer = useRef(null);
+		const postDebounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Post trigger is false. POST call not executed.');
@@ -134,7 +132,7 @@ export const FetchProviders = ({ children }) => {
 											redirectTo("/success");
 											const timer = setTimeout(() => {
 												redirectTo(redirectToPage);
-											}, 1000);
+											}, 700);
 											return () => clearTimeout(timer);
 										}
 									} else {
@@ -156,7 +154,7 @@ export const FetchProviders = ({ children }) => {
 								redirectTo("/success");
 								const timer = setTimeout(() => {
 									redirectTo(redirectToPage);
-								}, 1000);
+								}, 700);
 								return () => clearTimeout(timer);
 							}
 						} else {
@@ -173,25 +171,25 @@ export const FetchProviders = ({ children }) => {
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
 			if (trigger) {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
-				}
+				// if (debounceTimer.current) {
+				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				// }
 
 				// Apply debounce delay before calling fetchData
-				debounceTimer.current = setTimeout(() => {
+				postDebounceTimer.current = setTimeout(() => {
 					postData();
-				}, 300); // 300ms debounce delay
+				}, 500); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
 
 			// Cleanup: Clear the timer on component unmount or dependency change
-			return () => {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current);
-				}
-			};
+			// return () => {
+			// 	if (postDebounceTimer.current) {
+			// 		clearTimeout(postDebounceTimer.current);
+			// 	}
+			// };
 		// }, [trigger, url, formData, redirectToPage]);
 		}, [trigger, url]);
 
@@ -208,7 +206,7 @@ export const FetchProviders = ({ children }) => {
 		const [putLoading, setPutLoading] = useState(false);
 		const [putError, setPutError] = useState(null);
 		// Reference for debounce timer
-		const debounceTimer = useRef(null);
+		const putDebounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Put trigger is false. PUT call not executed.');
@@ -240,7 +238,7 @@ export const FetchProviders = ({ children }) => {
 								redirectTo("/success");
 								const timer = setTimeout(() => {
 									redirectTo(redirectToPage);
-								}, 1000);
+								}, 700);
 								return () => clearTimeout(timer);
 							}
 						} else {
@@ -256,25 +254,25 @@ export const FetchProviders = ({ children }) => {
 			};
 			// Reference for debounce timer
 			if (trigger) {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
-				}
+				// if (debounceTimer.current) {
+				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				// }
 
 				// Apply debounce delay before calling fetchData
-				debounceTimer.current = setTimeout(() => {
+				putDebounceTimer.current = setTimeout(() => {
 					putData();
-				}, 300); // 300ms debounce delay
+				}, 500); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
 
-			// Cleanup: Clear the timer on component unmount or dependency change
-			return () => {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current);
-				}
-			};
+			// // Cleanup: Clear the timer on component unmount or dependency change
+			// return () => {
+			// 	if (putDebounceTimer.current) {
+			// 		clearTimeout(putDebounceTimer.current);
+			// 	}
+			// };
 		// }, [trigger, url, formData, redirectToPage]);
 		}, [trigger, url]);
 
@@ -291,7 +289,7 @@ export const FetchProviders = ({ children }) => {
 		const [patchLoading, setPatchLoading] = useState(false);
 		const [patchError, setPatchError] = useState(null);
 		// Reference for debounce timer
-		const debounceTimer = useRef(null);
+		const patchDebounceTimer = useRef(null);
 		useEffect(() => {
 			if (!trigger) {
 				// console.log('Patch trigger is false. PATCH call not executed.');
@@ -330,7 +328,7 @@ export const FetchProviders = ({ children }) => {
 								redirectTo("/success");
 								const timer = setTimeout(() => {
 									redirectTo(redirectToPage);
-								}, 1000);
+								}, 700);
 								return () => clearTimeout(timer);
 							}
 						} else {
@@ -347,25 +345,25 @@ export const FetchProviders = ({ children }) => {
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
 			if (trigger) {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
-				}
+				// if (debounceTimer.current) {
+				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				// }
 
 				// Apply debounce delay before calling fetchData
-				debounceTimer.current = setTimeout(() => {
+				patchDebounceTimer.current = setTimeout(() => {
 					patchData();
-				}, 2); // 300ms debounce delay
+				}, 500); // 300ms debounce delay
 			} else {
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
 
-			// Cleanup: Clear the timer on component unmount or dependency change
-			return () => {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current);
-				}
-			};
+			// // Cleanup: Clear the timer on component unmount or dependency change
+			// return () => {
+			// 	if (patchDebounceTimer.current) {
+			// 		clearTimeout(patchDebounceTimer.current);
+			// 	}
+			// };
 		}, [trigger, url]);
 	
 		return { patchData, patchLoading, patchError };
@@ -377,72 +375,92 @@ export const FetchProviders = ({ children }) => {
 		const [deleteLoading, setDeleteLoading] = useState(false);
 		const [deleteError, setDeleteError] = useState(null);
 		// Reference for debounce timer
-		const debounceTimer = useRef(null);
+		const times = 25
+		console.log('0'.repeat(times))
+		const deleteDebounceTimer = useRef(null);
+		console.log({url})
 		useEffect(() => {
+			console.log(('0'+15).repeat(times))
 			if (!trigger) {
+				console.log(('0'+16).repeat(times))
 				// console.log('Delete trigger is false. DELETE call not executed.');
 				return;
 			}
 			// console.log('from delete api #####');
 			// console.log('url:', url);
-	
+			// const one = 1
 			const deleteData = async () => {
+				console.log(('0'+17).repeat(times))
 				try {
+					console.log(('0'+1).repeat(times))
 					if (checkNull(url)) {
+						console.log(('0'+2).repeat(times))
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
+						console.log(('0'+3).repeat(times))
 						setDeleteLoading(true);
 						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "DELETE",
 						});
 						// console.log('response ok:', response.ok)
 						if (response.ok) {
+							console.log(('0'+4).repeat(times))
 							const responseData = await response.json();
 							setDeleteData(responseData);
 							// console.log('DELETE response', responseData);
 		
 							if (redirectToPage) {
+								console.log(('0'+5).repeat(times))
 								// console.log('redirect to page:', redirectToPage)
 								redirectTo("/success");
 								const timer = setTimeout(() => {
+									console.log(('0'+6).repeat(times))
 									redirectTo(redirectToPage);
-								}, 1000);
+								}, 700);
 								return () => clearTimeout(timer);
 							}
 						} else {
+							console.log(('0'+7).repeat(times))
 							console.log(`Error DELETING data for ${url}: ${response.statusText}`);
 							throw new Error("Could not delete request.");
 						}
 					}
 				} catch (error) {
+					console.log(('0'+8).repeat(times))
 					setDeleteError(error.message);
 				} finally {
+					console.log(('0'+9).repeat(times))
 					setDeleteLoading(false);
 				}
 			};
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
 			if (trigger) {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current); // Clear any existing debounce timer
-				}
+				console.log(('0'+10).repeat(times))
+				// if (debounceTimer.current) {
+				// 	console.log(('0'+11).repeat(times))
+				// 	// clearTimeout(debounceTimer.current); // Clear any existing debounce timer
+				// }
 
 				// Apply debounce delay before calling fetchData
-				debounceTimer.current = setTimeout(() => {
+				deleteDebounceTimer.current = setTimeout(() => {
+					console.log(('0'+12).repeat(times))
 					deleteData();
-				}, 300); // 300ms debounce delay
+				}, 500); // 300ms debounce delay
+
+				// Cleanup: Clear the timer on component unmount or dependency change
+				// return () => {
+				// 	console.log(('0'+14).repeat(times))
+				// 	if (deleteDebounceTimer.current) {
+				// 		clearTimeout(deleteDebounceTimer.current);
+				// 	}
+				// };
 			} else {
+				console.log(('0'+13).repeat(times))
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}
-
-			// Cleanup: Clear the timer on component unmount or dependency change
-			return () => {
-				if (debounceTimer.current) {
-					clearTimeout(debounceTimer.current);
-				}
-			};
 		}, [trigger, url]);
 	
 		return { deleteData, deleteLoading, deleteError };
