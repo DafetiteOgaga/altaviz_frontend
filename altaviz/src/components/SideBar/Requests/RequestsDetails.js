@@ -1,24 +1,13 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import "../sidebar_pages.css"
-// import useForceDBPullWEncryption from "../../paginationComp/useForceDBPullWEncryption";
-// import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
+// import { useRefreshContext } from "../../context/RefreshContext";
 import { FetchContext } from "../../context/FetchContext";
 import FetchFromLocalStorageOrDB from "../../hooks/fetchFromLocalStorage";
 import { TimeDifferenceContext } from "../../context/timeDifference/TimeDifferenceContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
-// import { usey } from "../../context/RefreshContext";
-// import { RxFontStyle } from "react-icons/rx";
-// import { FetchContext } from "../../context/FetchContext";
-// import Supervisor from '../supervisor/Supervisor';
 import { RotContext } from "../../context/RotContext";
-
-// function removeKeys(keys) {
-// 	for (let i = 0; i < keys.length; i++) {
-// 		localStorage.removeItem(keys[i]);
-// 	}
-// }
 
 const getRequests = (localPendingFaults, id, requestType) => {
 	console.log(
@@ -39,6 +28,7 @@ const getRequests = (localPendingFaults, id, requestType) => {
 }
 
 function RequestsDetails() {
+	// const { handleRefresh } = useRefreshContext();
 	const action = useRef(null)
 	const { decrypt, RotCipher , encrypt} = useContext(RotContext);
 	const navigate = useNavigate();
@@ -60,7 +50,7 @@ function RequestsDetails() {
 	console.log(
 		'\nrequestParamDetails:', requestParamDetails,
 		'\nrequestParamDetailsID:', requestParamDetails.id,
-		'\nrequestType:', requestType
+		'\nrequestType:', requestType,
 	)
 	const requestSearch = localStorage.getItem('searchRequestData')
 	let allRequests;
@@ -141,7 +131,7 @@ function RequestsDetails() {
 		// return data.id === comparisonID && data.type === (location[2].split('-')[1]==='fixed'?`fixed-${requestType}`:requestType)
 		return data.id === comparisonID && data.type === ((dept==='human-resource'&&requestType==='part')?`fixed-${requestType}`:requestType)
 	})
-	console.log('\nrequestItem:', requestItem,)
+	console.log('\nrequestItem:', requestItem)
 	if (requestSearch) {
 		requestItem = allRequests.filter(request => (
 			request.id === comparisonID &&
@@ -177,7 +167,7 @@ function RequestsDetails() {
 		'\n',{deleteError},
 	)
 
-	const handleClick = (e, {type=null}) => {
+	const handleClick = (e, {type=null}={}) => {
 		e.preventDefault();
 		console.log('handleClick() triggered');
 		if (type) {
@@ -200,16 +190,14 @@ function RequestsDetails() {
 
 	useEffect(() => {
 		if (deleteData||deleteError||patchData||patchError) {
-			console.log('777777777777777777777777777777777777777777777')
-			console.log('777777777777777777777777777777777777777777777')
-			console.log('777777777777777777777777777777777777777777777')
-			console.log('777777777777777777777777777777777777777777777')
-			console.log('777777777777777777777777777777777777777777777')
+			const seven = '\n777777777777777777777777777777777777777777777'
+			console.log(seven.repeat(5))
 			if (deleteData||deleteError) {
 				setDeleteTrigger(() => {
 					console.log('setting deleteTrigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
+				// handleRefresh([allRequestsKey])
 			}
 			if (patchData||patchError) {
 				setPatchTrigger(() => {
