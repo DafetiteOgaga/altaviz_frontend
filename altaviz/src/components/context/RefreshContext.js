@@ -54,7 +54,7 @@ export const RefreshProvider = ({ children }) => {
     };
 
     function handleRefresh(localKey) {
-        if (localKey) {
+        if (!localKey) {
             setRefreshing(prev => {
                 console.log('Setting refreshing from ', prev, ' to ', !prev);
                 return true;
@@ -62,11 +62,6 @@ export const RefreshProvider = ({ children }) => {
         }
         // Check if localKey is an array and if it contains any item
         if (Array.isArray(localKey) && localKey.length > 0) {
-            setRefreshing((prev) => {
-                console.log('Setting refreshing from', prev, 'to', !prev);
-                return true;
-            });
-
             // Loop through each key in the array and remove it from localStorage
             for (let i = 0; i < localKey.length; i++) {
                 localStorage.removeItem(localKey[i]);
@@ -79,6 +74,10 @@ export const RefreshProvider = ({ children }) => {
         } else {
             console.log("No valid keys provided for refresh.".toUpperCase());
         }
+        setRefreshing((prev) => {
+            console.log('Setting refreshing from', prev, 'to', !prev);
+            return true;
+        });
     }
     function handleRefreshAll() {
         // navigate(`/${authData.role}`)
