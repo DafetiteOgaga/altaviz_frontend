@@ -113,7 +113,7 @@ function NotificationDropdownMenu({
 		console.log('\nbutton:', button)
 		// console.log('\nsecondButton:', secondButton)
 		if (button.toLowerCase() === 'withdraw') {
-			// console.log('\nbutton:', button)
+			console.log({button, id, deleteUrl, deleteTrigger})
 			setDeleteTrigger(true);
 		} else if (button.toLowerCase() === 'confirm') {
 			// console.log('\nbutton:', button)
@@ -155,16 +155,22 @@ function NotificationDropdownMenu({
 			setFormData(newFormData)
 			setPatchTrigger(true);
 		}
-		// console.log('\nTRIGGERED set to true');
+		console.log('\nTRIGGERED set to true');
     };
 
 	// response data and error useeffect
 	useEffect(() => {
-		if (checkResponseData || checkResponseError) {
-			// if (!extraDisplayLocalKeys) extraDisplayLocalKeys = [];
+		const one = '\noneoneoneoneoneoneoneoneoneoneoneone'
+		if (checkResponseData.length || checkResponseError.length) {
+			console.log({checkResponseData, checkResponseError})
+			const respData = checkResponseData?.find?.(data => data)
+			const respError = checkResponseError?.find?.(error => error)
+			console.log({respData, respError})
 			if (deleteTrigger) {
+				console.log(one.repeat(6))
+				console.log({deleteTrigger})
 				setDeleteTrigger(() => {
-					// console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
+					console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
 				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
