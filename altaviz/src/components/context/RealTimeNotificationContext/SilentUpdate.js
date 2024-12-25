@@ -129,11 +129,12 @@ function useSilentUpdate (firebaseNotification) {
 		nTotalNotifications.current = 0
 		const auth = authData.role
 		console.log({dept}, {notificationText}, {auth}, {firebaseKey})
-		if (notificationText?.split('-')[0]!=='deliveries point') {
-			websocketAlert = notificationText?.split('-')[0]
-			localStorage.setItem('updating', true)
+		websocketAlert = notificationText?.split('-')[0]
+		if (websocketAlert!=='deliveries point') {
+			// websocketAlert = notificationText?.split('-')[0]
+			localStorage.setItem('updating', `${true} > ${websocketAlert}`)
 			forceUpdates.current = true
-		}
+		} else {websocketAlert = null}
 		console.log({firebaseKey})
 		firebaseNotificationKey.current = firebaseKey
 		// firebaseKey = null
@@ -165,20 +166,26 @@ function useSilentUpdate (firebaseNotification) {
                 assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'pending-faults', 'faultpendingList', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unresolved-faults', 'allUnresolvedKey', 'notificationList2');
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
 				// nTotalNotifications.current = 3
             } else if (dept === 'engineer') {
 				assignNotifications(notificationUrl1, notificationKey1, 'engineer-pending-faults', 'faultsKey', 'notification1');
                 assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-pending-faults', 'faultpendingList', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList2');
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
 				// nTotalNotifications.current = 3
             } else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
                 assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
 				// nTotalNotifications.current = 3
             }
-			nTotalNotifications.current = 3
-			NotificationString.current = websocketAlert
+			// nTotalNotifications.current = 3
+			// NotificationString.current = websocketAlert
             break;
         case 'confirm resolve':
             // custodian confirmed resolution
@@ -188,25 +195,63 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl1, notificationListKey1, 'pending-faults', 'faultpendingList', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-            } else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'engineer-pending-faults', 'faultsKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-unconfirmed-faults', 'unconfirmedKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-pending-faults', 'faultpendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'user-request', 'faultpendingList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+            } else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'engineer-pending-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-pending-faults', 'faultpendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			nTotalNotifications.current = 5
-			NotificationString.current = websocketAlert
+			// nTotalNotifications.current = 5
+			// NotificationString.current = websocketAlert
             break;
         case 'fault deleted':
-            // fault deleted
-            // only make the update on next dashboard visit
+			if (dept === 'custodian') {
+                assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'pending-faults', 'faultpendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='supervisor'||dept === 'help-desk') {
+				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'user-request', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='human-resource') {
+				// assignNotifications(notificationUrl1, notificationKey1, 'workshop-component-request', 'componentKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'all-request-faults', 'faultsKey', 'notification2');
+				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
+				assignNotifications(notificationListUrl4, notificationListKey4, 'all-request-faults', 'faultpendingList', 'notificationList4');
+				nTotalNotifications.current = 6
+				NotificationString.current = websocketAlert
+            } else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'engineer-pending-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-pending-faults', 'faultpendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			}
             break;
 
         // hr
@@ -228,9 +273,11 @@ function useSilentUpdate (firebaseNotification) {
 			if (dept === 'human-resource') {
                 assignNotifications(notificationUrl1, notificationKey1, 'approve-user-details-update', 'updateAccount', 'notification1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'approve-user-details-update', 'updateList', 'notificationList1');
+				nTotalNotifications.current = 2
+				NotificationString.current = websocketAlert
             }
-			nTotalNotifications.current = 2
-			NotificationString.current = websocketAlert
+			// nTotalNotifications.current = 2
+			// NotificationString.current = websocketAlert
             break;
         case 'approve or reject fixed parts':
             // hr approved/rejected fixed parts
@@ -242,15 +289,26 @@ function useSilentUpdate (firebaseNotification) {
 				} else if (dept === 'workshop') {
 					assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
 				}
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
 			}
-			nTotalNotifications.current = 3
-			NotificationString.current = websocketAlert
+			// nTotalNotifications.current = 3
+			// NotificationString.current = websocketAlert
             break;
 
         // workshop
         case 'fixed part deleted':
-            // fixed part deleted
-            // only make the update on next dashboard visit
+            if (dept === 'human-resource'||dept === 'workshop') {
+                assignNotifications(notificationUrl1, notificationKey1, 'post-part', 'partKey', 'notification1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'post-part', 'partPendingList', 'notificationList1');
+				if (dept === 'human-resource') {
+					assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
+				} else if (dept === 'workshop') {
+					assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
+				}
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
+			}
             break;
 
         // hr/workshop
@@ -266,9 +324,11 @@ function useSilentUpdate (firebaseNotification) {
 				} else if (dept === 'workshop') {
 					assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
 				}
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
 			}
-			nTotalNotifications.current = 3
-			NotificationString.current = websocketAlert
+			// nTotalNotifications.current = 3
+			// NotificationString.current = websocketAlert
             break;
 
         // workshop/engineer/supervisor
@@ -287,18 +347,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
-			} else if (dept === 'workshop') {
-                assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
-				nTotalNotifications.current = 3
-            } else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -306,6 +355,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'workshop-component-request', 'componentKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'all-request-faults', 'faultsKey', 'notification2');
@@ -314,8 +364,23 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
 				assignNotifications(notificationListUrl4, notificationListKey4, 'all-request-faults', 'faultpendingList', 'notificationList4');
 				nTotalNotifications.current = 6
+				NotificationString.current = websocketAlert
+			} else if (dept === 'workshop') {
+                assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
+            } else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
 
         // engineer/supervisor
@@ -334,13 +399,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
-			} else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'request-part', 'partPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -348,6 +407,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
 				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
@@ -355,8 +415,17 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
+			} else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-part', 'partPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
         case 'verify resolve':
             // engineer verified resolution
@@ -372,13 +441,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
-			} else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'engineer-unconfirmed-faults', 'unconfirmedKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-unconfirmed-faults', 'faultunconfirmedList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -386,6 +449,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
 				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
@@ -393,16 +457,94 @@ function useSilentUpdate (firebaseNotification) {
 				// assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-faults', 'faultpendingList', 'notificationList2');
 				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
+			} else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'engineer-unconfirmed-faults', 'unconfirmedKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'engineer-unconfirmed-faults', 'faultunconfirmedList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
         case 'component request deleted':
-            // component request deleted
-            // only make the update on next dashboard visit
+			if (dept === 'custodian') {
+				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'pending-faults', 'faultpendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='supervisor'||dept === 'help-desk') {
+				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='human-resource') {
+				assignNotifications(notificationUrl1, notificationKey1, 'workshop-component-request', 'componentKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'all-request-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
+				assignNotifications(notificationListUrl4, notificationListKey4, 'all-request-faults', 'faultpendingList', 'notificationList4');
+				nTotalNotifications.current = 6
+				NotificationString.current = websocketAlert
+			} else if (dept === 'workshop') {
+                assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'workshop-request', 'allPendingRequests', 'notificationList2');
+				nTotalNotifications.current = 3
+				NotificationString.current = websocketAlert
+            } else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			}
             break;
         case 'part request deleted':
-            // part request deleted
-            // only make the update on next dashboard visit
+            if (dept === 'custodian') {
+				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'pending-faults', 'faultpendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='supervisor'||dept === 'help-desk') {
+				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='human-resource') {
+				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
+				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
+			} else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-part', 'partPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			}
             break;
 
         // supervisor/hr
@@ -421,13 +563,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
-			} else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -435,6 +571,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
 				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
@@ -442,8 +579,17 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
+			} else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
         case 'approve/reject part request':
             // supervisor/hr approve/reject single part request
@@ -459,13 +605,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
-			} else if (dept === 'engineer') {
-				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'request-part', 'partPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
-				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='supervisor'||dept === 'help-desk') {
 				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -473,6 +613,7 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
 				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
@@ -480,8 +621,17 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
 				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
+			} else if (dept === 'engineer') {
+				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'engineer-pending-faults', 'faultsKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'request-part', 'partPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'engineer-pending-faults', 'faultpendingList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
         case 'approve/reject components and/or parts request':
             // supervisor/hr approve/reject components and/or parts request
@@ -497,6 +647,23 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl2, notificationListKey2, 'unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='supervisor'||dept === 'help-desk') {
+				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
+				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 5
+				NotificationString.current = websocketAlert
+			} else if (dept==='human-resource') {
+				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
+				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
 			} else if (dept === 'engineer') {
 				assignNotifications(notificationUrl1, notificationKey1, 'request-part', 'partKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'request-component', 'componentKey', 'notification2');
@@ -506,27 +673,15 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-pending-faults', 'faultpendingList', 'notificationList3');
 				assignNotifications(notificationListUrl4, notificationListKey4, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList4');
 				nTotalNotifications.current = 7
-			} else if (dept==='supervisor'||dept === 'help-desk') {
-				assignNotifications(notificationUrl1, notificationKey1, 'user-request', 'faultsKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'regional-unconfirmed-faults', 'unconfirmedKey', 'notification2');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'region-pending-faults', 'allUnresolvedKey', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'regional-unconfirmed-faults', 'faultunconfirmedList', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'user-request', 'faultpendingList', 'notificationList3');
-				nTotalNotifications.current = 5
-			} else if (dept==='human-resource') {
-				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
-				nTotalNotifications.current = 4
+				NotificationString.current = websocketAlert
 			}
-			NotificationString.current = websocketAlert
+			// NotificationString.current = websocketAlert
             break;
         case 'assigned engineer to new location':
-            // supervisor assigned engineer to new location
-			assignNotifications(notificationUrl1, notificationKey1, 'new-location-assignment', 'engineerAssignments', 'notification1');
-			nTotalNotifications.current = 1
+			if (dept==='supervisor') {
+				assignNotifications(notificationUrl1, notificationKey1, 'new-location-assignment', 'engineerAssignments', 'notification1');
+				nTotalNotifications.current = 1
+			}
             break;
 
         case 'deliveries point':
@@ -556,7 +711,6 @@ function useSilentUpdate (firebaseNotification) {
 		(authData?notificationUrl2.current:null), (authData?authData.id:null),
 		(authData?notificationKey2.current:null), forceUpdates.current,
 		(authData?authData.role:null),
-		// ntype2.current,
 		isRegion
 	)
 	if (noti2.isListData.current&&!nCounter.current.some?.(check=>check==='two')&&nTotalNotifications.current) {nCounter.current.push('two')}
@@ -641,8 +795,16 @@ function useSilentUpdate (firebaseNotification) {
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
-	console.log('data coll:', nCounter.current)
-	const completeUpdate = nCounter.current.length===nTotalNotifications.current&&nTotalNotifications.current!==0
+	console.log(
+		'\ndata coll:', nCounter.current,
+		'\nnCounter.current.length:', nCounter.current.length,
+		'\nnTotalNotifications.current:', nTotalNotifications.current,
+		'\nnTotalNotifications.current===0:', nTotalNotifications.current===0,
+		// '\nnTotalNotifications.current!==0:', nTotalNotifications.current!==0,
+		'\nnTotalNotifications.current===nCounter.current.length:', nTotalNotifications.current===nCounter.current.length,
+		'\nnTotalNotifications.current===nCounter.current.length&&nTotalNotifications.current===0:', nTotalNotifications.current===nCounter.current.length
+	)
+	const completeUpdate = nTotalNotifications.current===nCounter.current.length
 	console.log(
 		'\ncompleteUpdate:', completeUpdate,
 	)
