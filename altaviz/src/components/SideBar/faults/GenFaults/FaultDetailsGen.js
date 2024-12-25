@@ -18,6 +18,7 @@ function removeKeys(keys) {
 
 function FaultDetailsGen({searchFaults}) {
 	const navigate = useNavigate();
+	// const [refreshComponent, setRefreshComponent] = useState(false);
 	const [remount, setRemount] = useState(true)
 	const patchUrlName = useRef(null)
 	// const recievedNewRequest = useRef(false)
@@ -828,7 +829,7 @@ function FaultDetailsGen({searchFaults}) {
 															'\npart:', faultsItem?.requestPart?.find?.(user => user.approved_by?.first_name)?.approved_by?.first_name,
 															'\ncomponent:', faultsItem?.requestComponent?.find?.(user => user.approved_by?.first_name)?.approved_by?.first_name,
 														)}
-														{toSentenceCase((faultsItem?.requestComponent?.find?.(user => user.approved_by?.first_name).approved_by?.first_name)||(faultsItem?.requestPart?.find?.(user => user.approved_by?.first_name).approved_by?.first_name))}
+														{toSentenceCase((faultsItem?.requestComponent?.find?.(user => user.approved_by?.first_name)?.approved_by?.first_name)||(faultsItem?.requestPart?.find?.(user => user.approved_by?.first_name).approved_by?.first_name))}
 													</Link>
 												</p>
 											</div>
