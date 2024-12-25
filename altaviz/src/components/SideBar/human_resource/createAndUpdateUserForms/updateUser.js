@@ -774,8 +774,8 @@ function UpdateUser () {
 								tabIndex="0"
 								onKeyDown={(e) => {
 									if (e.key === 'Enter') {
-										e.preventDefault();  // Prevents default form submission behavior
-										handleFormSubmission();  // Calls your form submission function
+										// e.preventDefault();  // Prevents default form submission behavior
+										handleFormSubmission(e);  // Calls your form submission function
 									}
 								}}
 								disabled={postLoading}>
