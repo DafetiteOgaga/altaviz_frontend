@@ -313,9 +313,6 @@ function useSilentUpdate (firebaseNotification) {
 
         // hr/workshop
         case 'fixed part ready':
-            // posted part by workshop
-            // add to workshop: partKey, allPendingRequests
-            // add to human resource: partKey, allPendingRequests
 			if (dept === 'human-resource'||dept === 'workshop') {
                 assignNotifications(notificationUrl1, notificationKey1, 'post-part', 'partKey', 'notification1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'post-part', 'partPendingList', 'notificationList1');
@@ -333,13 +330,6 @@ function useSilentUpdate (firebaseNotification) {
 
         // workshop/engineer/supervisor
         case 'make component request':
-            // engineer/supervisor/workshop made component request
-            // add to workshop: componentKey, allPendingRequests
-            // add to custodian: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to engineer: componentKey, faultsKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: componentKey, faultsKey, allUnresolvedKey, allPendingRequests
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -385,13 +375,6 @@ function useSilentUpdate (firebaseNotification) {
 
         // engineer/supervisor
         case 'make part request':
-            // engineer/supervisor made part request
-            // add to workshop: partKey, allPendingRequests
-            // add to custodian: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to engineer: partKey, faultsKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: faultsKey, allUnresolvedKey, allPendingRequests
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -428,12 +411,6 @@ function useSilentUpdate (firebaseNotification) {
 			// NotificationString.current = websocketAlert
             break;
         case 'verify resolve':
-            // engineer verified resolution
-            // add to custodian: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to engineer: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: faultsKey, allUnresolvedKey
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -549,13 +526,6 @@ function useSilentUpdate (firebaseNotification) {
 
         // supervisor/hr
         case 'approve/reject component request':
-            // supervisor/hr approve/reject single component request
-            // add to workshop: componentKey, allPendingRequests
-            // add to custodian: faultsKey, allUnresolvedKey
-            // add to engineer: componentKey, faultsKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: componentKey, faultsKey, allUnresolvedKey, allPendingRequests
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -592,12 +562,6 @@ function useSilentUpdate (firebaseNotification) {
 			// NotificationString.current = websocketAlert
             break;
         case 'approve/reject part request':
-            // supervisor/hr approve/reject single part request
-            // add to custodian: faultsKey, allUnresolvedKey
-            // add to engineer: partKey, faultsKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: faultsKey, allUnresolvedKey, allPendingRequests
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
@@ -634,12 +598,6 @@ function useSilentUpdate (firebaseNotification) {
 			// NotificationString.current = websocketAlert
             break;
         case 'approve/reject components and/or parts request':
-            // supervisor/hr approve/reject components and/or parts request
-            // add to custodian: faultsKey, allUnresolvedKey
-            // add to engineer: componentKey, partKey, faultsKey, allUnresolvedKey
-            // add to helpdesk: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to supervisor: faultsKey, unconfirmedKey, allUnresolvedKey
-            // add to human resource: componentKey, partKey, faultsKey, allUnresolvedKey, allPendingRequests
 			if (dept === 'custodian') {
 				assignNotifications(notificationUrl1, notificationKey1, 'pending-faults', 'faultsKey', 'notification1');
 				assignNotifications(notificationUrl2, notificationKey2, 'unconfirmed-faults', 'unconfirmedKey', 'notification2');
