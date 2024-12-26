@@ -2,6 +2,8 @@ import { useState, useEffect, useContext } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
 
+const checkNull = (url) => url.split('/').some?.(part => part === 'null')
+
 function useGetWithEncryption(
 	baseUrl,
 	storageName='temp',
@@ -14,8 +16,7 @@ function useGetWithEncryption(
 	const [getTrigger, setGetTrigger] = useState(false);
 	// const [pageUrl, setPageUrl] = useState(baseUrl);
 	const { getData, getLoading, getError } = useGetDataAPI(
-		baseUrl,
-		getTrigger,
+		baseUrl, getTrigger,
 	);
 	// const [pageNum, setPageNum] = useState(1);
 	// const [theTotalPage, setTheTotalPage] = useState(null);
@@ -36,13 +37,13 @@ function useGetWithEncryption(
 				console.log('parsedData:', parsedData)
 			}
 		} else {
-			if (!storedData || storedData.length === 0 ||
-				refresh) {
+			if ((!storedData||storedData.length === 0||
+				refresh) && !checkNull(baseUrl)) {
 				setGetTrigger(true);
-				const delay = setTimeout(() => {
-					if (getTrigger) setGetTrigger(false);
-				}, 1000);
-				return () => clearTimeout(delay);
+				// const delay = setTimeout(() => {
+				// 	if (getTrigger) setGetTrigger(false);
+				// }, 1000);
+				// return () => clearTimeout(delay);
 			}
 		}
 		// } catch (e) { console.log('Error:', e); }
@@ -68,6 +69,7 @@ function useGetWithEncryption(
 					return newData;
 				});
 			}
+			setGetTrigger(false);
 		}
 	}, [getData]);
 

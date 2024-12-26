@@ -31,6 +31,7 @@ function Workshop() {
 			if (!isUserDetailsFormOpen) {
 				localStorage.removeItem('notCustodian');
 				localStorage.removeItem('custodian');
+				localStorage.removeItem('bankBranches');
 			}
         };
     }, [isUserDetailsFormOpen]);

@@ -214,7 +214,7 @@ function LogFault() {
 														id={`fault-${field.id}`}
 														name={`fault-${field.id}`}
 														onChange={handleInputChange}>
-														<option>Select Fault</option>
+														<option style={styles.selectOpts}>Select Fault</option>
 														{
 														// ['Select Fault',
 														// 'Blank Screen',
@@ -331,5 +331,16 @@ function LogFault() {
 		</>
 	)
 };
-
 export default LogFault;
+
+const styles = {
+	options: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF',
+		color: '#87823E'
+	},
+	selectOpts: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF'
+	}
+}

@@ -118,6 +118,7 @@ function CreateUser () {
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
 	const [regionStateList, setRegionStateList] = useState(null)
+	const [bankBranchesList, setBankBranchesList] = useState(null)
 	const [bankStateList, setBankStateList] = useState(null)
 	const [bankBankList, setBankBankList] = useState(null)
 	const [bankStateLocationList, setBankStateLocationList] = useState(null)
@@ -142,10 +143,15 @@ function CreateUser () {
         refInput.current.focus();
     }, [])
 
-	//custodian
-	const custodian = useGetWithEncryption(
-		`banks/`,
-		'custodian',
+	// //custodian
+	// const custodian = useGetWithEncryption(
+	// 	`banks/`,
+	// 	'custodian',
+	// )
+	// custodian banks and branches
+	const custodianBankBranches = useGetWithEncryption(
+		'banks-branch/',
+		'bankBranches',
 	)
 	// not custodian
 	const notCustodian = useGetWithEncryption(
@@ -155,16 +161,23 @@ function CreateUser () {
 
 	useEffect(() => {
 		// get for custodian
-		if (custodian) {
-			console.log('custodian with encryption: ', custodian)
-			setCustodianList(custodian.localDataStoreVar)
-		}
+		// if (custodian) {
+		// 	console.log('custodian with encryption: ', custodian)
+		// 	setCustodianList(custodian.localDataStoreVar)
+		// }
 		// get for non custodian
 		if (notCustodian) {
 			console.log('notCustodian with encryption: ', notCustodian)
 			setNotCustodianList(notCustodian.localDataStoreVar)
 		}
-	}, [custodian, notCustodian])
+		// get for custodian
+		if (custodianBankBranches) {
+			console.log('custodianBankBranches with encryption: ', custodianBankBranches)
+			setBankBranchesList(custodianBankBranches.localDataStoreVar)
+		}
+		console.log('custodianBankBranches'.repeat(20))
+		console.log('custodianBankBranches:', custodianBankBranches)
+	}, [custodianBankBranches, notCustodian])
 
 	useEffect(() => {
 		console.log('start ##############'.toUpperCase())
@@ -203,7 +216,7 @@ function CreateUser () {
 			setFilteredRegions(stateRegions.flat())
 		}
 		// for states
-		if (newUser.role !== 'Custodian' && notCustodianList && filteredRegions) {
+		if (notCustodianList && filteredRegions) {
 			console.log('regions > states (non custodian) ##############'.toUpperCase())
 			console.log(
 				'\nnotCustodianList: ', notCustodianList,
@@ -270,76 +283,86 @@ function CreateUser () {
 		}
 
 
+
+
+
+
 		// for custodian
-		// for regions
-		if (newUser.role === 'Custodian' && custodianList) {
-			console.log('regions (custodian) ##############'.toUpperCase())
-			console.log(
-				'\ncustodianList: ', custodianList,
-				// '\nlocalStorage: ', locations.localDataStoreVar,
-				// '\nnewUser.region:', newUser.region,
-			)
-			// if (locationListValue) {
-			const regionStates = []
-			// console.log('locationListValue:', locationListValue)
-			console.log('555555555555555555555')
-			for (let i = 0; i < custodianList.length; i++) {
-				console.log('66666666666666666666:', custodianList[i])
-				console.log(
-					'\ncustodianList[i].name:', custodianList[i],
-					// '\nnewUser.region:', newUser.region,
-				)
-				// if (custodianList[i].name === newUser.region) {
-					console.log('7777777777777777777777')
-					console.log('found:'.toUpperCase(), custodianList[i])
-					regionStates.push(custodianList[i].name)
-					// setFound(true)
-					// break;
-				// }
-			}
-			console.log(
-				// '\nnewuser.region:', newUser.region,
-				'\nbankStates:', regionStates.flat(),
-			)
-			setRegionStateList(regionStates.flat())
-		}
-		// for states
-		if (newUser.role === 'Custodian' && custodianList) {
-			console.log('regions > states (custodian) ##############'.toUpperCase())
-			console.log(
-				'\ncustodianList: ', custodianList,
-				// '\nlocalStorage: ', locations.localDataStoreVar,
-				'\nnewUser.region:', newUser.region,
-			)
-			// if (locationListValue) {
-			const bankStates = []
-			// console.log('locationListValue:', locationListValue)
-			console.log('555555555555555555555')
-			for (let i = 0; i < custodianList.length; i++) {
-				console.log('66666666666666666666:', custodianList[i])
-				console.log(
-					'\ncustodianList[i].name:', custodianList[i],
-					'\nnewUser.region:', newUser.region,
-				)
-				if (custodianList[i].name === newUser.region) {
-					console.log('7777777777777777777777')
-					console.log('found:'.toUpperCase(), custodianList[i])
-					bankStates.push(custodianList[i].states)
-					setFound(true)
-					break;
-				}
-			}
-			console.log(
-				'\nnewuser.region:', newUser.region,
-				'\nbankStates:', bankStates.flat(),
-			)
-			setBankStateList(bankStates.flat())
-		}
+		// // for regions
+		// if (newUser.role === 'Custodian' && custodianList) {
+		// 	console.log('regions (custodian) ##############'.toUpperCase())
+		// 	console.log(
+		// 		'\ncustodianList: ', custodianList,
+		// 		// '\nlocalStorage: ', locations.localDataStoreVar,
+		// 		// '\nnewUser.region:', newUser.region,
+		// 	)
+		// 	// if (locationListValue) {
+		// 	const regionStates = []
+		// 	// console.log('locationListValue:', locationListValue)
+		// 	console.log('555555555555555555555')
+		// 	for (let i = 0; i < custodianList.length; i++) {
+		// 		console.log('66666666666666666666:', custodianList[i])
+		// 		console.log(
+		// 			'\ncustodianList[i].name:', custodianList[i],
+		// 			// '\nnewUser.region:', newUser.region,
+		// 		)
+		// 		// if (custodianList[i].name === newUser.region) {
+		// 			console.log('7777777777777777777777')
+		// 			console.log('found:'.toUpperCase(), custodianList[i])
+		// 			regionStates.push(custodianList[i].name)
+		// 			// setFound(true)
+		// 			// break;
+		// 		// }
+		// 	}
+		// 	console.log(
+		// 		// '\nnewuser.region:', newUser.region,
+		// 		'\nbankStates:', regionStates.flat(),
+		// 	)
+		// 	setRegionStateList(regionStates.flat())
+		// }
+		// // for states
+		// if (newUser.role === 'Custodian' && custodianList) {
+		// 	console.log('regions > states (custodian) ##############'.toUpperCase())
+		// 	console.log(
+		// 		'\ncustodianList: ', custodianList,
+		// 		// '\nlocalStorage: ', locations.localDataStoreVar,
+		// 		'\nnewUser.region:', newUser.region,
+		// 	)
+		// 	// if (locationListValue) {
+		// 	const bankStates = []
+		// 	// console.log('locationListValue:', locationListValue)
+		// 	console.log('555555555555555555555')
+		// 	for (let i = 0; i < custodianList.length; i++) {
+		// 		console.log('66666666666666666666:', custodianList[i])
+		// 		console.log(
+		// 			'\ncustodianList[i].name:', custodianList[i],
+		// 			'\nnewUser.region:', newUser.region,
+		// 		)
+		// 		if (custodianList[i].name === newUser.region) {
+		// 			console.log('7777777777777777777777')
+		// 			console.log('found:'.toUpperCase(), custodianList[i])
+		// 			bankStates.push(custodianList[i].states)
+		// 			setFound(true)
+		// 			break;
+		// 		}
+		// 	}
+		// 	console.log(
+		// 		'\nnewuser.region:', newUser.region,
+		// 		'\nbankStates:', bankStates.flat(),
+		// 	)
+		// 	setBankStateList(bankStates.flat())
+		// }
+
+
+
+
+
+
 		// get banks
-		if (newUser.role === 'Custodian' && custodianList && bankStateList) {
-			console.log('states > banks (custodian) ##############'.toUpperCase())
+		if (newUser.role === 'Custodian' && bankBranchesList && filteredStates) {
+			console.log('banks (custodian) ##############'.toUpperCase())
 			console.log(
-				'\nbankStateList: ', bankStateList,
+				'\nbankBranchesList: ', bankBranchesList,
 				// '\nlocalStorage: ', locations.localDataStoreVar,
 				'\nnewUser.state:', newUser.state,
 			)
@@ -347,19 +370,19 @@ function CreateUser () {
 			const bankBanks = []
 			// console.log('locationListValue:', locationListValue)
 			console.log('888888888888888888')
-			for (let i = 0; i < bankStateList.length; i++) {
-				console.log('9999999999999999999999:', bankStateList[i])
+			for (let i = 0; i < bankBranchesList.length; i++) {
+				console.log('9999999999999999999999:', bankBranchesList[i])
 				console.log(
-					'\nbankStateList[i].name:', bankStateList[i],
+					'\nbankBranchesList[i].name:', bankBranchesList[i],
 					'\nnewUser.state:', newUser.state,
 				)
-				if (bankStateList[i].name === newUser.state) {
-					console.log('101010101010101010101')
-					console.log('found:'.toUpperCase(), bankStateList[i])
-					bankBanks.push(bankStateList[i].banks)
-					setFound(true)
-					break;
-				}
+				// if (bankStateList[i].name === newUser.state) {
+				console.log('101010101010101010101')
+				console.log('found:'.toUpperCase(), bankBranchesList[i])
+				bankBanks.push(bankBranchesList[i])
+				// setFound(true)
+				// 	break;
+				// }
 			}
 			console.log(
 				'\newuser.state:', newUser.state,
@@ -368,7 +391,7 @@ function CreateUser () {
 			setBankBankList(bankBanks.flat())
 		}
 		// get locations
-		if (newUser.role === 'Custodian' && custodianList && bankBankList) {
+		if (newUser.role === 'Custodian' && bankBranchesList && bankBankList) {
 			console.log('banks > locations (custodian) ##############'.toUpperCase())
 			console.log(
 				'\nbankBankList: ', bankBankList,
@@ -380,14 +403,17 @@ function CreateUser () {
 			// console.log('locationListValue:', locationListValue)
 			console.log('121212121212121212121212')
 			for (let i = 0; i < bankBankList.length; i++) {
-				console.log('131313131313131313131313:', bankBankList[i])
 				console.log(
-					'\nbankBankList[i].name:', bankStateList[i],
+					'\n131313131313131313131313:', bankBankList[i].name,
+					'\n121121212121212121212121:', bankBankList[i].locations
+				)
+				console.log(
+					'\nbankBankList[i].name:', bankBankList[i].locations,
 					'\nnewUser.state:', newUser.bank,
 				)
 				if (bankBankList[i].name === newUser.bank) {
 					console.log('141414141414141414141414')
-					console.log('found:'.toUpperCase(), bankBankList[i])
+					console.log('found:'.toUpperCase(), bankBankList[i].name)
 					bankLocation.push(bankBankList[i].locations)
 					setFound(true)
 					break;
@@ -397,7 +423,7 @@ function CreateUser () {
 			setBankLocationList(bankLocation.flat())
 		}
 		// get branches
-		if (newUser.role === 'Custodian' && custodianList && bankLocationList) {
+		if (newUser.role === 'Custodian' && bankBranchesList && bankLocationList) {
 			console.log('locations > branches (custodian) ##############'.toUpperCase())
 			console.log(
 				'\nbankLocationList: ', bankLocationList,
@@ -411,7 +437,7 @@ function CreateUser () {
 			for (let i = 0; i < bankLocationList.length; i++) {
 				console.log('161616161616161616161616:', bankLocationList[i])
 				console.log(
-					'\nbankLocationList[i].name:', bankStateList[i],
+					'\nbankLocationList[i].name:', bankLocationList[i].location,
 					'\nnewUser.state:', newUser.location,
 				)
 				if (bankLocationList[i].location === newUser.location) {
@@ -427,7 +453,7 @@ function CreateUser () {
 		}
 		console.log('end ##############'.toUpperCase())
 	// }, [])
-	}, [custodianList, notCustodianList, newUser.role, newUser.bank, newUser.state, newUser.location, newUser.region])
+	}, [bankBranchesList, notCustodianList, newUser.role, newUser.bank, newUser.state, newUser.location, newUser.region])
 
 	useEffect(() => {
 		if (newUser.role) {
@@ -838,17 +864,19 @@ function CreateUser () {
 	// let filteredStateLocation;
 	console.log('Custodian:', newUser.role === 'Custodian')
 	if (newUser.role) {
+		stateRegionList = filteredRegions
+		stateStatesList = filteredStates
 		if (newUser.role === 'Custodian') {
-			stateRegionList = regionStateList
+			// stateRegionList = regionStateList
 			stateBranchesList = bankBranchList
 			stateLocationsList = bankLocationList
-			stateBanksList = bankBankList
-			stateStatesList = bankStateList
+			stateBanksList = bankBranchesList
+			// stateStatesList = bankStateList
 			// stateStatesList = bankStateLocationList
 			// stateStatesBranchesList = bankStateLocationBranchList
 		} else {
-			stateRegionList = filteredRegions
-			stateStatesList = filteredStates
+			// stateRegionList = filteredRegions
+			// stateStatesList = filteredStates
 			stateLocationsList = filteredLocations
 		}
 		// if (stateStatesList) {
@@ -859,11 +887,12 @@ function CreateUser () {
 	}
 	// console.log('Custodian:', newUser.role === 'Custodian')
 	// console.log('custodianList (outside):', custodianList)
-	// console.log('filteredLocations (outside):', filteredLocations)
+	console.log('filteredLocations (outside):', filteredLocations)
 	// console.log('bankStateList (outside):', bankStateList)
 	// console.log('bankStateLocationList (outside):', bankStateLocationList)
 	// console.log('bankStateLocationBranchList (outside):', bankStateLocationBranchList)
-	// console.log('filteredStates (outside):', filteredStates)
+	console.log('bankBankList:', bankBankList)
+	console.log('filteredStates (outside):', filteredStates)
 	console.log('regionStateList (outside):', regionStateList)
 	console.log('filteredRegions (Req:region-outside):', filteredRegions)
 	console.log('stateRegionList (Req:regions-outside):', stateRegionList)
@@ -911,8 +940,9 @@ function CreateUser () {
 		return null;
 	};
 	console.log(
-		'\ncustodian:', custodian,
-		'\nnotCustodian:', notCustodian
+		// '\ncustodian:', custodian,
+		'\nnotCustodian:', notCustodian,
+		'\ncustodianBankBranches:', custodianBankBranches
 	)
 	const styleObj = {
 		fontWeight: 'bold',
@@ -925,6 +955,17 @@ function CreateUser () {
 			fontSize: "16px",
 			border: "1px solid #ccc",
 			borderRadius: "5px",
+		}
+	}
+	const styles = {
+		options: {
+			fontStyle: 'italic',
+			backgroundColor: '#D9D9DF',
+			color: '#87823E'
+		},
+		selectOpts: {
+			fontStyle: 'italic',
+			backgroundColor: '#D9D9DF'
 		}
 	}
 	return (
@@ -956,7 +997,7 @@ function CreateUser () {
 												renderByDept(e);
 											}}
 											>
-												<option>Select Role</option>
+												<option	style={styles.selectOpts}>Select Role</option>
 											{[
 												'Custodian',
 												'Engineer',
@@ -993,7 +1034,7 @@ function CreateUser () {
 												value={newUser.region}
 												onChange={HandleUserCreationInputChange}
 												>
-													<option>Select Region</option>
+													<option style={styles.selectOpts}>Select Region</option>
 													{
 													// [
 													// 	'region_1',
@@ -1021,7 +1062,7 @@ function CreateUser () {
 													value={newUser.state}
 													onChange={HandleUserCreationInputChange}
 													>
-														<option>Select State</option>
+														<option style={styles.selectOpts}>Select State</option>
 														{/* {stateStatesList &&
 														stateStatesList.map((stateName, i) => (
 															<option key={i} value={stateName.name}>{toSentenceCase(stateName.name)}</option>
@@ -1052,8 +1093,10 @@ function CreateUser () {
 													HandleUserCreationInputChange(e);
 													}}
 													>
-													<option>Select Bank</option>
-													<option value="Enter a New Bank">Enter a New Bank</option>
+													<option style={styles.selectOpts}>Select Bank</option>
+													<option
+													style={styles.options}
+													value="Enter a New Bank">Enter a New Bank</option>
 													{
 													stateBanksList &&
 													stateBanksList.map((bank, i) => {
@@ -1102,8 +1145,10 @@ function CreateUser () {
 													value={newUser.location || 'Select Location'}
 													onChange={HandleUserCreationInputChange}
 													>
-													<option>Select Location</option>
-													<option value="Enter a New Location">Enter a New Location</option>
+													<option style={styles.selectOpts}>Select Location</option>
+													<option
+													style={styles.options}
+													value="Enter a New Location">Enter a New Location</option>
 														{stateLocationsList &&
 														stateLocationsList.map((selectedLocation, i) => {
 															// console.log(
@@ -1150,8 +1195,10 @@ function CreateUser () {
 													value={newUser.branch || 'Select Branch'}
 													onChange={HandleUserCreationInputChange}
 													>
-													<option>Select Branch</option>
-													<option value="Enter a New Branch">Enter a New Branch</option>
+													<option style={styles.selectOpts}>Select Branch</option>
+													<option
+													style={styles.options}
+													value="Enter a New Branch">Enter a New Branch</option>
 													{stateBranchesList &&
 													stateBranchesList.map((branch, i) => (
 														<option key={i} value={branch.name}>
