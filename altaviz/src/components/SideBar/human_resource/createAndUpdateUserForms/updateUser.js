@@ -564,7 +564,7 @@ function UpdateUser () {
 													disabled={!isEditable}
 													>
 													<option value={(authData?.role==='custodian')?(authData?.branch?.location?.location):(authData?.location?.location)}>{(authData?.role==='custodian')?(authData?.branch?.location?.location):(authData?.location?.location)}</option>
-													<option value="Enter a New Location">Enter a New Location</option>
+													<option style={styles.options} value="Enter a New Location">Enter a New Location</option>
 														{stateLocationsList &&
 														stateLocationsList.map((selectedLocation, i) => {
 															return (<option key={i} value={selectedLocation.location}>{toSentenceCase(selectedLocation.location)}</option>
@@ -624,7 +624,7 @@ function UpdateUser () {
 																		'Select Branch' : newUser.branch
 														}
 													</option>
-													<option value="Enter a New Branch">Enter a New Branch</option>
+													<option style={styles.options} value="Enter a New Branch">Enter a New Branch</option>
 													{stateBranchesList &&
 													stateBranchesList.map((branch, i) => (
 														<option key={i} value={branch.id}>
@@ -811,3 +811,15 @@ function UpdateUser () {
 	)
 }
 export default UpdateUser;
+
+const styles = {
+	options: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF',
+		color: '#87823E'
+	},
+	selectOpts: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF'
+	}
+}
