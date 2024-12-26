@@ -391,6 +391,7 @@ function RequestsDetails() {
 	// 	console.log('redirecting to dashboard ...')
 	// 	navigate('/success', { state: {currentPage: `/${authData?.role}`, time: 50}})
 	// }
+	const requestFaultStatus = (requestItem?.fault)?(!requestItem?.fault?.confirm_resolve&&!requestItem?.fault?.verify_resolve):(dept==='workshop')
 	return (
 		<>
 			{requestItem &&
@@ -415,11 +416,14 @@ function RequestsDetails() {
 						</h4>
 					</div>
 					<div>
-						<div className="to-form">
-						</div>
+						{/* <div className="to-form">
+						</div> */}
+
 						<hr />
+						{/* details starts here */}
 						<div>
 							{requestItem?.fault &&
+							// others (with faults)
 							<div className="cust-row">
 								<div className="input-field">
 									<p><strong>Bank: </strong>
@@ -442,6 +446,8 @@ function RequestsDetails() {
 									</p>
 								</div>
 							</div>}
+
+							{/* request details */}
 							{requestParamDetails.dept === 'workshop' ?
 							// workshop (without faults)
 							(<div className="cust-row">
@@ -485,6 +491,8 @@ function RequestsDetails() {
 									</p>
 								</div>
 							</div>)}
+
+							{/* other details */}
 							<div className="cust-row">
 								<div className="input-field">
 									<p><strong>Requested On: </strong>
@@ -505,6 +513,7 @@ function RequestsDetails() {
 							</div>
 							<div className="cust-row">
 								{requestItem?.fault &&
+								// details about current fault
 								<>
 									<div className="input-field to_user">
 										<p><strong>Fault: </strong>
@@ -539,6 +548,8 @@ function RequestsDetails() {
 									</p>
 								</div>}
 							</div>
+
+							{/* fault managers */}
 							<div className="cust-row">
 								{requestItem?.fault &&
 								<>
@@ -581,6 +592,9 @@ function RequestsDetails() {
                             '\nrequestItem.approved:', !requestItem.approved,
                             '\nrequestItem.rejected:', !requestItem.rejected,
 						)}
+
+						{/* workshop, engineers can withdraw */}
+						{/* supervisor should also be in this mix */}
 						{((authData.role === 'workshop'||authData.role === 'engineer') && canWithdrawRequest && !requestItem.approved && !requestItem.rejected) && (
 						<div
 						className='custum-button'
@@ -593,7 +607,8 @@ function RequestsDetails() {
 						)}
 
 						{/* supervisor and human-resource approve/reject request butttons */}
-						{(canAlsoApproveOrReject && !requestItem?.approved && !requestItem?.rejected && !tempDetailsID) &&
+						{(canAlsoApproveOrReject&&!requestItem?.approved&&!requestItem?.rejected
+						&&!tempDetailsID&&requestFaultStatus) &&
 							<div style={{
 								display: 'flex',
 								justifyContent: 'space-evenly'
