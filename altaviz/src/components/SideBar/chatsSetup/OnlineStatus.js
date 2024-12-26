@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
+import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 
 function OnlineStatus({id, currentBuddy=null, typing=null}) {
+	const { toSentenceCase } = useContext(SentenceCaseContext)
 	const [status, setStatus] = useState(null);
 	const { observer } = useChatNotification();
 
@@ -24,7 +26,7 @@ function OnlineStatus({id, currentBuddy=null, typing=null}) {
 			<>
 				{status==='typing'&&
 				<div style={styles.typingStatus}>
-					<strong>{currentBuddy}</strong> {'is typing...'}
+					<strong>{currentBuddy}</strong> is {status}...
 				</div>}
 				{/* <span> </span>
 				<span style={styles.online}>{(status==='online'||status==='typing')&&'Online'}</span> */}
@@ -32,7 +34,7 @@ function OnlineStatus({id, currentBuddy=null, typing=null}) {
 			{!typing&&
 			<>
 				<span> </span>
-				<span style={styles.online}>{(status==='online'||status==='typing')&&'Online'}</span>
+				<span style={styles.online}>{toSentenceCase(status)}</span>
 			</>}
 		</>
 	);
