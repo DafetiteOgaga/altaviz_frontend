@@ -176,35 +176,6 @@ function Dashboard() {
 								</p>}
 							</div>
 						</div>}
-						{/* engineer and workshop */}
-						{/* <div className="cust-row"> */}
-							{/* {(authData.role === 'workshop' || authData.role === 'engineer') &&
-							<div className="input-field">
-								<p><Link
-								style={{color: '#333'}}
-								to={'approved-component-request-list/'}>
-									<strong>Approved Component Requests</strong>
-								</Link></p>
-							</div>} */}
-							{/* workshop */}
-							{/* {(authData.role === 'workshop') &&
-							<div className="input-field">
-								<p><Link
-								style={{color: '#333'}}
-								to={'approved-part-list/'}>
-									<strong>Approved Parts</strong>
-								</Link></p>
-							</div>} */}
-							{/* engineer */}
-							{/* {(authData.role === 'engineer') &&
-							<div className="input-field">
-								<p><Link
-								style={{color: '#333'}}
-								to={'approved-part-request-list/'}>
-									<strong>Approved Part Requests</strong>
-								</Link></p>
-							</div>} */}
-						{/* </div> */}
 					</div>)}
 				</div>
 			</div>
