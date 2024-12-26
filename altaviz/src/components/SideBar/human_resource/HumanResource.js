@@ -108,6 +108,7 @@ function HumanResource() {
 			if (!createUser) {
 				localStorage.removeItem('notCustodian');
 				localStorage.removeItem('custodian');
+				localStorage.removeItem('bankBranches');
 			}
 			if (!updateUser) {
 				localStorage.removeItem('notCustodian');
