@@ -9,13 +9,17 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 // import { useNavigate } from 'react-router-dom';
 
+const buttonStyle = {
+	display: 'flex',
+	justifyContent:'space-evenly',
+	color: '#555',
+	fontSize: '19px',
+}
+const newStyle = {
+	color: '#3E3E85',
+}
+
 function Buttons ({buttonProps}) {
-	const buttonStyle = {
-		display: 'flex',
-		justifyContent:'space-evenly',
-		color: '#555',
-		fontSize: '19px',
-	}
 	return (
 	<>
 		<div style={buttonStyle}>
@@ -97,9 +101,7 @@ function DetailsUpdate () {
 	console.log('patchData:', patchData)
 	console.log('getData:', getData)
 	console.log('updateData:', updateData)
-	const newStyle = {
-		color: '#3E3E85',
-	}
+	
 	const assertUpdate = (value1, value2) => {
 		console.log(
 			'\nvalue1:', value1,

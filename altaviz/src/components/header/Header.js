@@ -49,7 +49,7 @@ function Header() {
 				flexDirection: 'row',
 			}}>
 				{isUpdating&&<span id='headerNotificationDot' style={headerStyles.notificationDot}></span>}
-				<h6>Beta v10.03</h6>
+				<h6>Beta v10.03.272</h6>
 			</div>
 		</header>
 	)
