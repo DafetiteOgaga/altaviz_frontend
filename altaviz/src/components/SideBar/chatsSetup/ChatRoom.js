@@ -245,7 +245,7 @@ const ChatRoom = () => {
 								{/* new message bar (in chats) */}
 								{/* {index===newMessageMarke?<span style={styles.newMessage}>New Chats</span>:null} */}
 								<div
-									key={index}
+									key={index+message}
 									style={{
 									...styles.messageContainer,
 									flexDirection: (isUsername)?"row-reverse":"row",
