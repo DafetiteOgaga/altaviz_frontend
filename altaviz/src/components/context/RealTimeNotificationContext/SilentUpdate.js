@@ -73,13 +73,17 @@ function useSilentUpdate (firebaseNotification) {
 	console.log('firebaseNotification:', firebaseNotification)
 	console.log('\nfirebaseNotificationKey.current:', firebaseNotificationKey.current)
 	let firebaseKey = Object.keys?.(firebaseNotification||{})?.find?.(key => key)
+	const oldFirebaseNotificationKey = firebaseNotificationKey.current === firebaseKey
 	console.log(
 		'\nfirebaseKey:', firebaseKey,
 		'\nfirebaseNotificationKey.current:', firebaseNotificationKey.current,
-		'\nfirebaseNotificationKey === firebaseKey:', firebaseNotificationKey.current === firebaseKey,
+		'\nfirebaseNotificationKey === firebaseKey:', oldFirebaseNotificationKey,
 		'\nfirebaseNotificationKey === null:', firebaseKey === null,
 		'\nfirebaseNotificationKey === undefined:', firebaseKey === undefined
 	)
+	if (oldFirebaseNotificationKey) {
+		localStorage.removeItem('updating')
+	}
 	let notificationText;
 	// change the name  websocketAlert to something with firebase
 	// tag to indicate message and pass the message separately from the
