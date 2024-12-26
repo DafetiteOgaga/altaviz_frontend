@@ -438,7 +438,7 @@ const ChatRoom = () => {
 					{everyone?.arrayData
 					?.sort?.((a, b) => {
 						// if (chatNotification?.idList?.includes(a.id)) return -1;
-						if (onlineList.current?.includes(a.id)) return -1
+						if (onlineList.current?.includes(a.id)&&(a.id<b.id)) return -1
 						// if (a.id !== chatNotification?.senderID && b.id === chatNotification?.senderID) return 1;
 						return 0; // If both or neither match, maintain original order
 					})
