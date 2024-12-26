@@ -9,7 +9,7 @@ const RefreshContext = createContext();
 
 export const RefreshProvider = ({ children }) => {
     const { decrypt, RotCipher } = useContext(RotContext);
-    const [authData, setAuthData] = useState(null);
+    // const [authData, setAuthData] = useState(null);
     const navigate = useNavigate();
     const currentPage = useLocation().pathname
     const [refreshing, setRefreshing] = useState(false);
@@ -24,34 +24,11 @@ export const RefreshProvider = ({ children }) => {
                 console.log('decoded:', decodedData)
                 const parsed = JSON.parse(decodedData)
                 console.log('parsed:', parsed)
-                setAuthData(parsed);
+                // setAuthData(parsed);
                 console.log('authData:', JSON.parse(decodedData))
             }
     }, [refreshing]);
 
-    // For refresh
-    const baseIconStyle = {
-        cursor: 'pointer',
-        fontSize: '15px',
-        paddingLeft: '0.8rem',
-        // paddingTop: '1.1rem',
-    };
-    const refreshStyles = {
-        spinner: {
-            ...baseIconStyle, // Spread the base styles
-            animation: 'spin 1s linear infinite',
-        },
-        syncIcon: {
-            ...baseIconStyle, // Spread the base styles
-        },
-        // keyframes in a style tag
-        keyframes: `
-            @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-            }
-        `,
-    };
 
     function handleRefresh(localKey) {
         if (!localKey) {
@@ -108,11 +85,6 @@ export const RefreshProvider = ({ children }) => {
             return () => clearTimeout(delay);
         }
         navigate('/success', { state: {currentPage, time: 50}})
-        // navigate('/success')
-        // const delay = setTimeout(() => {
-        //     navigate(currentPage)
-        // }, 50);
-        // return () => clearTimeout(delay);
     }, [refreshing])
     console.log('last line: ');
     const refreshIcon = (
@@ -131,5 +103,33 @@ export const RefreshProvider = ({ children }) => {
         </RefreshContext.Provider>
     );
 };
-
 export const useRefreshContext = () => useContext(RefreshContext);
+
+// For refresh
+const baseIconStyle = {
+    cursor: 'pointer',
+    fontSize: '15px',
+    paddingLeft: '0.8rem',
+    // paddingTop: '1.1rem',
+};
+const refreshStyles = {
+    spinner: {
+        ...baseIconStyle, // Spread the base styles
+        animation: 'spin 1s linear infinite',
+    },
+    syncIcon: {
+        ...baseIconStyle, // Spread the base styles
+    },
+    // keyframes in a style tag
+    keyframes: `
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            20% { transform: rotate(60deg); }
+            40% { transform: rotate(120deg); }
+            50% { transform: rotate(180deg); }
+            60% { transform: rotate(240deg); }
+            80% { transform: rotate(300deg); }
+            100% { transform: rotate(360deg); }
+        }
+    `,
+};

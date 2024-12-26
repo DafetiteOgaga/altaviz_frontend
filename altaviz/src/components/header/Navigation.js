@@ -2,9 +2,6 @@ import { Link } from 'react-router-dom';
 import './header.css';
 import DropdownMenu from './product_dropdown_menu/DropdownMenu';
 
-// const colorStyle = {
-//   color: 'yello'
-// }
 function Navigation() {
   return (
     <nav className='nav-h1'>

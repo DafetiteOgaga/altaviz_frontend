@@ -7,6 +7,15 @@ import { useLocation } from "react-router-dom";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 // import { TriggerContext } from "../../context/triggerContext/TriggerContext";
 
+const style = {
+	input: {
+		padding: "4px",
+		fontSize: "16px",
+		border: "1px solid #ccc",
+		borderRadius: "5px",
+	}
+}
+
 function LogFault() {
 	const refInput = useRef(null);
 	const { toSentenceCase } = useContext(SentenceCaseContext);
@@ -174,14 +183,6 @@ function LogFault() {
 	console.log('no selection:', noselection)
 	const incrementAddMoreButtonCount = () => setFormIndex(prev => prev + 1)
 	const decrementAddMoreButtonCount = () => setFormIndex(prev => prev - 1)
-	const style = {
-		input: {
-			padding: "4px",
-			fontSize: "16px",
-			border: "1px solid #ccc",
-			borderRadius: "5px",
-		}
-	}
 	return (
 		<>
 			<div className="dash-form">

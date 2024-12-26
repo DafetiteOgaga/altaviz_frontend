@@ -69,10 +69,7 @@ export const GlobalProvider = ({ children }) => {
 					href={path}
 					className={page}
 					onClick={goToPage}
-					style={{
-						display: 'inline-block',
-					}}
-					>
+					style={{display: 'inline-block'}}>
 						{toSentenceCase(page)}{text}
 				</a>{remainingText}
 			</>
