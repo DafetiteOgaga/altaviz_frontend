@@ -1155,7 +1155,7 @@ function CreateUser () {
 															// 	'selectedLocation:', selectedLocation,
 															// 	'selectedLocation.location:', selectedLocation.location
 															// )
-															return (<option key={i} value={selectedLocation.location}>{toSentenceCase(selectedLocation.location)}</option>
+															return (<option key={i} value={`${selectedLocation.location}-${selectedLocation.id}`}>{toSentenceCase(selectedLocation.location)}</option>
 														)})}
 													</SelectItem>
 													{newUser.location === 'Enter a New Location' && (
