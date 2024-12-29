@@ -681,12 +681,13 @@ function FaultDetailsGen({searchFaults}) {
 											</div>
 											{faultsItem?.logged_by &&
 											<>
+											{/* {console.log('faultsItem:', faultsItem)} */}
 												<div className="input-field">
 													<p><strong>Logged by: </strong>
 													<Link
 													style={{color: '#333'}}
-													to={`/user/${faultsItem?.logged_by.branch.custodian.id}`}>
-														{toSentenceCase(faultsItem?.logged_by.branch.custodian.first_name)}
+													to={`/user/${faultsItem?.logged_by.custodian.id}`}>
+														{toSentenceCase(faultsItem?.logged_by.custodian.first_name)}
 													</Link>
 													</p>
 												</div>
