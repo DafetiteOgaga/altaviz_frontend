@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
-function QueryFieldFromDB({ query, setIsExist }) {
+function QueryFieldFromDB({ query, callbackOnDataChange }) {
 	let queryData = query.split('-')
 	let qtype = queryData[queryData.length - 2];
 	let qtext = queryData[queryData.length - 1];
@@ -61,7 +61,10 @@ function QueryFieldFromDB({ query, setIsExist }) {
 				setNewLocationResponse(null);
 				setNewBranchResponse(null);
 				setRoleResponse(null);
-				setIsExist(true);
+				if (callbackOnDataChange) {
+					console.log('fffffff'.repeat(40))
+					callbackOnDataChange({ qtext: qtext, query: query, status: 'reset' }); // Notify parent
+				}
 				return;
 			}
 
@@ -122,13 +125,33 @@ function QueryFieldFromDB({ query, setIsExist }) {
 		// Call fetchData whenever the query changes
 		fetchData();
 	}, [query]);  // Query dependency to trigger effect on change
-
-	if (qtype === 'email') setIsExist(!!emailResponse)
-	if (qtype === 'username') setIsExist(!!usernameResponse)
-	if (qtype === 'newBank') setIsExist(!!newBankResponse)
-	if (qtype === 'newLocation') setIsExist(!!newLocationResponse)
-	if (qtype === 'newBranch') setIsExist(!!newBranchResponse)
-	if (qtype === 'region') setIsExist(!!roleResponse)
+	
+		if (callbackOnDataChange) {
+			if (qtype === 'email') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: emailResponse, response: !!emailResponse ? 'taken' : 'available' });
+			}
+			if (qtype === 'username') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: usernameResponse, response: !!usernameResponse ? 'taken' : 'available' });
+			}
+			if (qtype === 'newBank') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: newBankResponse, response: !!newBankResponse ? 'taken' : 'available' });
+			}
+			if (qtype === 'newLocation') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: newLocationResponse, response: !!newLocationResponse ? 'taken' : 'available' });
+			}
+			if (qtype === 'newBranch') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: newBranchResponse, response: !!newBranchResponse ? 'taken' : 'available' });
+			}
+			if (qtype === 'region') {
+				console.log('yyyyyy'.repeat(50))
+				callbackOnDataChange({ qtext, qtype, responseValue: roleResponse, response: !!roleResponse ? 'taken' : 'available' });
+			}
+		}
 	const displayStylings = {
 		fontSize: 'small',
 		fontStyle: 'italic',
@@ -139,29 +162,22 @@ function QueryFieldFromDB({ query, setIsExist }) {
 			{error && <span style={{...displayStylings, color: 'red'}}>{error}</span>}
 
 			{emailResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!emailResponse ? 'red' : 'green')}}>{qtext} is {!!emailResponse ? 'Already taken' : 'Available'}</span>
 			)}
 			{usernameResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!usernameResponse ? 'red' : 'green')}}>{qtext} is {!!usernameResponse ? 'Already taken' : 'Available'}</span>
 			)}
 			{newBankResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!newBankResponse ? 'red' : 'green')}}>{qtext} is {!!newBankResponse ? 'Already taken' : 'Available'}</span>
 			)}
 			{newLocationResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!newLocationResponse ? 'red' : 'green')}}>{qtext} is {!!newLocationResponse ? 'Already taken' : 'Available'}</span>
 			)}
 			{newBranchResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!newBranchResponse ? 'red' : 'green')}}>{qtext} is {!!newBranchResponse ? 'Already taken' : 'Available'}</span>
 			)}
 			{roleResponse !== null && !loading && (
-				// <p>Response: {typeof response === 'boolean' ? (response ? 'True' : 'False') : response}</p>
 				<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</span>
-				// <span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned</span>
 			)}
 		</div>
 	);
