@@ -92,7 +92,7 @@ export const NotificationProvider = ({ children }) => {
 
 	// observe presence
 	function observer(id, callback) {
-		console.log(`listening for updates on ${id} ...`);
+		// console.log(`listening for updates on ${id} ...`);
 		if (id===null||id===undefined) {
 			console.log("no ID passed yet");
 			return;
