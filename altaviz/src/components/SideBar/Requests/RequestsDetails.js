@@ -410,7 +410,7 @@ function RequestsDetails() {
 								<Link
 								style={{color: '#333'}}
 								to={`/${dept}/${dept==='custodian'?'pending/fault-gen-list/':`${requestType==='part'?'part':'component'}-request-list/`}`}>
-									{(dept !== 'help-desk'&&dept !== 'supervisor') && 'Back to List'}
+									{(dept !== 'help-desk'&&dept !== 'human-resource'&&dept !== 'supervisor') && 'Back to List'}
 								</Link>
 							</span>
 						</h4>
