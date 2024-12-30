@@ -28,24 +28,24 @@ function NotificationDropdownMenu({
 }) {
 	// const notiParams = useParams()
 	const totalArrayContext = `total${variableContext}`
-	console.log(
-		// '\nbutton:', button,
-		'\nurlPath:', urlPath,
-		'\nnotiList:', notiList,
-		'\ntotalData:', totalData,
-		'\nvariableContext:', variableContext,
-		// '\ntotalArrayContext:', totalArrayContext,
-		'\nlistPageUrl:', listPageUrl,
-		'\ndetailPageUrl:', detailPageUrl,
-		'\nhandler:', handler,
-		'\npatchUrl:', patchUrl,
-		'\npostUrl:', postUrl,
-		'\nputUrl:', putUrl,
-		// '\nsecondButton:', secondButton,
-		// '\ndeleteUrl:', deleteUrl,
-		// '\nextraDisplayLocalKeys:', extraDisplayLocalKeys,
-		// '\nnotiParams:', notiParams,
-	)
+	// console.log(
+	// 	// '\nbutton:', button,
+	// 	'\nurlPath:', urlPath,
+	// 	'\nnotiList:', notiList,
+	// 	'\ntotalData:', totalData,
+	// 	'\nvariableContext:', variableContext,
+	// 	// '\ntotalArrayContext:', totalArrayContext,
+	// 	'\nlistPageUrl:', listPageUrl,
+	// 	'\ndetailPageUrl:', detailPageUrl,
+	// 	'\nhandler:', handler,
+	// 	'\npatchUrl:', patchUrl,
+	// 	'\npostUrl:', postUrl,
+	// 	'\nputUrl:', putUrl,
+	// 	// '\nsecondButton:', secondButton,
+	// 	// '\ndeleteUrl:', deleteUrl,
+	// 	// '\nextraDisplayLocalKeys:', extraDisplayLocalKeys,
+	// 	// '\nnotiParams:', notiParams,
+	// )
 
 	const { authData } = useContext(AuthContext)
 	const role = useLocation().pathname.split('/')[1]
@@ -211,11 +211,11 @@ function NotificationDropdownMenu({
 	useEffect(() => {
 		let newList;
 		if (notiList) {
-			console.log(
-				'\nnotiList:', notiList,
-				'\nvariableContext:', variableContext,
-				'\nurlPath:', urlPath,
-			)
+			// console.log(
+			// 	'\nnotiList:', notiList,
+			// 	'\nvariableContext:', variableContext,
+			// 	'\nurlPath:', urlPath,
+			// )
 			if (handler === 'help-desk' || handler === 'supervisor'||
 				handler === 'human-resource') {
 				// for helpdesk, supervisor, human-resource components
