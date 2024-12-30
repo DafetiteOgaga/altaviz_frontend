@@ -88,9 +88,9 @@ export const FetchProviders = ({ children }) => {
 			// Inspection
 			// console.log('from post api #####')
 			// console.log('url:', url);
-			for (const [key, value] of formData.entries()) {
-				console.log(`item: ${key}\nvalue: ${value}`);
-			}
+			// for (const [key, value] of formData.entries()) {
+			// 	console.log(`item: ${key}\nvalue: ${value}`);
+			// }
 			const postData = async () => {
 				try {
 					if (checkNull(url)) {
@@ -105,14 +105,8 @@ export const FetchProviders = ({ children }) => {
 						});
 						if (response.ok) {
 							const responseData = await response.json();
-							const three = '\n8888888888888888888888888888888'
-							console.log(
-								'\n#############################',
-								three.repeat(4),
-								'\nresponse:', responseData,
-								three.repeat(4),
-								'\n#############################'
-							)
+							// const three = '\n8888888888888888888888888888888'
+							console.log('\nresponse:', responseData,)
 							if (responseData.msg === 'pending update request') {
 								const userConfirmed = window.confirm('An Update Request exists.\nSelect OK to Replace the last Update Request');
 
@@ -216,9 +210,9 @@ export const FetchProviders = ({ children }) => {
 			// Inspection
 			// console.log('from put api #####')
 			// console.log('url:', url);
-			for (const [key, value] of formData.entries()) {
-				console.log(`item: ${key}\nvalue: ${value}`);
-			}
+			// for (const [key, value] of formData.entries()) {
+			// 	console.log(`item: ${key}\nvalue: ${value}`);
+			// }
 			const putData = async () => {
 				try {
 					if (checkNull(url)) {
@@ -296,19 +290,19 @@ export const FetchProviders = ({ children }) => {
 				return;
 			}
 			console.log('from patch api #####');
-			console.log(
-				'\nurl:', url,
-				'\ntrigger:', trigger,
-				'\nredirect:', redirectToPage
-			);
-			for (const [key, value] of formData.entries()) {
-				console.log(`item: ${key}\nvalue: ${value}`);
-			}
-			console.log('111111111111111111')
+			// console.log(
+			// 	'\nurl:', url,
+			// 	'\ntrigger:', trigger,
+			// 	'\nredirect:', redirectToPage
+			// );
+			// for (const [key, value] of formData.entries()) {
+			// 	console.log(`item: ${key}\nvalue: ${value}`);
+			// }
+			// console.log('111111111111111111')
 			const patchData = async () => {
-				console.log('222222222222222222')
+				// console.log('222222222222222222')
 				try {
-					console.log('33333333333333333')
+					// console.log('33333333333333333')
 					if (checkNull(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
@@ -375,14 +369,14 @@ export const FetchProviders = ({ children }) => {
 		const [deleteLoading, setDeleteLoading] = useState(false);
 		const [deleteError, setDeleteError] = useState(null);
 		// Reference for debounce timer
-		const times = 25
-		console.log('0'.repeat(times))
+		// const times = 25
+		// console.log('0'.repeat(times))
 		const deleteDebounceTimer = useRef(null);
 		console.log({url})
 		useEffect(() => {
-			console.log(('0'+15).repeat(times))
+			// console.log(('0'+15).repeat(times))
 			if (!trigger) {
-				console.log(('0'+16).repeat(times))
+				// console.log(('0'+16).repeat(times))
 				// console.log('Delete trigger is false. DELETE call not executed.');
 				return;
 			}
@@ -390,54 +384,54 @@ export const FetchProviders = ({ children }) => {
 			// console.log('url:', url);
 			// const one = 1
 			const deleteData = async () => {
-				console.log(('0'+17).repeat(times))
+				// console.log(('0'+17).repeat(times))
 				try {
-					console.log(('0'+1).repeat(times))
+					// console.log(('0'+1).repeat(times))
 					if (checkNull(url)) {
-						console.log(('0'+2).repeat(times))
+						// console.log(('0'+2).repeat(times))
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
-						console.log(('0'+3).repeat(times))
+						// console.log(('0'+3).repeat(times))
 						setDeleteLoading(true);
 						const response = await fetch(`${apiBaseUrl}/${url}`, {
 							method: "DELETE",
 						});
 						// console.log('response ok:', response.ok)
 						if (response.ok) {
-							console.log(('0'+4).repeat(times))
+							// console.log(('0'+4).repeat(times))
 							const responseData = await response.json();
 							setDeleteData(responseData);
 							// console.log('DELETE response', responseData);
 		
 							if (redirectToPage) {
-								console.log(('0'+5).repeat(times))
+								// console.log(('0'+5).repeat(times))
 								// console.log('redirect to page:', redirectToPage)
 								redirectTo("/success");
 								const timer = setTimeout(() => {
-									console.log(('0'+6).repeat(times))
+									// console.log(('0'+6).repeat(times))
 									redirectTo(redirectToPage);
 								}, 700);
 								return () => clearTimeout(timer);
 							}
 						} else {
-							console.log(('0'+7).repeat(times))
+							// console.log(('0'+7).repeat(times))
 							console.log(`Error DELETING data for ${url}: ${response.statusText}`);
 							throw new Error("Could not delete request.");
 						}
 					}
 				} catch (error) {
-					console.log(('0'+8).repeat(times))
+					// console.log(('0'+8).repeat(times))
 					setDeleteError(error.message);
 				} finally {
-					console.log(('0'+9).repeat(times))
+					// console.log(('0'+9).repeat(times))
 					setDeleteLoading(false);
 				}
 			};
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
 			if (trigger) {
-				console.log(('0'+10).repeat(times))
+				// console.log(('0'+10).repeat(times))
 				// if (debounceTimer.current) {
 				// 	console.log(('0'+11).repeat(times))
 				// 	// clearTimeout(debounceTimer.current); // Clear any existing debounce timer
@@ -445,7 +439,7 @@ export const FetchProviders = ({ children }) => {
 
 				// Apply debounce delay before calling fetchData
 				deleteDebounceTimer.current = setTimeout(() => {
-					console.log(('0'+12).repeat(times))
+					// console.log(('0'+12).repeat(times))
 					deleteData();
 				}, 500); // 300ms debounce delay
 
@@ -457,7 +451,7 @@ export const FetchProviders = ({ children }) => {
 				// 	}
 				// };
 			} else {
-				console.log(('0'+13).repeat(times))
+				// console.log(('0'+13).repeat(times))
 				// console.log('TRIGGER TO GETDATA:', trigger);
 				// console.log("CAN'T FETCH DATA FOR", '\n', pageNameIs);
 			}

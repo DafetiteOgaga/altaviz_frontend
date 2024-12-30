@@ -29,7 +29,7 @@ export const SentenceCaseProvider = ({ children }) => {
         return str; // Return the original string if it's already shorter than maxLength
     }
     const separateChars = (text) => {
-        console.log({text})
+        // console.log({text})
         if (!text) return;
         // Extract specific chunks using slice
         const separated1 = text.slice(0, 3); // First 3 characters
@@ -37,9 +37,9 @@ export const SentenceCaseProvider = ({ children }) => {
         const separated3 = text.slice(7, 10); // Last 3 characters
     
         // Log the separated chunks
-        console.log('separated1:', separated1);
-        console.log('separated2:', separated2);
-        console.log('separated3:', separated3);
+        // console.log('separated1:', separated1);
+        // console.log('separated2:', separated2);
+        // console.log('separated3:', separated3);
     
         // Combine the chunks with a space
         return [separated1, separated2, separated3].filter(Boolean).join('-');

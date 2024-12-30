@@ -7,7 +7,7 @@ import usePostRequest from "./PostChat";
 // import { listenForUpdates, stopListening } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 // import { every, isEqual } from 'lodash';
 import OnlineStatus from "./OnlineStatus";
 // import { update } from 'firebase/database';
@@ -51,6 +51,7 @@ const ChatRoom = () => {
 	// const onlineList = useRef([]);
 	// const location = useLocation().pathname.split('/')[1]
 	const { toSentenceCase } = useContext(SentenceCaseContext)
+	const onlineIDs = useRef([])
 	const oldID = useRef(null)
 	const firebaseNotificationKey = useRef(null)
 	const { chatNotifications:fromContext, deleteNotification,
@@ -111,11 +112,11 @@ const ChatRoom = () => {
 		}
 	}, [getChatData, everyone])
 
-	console.log(
-		'\neveryone.arrayData:', everyone.arrayData,
-		'\neveryone.arrayLoading:', everyone.arrayLoading,
-		'\neveryone.arrayError:', everyone.arrayError,
-	)
+	// console.log(
+	// 	'\neveryone.arrayData:', everyone.arrayData,
+	// 	'\neveryone.arrayLoading:', everyone.arrayLoading,
+	// 	'\neveryone.arrayError:', everyone.arrayError,
+	// )
 
 	useEffect(() => {
 		// console.log({postChatData}, {postTrigger})
@@ -217,6 +218,7 @@ const ChatRoom = () => {
 	// }, [everyone?.arrayData]);
 
 	// console.log({onlineList})
+	console.log('onlineIDs:', onlineIDs.current)
 	return (
 		// grid container
 		<div style={styles.boxContainer}>
@@ -327,9 +329,16 @@ const ChatRoom = () => {
 				<div style={styles.chatBoxArea}>
 					{everyone?.arrayData
 					?.sort?.((a, b) => {
-						// if (chatNotification?.idList?.includes(a.id)) return -1;
-						// if (onlineList.current?.includes(a.id)&&(a.id<b.id)) return -1
-						return 0; // If both or neither match, maintain original order
+						const aIsOnline = onlineIDs.current?.includes(a.id) ? 1 : 0; // Check if `a.id` is online
+						const bIsOnline = onlineIDs.current?.includes(b.id) ? 1 : 0; // Check if `b.id` is online
+
+						// First, prioritize online IDs
+						if (aIsOnline !== bIsOnline) {
+						return bIsOnline - aIsOnline; // Online IDs come first
+						}
+
+						// If both are online or both are not, sort by ID
+						return a.id - b.id; // Ascending order by ID
 					})
 					?.filter?.(user => {
 						// console.log({user})
@@ -371,7 +380,7 @@ const ChatRoom = () => {
 								{/* <span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span> */}
 
 								{/* online status */}
-								<OnlineStatus id={avatar.id} />
+								<OnlineStatus id={avatar.id} onlineIDs={onlineIDs} />
 							</div>
 						</div>
 					</div>

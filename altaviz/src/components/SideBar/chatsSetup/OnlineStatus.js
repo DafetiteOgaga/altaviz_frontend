@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useChatNotification } from "../../context/RealTimeNotificationContext/useChatsNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 
-function OnlineStatus({id, currentBuddy=null, typing=null}) {
+function OnlineStatus({id, currentBuddy=null, typing=null, onlineIDs}) {
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	const [status, setStatus] = useState(null);
 	const { observer } = useChatNotification();
@@ -11,6 +11,16 @@ function OnlineStatus({id, currentBuddy=null, typing=null}) {
 		// Observe the user's status
 		observer(id, (observedStatus) => {
 			setStatus(observedStatus);
+			if ((observedStatus==='online'||observedStatus==='typing')&&
+				!onlineIDs.current.includes(id)
+			) {
+				console.log('for', id, observedStatus)
+				// console.log({onlineIDs})
+				if (onlineIDs) onlineIDs.current = [...onlineIDs?.current, id]
+			}
+			if (observedStatus==='offline'&&onlineIDs.current?.includes(id)) {
+				onlineIDs.current = onlineIDs.current.filter(item => item!==id)
+			}
 		});
 
 		return () => {
@@ -19,7 +29,6 @@ function OnlineStatus({id, currentBuddy=null, typing=null}) {
 		};
 	}, [id]); // Re-run if the avatar ID changes
 
-	// Conditional rendering
 	return (
 		<>
 			{typing&&
@@ -34,7 +43,7 @@ function OnlineStatus({id, currentBuddy=null, typing=null}) {
 			{!typing&&
 			<>
 				<span> </span>
-				<span style={styles.online}>{toSentenceCase(status)}</span>
+				<span style={styles.online}>{(status?.toLowerCase()==='online'||status?.toLowerCase()==='typing')&&toSentenceCase('online')}</span>
 			</>}
 		</>
 	);
