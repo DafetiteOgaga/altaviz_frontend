@@ -6,10 +6,7 @@ import "./humanResource.css"
 import RequestListDisplay from "../Requests/RequestListDisplay";
 import { useNavigate } from "react-router-dom";
 // import RequestList from "../xxrequestApprovedPendingResolved/request/RequestList";
-// import AddComponent from "../componentComps/AddComponent";
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
-// import AddComponent from "./addCompParts/componentComps/AddComponent";
-// import AddPart from "../human_resource/addCompParts/partComps/AddPart";
 // import CustodianDetailsUpdateRequestNotifi from "./updateDetails/custodianDetailsUpdate/CustodianDetailsUpdateRequestNotifi";
 import Notification from "../notification/Notification";
 import FaultSearch from "../searches/FaultSearch";
@@ -19,8 +16,8 @@ function HumanResource() {
 	const navigate = useNavigate();
 	const [createUser, setCreateUser] = useState(false);
 	const [updateUser, setUpdateUser] = useState(false);
-	const [Comps, setComps] = useState(false);
-	const [Parts, setParts] = useState(false);
+	// const [Comps, setComps] = useState(false);
+	// const [Parts, setParts] = useState(false);
 	const [isSearchOpen, setIsSearchOpen] = useState(false);
 	// const [isVisible, setIsVisible] = useState(false);
 	const [isRequestList, setIsRequestList] = useState(false);
@@ -88,8 +85,8 @@ function HumanResource() {
 	const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
 	const toggleCreateUser = () => setCreateUser(!createUser);
 	const toggleUpdateUser = () => setUpdateUser(!updateUser);
-	const toggleAddComps = () => setComps(!Comps);
-	const toggleAddParts = () => setParts(!Parts);
+	// const toggleAddComps = () => setComps(!Comps);
+	// const toggleAddParts = () => setParts(!Parts);
 	const gotoInventory = () => navigate('/inventory');
 	const notificationStyles = {
 		display: 'flex',
@@ -254,28 +251,47 @@ function HumanResource() {
 					<h5 onClick={gotoInventory}>Inventory</h5>
 
 					{/* component form */}
-					<h5
+					{/* <h5
 					style={Comps ?
 						{...activeStyles} :
 						{}}
 					onClick={toggleAddComps}>{Comps ?
 						'Close Form'
 						: 'Add Components'}
-					</h5>
+					</h5> */}
 
 					{/* part form */}
-					<h5
+					{/* <h5
 					style={Parts ?
 						{...activeStyles} :
 						{}}
 					onClick={toggleAddParts}>{Parts ?
 						'Close Form':
 						'Add Parts'}
-					</h5>
-				</div>
+					</h5> */}
 
+
+					{/* search button and form */}
+					<h5
+					style={
+						isSearchOpen ?
+							{...activeStyles} :
+							{}}
+					onClick={(e)=>{
+						toggleSearch();
+						toggleSearchBtn();
+						}}>
+						{isSearchOpen ?
+							'Close Form' :
+							'Search for Requests'}
+					</h5>
+				{/* </div> */}
+
+				
+				{/* <div className="custum-button"> */}
+
+				
 				{/* account creation and update forms */}
-				<div className="custum-button">
 					{/* account creation form */}
 					<h5
 					style={createUser ?
@@ -295,20 +311,6 @@ function HumanResource() {
 						'Update Acount'}
 					</h5>
 
-					{/* search button and form */}
-					<h5
-					style={
-						isSearchOpen ?
-							{...activeStyles} :
-							{}}
-					onClick={(e)=>{
-						toggleSearch();
-						toggleSearchBtn();
-						}}>
-						{isSearchOpen ?
-							'Close Form' :
-							'Search for Requests'}
-					</h5>
 				</div>
 				<hr style={{width: '50%'}} />
 
@@ -335,8 +337,8 @@ function HumanResource() {
 				<div style={{...toggleStyles, ...(inTransit?{paddingBottom: '100rem'}:{})}}>
 					{isSearchOpen && < FaultSearch />}
 				</div>
-				{Comps && (<AddItemToInventory itemName='components' />)}
-				{Parts && (<AddItemToInventory itemName='parts' />)}
+				{/* {Comps && (<AddItemToInventory itemName='components' />)}
+				{Parts && (<AddItemToInventory itemName='parts' />)} */}
 				{createUser && (<CreateUser />)}
 				{updateUser && (<UpdateUser />)}
 
