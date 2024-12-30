@@ -9,6 +9,7 @@ import { useRefreshContext } from "../../../context/RefreshContext";
 // import { useNavigate}
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import AddInventoryName from "./AddInventoryName";
+import AddItemToInventory from "../addItemToInventory/AddItemToInventory";
 // import { useNavigate, useLocation } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 
@@ -21,6 +22,10 @@ function Inventory() {
 	const { encrypt, RotCipher } = useContext(RotContext)
 	const [componentInventoryList, setComponentInventoryList] = useState(null);
 	const [partInventoryList, setParttInventoryList] = useState(null);
+	const [Comps, setComps] = useState(false);
+	const [Parts, setParts] = useState(false);
+	const toggleAddComps = () => setComps(!Comps);
+	const toggleAddParts = () => setParts(!Parts);
 	// const [refreshing, setRefreshing] = useState(false);
 	// const [isRefresh, setIsRefresh] = useState(false)
 	// const refreshChildComponent = () => {
@@ -184,12 +189,6 @@ function Inventory() {
 			};
 		}
 	};
-	const staticStles = {
-		border: '1px solid',
-		padding: '0.5rem',
-		borderBottom: '2px solid',
-		textWrap: 'nowrap',
-	};
 	// console.log('componentsData:', componentsData);
 	const [addCompNames, setAddCompNames] = useState(false);
 	const [addPartNames, setAddPartNames] = useState(false);
@@ -198,12 +197,6 @@ function Inventory() {
 	}
 	const toggleAddPartNames = () => {
 		setAddPartNames(!addPartNames);
-	}
-	const activeStyles = {
-		backgroundColor: '#8A8A93',
-	}
-	const buttonStyle = {
-		paddingTop: '2rem',
 	}
 	// console.log('refreshvalue:', refreshValue)
 	return (
@@ -268,7 +261,7 @@ function Inventory() {
 					<div
 					style={buttonStyle}
 					className="custum-button">
-						<h5 style={addCompNames ? {...activeStyles} : {}}  onClick={toggleAddCompNames}>{addCompNames ? 'Close Form' : 'Add New Component Name'}</h5>
+						<h5 style={addCompNames ? {...activeStyles} : {}}  onClick={toggleAddCompNames}>{addCompNames ? 'Close Form' : 'New Component Name'}</h5>
 					</div>
 					<div>
 						{addCompNames && (
@@ -279,6 +272,30 @@ function Inventory() {
 								{/* <LogFault childList={childList} /> */}
 							</>
 						)}
+					</div>
+					<hr style={{width: '80%'}} />
+					<div className="custum-button">
+						{/* update component form */}
+						<h5
+						style={Comps ?
+							{...activeStyles} :
+							{}}
+						onClick={toggleAddComps}>{Comps ?
+							'Close Form'
+							: 'Update Components'}
+						</h5>
+
+						{/* part form */}
+						{/* <h5
+						style={Parts ?
+							{...activeStyles} :
+							{}}
+						onClick={toggleAddParts}>{Parts ?
+							'Close Form':
+							'Add Parts'}
+						</h5> */}
+						{/* {Comps && (<AddItemToInventory itemName='components' />)} */}
+						{/* {Parts && (<AddItemToInventory itemName='parts' />)} */}
 					</div>
 				</div>
 
@@ -337,7 +354,7 @@ function Inventory() {
 					<div
 					style={buttonStyle}
 					className="custum-button">
-						<h5 style={addPartNames ? {...activeStyles} : {}}  onClick={toggleAddPartNames}>{addPartNames ? 'Close Form' : 'Add New Part Name'}</h5>
+						<h5 style={addPartNames ? {...activeStyles} : {}}  onClick={toggleAddPartNames}>{addPartNames ? 'Close Form' : 'New Part Name'}</h5>
 					</div>
 					<div>
 						{addPartNames && (
@@ -349,10 +366,132 @@ function Inventory() {
 							</>
 						)}
 					</div>
+					<hr style={{width: '80%'}} />
+					<div className="custum-button">
+						{/* update component form */}
+						{/* <h5
+						style={Comps ?
+							{...activeStyles} :
+							{}}
+						onClick={toggleAddComps}>{Comps ?
+							'Close Form'
+							: 'Add Components'}
+						</h5> */}
+
+						{/* update part form */}
+						<h5
+						style={Parts ?
+							{...activeStyles} :
+							{}}
+						onClick={toggleAddParts}>{Parts ?
+							'Close Form':
+							'Update Parts'}
+						</h5>
+						{/* {Comps && (<AddItemToInventory itemName='components' />)} */}
+						{/* {Parts && (<AddItemToInventory itemName='parts' />)} */}
+					</div>
 				</div>
 			</div>
+			{Comps && (<AddItemToInventory itemName='components' />)}
+			{Parts && (<AddItemToInventory itemName='parts' />)}
+			<hr style={{width: '80%'}} />
+			<div>
+				<h5 style={{margin: '50px 0 0 0'}}>Note:</h5>
+				<table border="1" style={legendStyle.table}>
+					<thead>
+						<tr>
+							<th>Components</th>
+							<th>Part</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<table border="1" style={legendStyle.table}>
+									<thead>
+										<tr>
+											<th style={legendStyle.headAndData}>Range</th>
+											<th style={legendStyle.headAndData}>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style={legendStyle.headAndData}>{'50 >'}</td>
+											<td style={{...legendStyle.headAndData, color: 'green' }}>Available</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>15 - 49</td>
+											<td style={{...legendStyle.headAndData, color: 'blue' }}>Low</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>1 - 14</td>
+											<td style={{...legendStyle.headAndData, color: 'red' }}>Critical</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>0</td>
+											<td style={{...legendStyle.headAndData, color: 'gray' }}>Not Available</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+							<td>
+								<table border="1" style={legendStyle.table}>
+									<thead>
+										<tr>
+											<th style={legendStyle.headAndData}>Range</th>
+											<th style={legendStyle.headAndData}>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style={legendStyle.headAndData}>{'10 >'}</td>
+											<td style={{...legendStyle.headAndData, color: 'green' }}>Available</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>5 - 9</td>
+											<td style={{...legendStyle.headAndData, color: 'blue' }}>Low</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>1 - 4</td>
+											<td style={{...legendStyle.headAndData, color: 'red' }}>Critical</td>
+										</tr>
+										<tr>
+											<td style={legendStyle.headAndData}>0</td>
+											<td style={{...legendStyle.headAndData, color: 'gray' }}>Not Available</td>
+										</tr>
+									</tbody>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<hr style={{width: '80%'}} />
 		</div>
 	);
 }
-
 export default Inventory;
+
+const activeStyles = {
+	backgroundColor: '#8A8A93',
+}
+const buttonStyle = {
+	paddingTop: '2rem',
+}
+const staticStles = {
+	border: '1px solid',
+	padding: '0.5rem',
+	borderBottom: '2px solid',
+	textWrap: 'nowrap',
+};
+const legendStyle = {
+	table: {
+		border: '1px solid black',
+		borderCollapse: 'collapse',
+	},
+	headAndData: {
+		padding: '4px',
+		textAlign: 'center',
+	}
+}
