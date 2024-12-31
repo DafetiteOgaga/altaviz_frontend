@@ -767,7 +767,7 @@ function CreateUser () {
 				updatedSamp = { ...updatedSamp, [key]: value };
 			});
 			setFormData(newFormData);
-			// setPostTrigger(true);
+			setPostTrigger(true);
 			// console.log('updatedSamp:', updatedSamp);
 		} else {
 			fieldsExist.current = valuesAllGood.current
