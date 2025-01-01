@@ -81,9 +81,9 @@ function useSilentUpdate (firebaseNotification) {
 		'\nfirebaseNotificationKey === null:', firebaseKey === null,
 		'\nfirebaseNotificationKey === undefined:', firebaseKey === undefined
 	)
-	if (oldFirebaseNotificationKey) {
-		localStorage.removeItem('updating')
-	}
+	// if (oldFirebaseNotificationKey) {
+	// 	localStorage.removeItem('updating')
+	// }
 	let notificationText;
 	// change the name  websocketAlert to something with firebase
 	// tag to indicate message and pass the message separately from the
@@ -135,8 +135,9 @@ function useSilentUpdate (firebaseNotification) {
 		console.log({dept}, {notificationText}, {auth}, {firebaseKey})
 		websocketAlert = notificationText?.split('-')[0]
 		if (websocketAlert!=='deliveries point') {
+			const reg = notificationText?.split('-')[1]
 			// websocketAlert = notificationText?.split('-')[0]
-			localStorage.setItem('updating', `${true} > ${websocketAlert}`)
+			localStorage.setItem('updating', `${reg}/${authData.region.name} > ${websocketAlert}`)
 			forceUpdates.current = true
 		} else {websocketAlert = null}
 		console.log({firebaseKey})
@@ -154,7 +155,7 @@ function useSilentUpdate (firebaseNotification) {
 	// passes for human resource and workshop but checks the notification region against authData.region
 	const isRegion = (authData?.role==='human-resource'||authData?.role==='workshop'||(authData?.region?.name === notificationText?.split('-')[1]))?authData?.region?.name:null
 	console.log(
-		'\nnotificationText (apps.js):', notificationText,
+		'\nnotificationText:', notificationText,
 		'\nnotificationText?.split("-")[1]:', notificationText?.split('-')[1],
 		'\nisRegion:', isRegion,
 	)
@@ -239,13 +240,11 @@ function useSilentUpdate (firebaseNotification) {
 				nTotalNotifications.current = 5
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
-				// assignNotifications(notificationUrl1, notificationKey1, 'workshop-component-request', 'componentKey', 'notification1');
-				assignNotifications(notificationUrl2, notificationKey2, 'all-request-faults', 'faultsKey', 'notification2');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
-				assignNotifications(notificationListUrl2, notificationListKey2, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList2');
-				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
-				assignNotifications(notificationListUrl4, notificationListKey4, 'all-request-faults', 'faultpendingList', 'notificationList4');
-				nTotalNotifications.current = 6
+				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
+				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
+				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
+				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
+				nTotalNotifications.current = 4
 				NotificationString.current = websocketAlert
             } else if (dept === 'engineer') {
 				assignNotifications(notificationUrl1, notificationKey1, 'engineer-pending-faults', 'faultsKey', 'notification1');
@@ -359,6 +358,9 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl4, notificationListKey4, 'all-request-faults', 'faultpendingList', 'notificationList4');
 				nTotalNotifications.current = 6
 				NotificationString.current = websocketAlert
+
+				// nTotalNotifications.current = 2
+
 			} else if (dept === 'workshop') {
                 assignNotifications(notificationUrl1, notificationKey1, 'request-component', 'componentKey', 'notification1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'request-component', 'componentPendingList', 'notificationList1');
@@ -373,6 +375,9 @@ function useSilentUpdate (firebaseNotification) {
 				assignNotifications(notificationListUrl3, notificationListKey3, 'engineer-unresolved-faults', 'allUnresolvedKey', 'notificationList3');
 				nTotalNotifications.current = 5
 				NotificationString.current = websocketAlert
+
+				// nTotalNotifications.current = 2
+
 			}
 			// NotificationString.current = websocketAlert
             break;
@@ -397,7 +402,6 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
@@ -433,9 +437,7 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
-				// assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-only', 'allPendingRequests', 'notificationList3');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-faults', 'faultpendingList', 'notificationList2');
 				nTotalNotifications.current = 3
 				NotificationString.current = websocketAlert
@@ -511,7 +513,6 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
@@ -548,7 +549,6 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
@@ -584,7 +584,6 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
@@ -620,7 +619,6 @@ function useSilentUpdate (firebaseNotification) {
 				NotificationString.current = websocketAlert
 			} else if (dept==='human-resource') {
 				assignNotifications(notificationUrl1, notificationKey1, 'all-request-faults', 'faultsKey', 'notification1');
-				// assignNotifications(notificationListUrl1, notificationListKey1, 'workshop-component-request', 'componentPendingList', 'notificationList1');
 				assignNotifications(notificationListUrl1, notificationListKey1, 'all-pending-faults-wRequests', 'allUnresolvedKey', 'notificationList1');
 				assignNotifications(notificationListUrl2, notificationListKey2, 'all-request-only', 'allPendingRequests', 'notificationList2');
 				assignNotifications(notificationListUrl3, notificationListKey3, 'all-request-faults', 'faultpendingList', 'notificationList3');
@@ -657,97 +655,104 @@ function useSilentUpdate (firebaseNotification) {
 	console.log({authData})
 	const noti1 = usePullNotification(
 		(authData?notificationUrl1.current:null), (authData?authData.id:null),
-		(authData?notificationKey1.current:null), forceUpdates.current,
+		(authData?notificationKey1.current:null), (nCounter.current?.includes('one')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// ntype1.current,
 		isRegion
 	)
-	if (noti1.isListData.current&&!nCounter.current.some?.(check=>check==='one')&&nTotalNotifications.current) {nCounter.current.push('one')}
+	if (noti1?.isListData?.current&&!nCounter.current.some?.(check=>check==='one')&&nTotalNotifications.current) {nCounter.current.push('one')}
+	else if (nCounter.current?.includes('one')&&noti1?.isListData?.current===undefined) console.log('noti1 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti1.isListData.current:', noti1.isListData.current,
+		'\nnoti1?.isListData?.current:', noti1?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti2 = usePullNotification(
 		(authData?notificationUrl2.current:null), (authData?authData.id:null),
-		(authData?notificationKey2.current:null), forceUpdates.current,
+		(authData?notificationKey2.current:null), (nCounter.current?.includes('two')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		isRegion
 	)
-	if (noti2.isListData.current&&!nCounter.current.some?.(check=>check==='two')&&nTotalNotifications.current) {nCounter.current.push('two')}
+	if (noti2?.isListData?.current&&!nCounter.current.some?.(check=>check==='two')&&nTotalNotifications.current) {nCounter.current.push('two')}
+	else if (nCounter.current?.includes('two')&&noti2?.isListData?.current===undefined)  console.log('noti2 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti2.isListData.current:', noti2.isListData.current,
+		'\nnoti2?.isListData?.current:', noti2?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti3 = usePullCompleteList(
 		(authData?`${notificationListUrl1.current}/list`:null), (authData?authData.id:null),
-		(authData?notificationListKey1.current:null), forceUpdates.current,
+		(authData?notificationListKey1.current:null), (nCounter.current?.includes('three')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// type1.current,
 		isRegion
 	)
-	if (noti3.isListData.current&&!nCounter.current.some?.(check=>check==='three')&&nTotalNotifications.current) {nCounter.current.push('three')}
+	if (noti3?.isListData?.current&&!nCounter.current.some?.(check=>check==='three')&&nTotalNotifications.current) {nCounter.current.push('three')}
+	else if (nCounter.current?.includes('three')&&noti3?.isListData?.current===undefined)  console.log('noti3 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti3.isListData.current:', noti3.isListData.current,
+		'\nnoti3.isListData?.current:', noti3?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti4 = usePullCompleteList(
 		(authData?`${notificationListUrl2.current}/list`:null), (authData?authData.id:null),
-		(authData?notificationListKey2.current:null), forceUpdates.current,
+		(authData?notificationListKey2.current:null), (nCounter.current?.includes('four')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// type2.current,
 		isRegion
 	)
-	if (noti4.isListData.current&&!nCounter.current.some?.(check=>check==='four')&&nTotalNotifications.current) {nCounter.current.push('four')}
+	if (noti4?.isListData?.current&&!nCounter.current.some?.(check=>check==='four')&&nTotalNotifications.current) {nCounter.current.push('four')}
+	else if (nCounter.current?.includes('four')&&noti4?.isListData?.current===undefined)  console.log('noti4 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti4.isListData.current:', noti4.isListData.current,
+		'\nnoti4.isListData?.current:', noti4?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti5 = usePullCompleteList(
 		(authData?`${notificationListUrl3.current}/list`:null), (authData?authData.id:null),
-		(authData?notificationListKey3.current:null), forceUpdates.current,
+		(authData?notificationListKey3.current:null), (nCounter.current?.includes('five')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// type3.current,
 		isRegion
 	)
-	if (noti5.isListData.current&&!nCounter.current.some?.(check=>check==='five')&&nTotalNotifications.current) {nCounter.current.push('five')}
+	if (noti5?.isListData?.current&&!nCounter.current.some?.(check=>check==='five')&&nTotalNotifications.current) {nCounter.current.push('five')}
+	else if (nCounter.current?.includes('five')&&noti5?.isListData?.current===undefined)  console.log('noti5 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti5.isListData.current:', noti5.isListData.current,
+		'\nnoti5.isListData?.current:', noti5?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti6 = usePullCompleteList(
 		(authData?`${notificationListUrl4.current}/list`:null), (authData?authData.id:null),
-		(authData?notificationListKey4.current:null), forceUpdates.current,
+		(authData?notificationListKey4.current:null), (nCounter.current?.includes('six')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// type4.current,
 		isRegion
 	)
-	if (noti6.isListData.current&&!nCounter.current.some?.(check=>check==='six')&&nTotalNotifications.current) {nCounter.current.push('six')}
+	if (noti6?.isListData?.current&&!nCounter.current.some?.(check=>check==='six')&&nTotalNotifications.current) {nCounter.current.push('six')}
+	else if (nCounter.current?.includes('six')&&noti6?.isListData?.current===undefined)  console.log('noti6 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti6.isListData.current:', noti6.isListData.current,
+		'\nnoti6.isListData?.current:', noti6?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
 	)
 	const noti7 = usePullNotification(
 		(authData?notificationUrl3.current:null), (authData?authData.id:null),
-		(authData?notificationKey3.current:null), forceUpdates.current,
+		(authData?notificationKey3.current:null), (nCounter.current?.includes('seven')?'done':forceUpdates.current),
 		(authData?authData.role:null),
 		// ntype2.current,
 		isRegion
 	)
-	if (noti7.isListData.current&&!nCounter.current.some?.(check=>check==='seven')&&nTotalNotifications.current) {nCounter.current.push('seven')}
+	if (noti7?.isListData?.current&&!nCounter.current.some?.(check=>check==='seven')&&nTotalNotifications.current) {nCounter.current.push('seven')}
+	else if (nCounter.current?.includes('seven')&&noti7?.isListData?.current===undefined)  console.log('noti7 is done'.toUpperCase().repeat(10))
 	console.log(
-		'\nnoti7.isListData.current:', noti7.isListData.current,
+		'\nnoti7.isListData?.current:', noti7?.isListData?.current,
 		'\nnCounter.current.length:', nCounter.current.length,
 		'\nnCounter.current:', nCounter.current,
 		'\nnTotalNotifications.current:', nTotalNotifications.current,
@@ -832,38 +837,34 @@ function useSilentUpdate (firebaseNotification) {
 			console.log({websocketAlert})
 			console.log('\nNotificationString.current:', NotificationString.current)
 			
-			localStorage.removeItem(NotificationString.current)
-			// console.log('keyList.current:', keyList.current)
-			// keyList.current = []
-			// keyList.current.pop(NotificationString.current)
-			// console.log('keyList.current:', keyList.current)
+			localStorage.removeItem(NotificationString.current) // keep
 
 			console.log(
-				'\nnoti.isListData',
-				noti1.isListData.current,
-				noti2.isListData.current,
-                noti3.isListData.current,
-                noti4.isListData.current,
-                noti5.isListData.current,
-                noti6.isListData.current,
-				noti7.isListData.current,
+				'\nnoti.isListData?',
+				noti1?.isListData?.current,
+				noti2?.isListData?.current,
+                noti3?.isListData?.current,
+                noti4?.isListData?.current,
+                noti5?.isListData?.current,
+                noti6?.isListData?.current,
+				noti7?.isListData?.current,
 			)
-			noti1.isListData.current = false
-			noti2.isListData.current = false
-			noti3.isListData.current = false
-			noti4.isListData.current = false
-			noti5.isListData.current = false
-			noti6.isListData.current = false
-			noti7.isListData.current = false
+			if (noti1) noti1.isListData.current = false
+			if (noti2) noti2.isListData.current = false
+			if (noti3) noti3.isListData.current = false
+			if (noti4) noti4.isListData.current = false
+			if (noti5) noti5.isListData.current = false
+			if (noti6) noti6.isListData.current = false
+			if (noti7) noti7.isListData.current = false
 			console.log(
-				'\nnoti.isListData',
-				noti1.isListData.current,
-				noti2.isListData.current,
-                noti3.isListData.current,
-                noti4.isListData.current,
-                noti5.isListData.current,
-                noti6.isListData.current,
-				noti7.isListData.current,
+				'\nnoti.isListData?',
+				noti1?.isListData?.current,
+				noti2?.isListData?.current,
+                noti3?.isListData?.current,
+                noti4?.isListData?.current,
+                noti5?.isListData?.current,
+                noti6?.isListData?.current,
+				noti7?.isListData?.current,
 			)
 			console.log('nTotalNotifications.current:', nTotalNotifications.current)
 			nTotalNotifications.current = 0
