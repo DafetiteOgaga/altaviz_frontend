@@ -136,7 +136,7 @@ function FaultListDisplay ({faultUrl, faultKeyContext}) {
 								Previous
 							</button>
 						)}
-						{(faults.arrayData && faults.pageNum > 0 && faults.pageNum < faults.theTotalPage) && (
+						{(faults.arrayData && (faults.pageNum > 0) && (faults.pageNum < faults.theTotalPage)) && (
 							<button onClick={() => {
 								// faults.handleNextPage();
 								faults.setPageNum(faults.pageNum + 1);
