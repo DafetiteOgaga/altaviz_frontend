@@ -6,6 +6,7 @@ import { useContext, useState, useEffect } from "react"
 import { FetchContext } from "../../../context/FetchContext";
 import { useParams, useNavigate } from "react-router-dom";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
+import Deliveries from "../../dashboard/DeliveriesPoints";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 // import { useNavigate } from 'react-router-dom';
 
@@ -179,7 +180,7 @@ function DetailsUpdate () {
 						{updateData.role !== 'custodian' &&
 							<>
 								<h4>Location: <span style={assertUpdate(updateData.location.location, updateDetailData.newLocation)}>{toSentenceCase(updateData.location.location)}</span>{' -> '}<span style={newStyle}>{toSentenceCase(updateDetailData.newLocation)}</span></h4>
-								<h4>deliveries: {updateData.deliveries}</h4>
+								<h4>deliveries: {<Deliveries id={updateData.id} />}</h4>
 								<h4>Pendings: {updateData.pendings}</h4>
 							</>}
 						<h4>Address: {toSentenceCase(updateData.address)}</h4>
