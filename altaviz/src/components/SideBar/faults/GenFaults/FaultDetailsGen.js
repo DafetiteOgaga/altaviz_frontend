@@ -958,7 +958,9 @@ function FaultDetailsGen({searchFaults}) {
 				'\nauthData?.branch?.state?.id:', authData?.branch?.state?.id,
 				'\nauthData:', authData,
 				'\nfaultsItem:', faultsItem,
-				'\nauthData?.role === custodian:', authData?.role === 'custodian'
+				'\nauthData?.role === custodian:', authData?.role === 'custodian',
+				'\ncanMakeRequests:', canMakeRequests,
+				'\n!faultsItem?.verify_resolve:', !faultsItem?.verify_resolve,
 				// faultsItem?.logged_by?.branch?.id === authData?.branch?.id
 			)}
 		</>
