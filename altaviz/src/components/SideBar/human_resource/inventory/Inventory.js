@@ -215,7 +215,7 @@ function Inventory() {
 			</div>
 			<div className="split-container">
 				<div className="inventory-list">
-					<h4>Components</h4>
+					<h4 style={{marginTop: '0'}}>Components</h4>
 					{/* <hr/> */}
 					{/* <table style={{borderCollapse: 'collapse'}}> */}
 					<table>
@@ -309,7 +309,7 @@ function Inventory() {
 				></div>
 
 				<div className="inventory-list">
-				<h4>Parts</h4>
+				<h4 style={{marginTop: '0'}}>Parts</h4>
 					{/* <h4>Parts</h4> */}
 					{/* <hr/> */}
 					<table>
@@ -394,9 +394,9 @@ function Inventory() {
 			</div>
 			{Comps && (<AddItemToInventory itemName='components' />)}
 			{Parts && (<AddItemToInventory itemName='parts' />)}
-			<hr style={{width: '80%'}} />
+			<hr style={{width: '80%', marginTop: '5%'}} />
 			<div>
-				<h5 style={{margin: '50px 0 0 0'}}>Note:</h5>
+				<h5 style={{margin: '0'}}>Note:</h5>
 				<table border="1" style={legendStyle.table}>
 					<thead>
 						<tr>
