@@ -2,7 +2,8 @@ import { createContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const FetchContext = createContext();
-const checkNull = (url) => url.split('/').some?.(list => list === 'null')
+const checkNull = (url) => url.split('/').some?.(list => list === 'null'||list === null)
+const checkUndefined = (url) => url.split('/').some?.(list => list === 'undefined'||list === undefined)
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 export const FetchProviders = ({ children }) => {
@@ -20,10 +21,12 @@ export const FetchProviders = ({ children }) => {
 		useEffect(() => {
 			const fetchData = async () => {
 				try {
-					if (checkNull(url)) {
+					if (checkNull(url)||checkUndefined(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
+						setGetLoading(true)
+						setGetData(null)
 						const response = await fetch(`${apiBaseUrl}/${url}`);
 						if (!response.ok) {
 							console.log({response})
@@ -41,20 +44,30 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 			// fetchData();
-			for (let i = 0; i < localStorage.length; i++) {
-				let key = localStorage.key(i); // Retrieve the key at index 'i'
+			// for (let i = 0; i < localStorage.length; i++) {
+			// 	let key = localStorage.key(i); // Retrieve the key at index 'i'
 				// let value = localStorage.getItem(key); // Get the value associated with the key
 				// console.log(`localKey: ${key}`) //, Value: ${value}`);
-			}
-			const pageNameIs = url.split('127.0.0.1:8000')[1]
-			if (trigger) {
+			// }
+			// const pageNameIs = url.split(apiBaseUrl)[1]
+			// console.log(
+			// 	'\nurl:', url,
+			// 	'\nurl has null:', checkNull(url),
+			// 	'\npageNameIs:', pageNameIs
+			// )
+			if (trigger&&!checkNull(url)) {
+				console.log(
+					'\nurl:', url,
+					'\nurl has null:', checkNull(url),
+					// '\npageNameIs:', pageNameIs
+				)
 				// if (debounceTimer.current) {
 				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
 				// }
 	
 				// Apply debounce delay before calling fetchData
 				getDebounceTimer.current = setTimeout(() => {
-					console.log("Fetching data for:", pageNameIs); // Optional debug log
+					// console.log("Fetching data for:", pageNameIs); // Optional debug log
 					fetchData();
 				}, 500); // 300ms debounce delay
 			} else {
@@ -93,7 +106,7 @@ export const FetchProviders = ({ children }) => {
 			// }
 			const postData = async () => {
 				try {
-					if (checkNull(url)) {
+					if (checkNull(url)||checkUndefined(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
@@ -164,7 +177,12 @@ export const FetchProviders = ({ children }) => {
 
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
-			if (trigger) {
+			if (trigger&&!checkNull(url)) {
+				console.log(
+					'\nurl:', url,
+					'\nurl has null:', checkNull(url),
+					// '\npageNameIs:', pageNameIs
+				)
 				// if (debounceTimer.current) {
 				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
 				// }
@@ -215,7 +233,7 @@ export const FetchProviders = ({ children }) => {
 			// }
 			const putData = async () => {
 				try {
-					if (checkNull(url)) {
+					if (checkNull(url)||checkUndefined(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
@@ -247,7 +265,12 @@ export const FetchProviders = ({ children }) => {
 				}
 			};
 			// Reference for debounce timer
-			if (trigger) {
+			if (trigger&&!checkNull(url)) {
+				console.log(
+					'\nurl:', url,
+					'\nurl has null:', checkNull(url),
+					// '\npageNameIs:', pageNameIs
+				)
 				// if (debounceTimer.current) {
 				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
 				// }
@@ -303,7 +326,7 @@ export const FetchProviders = ({ children }) => {
 				// console.log('222222222222222222')
 				try {
 					// console.log('33333333333333333')
-					if (checkNull(url)) {
+					if (checkNull(url)||checkUndefined(url)) {
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
 					} else {
@@ -338,7 +361,12 @@ export const FetchProviders = ({ children }) => {
 			};
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
-			if (trigger) {
+			if (trigger&&!checkNull(url)) {
+				console.log(
+					'\nurl:', url,
+					'\nurl has null:', checkNull(url),
+					// '\npageNameIs:', pageNameIs
+				)
 				// if (debounceTimer.current) {
 				// 	clearTimeout(debounceTimer.current); // Clear any existing debounce timer
 				// }
@@ -387,7 +415,7 @@ export const FetchProviders = ({ children }) => {
 				// console.log(('0'+17).repeat(times))
 				try {
 					// console.log(('0'+1).repeat(times))
-					if (checkNull(url)) {
+					if (checkNull(url)||checkUndefined(url)) {
 						// console.log(('0'+2).repeat(times))
 						console.log('found null in url provided:', url)
 						throw new Error("found null in url provided");
@@ -430,7 +458,12 @@ export const FetchProviders = ({ children }) => {
 			};
 			// Reference for debounce timer
 			// const debounceTimer = useRef(null);
-			if (trigger) {
+			if (trigger&&!checkNull(url)) {
+				console.log(
+					'\nurl:', url,
+					'\nurl has null:', checkNull(url),
+					// '\npageNameIs:', pageNameIs
+				)
 				// console.log(('0'+10).repeat(times))
 				// if (debounceTimer.current) {
 				// 	console.log(('0'+11).repeat(times))
