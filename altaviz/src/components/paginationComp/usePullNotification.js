@@ -144,6 +144,7 @@ function usePullNotification(
 	}
 	// notificationCount.current = 0
 	useEffect(() => {
+		console.log('ntracker:', ntracker.current)
 		if (isListData.current) {
 			isListData.current = false
 		} else if (notificationData&&totalNumData&&ntracker.current) {
@@ -203,6 +204,7 @@ function usePullNotification(
 	)
 	console.log('isListData:', isListData)
 	console.log('end ######################'.toUpperCase())
+	if (forceTrigger === 'done') {return}
 	return {
 		arrayData, arrayLoading, arrayError,
 		totalData, totaLoading, totalError,
