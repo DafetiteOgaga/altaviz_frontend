@@ -118,6 +118,7 @@ function FaultDetailsGen({searchFaults}) {
 					newFormData.append('managedBy', faultsItem.managed_by.email)
 					newFormData.append('supervisedBy', faultsItem.supervised_by.email)
 					newFormData.append('deliveries', 1)
+					newFormData.append('region', authData.branch.region.name)
 				} else if (type.button  === 'seek confirmation') {
 					newFormData.append('verify_resolve', true)
 				} else if (type.button  === 'approve'||type.button  === 'reject') {
@@ -667,7 +668,7 @@ function FaultDetailsGen({searchFaults}) {
 											</div>
 											<div className="input-field">
 												<p><strong>Region: </strong>
-												{toSentenceCase(faultsItem?.logged_by.branch.location.region.name)}
+												{toSentenceCase(faultsItem?.logged_by.branch.region.name)}
 												</p>
 											</div>
 										</div>
@@ -908,12 +909,14 @@ function FaultDetailsGen({searchFaults}) {
 											requestProps={requestProps}
 											vKey='compRequestContext'
 											itemName='component'
+											setIsCompRequestFormOpen={setIsCompRequestFormOpen}
 											/>)}
 									{isPartRequestFormOpen &&
 										(<RequestItem
 											requestProps={requestProps}
 											vKey='partRequestContext'
 											itemName='part'
+											setIsPartRequestFormOpen={setIsPartRequestFormOpen}
 											/>)}
 
 									{/* supervisor and human-resource approve/reject request butttons */}

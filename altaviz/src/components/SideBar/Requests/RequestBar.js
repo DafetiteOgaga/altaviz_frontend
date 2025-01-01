@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { useRefreshContext } from "../../context/RefreshContext";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
-import { styled } from 'styled-components';
+// import { styled } from 'styled-components';
 
 function RequestBar ({allRequests, total=null, page, type=null, found=null}) {
 	const requestUrlType = useLocation().pathname.split('/');
@@ -98,7 +98,7 @@ function RequestBar ({allRequests, total=null, page, type=null, found=null}) {
 									<li key={request.id+request.requested_at}>
 										{/* {console.log('requestIdKey:', request.id)} */}
 										<Link
-										to={`${type==='faultSearch'?'requestSearch':(requestType!==undefined?requestType:request.type)}-request-details/${type==='faultSearch'?(request.id*request.name.id*request.quantityRequested+'/'+request.name.name+'/'):''}${request.id}`}
+										to={`${type==='faultSearch'?'requestSearch':(requestType!==undefined?requestType:(request.type==='fixed-part'?'part':request.type))}-request-details/${type==='faultSearch'?(request.id*request.name.id*request.quantityRequested+'/'+request.name.name+'/'):''}${request.id}`}
 										// to={`${type==='faultSearch'?'requestSearch':(requestType==='component'?'component':'part')}-request-details/${type==='faultSearch'?(request.id*request.name.id*request.quantityRequested+'/'+request.name.name+'/'):''}${request.id}`}
 										style={{
 											textDecoration: 'none',

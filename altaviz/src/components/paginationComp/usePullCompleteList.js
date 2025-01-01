@@ -116,10 +116,8 @@ function usePullCompleteList(
 	}
 	// notificationCount.current = 0
 	console.log('notificationCount.current (before):', notificationCount.current)
-	// if (isListData) {
-	// 	notificationCount.current = 1
-	// }
 	useEffect(() => {
+		console.log('ntracker:', ntracker.current)
 		if (isListData.current) {
 			isListData.current = false
 		} else if (listData&&ntracker.current) {
@@ -184,7 +182,7 @@ function usePullCompleteList(
 
 	// processes items into pages to be served
 	const pageHandler = (page, localList) => {
-		if (page < 1 || page > theTotalPage) {
+		if ((page < 1) || (page > theTotalPage)) {
 			return [];
 		}
 		console.log({localList})
@@ -200,6 +198,7 @@ function usePullCompleteList(
 	// )
 	console.log('isListData:', isListData)
 	console.log('end ######################'.toUpperCase())
+	if (forceTrigger === 'done') {return}
 	return {
 		arrayData, arrayLoading, arrayError,
 		setPageNum, pageNum,

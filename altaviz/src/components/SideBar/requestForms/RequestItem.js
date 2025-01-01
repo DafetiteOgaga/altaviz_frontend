@@ -97,7 +97,7 @@ function updateFaults(packaged) {
 	return updatedArray;
 }
 
-function RequestItem({itemName, vKey=null, requestProps=null}) {
+function RequestItem({itemName, vKey=null, requestProps=null, setIsCompRequestFormOpen, setIsPartRequestFormOpen}) {
 	console.log(
 		'\nitemName:', itemName,
         '\nrequestProps:', requestProps,
@@ -234,13 +234,13 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			setFormValues([defaultValues]);
 			if (postData) {
 				setPostResponse(true)
-				console.log('about to refresh ...'.toUpperCase())
-				console.log('refreshing ...'.toUpperCase())
-			};
-			// let newRequestsPlaceholder = []
-			if (postData
-				// && recievedNewRequest.current
-			) {
+			// 	console.log('about to refresh ...'.toUpperCase())
+			// 	console.log('refreshing ...'.toUpperCase())
+			// };
+			// // let newRequestsPlaceholder = []
+			// if (postData
+			// 	// && recievedNewRequest.current
+			// ) {
 				console.log('Post request successful', postData);
 				console.log(`processing for ${itemName} ...`)
 				console.log(
@@ -348,6 +348,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					}
 					if (encodedData) {console.log('updated', localPK, 'in localStorage')}
 				}
+				itemName==='component'?setIsCompRequestFormOpen(prev=>!prev):setIsPartRequestFormOpen(prev=>!prev)
 			}
 		}
 	}, [postTrigger, postData, postLoading, postError])
@@ -417,7 +418,8 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 								onChange={(e) => valueHandler(e, index)}
 							>
 								{/* switch between component and part props here */}
-								<option key={`Select ${toSentenceCase(itemName)}`}>Select {`${toSentenceCase(itemName)}`}</option>
+								<option key={`Select ${toSentenceCase(itemName)}`}
+								style={styles.selectOpts}>Select {`${toSentenceCase(itemName)}`}</option>
 								{itemList ? (itemList.filter(itemObject => itemObject.quantity !== 0).map((item, i) => (
 									<option key={i} value={item.name}>{toSentenceCase(item.name)}</option>
 								))) : ('loading ...')}
@@ -432,7 +434,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 								style={style.input}
 								onChange={(e) => valueHandler(e, index)}
 							>
-								<option>0</option>
+								<option style={styles.selectOpts}>0</option>
 								{Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
 								<option key={number} value={number}>{number}</option>
 								))}
@@ -539,5 +541,16 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 		</>
 	);
 };
-
 export default RequestItem;
+
+const styles = {
+	options: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF',
+		color: '#87823E'
+	},
+	selectOpts: {
+		fontStyle: 'italic',
+		backgroundColor: '#D9D9DF'
+	}
+}

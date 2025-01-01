@@ -136,7 +136,7 @@ function LogFault() {
 				formData.append(key, value);
 			}
 			// formData.append('email', authData.email);
-			formData.append('location', authData.branch.location.location);
+			formData.append('location', `${authData.branch.location.location}-${authData.branch.location.id}`);
 			formData.append('region', authData.branch.region.name);
 			formData.append('bank', authData.branch.bank.name);
 			formData.append('state', authData.branch.state.name);

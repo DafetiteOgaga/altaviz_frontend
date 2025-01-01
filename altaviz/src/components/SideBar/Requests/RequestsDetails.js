@@ -127,9 +127,9 @@ function RequestsDetails() {
 	let requestItem;
 	requestItem = allRequests.find?.(data => {
 		// console.log(`\nrequestID: ${data.id} - type: ${data.type} - requestType: ${requestType} - type = requtype: ${data.type === ((!data.fault&&requestType==='part')?`fixed-${requestType}`:requestType)}`)
-		console.log(`\nrequestID: ${data.id} - type: ${data.type} - requestType: ${requestType} - dynamic type: ${(dept==='human-resource'&&requestType==='part')?`fixed-${requestType}`:requestType}\ntype = requtype: ${data.type === (dept==='human-resource'?`fixed-${requestType}`:requestType)}`)
+		console.log(`\nrequestID: ${data.id} - type: ${data.type} - requestType: ${requestType} - dynamic type: ${(dept==='human-resource'&&requestType==='part')?(data.quantity?`fixed-${requestType}`:`${requestType}`):requestType}\ntype = requtype: ${data.type === (dept==='human-resource'?`fixed-${requestType}`:requestType)}`)
 		// return data.id === comparisonID && data.type === (location[2].split('-')[1]==='fixed'?`fixed-${requestType}`:requestType)
-		return data.id === comparisonID && data.type === ((dept==='human-resource'&&requestType==='part')?`fixed-${requestType}`:requestType)
+		return data.id === comparisonID && data.type === ((dept==='human-resource'&&requestType==='part')?(data.quantity?`fixed-${requestType}`:`${requestType}`):requestType)
 	})
 	console.log('\nrequestItem:', requestItem)
 	if (requestSearch) {
@@ -391,7 +391,9 @@ function RequestsDetails() {
 	// 	console.log('redirecting to dashboard ...')
 	// 	navigate('/success', { state: {currentPage: `/${authData?.role}`, time: 50}})
 	// }
-	const requestFaultStatus = (requestItem?.fault)?(!requestItem?.fault?.confirm_resolve&&!requestItem?.fault?.verify_resolve):(dept==='workshop')
+	const requestFaultStatus = (requestItem?.fault)?
+								(!requestItem?.fault?.confirm_resolve && !requestItem?.fault?.verify_resolve):
+								(dept==='human-resource')
 	return (
 		<>
 			{requestItem &&
@@ -606,6 +608,13 @@ function RequestsDetails() {
 						</div>
 						)}
 
+						{console.log(
+							'\ncanAlsoApproveOrReject:', canAlsoApproveOrReject,
+                            '\nrequestItem.approved:',!requestItem.approved,
+                            '\nrequestItem.rejected:',!requestItem.rejected,
+                            '\ntempDetailsID:', tempDetailsID,
+                            '\nrequestFaultStatus:', requestFaultStatus,
+						)}
 						{/* supervisor and human-resource approve/reject request butttons */}
 						{(canAlsoApproveOrReject&&!requestItem?.approved&&!requestItem?.rejected
 						&&!tempDetailsID&&requestFaultStatus) &&

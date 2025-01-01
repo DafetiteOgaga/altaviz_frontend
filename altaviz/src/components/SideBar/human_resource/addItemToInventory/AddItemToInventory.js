@@ -176,6 +176,12 @@ function AddItemToInventory({itemName}) {
 					postData.success
 				)
 				setPostResponse(true)
+				let localKey;
+				if (itemName === 'parts') localKey = 'inventoryParts';
+				if (itemName === 'components') localKey = 'inventoryComponents';
+				// handleRefresh([localKey])
+				localStorage.removeItem(localKey)
+				navigate('/success', {state: {currentPage: '/inventory', time: 50}})
 			} else if (postData.received) {
 				console.log(
 					'postData response:'.toUpperCase(),
