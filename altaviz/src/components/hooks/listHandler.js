@@ -44,7 +44,7 @@ function requestHandler(listValue) {
 		}
 		// console.log('listValue:', listValue[i]);
 		newList.push({
-			title: `${(listValue[i].quantityRequested)?listValue[i].name.name:listValue[i].name} : ${(listValue[i].quantityRequested)?listValue[i].quantityRequested:listValue[i].quantity}`,
+			title: `${listValue[i].name.name} : ${(listValue[i].quantityRequested)?listValue[i].quantityRequested:listValue[i].quantity}`,
 			id: listValue[i].id,
 		});
 	}
