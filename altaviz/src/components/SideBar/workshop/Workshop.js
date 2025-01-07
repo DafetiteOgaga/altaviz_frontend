@@ -11,7 +11,6 @@ import Notification from "../notification/Notification";
 import UpdateInventoryItems from "../human_resource/addItemToInventory/UpdateInventoryItems";
 
 function Workshop() {
-	// const { authData } = useContext(AuthContext);
 	const [isCompRequestFormOpen, setIsCompRequestFormOpen] = useState(false);
 	const [isPostPartFormOpen, setIsPostPartFormOpen] = useState(false);
 	const [isUserDetailsFormOpen, setIsUserDetailsFormOpen] = useState(false);
@@ -128,7 +127,7 @@ function Workshop() {
 						onClick={toggleUserDetailsForm}>{isUserDetailsFormOpen ? 'Close Form' : 'Update Details'}</h5>
 					</div>
 				</div>
-				{isCompRequestFormOpen && (<RequestItem itemName='component' />)}
+				{isCompRequestFormOpen && (<RequestItem itemName='component' toggleForm={toggleCompRequestForm}/>)}
 				{/* {isPostPartFormOpen && (<AddPartForm />)} */}
 				{isPostPartFormOpen && (<UpdateInventoryItems itemName='post-part' />)}
 				{/* {isUserDetailsFormOpen && (<LogFault />)} */}
