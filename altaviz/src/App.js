@@ -5,7 +5,7 @@ import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
 import Announcements from './components/announcement/Announcements';
-import useSilentUpdate from './components/context/RealTimeNotificationContext/SilentUpdate';
+// import useSilentUpdate from './components/context/RealTimeNotificationContext/SilentUpdate';
 import UpdateInBackground from './components/context/RealTimeNotificationContext/UpdateInBackground';
 import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import useDeviceType from './components/deviceType/DeviceType';
