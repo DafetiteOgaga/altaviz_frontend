@@ -107,7 +107,8 @@ function FaultDetailsGen({searchFaults}) {
 				)
 				console.log('\n', {faultsItem})
 				const newFormData = new FormData();
-				newFormData.append('faultID', type.id)
+				const idType = (type.button==='approve'||type.button==='reject')?'requestID':'faultID'
+				newFormData.append(idType, type.id)
 				if (type.button  === 'confirm') {
 					newFormData.append('confirm_resolve', true)
 					if (faultsItem?.replacement_engineer) {
@@ -360,28 +361,28 @@ function FaultDetailsGen({searchFaults}) {
 							if (itemId) {
 								if (type === 'part') {type = 'requestPart'}
 								else if (type === 'component') {type = 'requestComponent'}
-								fault[type].map(request => {
-									if (request.id === itemId) {
+								fault[type]?.map?.(request => {
+									if (request?.id === itemId) {
 										request[key] = true
-										request.approved_by = {first_name: authData.first_name}
+										request.approved_by = {first_name: authData?.first_name}
 										request.requested_at = new Date()
 									}
 									return request
 								})
 							} else {
 								if (requestComponentIds) {
-									fault.requestComponent.map(request => {
+									fault?.requestComponent?.map?.(request => {
 										console.log(
-											'\nrequest.id:', request.id,
+											'\nrequest.id:', request?.id,
 											'\nrequest.type:', requeste,
-											'\nrequest.type curr value:', request.approved||request.rejected, '-expecting for 235 to be true'
+											'\nrequest.type curr value:', request?.approved||request?.rejected, '-expecting for 235 to be true'
 										)
-										if (!request.approved&&!request.rejected) {request[requeste] = true}
+										if (!request?.approved&&!request?.rejected) {request[requeste] = true}
 										return request
 									})
 								}
 								if (requestPartIDs) {
-									fault.requestPart.map(request => {
+									fault?.requestPart?.map(request => {
 										if (!request[requeste])	{request[requeste] = true}
 										return request
 									})
