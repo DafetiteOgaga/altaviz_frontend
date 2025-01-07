@@ -28,24 +28,24 @@ function NotificationDropdownMenu({
 }) {
 	// const notiParams = useParams()
 	const totalArrayContext = `total${variableContext}`
-	// console.log(
-	// 	// '\nbutton:', button,
-	// 	'\nurlPath:', urlPath,
-	// 	'\nnotiList:', notiList,
-	// 	'\ntotalData:', totalData,
-	// 	'\nvariableContext:', variableContext,
-	// 	// '\ntotalArrayContext:', totalArrayContext,
-	// 	'\nlistPageUrl:', listPageUrl,
-	// 	'\ndetailPageUrl:', detailPageUrl,
-	// 	'\nhandler:', handler,
-	// 	'\npatchUrl:', patchUrl,
-	// 	'\npostUrl:', postUrl,
-	// 	'\nputUrl:', putUrl,
-	// 	// '\nsecondButton:', secondButton,
-	// 	// '\ndeleteUrl:', deleteUrl,
-	// 	// '\nextraDisplayLocalKeys:', extraDisplayLocalKeys,
-	// 	// '\nnotiParams:', notiParams,
-	// )
+	console.log(
+		// '\nbutton:', button,
+		'\nurlPath:', urlPath,
+		'\nnotiList:', notiList,
+		'\ntotalData:', totalData,
+		'\nvariableContext:', variableContext,
+		'\ntotalArrayContext:', totalArrayContext,
+		'\nlistPageUrl:', listPageUrl,
+		'\ndetailPageUrl:', detailPageUrl,
+		'\nhandler:', handler,
+		'\npatchUrl:', patchUrl,
+		'\npostUrl:', postUrl,
+		'\nputUrl:', putUrl,
+		// '\nsecondButton:', secondButton,
+		// '\ndeleteUrl:', deleteUrl,
+		// '\nextraDisplayLocalKeys:', extraDisplayLocalKeys,
+		// '\nnotiParams:', notiParams,
+	)
 
 	const { authData } = useContext(AuthContext)
 	const role = useLocation().pathname.split('/')[1]
@@ -146,12 +146,14 @@ function NotificationDropdownMenu({
 		} else if (button.toLowerCase()==='approve'||button.toLowerCase()==='reject') {
 			console.log(
 				'\nbutton:', button,
-				// '\nsecondButton:', secondButton,
 				'\nid:', id,
+				'\npatchUrl:', patchUrl,
+				`\n${(urlPath==='post-part'&&role==='human-resource')?urlPath:patchUrl}/${authData.id}/`,
 			)
 			const newFormData = new FormData();
 			newFormData.append((button.toLowerCase()==='approve'?'approved':'rejected'), true)
-			newFormData.append('itemID', id)
+			newFormData.append('requestID', id)
+			newFormData.append('approved_by', authData.email)
 			setFormData(newFormData)
 			setPatchTrigger(true);
 		}
@@ -173,8 +175,7 @@ function NotificationDropdownMenu({
 					console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
-				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
-				handleRefresh([variableContext, totalArrayContext])
+				// handleRefresh([variableContext, totalArrayContext])
 			}
 			if (postTrigger) {
 				setPostTrigger(() => {
@@ -188,7 +189,7 @@ function NotificationDropdownMenu({
 					return false
 				});
 				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
-				handleRefresh([variableContext, totalArrayContext])
+				// handleRefresh([variableContext, totalArrayContext])
 			}
 			if (putTrigger) {
 				setPutTrigger(() => {
@@ -275,13 +276,13 @@ function NotificationDropdownMenu({
 			return (
 			<ul key={index}>
 				<li	style={{display: 'flex', flexDirection: 'row'}}>
-					{/* dropdown menu list */}
+					{/* dropdown menu item list */}
 					<Link style={(data === clickAll)?{color: 'blue',textDecoration: 'underline'}:{}}
 						to={(data === clickAll)?`${listPageUrl}`:`${detailPageUrl}/${data.id}`}>
 							{data!==clickAll?trimString(toSentenceCase(data.title), 21):data}
 					</Link>
 
-					{/* dropdown menu button */}
+					{/* dropdown menu button (first button) */}
 					{(data !== clickAll && button) &&
 					<Link style={{color: 'blue',}}
 						// to=''
@@ -291,8 +292,8 @@ function NotificationDropdownMenu({
 						}}>
 							{button}
 					</Link>}
-					{/* {console.log({secondButton}, {data})} */}
-					{/* if there is a second button (secondButton) */}
+
+					{/* if there is a second button (second button) */}
 					{(data !== clickAll && secondButton) &&
 					<Link style={{color: 'red',}}
 						// to=''
