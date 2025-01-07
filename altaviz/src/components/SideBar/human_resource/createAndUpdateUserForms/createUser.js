@@ -6,6 +6,7 @@ import { FetchContext } from "../../../context/FetchContext";
 import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import QueryFieldFromDB from "../QueryFieldFromDB";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
+import { useNavigate } from "react-router-dom";
 // import { FaCheck } from 'react-icons/fa';
 // import { FaCheck } from 'react-icons/fa';
 
@@ -122,6 +123,7 @@ function CreateUser () {
 		wphone: "",
 		password1: "",
 		password2: "",
+		password: "",
 		address: "",
 		aboutme: "",
 		profile_picture: null,
@@ -132,6 +134,7 @@ function CreateUser () {
 		custodian: false,
 		all: false,
 	};
+	const redirectTo = useNavigate()
 	const [emailQuery, setEmailQuery] = useState('');
 	const [newBankQuery, setNewBankQuery] = useState('');
 	const [regionQuery, setRegionQuery] = useState('');
@@ -149,11 +152,11 @@ function CreateUser () {
 	const [password2, setPassword2] = useState('');
 	const [showPassword1, setShowPassword1] = useState(false);
 	const [showPassword2, setShowPassword2] = useState(false);
-	const [passwordCheck, setPasswordCheck] = useState(true);
+	const [passwordCheck, setPasswordCheck] = useState(false);
 	const [isRequired, setIsRequired] = useState(true);
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
-	const [regionStateList, setRegionStateList] = useState(null)
+	// const [regionStateList, setRegionStateList] = useState(null)
 	const [bankBranchesList, setBankBranchesList] = useState(null)
 	const [bankBankList, setBankBankList] = useState(null)
 	const [bankLocationList, setBankLocationList] = useState(null)
@@ -169,18 +172,13 @@ function CreateUser () {
 		`user/`,
 		formData,
 		postTrigger,
-		'/human-resource',
+		// '/human-resource',
 	);
 
 	useEffect(() => {
         refInput.current.focus();
     }, [])
 
-	// //custodian
-	// const custodian = useGetWithEncryption(
-	// 	`banks/`,
-	// 	'custodian',
-	// )
 	// custodian banks and branches
 	const custodianBankBranches = useGetWithEncryption(
 		'banks-branch/',
@@ -210,161 +208,51 @@ function CreateUser () {
 		// for non custodian
 		// for regions
 		if (newUser.role !== 'Custodian' && notCustodianList) {
-			// console.log('regions (non custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nnotCustodianList: ', notCustodianList,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	// '\nnewUser.region:', newUser.region,
-			// )
-			// if (locationListValue) {
 			const stateRegions = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('999999999999999999')
 			for (let i = 0; i < notCustodianList.length; i++) {
-				// console.log('2222222222222222222:', notCustodianList[i])
-				// console.log(
-				// 	'\nnotCustodianList[i].name:', notCustodianList[i],
-				// 	// '\nnewUser.region:', newUser.region,
-				// )
-				// if (notCustodianList[i].name === newUser.region) {
-					// console.log('44444444444444444444')
-					// console.log('found:'.toUpperCase(), notCustodianList[i])
 					stateRegions.push(notCustodianList[i].name)
-					// setFound(true)
-					// break;
-				// }
 			}
-			// console.log(
-			// 	// '\nnewuser.region:', newUser.region,
-			// 	'\nstateRegions:', stateRegions,
-			// )
-			// console.log('newuser.region:', newUser.region)
 			setFilteredRegions(stateRegions.flat())
 		}
 		// for states
 		if (notCustodianList && filteredRegions) {
-			// console.log('regions > states (non custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nnotCustodianList: ', notCustodianList,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	'\nnewUser.region:', newUser.region,
-			// )
-			// if (locationListValue) {
 			const stateStates = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('11111111111111111111')
 			for (let i = 0; i < notCustodianList.length; i++) {
-				// console.log('2222222222222222222:', notCustodianList[i])
-				// console.log(
-				// 	'\nnotCustodianList[i].name:', notCustodianList[i],
-				// 	'\nnewUser.region:', newUser.region,
-				// )
 				if (notCustodianList[i].name === newUser.region) {
-					// console.log('44444444444444444444')
-					// console.log('found:'.toUpperCase(), notCustodianList[i])
 					stateStates.push(notCustodianList[i].states)
 					setFound(true)
 					break;
 				}
 			}
-			// console.log(
-			// 	'\nnewuser.region:', newUser.region,
-			// 	'\nstateStates:', stateStates,
-			// )
-			// console.log('newuser.region:', newUser.region)
 			setFilteredStates(stateStates.flat())
 		}
 		// locations
 		if (newUser.role !== 'Custodian' && notCustodianList && filteredStates) {
-			// console.log('states > locations (non custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nfilteredStates: ', filteredStates,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	'\nnewUser.state:', newUser.state,
-			// )
-			// if (locationListValue) {
 			const stateLocations = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('ccccccccccccccccccccc')
 			for (let i = 0; i < filteredStates.length; i++) {
-				// console.log('ddddddddddddddddddd:', filteredStates[i])
-				// console.log(
-				// 	'\nfilteredStates[i].name:', filteredStates[i],
-				// 	'\nnewUser.state:', newUser.state,
-				// )
 				if (filteredStates[i].name === newUser.state) {
-					// console.log('eeeeeeeeeeeeeeeeeeee')
-					// console.log('found:'.toUpperCase(), filteredStates[i])
 					stateLocations.push(filteredStates[i].locations)
 					setFound(true)
 					break;
 				}
 			}
-			// console.log(
-			// 	'\nnewuser.state:', newUser.state,
-			// 	'\nstateLocations:', stateLocations,
-			// )
-			// console.log('newuser.state:', newUser.state)
 			setFilteredLocations(stateLocations.flat())
 		}
 
 
 		// get banks
 		if (newUser.role === 'Custodian' && bankBranchesList && filteredStates) {
-			// console.log('banks (custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nbankBranchesList: ', bankBranchesList,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	'\nnewUser.state:', newUser.state,
-			// )
-			// if (locationListValue) {
 			const bankBanks = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('888888888888888888')
 			for (let i = 0; i < bankBranchesList.length; i++) {
-				// console.log('9999999999999999999999:', bankBranchesList[i])
-				// console.log(
-				// 	'\nbankBranchesList[i].name:', bankBranchesList[i],
-				// 	'\nnewUser.state:', newUser.state,
-				// )
-				// if (bankStateList[i].name === newUser.state) {
-				// console.log('101010101010101010101')
-				// console.log('found:'.toUpperCase(), bankBranchesList[i])
 				bankBanks.push(bankBranchesList[i])
-				// setFound(true)
-				// 	break;
-				// }
 			}
-			// console.log(
-			// 	'\newuser.state:', newUser.state,
-			// 	'\nbankBanks:', bankBanks.flat(),
-			// )
 			setBankBankList(bankBanks.flat())
 		}
 		// get locations
 		if (newUser.role === 'Custodian' && bankBranchesList && bankBankList) {
-			// console.log('banks > locations (custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nbankBankList: ', bankBankList,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	'\nnewUser.bank:', newUser.bank,
-			// )
-			// if (locationListValue) {
 			const bankLocation = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('121212121212121212121212')
 			for (let i = 0; i < bankBankList.length; i++) {
-				// console.log(
-				// 	'\n131313131313131313131313:', bankBankList[i].name,
-				// 	'\n121121212121212121212121:', bankBankList[i].locations
-				// )
-				// console.log(
-				// 	'\nbankBankList[i].name:', bankBankList[i].locations,
-				// 	'\nnewUser.state:', newUser.bank,
-				// )
 				if (bankBankList[i].name === newUser.bank) {
-					// console.log('141414141414141414141414')
-					// console.log('found:'.toUpperCase(), bankBankList[i].name)
 					bankLocation.push(bankBankList[i].locations)
 					setFound(true)
 					break;
@@ -375,25 +263,9 @@ function CreateUser () {
 		}
 		// get branches
 		if (newUser.role === 'Custodian' && bankBranchesList && bankLocationList) {
-			// console.log('locations > branches (custodian) ##############'.toUpperCase())
-			// console.log(
-			// 	'\nbankLocationList: ', bankLocationList,
-			// 	// '\nlocalStorage: ', locations.localDataStoreVar,
-			// 	'\nnewUser.location:', newUser.location,
-			// )
-			// if (locationListValue) {
 			const bankBranches = []
-			// console.log('locationListValue:', locationListValue)
-			// console.log('151515151515151515151515')
 			for (let i = 0; i < bankLocationList.length; i++) {
-				// console.log('161616161616161616161616:', bankLocationList[i])
-				// console.log(
-				// 	'\nbankLocationList[i].name:', bankLocationList[i].location,
-				// 	'\nnewUser.state:', newUser.location,
-				// )
 				if (bankLocationList[i].location === newUser.location) {
-					// console.log('17171717171717171717171717')
-					// console.log('found:'.toUpperCase(), bankLocationList[i])
 					bankBranches.push(bankLocationList[i].branches)
 					setFound(true)
 					break;
@@ -423,7 +295,7 @@ function CreateUser () {
 	useEffect(() => {
 		if (newUser.state) {
 			setNewUser((prev) => ({
-				...prev, bank: '', location: '', branch: '',
+				...prev, bank: '', location: '', newLocation: '', branch: '',
 			}));
 		}
 	}, [newUser.state]);
@@ -449,11 +321,12 @@ function CreateUser () {
 		setShowPassword2(!showPassword2);
 	}
 
+	// const passMatch = useRef(null);
 	useEffect(() => {
 		if (password1 && password2) {
 			// enforce other checks here
-			const passMatch = password1 === password2;
-			setPasswordCheck(passMatch);
+			// passMatch.current = ;
+			setPasswordCheck(password1===password2);
 		}
 	}, [password1, password2]);
 
@@ -466,9 +339,9 @@ function CreateUser () {
 			})
 			setNewUser({
 				...newUser,
-				password: password1,
+				password: password1||password2,
 			});
-		} else {
+		} else if (!passwordCheck && newUser.password1 !== '' && newUser.password2 !== '') {
 			setNewUserError({
 				...newUserError,
 				password1: 'Passwords do not match',
@@ -479,7 +352,7 @@ function CreateUser () {
 				password: '',
 			});
 		}
-	}, [passwordCheck]);
+	}, [passwordCheck, newUser.password1, newUser.password2]);
 
 	const validateForm = () => {
 		const required = 'Required*';
@@ -532,17 +405,8 @@ function CreateUser () {
 	// const tolower = (text) => text.toLowerCase()
 	const HandleUserCreationInputChange = (e) => {
 		const { name, value, type, files } = e.target;
-		// const checkValue = value;
-		// console.log(
-		// 	'\nname:', name,
-		// 	'\nvalue:', value,
-		// 	'\nnewUser.role:', newUser.role,
-		// 	'\nnewUser.region:', newUser.region,
-		// )
 		if (['email', 'username', 'newBank', 'newLocation', 'newBranch', 'region']
 			.includes(name)) {
-				// console.log('eeeeeeeeeeeeeeeeeeeeee'.toUpperCase())
-			// ||name === 'email'||name === 'email' {
 			if (name === 'email') {
 				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 				if (emailRegex.test(value)) {
@@ -553,11 +417,7 @@ function CreateUser () {
 			} else if (name === 'username') {
 				setUsernameQuery(`${name}-${value}`)
 			} else if (name === 'region') {
-				// console.log(
-				// 	'\nnewUser.role:', newUser.role,
-				// 	'\nname-value:', `${name}-${value}`
-				// )
-				setRegionQuery(`${removeHyphen(newUser.role.toLocaleLowerCase())}-${name}-${value}`)
+				setRegionQuery(`${removeHyphen(newUser.role.toLowerCase())}-${name}-${value}`)
 			} else if (name === 'newBank') {
 				setNewBankQuery(`${newUser.region}-${newUser.state}-${name}-${value}`)
 			} else if (name === 'newLocation') {
@@ -567,15 +427,13 @@ function CreateUser () {
 				)
 			} else if (name === 'newBranch') {
 				setNewBranchQuery(`${newUser.location === 'Enter a New Location' ?
-						newUser.newLocation : newUser.location}-${newUser.bank === 'Enter a New Bank' ?
+						newUser.newLocation : newUser.location.split('-')[0]}-${newUser.bank === 'Enter a New Bank' ?
 						newUser.newBank : newUser.bank}-${newUser.region}-${newUser.state}-${name}-${value}`
 				)
 				// setNewBranchQuery(`${name}-${value}`)
 			}
 		}
 		if (type === "file") {
-			// console.log('A FILE FINALLY! onchange:', value);
-			// console.log('files[0]:', files[0]);
 			setNewUser(prevState => ({
 				...prevState,
 				[name]: files[0],
@@ -609,10 +467,22 @@ function CreateUser () {
 				newLocation: value === 'Enter a New Location' ? '' : null,
 			}));
 		} else if (name === 'newLocation') {
-			setNewUser(prevState => ({
-				...prevState,
-				newLocation: value,
-			}));
+			if (newUser.role.toLowerCase()==='engineer') {
+				setNewUser(prevState => ({
+					...prevState,
+					location: 'Enter a New Location',
+					newLocation: value,
+				}));
+			} else {
+				setNewUser(prevState => ({
+					...prevState,
+					newLocation: value,
+				}));
+			}
+			// setNewUser(prevState => ({
+			// 	...prevState,
+			// 	newLocation: value,
+			// }));
 		} else if (name === 'password1'||name === 'password2') {
 			setNewUser(prevState => ({
 				...prevState,
@@ -631,107 +501,100 @@ function CreateUser () {
 		}
 	};
 	console.log('================================'.repeat(3))
-	const DBResponse = useRef({});
-	const completedChecks = useRef(null)
-	const valuesAllGood = useRef(null)
-	const refreshChild = useRef(true)
-	const handleDataChange = (data) => {
-		let count
-		console.log('Data from QueryFieldFromDB:'.repeat(10), data);
-		DBResponse.current = { ...DBResponse.current, [data.qtype]: data.response };
-		if (newUser.role.toLocaleLowerCase()==='custodian') {
-			if (newUser.bank==='Enter a New Bank'&&
-				newUser.location==='Enter a New Location'&&
-				newUser.branch==='Enter a New Branch') {
-					// handle new bank, location and branch
-				count = 5
-				const { region, ...rest } = DBResponse.current;
-				DBResponse.current = rest;
-			} else if ((newUser.bank==='Enter a New Bank'&&newUser.location==='Enter a New Location')||
-				(newUser.branch==='Enter a New Branch'&&newUser.location==='Enter a New Location')||
-				(newUser.bank==='Enter a New Bank'&&newUser.branch==='Enter a New Branch')) {
-					// handle new bank and location or
-					// new bank and branch or
-					// new branch and location
-					count = 4
-					if (newUser.branch!=='Enter a New Branch') {
-						const { region, newBranch, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					} else if (newUser.bank!=='Enter a New Bank') {
-						const { region, newBank, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					} else if (newUser.location!=='Enter a New Location') {
-						const { region, newLocation, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					}
-			} else if ((newUser.bank==='Enter a New Bank'||newUser.location==='Enter a New Location')||
-				(newUser.branch==='Enter a New Branch')) {
-				// handle new bank alone or new location alone or new branch alone
-					count = 3
-					if (newUser.branch!=='Enter a New Branch'&&newUser.bank!=='Enter a New Bank') {
-						const { region, newBranch, newBank, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					} else if (newUser.branch!=='Enter a New Branch'&&newUser.location!=='Enter a New Location') {
-						const { region, newBranch, newLocation, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					} else if (newUser.location!=='Enter a New Location'&&newUser.bank!=='Enter a New Bank') {
-						const { region, newLocation, newBank, ...rest } = DBResponse.current;
-						DBResponse.current = rest;
-					}
-			}
-			completedChecks.current = Object.keys(DBResponse.current).length
-			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-		} else if (newUser.role.toLowerCase()==='supervisor'||newUser.role.toLowerCase()==='help-desk') {
-			if (newUser.location==='Enter a New Location') {
-				count = 4
-				const { newBank, newBranch, ...rest } = DBResponse.current;
-				DBResponse.current = rest;
-			} else {
-				count = 3
-				const { newBank, newBranch, newLocation, ...rest } = DBResponse.current;
-				DBResponse.current = rest;
-			}
-			completedChecks.current = Object.keys(DBResponse.current).length
-			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-		} else {
-			if (newUser.location==='Enter a New Location') {
-				count = 3
-				const { newBank, newBranch, region, ...rest } = DBResponse.current;
-				DBResponse.current = rest;
-			} else {
-				count = 2
-				const { newBank, newBranch, region, newLocation, ...rest } = DBResponse.current;
-				DBResponse.current = rest;
-			}
-			completedChecks.current = Object.keys(DBResponse.current).length
-			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-		}
-		// const triggerChildReload = () => {
-		// 	refreshChild.current = !refreshChild.current; // Toggle the ref value
-		// };
-	};
-	console.log(
-		'\nDBResponse:', DBResponse.current,
-		'\ncompletedChecks:', completedChecks.current,
-		'\nvaluesAllGood:', valuesAllGood.current,
-		// '\nfieldsExist:', fieldsExist,
-	)
-	console.log('================================'.repeat(3))
+	// const DBResponse = useRef({});
+	// const completedChecks = useRef(null)
+	// const valuesAllGood = useRef(null)
+	// const refreshChild = useRef(true)
+	// const handleDataChange = (data) => {
+	// 	let count
+	// 	console.log('Data from QueryFieldFromDB:'.repeat(10), data);
+	// 	if (data.qtype!==undefined) {
+	// 		console.log('qtype:', data.qtype)
+	// 		DBResponse.current = { ...DBResponse.current, [data.qtype]: data.response };
+	// 		if (newUser.role.toLocaleLowerCase()==='custodian') {
+	// 			if (newUser.bank==='Enter a New Bank'&&
+	// 				newUser.location==='Enter a New Location'&&
+	// 				newUser.branch==='Enter a New Branch') {
+	// 					// handle new bank, location and branch
+	// 				count = 5
+	// 				const { region, ...rest } = DBResponse.current;
+	// 				DBResponse.current = rest;
+	// 			} else if ((newUser.bank==='Enter a New Bank'&&newUser.location==='Enter a New Location')||
+	// 				(newUser.branch==='Enter a New Branch'&&newUser.location==='Enter a New Location')||
+	// 				(newUser.bank==='Enter a New Bank'&&newUser.branch==='Enter a New Branch')) {
+	// 					// handle new bank and location or
+	// 					// new bank and branch or
+	// 					// new branch and location
+	// 					count = 4
+	// 					if (newUser.branch!=='Enter a New Branch') {
+	// 						const { region, newBranch, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					} else if (newUser.bank!=='Enter a New Bank') {
+	// 						const { region, newBank, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					} else if (newUser.location!=='Enter a New Location') {
+	// 						const { region, newLocation, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					}
+	// 			} else if ((newUser.bank==='Enter a New Bank'||newUser.location==='Enter a New Location')||
+	// 				(newUser.branch==='Enter a New Branch')) {
+	// 				// handle new bank alone or new location alone or new branch alone
+	// 					count = 3
+	// 					if (newUser.branch!=='Enter a New Branch'&&newUser.bank!=='Enter a New Bank') {
+	// 						const { region, newBranch, newBank, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					} else if (newUser.branch!=='Enter a New Branch'&&newUser.location!=='Enter a New Location') {
+	// 						const { region, newBranch, newLocation, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					} else if (newUser.location!=='Enter a New Location'&&newUser.bank!=='Enter a New Bank') {
+	// 						const { region, newLocation, newBank, ...rest } = DBResponse.current;
+	// 						DBResponse.current = rest;
+	// 					}
+	// 			}
+	// 			completedChecks.current = Object.keys(DBResponse.current).length
+	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
+	// 		} else if (newUser.role.toLowerCase()==='supervisor'||newUser.role.toLowerCase()==='help-desk') {
+	// 			if (newUser.location==='Enter a New Location') {
+	// 				count = 4
+	// 				const { newBank, newBranch, ...rest } = DBResponse.current;
+	// 				DBResponse.current = rest;
+	// 			} else {
+	// 				count = 3
+	// 				const { newBank, newBranch, newLocation, ...rest } = DBResponse.current;
+	// 				DBResponse.current = rest;
+	// 			}
+	// 			completedChecks.current = Object.keys(DBResponse.current).length
+	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
+	// 		} else {
+	// 			if (newUser.location==='Enter a New Location') {
+	// 				count = 3
+	// 				const { newBank, newBranch, region, ...rest } = DBResponse.current;
+	// 				DBResponse.current = rest;
+	// 			} else {
+	// 				count = 2
+	// 				const { newBank, newBranch, region, newLocation, ...rest } = DBResponse.current;
+	// 				DBResponse.current = rest;
+	// 			}
+	// 			completedChecks.current = Object.keys(DBResponse.current).length
+	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
+	// 		}
+	// 	}
+	// };
+	// console.log(
+	// 	'\nDBResponse:', DBResponse.current,
+	// 	'\ncompletedChecks:', completedChecks.current,
+	// 	'\nvaluesAllGood:', valuesAllGood.current,
+	// 	// '\nfieldsExist:', fieldsExist,
+	// )
+	// console.log('================================'.repeat(3))
 	// const fieldsExist = valuesAllGood.current
-	const fieldsExist = useRef(null)
+	// const fieldsExist = useRef(null)
 	const handleFormSubmission = (e) => {
 		e.preventDefault();
 		console.log('Form submitted:', newUser);
-		if (validateForm() && valuesAllGood.current) {
-			// console.log(
-			// 	'newUser.branch:', newUser.branch,
-			// 	'newUser.newBranch:', newUser.newBranch,
-			// 	'newUser.bank:', newUser.bank,
-			// 	'newUser.newBank:', newUser.newBank,
-			// 	'newUser.location:', newUser.location,
-			// 	'newUser.newLocation:', newUser.newLocation,
-			// )
-			// console.log('Form submitted: (before)', newUser);
+		// if (validateForm() && valuesAllGood.current) {
+		// setRSwitch(null)
+		if (validateForm()) {
 			if (newUser.newBranch !== null) {
 				newUser.branch = newUser.newBranch
 			}
@@ -741,9 +604,6 @@ function CreateUser () {
 			if (newUser.newLocation !== null) {
 				newUser.location = newUser.newLocation
 			}
-			// console.log('Form submitted (after):', newUser);
-			// console.log('Form datatype:', typeof(newUser));
-			// Submit form data to server
 			const newFormData = new FormData(); // to reset the form
 			// Populate formData with the updated formValues
 			let updatedSamp = null;
@@ -770,31 +630,33 @@ function CreateUser () {
 			setPostTrigger(true);
 			// console.log('updatedSamp:', updatedSamp);
 		} else {
-			fieldsExist.current = valuesAllGood.current
-			setShowError(true);
-			console.log('Form not submitted due to errors:', newUserError);
+			// fieldsExist.current = valuesAllGood.current
+			// setShowError(true);
+			console.log('Form not submitted due to errors:'.repeat(40), newUserError);
 		}
 	}
-	useEffect(() => {
-		if (showError) {
-			const delay = setTimeout(() => {
-				setShowError(false);
-				fieldsExist.current = true
-			}, 2500);
-			return () => clearTimeout(delay);
-		}
-	}, [showError])
+	// useEffect(() => {
+	// 	if (showError) {
+	// 		const delay = setTimeout(() => {
+	// 			setShowError(false);
+	// 			fieldsExist.current = true
+	// 		}, 2500);
+	// 		return () => clearTimeout(delay);
+	// 	}
+	// }, [showError])
 	useEffect(() => {
 		if (postData || postError) {
 			setPostTrigger(() => {
 				// console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
 				return false
 			});
-			// Reset newUser to default state
-			setNewUser(initailFormValues);
+			if (postData?.color==='green') {
+				// Reset newUser to default state
+				setNewUser(initailFormValues);
+				if (postData?.msg) setRSwitch(postData);
+			} else if (postData?.color==='red') setRSwitch(postData);
+			if (postError?.msg) setRSwitch(postError);
 			setShowNotifi(true)
-			if (postData?.msg) setRSwitch(postData);
-			else if (postError?.msg) setRSwitch(postError);
 		}
 	}, [postTrigger, postData, postLoading, postError])
 
@@ -804,6 +666,7 @@ function CreateUser () {
 				// console.log('success response:', success);
 				setShowNotifi(false);
 				setRSwitch(null)
+				if (postData?.color==='green') redirectTo('/success', { state: {currentPage: '/human-resource'}})
 			}, 5000);
 			return () => clearTimeout(timer);
 		}
@@ -882,23 +745,6 @@ function CreateUser () {
 			stateBanksList = bankBranchesList
 		} else {stateLocationsList = filteredLocations}
 	}
-	// console.log('Custodian:', newUser.role === 'Custodian')
-	// console.log('custodianList (outside):', custodianList)
-	// console.log('filteredLocations (outside):', filteredLocations)
-	// console.log('bankStateList (outside):', bankStateList)
-	// console.log('bankStateLocationList (outside):', bankStateLocationList)
-	// console.log('bankStateLocationBranchList (outside):', bankStateLocationBranchList)
-	// console.log('bankBankList:', bankBankList)
-	// console.log('filteredStates (outside):', filteredStates)
-	// console.log('regionStateList (outside):', regionStateList)
-	// console.log('filteredRegions (Req:region-outside):', filteredRegions)
-	// console.log('stateRegionList (Req:regions-outside):', stateRegionList)
-	// console.log('stateBranchesList (Req:branches-outside):', stateBranchesList)
-	// console.log('stateBanksList (Req:banks-outside):', stateBanksList)
-	// console.log('stateLocationsList (Req:location-outside):', stateLocationsList)
-	// console.log('stateStatesList (Req:states-outside):', stateStatesList)
-	// console.log('stateStatesBranchesList (Req:branches-outside):', stateStatesBranchesList)
-
 	console.log(
 		'\nnewUser.branch:', newUser.branch,
 		'\nnewUser.newBranch:', newUser.newBranch,
@@ -910,6 +756,9 @@ function CreateUser () {
 		'\nnewUser.region:', newUser.region,
 		'\nnewUser.password1:', newUser.password1,
 		'\nnewUser.password2:', newUser.password2,
+		'\nnewUser.password:', newUser.password,
+		// '\npassMatch:', passMatch.current,
+		'\npasswordCheck:', passwordCheck,
 	)
 	const DisplayError = ({fieldName }) => {
 		// Split the string by spaces or other delimiter if necessary
@@ -926,19 +775,11 @@ function CreateUser () {
 		return null;
 	};
 	// console.log(
-	// 	// '\ncustodian:', custodian,
-	// 	'\nnotCustodian:', notCustodian,
-	// 	'\ncustodianBankBranches:', custodianBankBranches
+	// 	'\nDBResponse:', DBResponse.current,
+	// 	'\ncompletedChecks:', completedChecks.current,
+	// 	'\nvaluesAllGood:', valuesAllGood.current,
+	// 	'\nfieldsExist:', fieldsExist.current,
 	// )
-	// if (DBResponse.current.includes('email'))
-	// DBResponse.current = DBResponse.current?.filter?.(email => email.includes('email'))
-	// console.log('DBResponse:', DBResponse.current)
-	console.log(
-		'\nDBResponse:', DBResponse.current,
-		'\ncompletedChecks:', completedChecks.current,
-		'\nvaluesAllGood:', valuesAllGood.current,
-		'\nfieldsExist:', fieldsExist.current,
-	)
 	return (
 		<>
 			<div className="dash-form">
@@ -984,10 +825,13 @@ function CreateUser () {
 											)})}
 											</SelectItem>
 										</div>
-										{(newUser.region&&(newUser.role==='Help-Desk'||newUser.role==='Supervisor')) &&
+										{(newUser.region&&(newUser.role.toLowerCase()==='help-desk'||newUser.role.toLowerCase()==='supervisor'||
+											newUser.role.toLowerCase()==='custodian'||newUser.role.toLowerCase()==='engineer'
+										)) &&
 										<QueryFieldFromDB
 										query={regionQuery}
-										callbackOnDataChange={handleDataChange} />}
+										// callbackOnDataChange={handleDataChange}
+										/>}
 									</div>
 								</div>
 								{(dept.nothing) &&
@@ -1091,7 +935,7 @@ function CreateUser () {
 													)}
 												</NewFieldContainer>
 												{(newUser.newBank) && <QueryFieldFromDB
-												callbackOnDataChange={handleDataChange}
+												// callbackOnDataChange={handleDataChange}
 												query={newBankQuery} />}
 												{/* Error Handling */}
 												{(newUser.bank === 'Enter a New Bank' && !newUser.newBank) ?
@@ -1109,12 +953,13 @@ function CreateUser () {
 											<div className="input-field">
 												<Label htmlFor="location">Location:</Label>
 												<NewFieldContainer>
+													{newUser.role.toLowerCase()!=='engineer' &&
 													<SelectItem
 													style={{...style.input, width: '35%',}}
 													name="location"
 													id="location"
 													ref={refInput}
-													value={newUser.location || 'Select Location'}
+													value={newUser.location||'Select Location'}
 													onChange={HandleUserCreationInputChange}
 													>
 													<option style={styles.selectOpts}>Select Location</option>
@@ -1129,8 +974,8 @@ function CreateUser () {
 															// )
 															return (<option key={i} value={`${selectedLocation.location}-${selectedLocation.id}`}>{toSentenceCase(selectedLocation.location)}</option>
 														)})}
-													</SelectItem>
-													{newUser.location === 'Enter a New Location' && (
+													</SelectItem>}
+													{(newUser.location === 'Enter a New Location'||newUser.role.toLowerCase()==='engineer') && (
 														<NewFieldContainer>
 															<input
 															style={{...style.input, width: '100%',}}
@@ -1145,7 +990,7 @@ function CreateUser () {
 														)}
 												</NewFieldContainer>
 												{(newUser.newLocation) && <QueryFieldFromDB
-												callbackOnDataChange={handleDataChange}
+												// callbackOnDataChange={handleDataChange}
 												query={newLocationQuery} />}
 												{/* Error Handling */}
 												{(newUser.location === 'Enter a New Location' && !newUser.newLocation) ?
@@ -1193,7 +1038,7 @@ function CreateUser () {
 													)}
 												</NewFieldContainer>
 												{(newUser.newBranch) && <QueryFieldFromDB
-												callbackOnDataChange={handleDataChange}
+												// callbackOnDataChange={handleDataChange}
 												query={newBranchQuery} />}
 												{/* Error Handling */}
 												{(newUser.branch === 'Enter a New Branch' && !newUser.newBranch) ?
@@ -1260,7 +1105,7 @@ function CreateUser () {
 												placeholder=' Required'
 												/>
 												{newUser.email && <QueryFieldFromDB
-												callbackOnDataChange={handleDataChange}
+												// callbackOnDataChange={handleDataChange}
 												query={emailQuery} />}
 												{<DisplayError fieldName='email' />}
 											</div>
@@ -1338,7 +1183,7 @@ function CreateUser () {
 													value={newUser.gender}
 													onChange={HandleUserCreationInputChange}
 													>
-														<option >Select Gender</option>
+														<option style={styles.selectOpts}>Select Gender</option>
 														{
 														[
 															'Male',
@@ -1443,7 +1288,7 @@ function CreateUser () {
 												placeholder=' Required'
 												/>
 												{newUser.username && <QueryFieldFromDB
-												callbackOnDataChange={handleDataChange}
+												// callbackOnDataChange={handleDataChange}
 												query={usernameQuery} />}
 												{<DisplayError fieldName='username' />}
 											</div>
@@ -1484,9 +1329,10 @@ function CreateUser () {
 										'\npostLoading:', postLoading,
 										'\nrSwitch:', rSwitch,
 										'\npostData:', postData,
+										'npostData?.color:', postData?.color,
 									): null
 								}
-								{(showNotifi && !postLoading) && <p style={{...styleObj, color: 'green'}}>{rSwitch}</p>}
+								{(showNotifi && !postLoading) && <p style={{...styleObj, color: rSwitch?.color}}>{rSwitch?.msg}</p>}
 							</div>
 						</div>
 						
@@ -1506,7 +1352,7 @@ function CreateUser () {
 							{postLoading ? 'Creating...' : 'Create Account'}
 							</MainButton>
 						</MainButtonContainer>
-						<div
+						{/* <div
 						style={{
 							display: 'flex',
 							justifyContent: 'center',
@@ -1515,8 +1361,9 @@ function CreateUser () {
 							marginTop: '0.5rem',
 						}}>
 							<DisplayErrorComponent
-							fieldsExist={fieldsExist} />
-						</div>
+							fieldsExist={fieldsExist}
+							/>
+						</div> */}
 					</form>
 				</div>
 			</div>
@@ -1526,13 +1373,13 @@ function CreateUser () {
 }
 export default CreateUser;
 
-function DisplayErrorComponent ({fieldsExist}) {
-	const check = !fieldsExist.current&&fieldsExist.current!==null
-	console.log('check:', check)
-	return (
-		check &&
-		<>
-			<p style={{...errorStylings, margin: '0'}}>All required fields must be filled and checks green</p>
-		</>
-	)
-}
+// function DisplayErrorComponent ({fieldsExist}) {
+// 	const check = !fieldsExist.current&&fieldsExist.current!==null
+// 	console.log('check:', check)
+// 	return (
+// 		check &&
+// 		<>
+// 			<p style={{...errorStylings, margin: '0'}}>All required fields must be filled and checks green</p>
+// 		</>
+// 	)
+// }
