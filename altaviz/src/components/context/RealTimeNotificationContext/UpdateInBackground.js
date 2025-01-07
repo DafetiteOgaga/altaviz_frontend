@@ -365,7 +365,7 @@ const UpdateInBackground = (firebaseNotification, setReload) => {
 					)
 					endpoints.push(
 						`componentPendingList-/request-component/${prefixes.notificationListPrefix}`,
-						`allPendingRequests-/workshop-reques/${prefixes.notificationListPrefix}`,
+						`allPendingRequests-/workshop-request/${prefixes.notificationListPrefix}`,
 					)
 					// NotificationString.current = websocketAlert
 				} else if (dept==='engineer') {

@@ -97,7 +97,7 @@ function updateFaults(packaged) {
 	return updatedArray;
 }
 
-function RequestItem({itemName, vKey=null, requestProps=null}) {
+function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 	console.log(
 		'\nitemName:', itemName,
         '\nrequestProps:', requestProps,
@@ -234,13 +234,6 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 			setFormValues([defaultValues]);
 			if (postData) {
 				setPostResponse(true)
-			// 	console.log('about to refresh ...'.toUpperCase())
-			// 	console.log('refreshing ...'.toUpperCase())
-			// };
-			// // let newRequestsPlaceholder = []
-			// if (postData
-			// 	// && recievedNewRequest.current
-			// ) {
 				console.log('Post request successful', postData);
 				console.log(`processing for ${itemName} ...`)
 				console.log(
@@ -348,7 +341,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
 					}
 					if (encodedData) {console.log('updated', localPK, 'in localStorage')}
 				}
-				// itemName==='component'?setIsCompRequestFormOpen(prev=>!prev):setIsPartRequestFormOpen(prev=>!prev)
+				// setReload(prev=>!prev)
 			}
 		}
 	}, [postTrigger, postData, postLoading, postError])
@@ -356,6 +349,7 @@ function RequestItem({itemName, vKey=null, requestProps=null}) {
         if (postResponse) {
 			const delay = setTimeout(() => {
 				setPostResponse(false);
+				toggleForm()
 			},2500)
 			return () => clearTimeout(delay);
         }
