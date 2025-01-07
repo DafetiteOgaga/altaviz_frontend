@@ -910,14 +910,14 @@ function FaultDetailsGen({searchFaults}) {
 											requestProps={requestProps}
 											vKey='compRequestContext'
 											itemName='component'
-											setIsCompRequestFormOpen={setIsCompRequestFormOpen}
+											toggleForm={toggleCompRequestForm}
 											/>)}
 									{isPartRequestFormOpen &&
 										(<RequestItem
 											requestProps={requestProps}
 											vKey='partRequestContext'
 											itemName='part'
-											setIsPartRequestFormOpen={setIsPartRequestFormOpen}
+											toggleForm={togglePartRequestForm}
 											/>)}
 
 									{/* supervisor and human-resource approve/reject request butttons */}
