@@ -383,11 +383,6 @@ function RequestsDetails() {
 		tempDetailsID = localStorage.getItem('temporaryIDValue')
 	}
 	console.log({tempDetailsID})
-	// if (!requestItem) {
-	// 	console.log('request with ID:', comparisonID, 'not found.')
-	// 	console.log('redirecting to dashboard ...')
-	// 	navigate('/success', { state: {currentPage: `/${authData?.role}`, time: 50}})
-	// }
 	const requestFaultStatus = (requestItem?.fault)?
 								(!requestItem?.fault?.confirm_resolve && !requestItem?.fault?.verify_resolve):
 								(dept==='human-resource')
@@ -630,5 +625,4 @@ function RequestsDetails() {
 		</>
 	);
 };
-
 export default RequestsDetails;
