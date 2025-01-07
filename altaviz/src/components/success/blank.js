@@ -1,11 +1,9 @@
-// import { useLocation} from 'react';
 import { useEffect, useContext } from 'react';
 import './success.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/checkAuth/AuthContext';
-// import { useNavigate } from 'react-router-dom';
 
-const Success = () => {
+const Blank = () => {
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate()
   const location = useLocation();
@@ -19,12 +17,16 @@ const Success = () => {
   }, [currentPage])
   console.log({location})
   return (
-    <div className='success-body'>
-      <div className="success-container">
-        <h1>Success!</h1>
-      </div>
-    </div>
+    <div style={backgroundStyle}></div>
   );
 };
+export default Blank;
 
-export default Success;
+const backgroundStyle = {
+  backgroundColor: '#E5E5E5',
+  borderTopLeftRadius: '1rem',
+  borderTopRightRadius: '1rem',
+  maxHeight: '200vh',
+  height: '200vh', // Set height
+  width: '100%',   // Set width
+};

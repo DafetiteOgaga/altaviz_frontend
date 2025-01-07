@@ -5,20 +5,24 @@ import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
 import Announcements from './components/announcement/Announcements';
-import useSilentUpdate from './components/context/RealTimeNotificationContext/SilentUpdate';
+// import useSilentUpdate from './components/context/RealTimeNotificationContext/SilentUpdate';
+import UpdateInBackground from './components/context/RealTimeNotificationContext/UpdateInBackground';
 import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import useDeviceType from './components/deviceType/DeviceType';
 import altaviz from './logo/altaviz_logo.png';
+import { useState } from 'react';
 // import { useChatNotification } from './components/context/RealTimeNotificationContext/useChatsNotification';
 
 function App() {
 	// const { createNotification } = useChatNotification();
 	// createNotification('online', 'IT FUCKING WORKED again!!!')
+	const [, setReload] = useState(false)
 	const deviceType = useDeviceType()
 	console.log({deviceType})
 	const { data:firebaseNotification } = useFirebase()
 	console.log('firebaseNotification (app.js):', firebaseNotification)
-	useSilentUpdate(firebaseNotification)
+	// useSilentUpdate(firebaseNotification)
+	UpdateInBackground(firebaseNotification, setReload)
 	const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 	console.log('\napiBaseUrl url:', apiBaseUrl)
 	console.log({deviceType})

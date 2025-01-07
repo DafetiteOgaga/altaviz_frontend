@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import RequestListDisplay from "../Requests/RequestListDisplay";
 // import RequestsList from "../Requests/RequestsList";
 import Notification from "../notification/Notification";
-import AddItemToInventory from "../human_resource/addItemToInventory/AddItemToInventory";
+import UpdateInventoryItems from "../human_resource/addItemToInventory/UpdateInventoryItems";
 
 function Workshop() {
 	// const { authData } = useContext(AuthContext);
@@ -130,7 +130,7 @@ function Workshop() {
 				</div>
 				{isCompRequestFormOpen && (<RequestItem itemName='component' />)}
 				{/* {isPostPartFormOpen && (<AddPartForm />)} */}
-				{isPostPartFormOpen && (<AddItemToInventory itemName='post-part' />)}
+				{isPostPartFormOpen && (<UpdateInventoryItems itemName='post-part' />)}
 				{/* {isUserDetailsFormOpen && (<LogFault />)} */}
 				{isUserDetailsFormOpen && (<UpdateUser />)}
 			{/* </div> */}

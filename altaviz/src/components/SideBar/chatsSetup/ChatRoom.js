@@ -360,7 +360,7 @@ const ChatRoom = () => {
 						tabIndex="0"
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
-								e.preventDefault();  // Prevents default form submission behavior
+								// e.preventDefault();  // Prevents default form submission behavior
 								oldID.current = localStorage.getItem('chatID')
 								localStorage.setItem('chatID', avatar.id);
 								setChatID(avatar.id);

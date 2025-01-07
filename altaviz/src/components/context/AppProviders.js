@@ -13,6 +13,7 @@ import { RefreshProvider } from "./RefreshContext";
 // import { WebSocketNotificationProvider } from "./RealTimeNotificationContext/useWebSocketNotificationContext";
 import { FirebaseProvider } from "./RealTimeNotificationContext/FirebaseContextNotification";
 import { NotificationProvider } from "./RealTimeNotificationContext/useChatsNotification";
+// import QueryProvider from "./BackgroundUpdates/QueryClientProvider";
 
 const providers = [
 	// the first is the child
@@ -24,6 +25,7 @@ const providers = [
 	NotificationProvider,
 	// WebSocketNotificationProvider,
 	FetchProviders,
+	// QueryProvider,
 	AuthProvider,
 	LoginProvider,
 	// TriggerProvider,

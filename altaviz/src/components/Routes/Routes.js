@@ -13,6 +13,7 @@ import HumanResource from '../SideBar/human_resource/HumanResource';
 import Inventory from '../SideBar/human_resource/inventory/Inventory';
 import PageNotFound from '../PageNotFound';
 import Success from '../success/Success';
+import Blank from '../success/blank';
 import ProductDetails from '../products/ProductDetails';
 import DropdownMenu from '../header/product_dropdown_menu/DropdownMenu';
 import User from '../user/user';
@@ -131,6 +132,7 @@ function AppRoutes() {
           <Route path=":dept/new-location-list" element={<EngineerToLocation />} />
 
           <Route path="/success" element={<Success />} />
+          <Route path="/blank" element={<Blank />} />
 
           <Route path="/profile" element={<Profile />} />
         </Route>

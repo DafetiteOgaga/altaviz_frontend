@@ -10,7 +10,7 @@ import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 // import CustodianDetailsUpdateRequestNotifi from "./updateDetails/custodianDetailsUpdate/CustodianDetailsUpdateRequestNotifi";
 import Notification from "../notification/Notification";
 import FaultSearch from "../searches/FaultSearch";
-import AddItemToInventory from "./addItemToInventory/AddItemToInventory";
+// import UpdateInventoryItems from "./UpdateInventoryItems/UpdateInventoryItems";
 
 function HumanResource() {
 	const navigate = useNavigate();
@@ -134,11 +134,11 @@ function HumanResource() {
 						// totalArrayContext='totalcomponentKey'
 						titleKey='Workshop Requests'
 						titleValue='No Pending Requests'
-						// patchUrl={patchUrl}
+						patchUrl='request-component'
 						// postUrl={postUrl}
 						// putUrl={putUrl}
 						// putData={putData}
-						deleteUrl='request-component'
+						// deleteUrl='request-component'
 						handler='requestHandler'
 						// listHandle
 						// requestHandler
@@ -162,7 +162,7 @@ function HumanResource() {
 						// totalArrayContext='totalpartKey'
 						titleKey='Fixed Parts'
 						titleValue='No New Posts'
-						// patchUrl={patchUrl}
+						patchUrl='post-part'
 						// postUrl={postUrl}
 						// putUrl={putUrl}
 						// putData={putData}
@@ -337,8 +337,8 @@ function HumanResource() {
 				<div style={{...toggleStyles, ...(inTransit?{paddingBottom: '100rem'}:{})}}>
 					{isSearchOpen && < FaultSearch />}
 				</div>
-				{/* {Comps && (<AddItemToInventory itemName='components' />)}
-				{Parts && (<AddItemToInventory itemName='parts' />)} */}
+				{/* {Comps && (<UpdateInventoryItems itemName='components' />)}
+				{Parts && (<UpdateInventoryItems itemName='parts' />)} */}
 				{createUser && (<CreateUser />)}
 				{updateUser && (<UpdateUser />)}
 

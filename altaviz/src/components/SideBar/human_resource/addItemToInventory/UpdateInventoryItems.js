@@ -60,7 +60,7 @@ const MainButtonContainer = styled.div`
 	// flex-direction: row;
 	justify-content: space-evenly;
 `
-function AddItemToInventory({itemName}) {
+function UpdateInventoryItems({itemName, setUpdateInventory, delayTime}) {
 	const location = useLocation().pathname.split('/');
 	const dept = location[1]
 	const { toSentenceCase } = useContext(SentenceCaseContext)
@@ -176,12 +176,7 @@ function AddItemToInventory({itemName}) {
 					postData.success
 				)
 				setPostResponse(true)
-				let localKey;
-				if (itemName === 'parts') localKey = 'inventoryParts';
-				if (itemName === 'components') localKey = 'inventoryComponents';
-				// handleRefresh([localKey])
-				localStorage.removeItem(localKey)
-				navigate('/success', {state: {currentPage: '/inventory', time: 50}})
+				setUpdateInventory(true)
 			} else if (postData.received) {
 				console.log(
 					'postData response:'.toUpperCase(),
@@ -189,7 +184,7 @@ function AddItemToInventory({itemName}) {
 				)
 				localStorage.removeItem('unapprovedContext')
 				localStorage.removeItem('totalUnapproved')
-				navigate('/success', {state: {currentPage:`/${authData.role}`}})
+				navigate('/blank', {state: {currentPage:`/${authData.role}`}})
 			}
 			setPostTrigger(() => {
 				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
@@ -205,10 +200,10 @@ function AddItemToInventory({itemName}) {
 	}, [postTrigger, postData, postLoading, postError])
     useEffect(() => {
         if (postResponse) {
-			const delay = setTimeout(() => {setPostResponse(false)}, 3000) // 5 secs
+			const delay = setTimeout(() => {setPostResponse(false)}, delayTime) // 5 secs
 			return () => clearTimeout(delay);
         }
-		if (noselection) {const timer = setInterval(() => {setNoselecton(false);}, 3000); // 3 secs
+		if (noselection) {const timer = setInterval(() => {setNoselecton(false);}, delayTime); // 3 secs
 			return () => clearTimeout(timer)
 		}
     }, [postResponse, noselection]);
@@ -241,14 +236,6 @@ function AddItemToInventory({itemName}) {
 		'\nlocation:', location,
 		'\ndept:', dept,
 	)
-	const style = {
-		input: {
-			padding: "4px",
-			fontSize: "16px",
-			border: "1px solid #ccc",
-			borderRadius: "5px",
-		}
-	}
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
@@ -256,7 +243,7 @@ function AddItemToInventory({itemName}) {
 				<TopContainer key={index}>
 					<BorderLineContainer>
 						<FieldsContainer>
-							<Label htmlFor={`${form.name}-${index}`}>{`Update ${toSentenceCase(dept==='workshop'?'Parts':itemName)} Inventory`}:</Label>
+							<Label htmlFor={`${form.name}-${index}`}>{`${itemName==='post-part'?'Post to':'Update'} ${toSentenceCase(dept==='workshop'?'Parts':itemName)} Inventory`}:</Label>
 							<SelectItem
 								id={`${form.name}-${index}`}
 								name='name'
@@ -265,11 +252,9 @@ function AddItemToInventory({itemName}) {
 								onChange={(e) => valueHandler(e, index)}
 							>
 								<option key={`Select ${itemName === 'components' ? 'Component': 'Part'}`}>{`Select ${itemName === 'components' ? 'Component': 'Part'}`}</option>
-								{itemList ? (itemList.map((itemName, i) => {
-									// console.log('itemName', itemName)
-									// if (itemName.quantity === 0) return null;
+								{itemList ? (itemList.map((iName, i) => {
 									return (
-									<option key={i} value={itemName.name}>{`${toSentenceCase(itemName.name)} ${itemName.quantity === 0 ? ' (Empty)': ''}`}</option>
+									<option key={i} value={iName.name}>{`${toSentenceCase(iName.name)} ${iName.quantity === 0 ? ' (Empty)': ''}`}</option>
 								)})) : ('loading ...')}
 							</SelectItem>
 						</FieldsContainer>
@@ -305,14 +290,7 @@ function AddItemToInventory({itemName}) {
 			))}
 			{((postData?.success && postResponse)||(noselection)) &&
 			<p
-			style={{
-				margin: '0',
-				paddingLeft: '1rem',
-				fontSize: '1rem',
-				color: (noselection ? 'red': 'green'),
-				fontWeight: 'light',
-				fontStyle: 'bold',
-			}}
+			style={{...style.errorStyle, color: (noselection ? 'red': 'green'),}}
 			>
 				{/* {postData && postData.success} */}
 				{noselection ? 'You must fill all field.': <span style={{fontWeight: "bold"}}>{postData.success}</span>}
@@ -330,16 +308,13 @@ function AddItemToInventory({itemName}) {
 					tabIndex="0"
 					onKeyDown={(e) => {
 						if (e.key === 'Enter') {
-							e.preventDefault();  // Prevents default form submission behavior
-							handleSubmit();  // Calls your form submission function
+							// e.preventDefault();  // Prevents default form submission behavior
+							handleSubmit(e);  // Calls your form submission function
 						}
 					}}
 					disabled={postLoading}>
 						{postLoading ? 'Posting...' : `Post ${itemName === 'components' ? 'Component': 'Part'}`}
 					</MainButton>
-					{/* <div onClick={refreshCompCopm}>
-						{refreshIcon}
-					</div> */}
 				</div>
 				{(formIndex < 4) &&
 					<MainButton
@@ -351,25 +326,25 @@ function AddItemToInventory({itemName}) {
 						Add More
 					</MainButton>}
 			</MainButtonContainer>
-			{/* {(postData?.success && postResponse) &&
-			<p
-			style={{
-				margin: '0',
-				paddingLeft: '1rem',
-				fontSize: '1rem',
-				color: 'green',
-				fontWeight: 'light',
-				fontStyle: 'bold',
-			}}
-			>{postData.success}</p>} */}
-			{/* <SubmitNotification
-			error={postError}
-			success={postData}
-			page={page} /> */}
 			</form>
 			<hr/>
 		</>
 	);
 };
+export default UpdateInventoryItems;
 
-export default AddItemToInventory;
+const style = {
+	input: {
+		padding: "4px",
+		fontSize: "16px",
+		border: "1px solid #ccc",
+		borderRadius: "5px",
+	},
+	errorStyle: {
+		margin: '0',
+		paddingLeft: '1rem',
+		fontSize: '1rem',
+		fontWeight: 'bold',
+		fontStyle: 'italic',
+	}
+}

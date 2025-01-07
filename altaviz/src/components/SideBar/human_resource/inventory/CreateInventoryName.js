@@ -4,9 +4,6 @@ import styled from "styled-components";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
 // import { useState,  } from "react";
 import { FetchContext } from "../../../context/FetchContext";
-// import SubmitNotification from "../../notifications/submitNotification/SubmitNotification";
-// import { useLocation } from "react-router-dom";
-// import { useRefreshContext } from "../../../context/RefreshContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const TopContainer = styled.div`
@@ -58,7 +55,7 @@ const MainButtonContainer = styled.div`
 	// flex-direction: row;
 	justify-content: space-evenly;
 `
-function AddInventoryName({inventoryName}) {
+function CreateInventoryName({inventoryName, setUpdateInventory, delayTime}) {
 	const currentPage = useLocation().pathname.split('/')[1];
 	const navigate = useNavigate()
 	const refInput = useRef(null);
@@ -103,9 +100,6 @@ function AddInventoryName({inventoryName}) {
 			console.log('length:', formList.length)
 			console.log('filter.key1:', formList[i][0])
 			if (formList[i][1].item === '') continue;
-			// if (formList[i][1] === 'Select Fault') continue;
-			// if (Number(formList[i]) === '0') continue;
-			// console.log('qqqqqqqqq'.toUpperCase())
 			keyList.push(formList[i])
 			// console.log('ppppppppp'.toUpperCase())
 		};
@@ -164,10 +158,10 @@ function AddInventoryName({inventoryName}) {
 
 	useEffect(() => {
         if (exist) {
-			const delay = setTimeout(() => {setExist(false)}, 2000) // 2 secs
+			const delay = setTimeout(() => {setExist(false)}, delayTime) // 2 secs
 			return () => clearTimeout(delay);
         }
-		if (noselection) {const timer = setInterval(() => {setNoselecton(false);}, 3000); // 3 secs
+		if (noselection) {const timer = setInterval(() => {setNoselecton(false);}, delayTime); // 3 secs
 			return () => clearTimeout(timer)
 		}
     }, [exist, noselection]);
@@ -186,42 +180,23 @@ function AddInventoryName({inventoryName}) {
     };
 
 	if (postData && !postData.exist) {
+		setUpdateInventory(true)
 		let localKey;
 		if (inventoryName === 'part') localKey = 'inventoryParts';
 		if (inventoryName === 'component') localKey = 'inventoryComponents';
 		// handleRefresh([localKey])
 		localStorage.removeItem(localKey)
-		navigate('/success', {state: {currentPage: `/${currentPage}`, time: 50}})
-		// navigate('/success')
-		// const delay = setTimeout(() => {
-		// 	navigate(`/${currentPage}`)
-		// }, 50);
-		// return () => clearTimeout(delay);
+		navigate('/blank', {state: {currentPage: `/${currentPage}`, time: 350}})
 	}
 	console.log('formvalue:', formValue)
 	const incrementAddMoreButtonCount = () => setFormIndex(prev => prev + 1)
 	const decrementAddMoreButtonCount = () => setFormIndex(prev => prev - 1)
-	const style = {
-		input: {
-			padding: "4px",
-			fontSize: "16px",
-			border: "1px solid #ccc",
-			borderRadius: "5px",
-		}
-	}
 	return (
 		<>
 			<form onSubmit={handleSubmit}>
 			{((postData?.exist && exist)||(noselection)) &&
 			<p
-			style={{
-				margin: '0',
-				paddingLeft: '1rem',
-				fontSize: '1rem',
-				color: 'red',
-				fontWeight: 'light',
-				fontStyle: 'italic',
-			}}
+			style={style.yerrorStyle}
 			>
 				{postData && postData.exist}
 				{noselection && 'You must fill all field.'}
@@ -274,17 +249,13 @@ function AddInventoryName({inventoryName}) {
 				tabIndex="0"
 				onKeyDown={(e) => {
 					if (e.key === 'Enter') {
-						e.preventDefault();  // Prevents default form submission behavior
-						handleSubmit();  // Calls your form submission function
+						// e.preventDefault();  // Prevents default form submission behavior
+						handleSubmit(e);  // Calls your form submission function
 					}
 				}}
 				disabled={postLoading}>
 					{postLoading ? 'Creating...' : 'Create Item'}
 				</MainButton>
-				{/* {console.log(
-					'index:', index,
-					'\nformIndex:', formIndex,
-				)} */}
 				{(formIndex < 4) &&
 					<MainButton
 					type="button"
@@ -295,14 +266,26 @@ function AddInventoryName({inventoryName}) {
 						Add More
 					</MainButton>}
 			</MainButtonContainer>
-			{/* <SubmitNotification
-			error={postError}
-			success={postData}
-			page={page} /> */}
 			</form>
 			<hr/>
 		</>
 	);
 };
+export default CreateInventoryName;
 
-export default AddInventoryName;
+const style = {
+	input: {
+		padding: "4px",
+		fontSize: "16px",
+		border: "1px solid #ccc",
+		borderRadius: "5px",
+	},
+	errorStyle: {
+		margin: '0',
+		paddingLeft: '1rem',
+		fontSize: '1rem',
+		color: 'red',
+		fontWeight: 'light',
+		fontStyle: 'italic',
+	}
+}

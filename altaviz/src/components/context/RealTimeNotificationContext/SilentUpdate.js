@@ -23,7 +23,17 @@ const assignNotifications = (notificationUrlRef, notificationKeyRef, url, key, l
 
 	console.log(notificationUrlRef.current, notificationKeyRef.current);
 };
-
+const UpdateStatus = (nTotalNotifications) => {
+	const getLocalValue = localStorage.getItem('updateCounter')
+	if (getLocalValue) {
+		const [currNum, totalNum] = getLocalValue.split('/')
+		if (currNum!==totalNum) {
+			localStorage.setItem('updateCounter', Number(currNum)+1+'/'+totalNum)
+		} else {
+			localStorage.removeItem('updateCounter')
+		}
+	} else {localStorage.setItem('updateCounter', 1+'/'+nTotalNotifications.current)}
+}
 
 function useSilentUpdate (firebaseNotification) {
 	console.log({firebaseNotification})
@@ -660,7 +670,10 @@ function useSilentUpdate (firebaseNotification) {
 		// ntype1.current,
 		isRegion
 	)
-	if (noti1?.isListData?.current&&!nCounter.current.some?.(check=>check==='one')&&nTotalNotifications.current) {nCounter.current.push('one')}
+	if (noti1?.isListData?.current&&!nCounter.current.some?.(check=>check==='one')&&nTotalNotifications.current) {
+		nCounter.current.push('one')
+		UpdateStatus(nTotalNotifications)
+	}
 	else if (nCounter.current?.includes('one')&&noti1?.isListData?.current===undefined) console.log('noti1 is done'.toUpperCase().repeat(10))
 	console.log(
 		'\nnoti1?.isListData?.current:', noti1?.isListData?.current,

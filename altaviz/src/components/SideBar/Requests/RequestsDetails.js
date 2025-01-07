@@ -157,7 +157,7 @@ function RequestsDetails() {
 		deleteTrigger,
 	);
 	const { patchData, patchLoading, patchError } = usePatchDataAPI(
-		`${requestParamDetails.faultID?`request-${requestType}`:'post-part'}/${authData?.id}/`,
+		`${requestItem.type==='fixed-part'?'post-part':`request-${requestType}`}/${authData?.id}/`,
 		formData, patchTrigger,
 	);
 	console.log(
@@ -177,7 +177,7 @@ function RequestsDetails() {
 			)
 			const newFormData = new FormData()
 			newFormData.append(type, true)
-			newFormData.append('faultID', requestParamDetails.id)
+			newFormData.append('requestID', requestParamDetails.id)
 			newFormData.append('approved_by', authData.email)
 			setFormData(newFormData)
 			setPatchTrigger(true)
@@ -331,9 +331,6 @@ function RequestsDetails() {
 	if (dept === 'workshop' && requestType === 'part') {
 		canWithdrawRequest = requestItem?.user.email.trim() === authData?.email.trim()
     }
-	// else if (dept === 'engineer' && requestParamDetails.faultID) {
-	// 	canWithdrawRequest = requestItem.user === authData.id
-	// }
 	else {
 		canWithdrawRequest = requestItem?.user?.first_name.trim() === authData?.first_name.trim()
 		// canWithdrawRequest = requestItem.user.first_name === authData.first_name
@@ -386,11 +383,6 @@ function RequestsDetails() {
 		tempDetailsID = localStorage.getItem('temporaryIDValue')
 	}
 	console.log({tempDetailsID})
-	// if (!requestItem) {
-	// 	console.log('request with ID:', comparisonID, 'not found.')
-	// 	console.log('redirecting to dashboard ...')
-	// 	navigate('/success', { state: {currentPage: `/${authData?.role}`, time: 50}})
-	// }
 	const requestFaultStatus = (requestItem?.fault)?
 								(!requestItem?.fault?.confirm_resolve && !requestItem?.fault?.verify_resolve):
 								(dept==='human-resource')
@@ -533,13 +525,6 @@ function RequestsDetails() {
 										</p>
 									</div>
 								</>}
-								{/* <div className="cust-row">
-									{requestItem?.fault && <div className="input-field-other">
-										<p><strong>Other: </strong>
-										{requestItem?.fault?.other}
-										</p>
-									</div>}
-								</div> */}
 								{requestItem.approved_by && <div className="input-field">
 									<p><strong>Approved By: </strong>
 									<Link
@@ -573,13 +558,6 @@ function RequestsDetails() {
 									</div>
 								</>}
 							</div>
-							{/* <div className="cust-row">
-								{requestItem?.fault && <div className="input-field-other">
-									<p><strong>Other: </strong>
-									{toSentenceCase(requestItem?.fault?.other)}
-									</p>
-								</div>}
-							</div> */}
 							<div className="cust-row">
 								<div className="input-field">
 									<p><strong>Reason: </strong>
@@ -627,7 +605,7 @@ function RequestsDetails() {
 										handleClick(e, {type: 'approved'});
 										action.current = 'approved';
 									}}>
-										Approve Request
+										{(patchLoading&&action.current==='approved')?'Approving ...':`Approve ${requestItem?.type==='fixed-part'?'Part':'Request'}`}
 									</h5>
 								</div>
 								<div className="custum-button">
@@ -636,7 +614,7 @@ function RequestsDetails() {
 										handleClick(e, {type: 'rejected'});
 										action.current = 'rejected';
 									}}>
-										Reject Request
+										{(patchLoading&&action.current==='rejected')?'Rejecting ...':`Reject ${requestItem?.type==='fixed-part'?'Part':'Request'}`}
 									</h5>
 								</div>
 							</div>
@@ -647,5 +625,4 @@ function RequestsDetails() {
 		</>
 	);
 };
-
 export default RequestsDetails;
