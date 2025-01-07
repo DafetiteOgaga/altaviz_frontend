@@ -97,7 +97,7 @@ function updateFaults(packaged) {
 	return updatedArray;
 }
 
-function RequestItem({itemName, vKey=null, requestProps=null, setIsCompRequestFormOpen, setIsPartRequestFormOpen}) {
+function RequestItem({itemName, vKey=null, requestProps=null}) {
 	console.log(
 		'\nitemName:', itemName,
         '\nrequestProps:', requestProps,
@@ -348,7 +348,7 @@ function RequestItem({itemName, vKey=null, requestProps=null, setIsCompRequestFo
 					}
 					if (encodedData) {console.log('updated', localPK, 'in localStorage')}
 				}
-				itemName==='component'?setIsCompRequestFormOpen(prev=>!prev):setIsPartRequestFormOpen(prev=>!prev)
+				// itemName==='component'?setIsCompRequestFormOpen(prev=>!prev):setIsPartRequestFormOpen(prev=>!prev)
 			}
 		}
 	}, [postTrigger, postData, postLoading, postError])
@@ -362,7 +362,7 @@ function RequestItem({itemName, vKey=null, requestProps=null, setIsCompRequestFo
     }, [postResponse]); //, noselection]);
 	useEffect(() => {
 		if (incompleteField) {
-			const timer = setInterval(() => {
+			const timer = setTimeout(() => {
 				setIncompleteField((prev) => {
 					console.log('setting incompleteField from', prev, 'to', null);
 					return null;
@@ -481,7 +481,7 @@ function RequestItem({itemName, vKey=null, requestProps=null, setIsCompRequestFo
 				fontWeight: 'bold',
 			}}
 			>
-				{postData.msg}
+				{toSentenceCase(postData.msg||'')}
 			</p>}
 			<MainButtonContainer>
 				<div
