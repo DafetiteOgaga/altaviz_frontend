@@ -63,7 +63,7 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 				setRoleResponse(null);
 				if (callbackOnDataChange) {
 					console.log('fffffff'.repeat(40))
-					callbackOnDataChange({ qtext: qtext, query: query, status: 'reset' }); // Notify parent
+					callbackOnDataChange({ qtext: qtext, responseValue: -1, response: 'reset' })
 				}
 				return;
 			}
@@ -127,6 +127,7 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 	}, [query]);  // Query dependency to trigger effect on change
 	
 		if (callbackOnDataChange) {
+			callbackOnDataChange({ qtext: qtext, responseValue: -1, response: 'reset' })
 			if (qtype === 'email') {
 				console.log('yyyyyy'.repeat(50))
 				callbackOnDataChange({ qtext, qtype, responseValue: emailResponse, response: !!emailResponse ? 'taken' : 'available' });
@@ -149,7 +150,11 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 			}
 			if (qtype === 'region') {
 				console.log('yyyyyy'.repeat(50))
-				callbackOnDataChange({ qtext, qtype, responseValue: roleResponse, response: !!roleResponse ? 'taken' : 'available' });
+				if (qrole === 'engineer' || qrole === 'custodian') {
+					callbackOnDataChange({ qtext, qtype, responseValue: roleResponse, response: !!roleResponse ? 'available' : 'taken' });
+				} else if (qrole === 'help desk' || qrole === 'supervisor') {
+					callbackOnDataChange({ qtext, qtype, responseValue: roleResponse, response: !!roleResponse ? 'taken' : 'available' });
+				}
 			}
 		}
 	const displayStylings = {
@@ -176,8 +181,15 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 			{newBranchResponse !== null && !loading && (
 				<span style={{...displayStylings, color: (!!newBranchResponse ? 'red' : 'green')}}>{qtext} is {!!newBranchResponse ? 'Already taken' : 'Available'}</span>
 			)}
+			{console.log(
+				'\nqrole:', qrole,
+				'\nroleResponse:', roleResponse
+				)}
 			{roleResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</span>
+				(qrole==='help desk'||qrole==='supervisor') ?
+				(<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</span>):
+				((qrole==='engineer'||qrole==='custodian') &&
+				<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{!!roleResponse?`${qtext} is yet to be designated to ${roleResponse===3?'a supervisor and help desk':roleResponse===2?'a supervisor':roleResponse===1?'an help desk':null}`:'All good here'}</span>)
 			)}
 		</div>
 	);
