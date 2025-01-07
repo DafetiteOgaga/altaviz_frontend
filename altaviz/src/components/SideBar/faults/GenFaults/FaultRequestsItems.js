@@ -9,7 +9,7 @@ function FaIcon ({iconParameters, icon, btnState, color}) {
 		// '\niconParameters.requestItemsObj:', iconParameters.requestItemsObj,
 		// '\nrequestItemsObj:', iconParameters.requestItemsObj,
 		// '\nrequest:', iconParameters.request,
-		// '\ntype:', iconParameters.type,
+		'\ntype:', iconParameters.type,
 	)
 	const iconStyles = {
 		cursor: 'pointer',
@@ -58,18 +58,8 @@ function FaultRequestsItem ({
 	// const [refresh, setRefresh] = useState(false)
 	const { toSentenceCase } = useContext(SentenceCaseContext)
 	console.log(
-		// '\nrefresh:', refresh,
-		// '\nrequestItemsObj.updateCompLocalStorage.isDone:', requestItemsObj.updateCompLocalStorage.isDone,
-		// '\nrequestItemsObj.role:', requestItemsObj.role,
+		'\nrequestItemsObj', requestItemsObj,
 		// '\nrequest:', request,
-		// '\nrequestItemsObj.canMakeRequests:', requestItemsObj.canMakeRequests,
-		// '\nrequestItemsObj.canApproveOrRejectRequests:', requestItemsObj.canApproveOrRejectRequests,
-		// '\nrequestItemsObj.patchUrlName.current:', requestItemsObj.patchUrlName.current,
-		// '\nrequestItemsObj.setRequeste:', requestItemsObj.setRequeste,
-		// '\nrequestItemsObj.setItemId:', requestItemsObj.setItemId,
-		// '\nrequestItemsObj.handleClick:', requestItemsObj.handleClick,
-		// '\nrequestItemsObj.faultsItem:', requestItemsObj.faultsItem,
-		// '\nrequestItemsObj.FaultParamDetals:', requestItemsObj.FaultParamDetals,
 		// '\ntype:', type,
 		// '\nsearchedData:', searchedData
 	)
@@ -78,13 +68,6 @@ function FaultRequestsItem ({
 		requestItemsObj: requestItemsObj,
 		type: type
 	}
-	// useEffect(() => {
-	// 	return () => {console.log('Component unmounted or cleanup triggered')}
-	// }, [refresh])
-	// const iconStyles = {
-	// 	cursor: 'pointer',
-	// 	padding: '0 0.20rem',
-	// }
 	const statusStyle = {
 		pending: {
 			padding: '0 0.4rem',
@@ -107,49 +90,47 @@ function FaultRequestsItem ({
 	// console.log({isSearchedFault})
 	return (
 		<>
-		{/* loads requests from db */}
-		{/* {requestItemsObj.updateCompLocalStorage.isDone? */}
-		<>
-		{/* human-resource and supervisor can approve/reject requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
-		{((requestItemsObj.role==='supervisor'||requestItemsObj.role==='human-resource') && !requestItemsObj.faultsItem?.confirm_resolve &&
-				!requestItemsObj.faultsItem?.verify_resolve && !request.approved && !request.rejected && requestItemsObj.canApproveOrRejectRequests
-			)&&
-				<>
-					<FaIcon
-					iconParameters={iconParameters}
-					icon='check'
-					btnState='approved'
-					color={{color: 'green'}}
-					// setRefresh={setRefresh}
-					/>
-					<FaIcon
-					iconParameters={iconParameters}
-					icon='times'
-					btnState='rejected'
-					color={{color: 'red'}}
-					// setRefresh={setRefresh}
-					/>
-				</>}
+			<>
+			{/* human-resource and supervisor can approve/reject requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
+			{((requestItemsObj.role==='supervisor'||requestItemsObj.role==='human-resource') && !requestItemsObj.faultsItem?.confirm_resolve &&
+					!requestItemsObj.faultsItem?.verify_resolve && !request.approved && !request.rejected && requestItemsObj.canApproveOrRejectRequests
+				)&&
+					<>
+						<FaIcon
+						iconParameters={iconParameters}
+						icon='check'
+						btnState='approved'
+						color={{color: 'green'}}
+						// setRefresh={setRefresh}
+						/>
+						<FaIcon
+						iconParameters={iconParameters}
+						icon='times'
+						btnState='rejected'
+						color={{color: 'red'}}
+						// setRefresh={setRefresh}
+						/>
+					</>}
 
-			{/* engineers and supervisor can delete requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
-			{((requestItemsObj.role==='engineer'||requestItemsObj.role==='supervisor') && requestItemsObj.canMakeRequests && !requestItemsObj.faultsItem?.verify_resolve &&
-				!request.approved && !request.rejected
-			)&&
-				(<FaIcon
-					iconParameters={iconParameters}
-					icon='times'
-					btnState='request'
-					color={{}}
-					// setRefresh={setRefresh}
-					/>
-				)}
-				{/* link to the current request */}
-				{!isSearchedFault ?
-				<Link to={`/${requestItemsObj.FaultParamDetals.dept}/${type}-request-details/${requestItemsObj.FaultParamDetals.id}/${request.id}/`}
-				style={{color: '#333'}}>
-					{toSentenceCase(request.name.name)}
-			</Link>: toSentenceCase(request.name.name)}
-		</>
+				{/* engineers and supervisor can delete requests and only when request is not approved/rejected and/or flagged as resolved by the engineer */}
+				{((requestItemsObj.role==='engineer'||requestItemsObj.role==='supervisor') && requestItemsObj.canMakeRequests && !requestItemsObj.faultsItem?.verify_resolve &&
+					!request.approved && !request.rejected
+				)&&
+					(<FaIcon
+						iconParameters={iconParameters}
+						icon='times'
+						btnState='request'
+						color={{}}
+						// setRefresh={setRefresh}
+						/>
+					)}
+					{/* link to the current request */}
+					{!isSearchedFault ?
+					<Link to={`/${requestItemsObj.FaultParamDetals.dept}/${type}-request-details/${requestItemsObj.FaultParamDetals.id}/${request.id}/`}
+					style={{color: '#333'}}>
+						{toSentenceCase(request.name.name)}
+				</Link>: toSentenceCase(request.name.name)}
+			</>
 		{/* :(toSentenceCase(request.name.name))} */}
 			: <span>
 				{request.quantityRequested} {request.quantityRequested === 1 ? 'piece' : 'pieces'}
