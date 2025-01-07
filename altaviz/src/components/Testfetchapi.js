@@ -1,13 +1,9 @@
-import OnlineStatus from "./SideBar/chatsSetup/OnlineStatus";
-
+// import UpdateInBackground from "./context/RealTimeNotificationContext/UpdateInBackground";
 function Testfetchapi() {
-	// listenForUpdates(7)
-	// const { authData } = useContext(AuthContext);
-	// console.log('authData', authData);
+	// UpdateInBackground()
 	return (
 		<>
 			<h2>Test Page</h2>
-			<OnlineStatus id={5} />
 			<p>Test Page ends</p>
 		</>
 	);
