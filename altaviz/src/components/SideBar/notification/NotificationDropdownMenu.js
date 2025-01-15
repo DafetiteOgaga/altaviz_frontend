@@ -166,7 +166,7 @@ function NotificationDropdownMenu({
 
 	// response data and error useeffect
 	useEffect(() => {
-		let removeList = [];
+		// let removeList = [];
 		const one = '\noneoneoneoneoneoneoneoneoneoneoneone'
 		if (checkResponseData.length || checkResponseError.length) {
 			console.log({checkResponseData, checkResponseError})
