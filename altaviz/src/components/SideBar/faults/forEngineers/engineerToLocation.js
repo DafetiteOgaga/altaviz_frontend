@@ -4,6 +4,7 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FetchContext } from '../../../context/FetchContext';
+import { toast } from 'react-hot-toast';
 
 const MainButtonContainer = styled.div`
 	display: flex;
@@ -55,17 +56,8 @@ function EngineerToLocation () {
 	const [isEditable, setIsEditable] = useState(false);
 	const [regionEngineers, setRegionEngineers] = useState(null);
 	const [selectedEngineers, setSelectedEngineers] = useState({});
-	// const [newBranchQuery, setNewBranchQuery] = useState('');
-	// const [isNewBranchExist, setIsNewBranchExist] = useState(false);
 	const { toSentenceCase, separateChars } = useContext(SentenceCaseContext)
-	// const [newUser, setNewUser] = useState([]);
-	// const [newUserError, setNewUserError] = useState({});
-	// const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
-	// const [locationBranchesList, setLocationBranchesList] = useState(null)
-	// const [bankBranchList, setBankBranchList] = useState(null)
-	// const [notCustodianList, setNotCustodianList] = useState(null)
-	// const [custodianList, setCustodianList] = useState(null)
 	const [getNewLocationTrigger, setGetNewLocationTrigger] = useState(true);
 	const [getRegionEngineersTrigger, setGetRegionEngineersTrigger] = useState(true);
 	const [patchTrigger, setPatchTrigger] = useState(false);
@@ -121,14 +113,23 @@ function EngineerToLocation () {
 			console.log({selectedEngineers})
 		}
 		else {
-			console.log("Please select atleast one of engineer to a new location")
+			console.log(
+				'\nerror: cant submit'.repeat(20),
+				"\nPlease select atleast one of engineer to a new location",
+			)
 		}
 	}
 	console.log('EngineerToLocation component')
 	useEffect(()=>{
 		if (patchData||patchError) {
-			console.log({patchData})
-			console.log({patchError})
+			if (patchData) {
+				console.log({patchData})
+				toast.success(patchData.msg)
+			} else if (patchData) {
+				console.log({patchError})
+				toast.error(patchError.msg)
+			}
+			// console.log({patchError})
 			setPatchTrigger(false)
 			setSelectedEngineers({})
 			navigate('/success', {state: {currentPage}})
@@ -181,8 +182,8 @@ function EngineerToLocation () {
 												{newLocations?.map((location, index) => {
 													console.log(
 														'\nlocation:', location,
-														'\nlocation.location:', location.location,
-														'\nlocation.location.location:', location.location.location,
+														'\nlocation?.location:', location?.location,
+														'\nlocation?.location?.location:', location?.location?.location,
 													)
 													return(
 														<>
@@ -191,7 +192,7 @@ function EngineerToLocation () {
 																<div className="input-field">
 																	<p style={{margin: '0'}}><strong>New Location: </strong>
 																		<span
-																		// title={`State: ${location.location.state.name}|${location.location.state.initial}`}
+																		// title={`State: ${location?.location?.state?.name}|${location?.location?.state?.initial}`}
 																		style={{color: 'green'}}>
 																			{toSentenceCase(location?.location?.location)}</span> in <span style={{color: 'seagreen'}}>{toSentenceCase(location?.location?.state?.name)}|{location?.location?.state?.initial}
 																		</span> state
@@ -203,8 +204,8 @@ function EngineerToLocation () {
 																		<label>Select Engineer:</label>
 																		<SelectItem
 																		style={{...style.input, width: '45%',}}
-																		name={`${location.location.location}-${location.location.id}`}
-																		id={`${location.location.location}-${location.location.id}`}
+																		name={`${location?.location?.location}-${location?.location?.id}`}
+																		id={`${location?.location?.location}-${location?.location?.id}`}
 																		ref={refInput}
 																		disabled={!isEditable}
 																		onChange={(e)=>changeHandler(e, index)}
