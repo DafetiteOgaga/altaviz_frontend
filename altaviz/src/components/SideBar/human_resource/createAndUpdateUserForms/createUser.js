@@ -1,14 +1,14 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components"
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+// import { FaEye, FaEyeSlash } from 'react-icons/fa';
 // import SubmitNotification from '../../bbbbbnotifications/submitNotification/SubmitNotification';
 import { FetchContext } from "../../../context/FetchContext";
 import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import QueryFieldFromDB from "../QueryFieldFromDB";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { useNavigate } from "react-router-dom";
-// import { FaCheck } from 'react-icons/fa';
-// import { FaCheck } from 'react-icons/fa';
+import { toast } from'react-hot-toast';
+import { AuthContext } from "../../../context/checkAuth/AuthContext";
 
 const MainButtonContainer = styled.div`
 	display: flex;
@@ -57,11 +57,11 @@ const NewFieldContainer = styled.div`
 // 	'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara',
 // ]
 
-const styleObj = {
-	fontWeight: 'bold',
-	margin: '0',
-	transition: 'opacity 0.05s ease-out',
-}
+// const styleObj = {
+// 	fontWeight: 'bold',
+// 	margin: '0',
+// 	transition: 'opacity 0.05s ease-out',
+// }
 const style = {
 	input: {
 		padding: "4px",
@@ -86,19 +86,19 @@ const errorStylings = {
 	fontSize: 'small',
 	fontStyle: 'italic',
 }
-const visiButtonStyle = {
-	position: 'absolute',
-	right: '125px',
-	top: '60%',
-	transform: 'translateY(-50%)',
-	color: '#999',
-	background: 'none',
-	border: 'none',
-	cursor: 'pointer',
-	padding: '0',
-	margin: '0',
-	fontSize: '20px',
-}
+// const visiButtonStyle = {
+// 	position: 'absolute',
+// 	right: '125px',
+// 	top: '60%',
+// 	transform: 'translateY(-50%)',
+// 	color: '#999',
+// 	background: 'none',
+// 	border: 'none',
+// 	cursor: 'pointer',
+// 	padding: '0',
+// 	margin: '0',
+// 	fontSize: '20px',
+// }
 
 function CreateUser () {
 	const initailFormValues = {
@@ -121,8 +121,8 @@ function CreateUser () {
 		email: "",
 		phone: "",
 		wphone: "",
-		password1: "",
-		password2: "",
+		// password1: "",
+		// password2: "",
 		password: "",
 		address: "",
 		aboutme: "",
@@ -134,26 +134,27 @@ function CreateUser () {
 		custodian: false,
 		all: false,
 	};
-	const redirectTo = useNavigate()
+	const navigate = useNavigate()
+	const { authData } = useContext(AuthContext);
 	const [emailQuery, setEmailQuery] = useState('');
 	const [newBankQuery, setNewBankQuery] = useState('');
 	const [regionQuery, setRegionQuery] = useState('');
 	const [newLocationQuery, setNewLocationQuery] = useState('');
 	const [newBranchQuery, setNewBranchQuery] = useState('');
 	const [usernameQuery, setUsernameQuery] = useState('');
-	const [found, setFound] = useState(false);
+	// const [found, setFound] = useState(false);
 	const { toSentenceCase, addHyphen, removeHyphen } = useContext(SentenceCaseContext)
 	const [newUser, setNewUser] = useState(initailFormValues);
 	const [newUserError, setNewUserError] = useState({});
-	const [showNotifi, setShowNotifi] = useState(false);
+	// const [showNotifi, setShowNotifi] = useState(false);
 	const [rSwitch, setRSwitch] = useState(null)
 	const [dept, setDept] = useState(defaultState);
-	const [password1, setPassword1] = useState('');
-	const [password2, setPassword2] = useState('');
-	const [showPassword1, setShowPassword1] = useState(false);
-	const [showPassword2, setShowPassword2] = useState(false);
-	const [passwordCheck, setPasswordCheck] = useState(false);
-	const [isRequired, setIsRequired] = useState(true);
+	// const [password1, setPassword1] = useState('');
+	// const [password2, setPassword2] = useState('');
+	// const [showPassword1, setShowPassword1] = useState(false);
+	// const [showPassword2, setShowPassword2] = useState(false);
+	// const [passwordCheck, setPasswordCheck] = useState(false);
+	// const [isRequired, setIsRequired] = useState(true);
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
 	// const [regionStateList, setRegionStateList] = useState(null)
@@ -220,7 +221,7 @@ function CreateUser () {
 			for (let i = 0; i < notCustodianList.length; i++) {
 				if (notCustodianList[i].name === newUser.region) {
 					stateStates.push(notCustodianList[i].states)
-					setFound(true)
+					// setFound(true)
 					break;
 				}
 			}
@@ -232,7 +233,7 @@ function CreateUser () {
 			for (let i = 0; i < filteredStates.length; i++) {
 				if (filteredStates[i].name === newUser.state) {
 					stateLocations.push(filteredStates[i].locations)
-					setFound(true)
+					// setFound(true)
 					break;
 				}
 			}
@@ -254,7 +255,7 @@ function CreateUser () {
 			for (let i = 0; i < bankBankList.length; i++) {
 				if (bankBankList[i].name === newUser.bank) {
 					bankLocation.push(bankBankList[i].locations)
-					setFound(true)
+					// setFound(true)
 					break;
 				}
 			}
@@ -267,7 +268,7 @@ function CreateUser () {
 			for (let i = 0; i < bankLocationList.length; i++) {
 				if (bankLocationList[i].location === newUser.location) {
 					bankBranches.push(bankLocationList[i].branches)
-					setFound(true)
+					// setFound(true)
 					break;
 				}
 			}
@@ -314,45 +315,43 @@ function CreateUser () {
 		}
 	}, [newUser.location]);
 
-	const togglePasswordvisi1 = () => {
-		setShowPassword1(!showPassword1);
-	}
-	const togglePasswordvisi2 = () => {
-		setShowPassword2(!showPassword2);
-	}
+	// const togglePasswordvisi1 = () => {
+	// 	setShowPassword1(!showPassword1);
+	// }
+	// const togglePasswordvisi2 = () => {
+	// 	setShowPassword2(!showPassword2);
+	// }
 
-	// const passMatch = useRef(null);
-	useEffect(() => {
-		if (password1 && password2) {
-			// enforce other checks here
-			// passMatch.current = ;
-			setPasswordCheck(password1===password2);
-		}
-	}, [password1, password2]);
+	// useEffect(() => {
+	// 	if (password1 && password2) {
+	// 		// enforce other checks here
+	// 		setPasswordCheck(password1===password2);
+	// 	}
+	// }, [password1, password2]);
 
-	useEffect(() => {
-		if (passwordCheck) {
-			setNewUserError({
-				...newUserError,
-				password1: '',
-				password2: '',
-			})
-			setNewUser({
-				...newUser,
-				password: password1||password2,
-			});
-		} else if (!passwordCheck && newUser.password1 !== '' && newUser.password2 !== '') {
-			setNewUserError({
-				...newUserError,
-				password1: 'Passwords do not match',
-				password2: 'Passwords do not match',
-			})
-			setNewUser({
-				...newUser,
-				password: '',
-			});
-		}
-	}, [passwordCheck, newUser.password1, newUser.password2]);
+	// useEffect(() => {
+	// 	if (passwordCheck) {
+	// 		setNewUserError({
+	// 			...newUserError,
+	// 			password1: '',
+	// 			password2: '',
+	// 		})
+	// 		setNewUser({
+	// 			...newUser,
+	// 			password: password1||password2,
+	// 		});
+	// 	} else if (!passwordCheck && newUser.password1 !== '' && newUser.password2 !== '') {
+	// 		setNewUserError({
+	// 			...newUserError,
+	// 			password1: 'Passwords do not match',
+	// 			password2: 'Passwords do not match',
+	// 		})
+	// 		setNewUser({
+	// 			...newUser,
+	// 			password: '',
+	// 		});
+	// 	}
+	// }, [passwordCheck, newUser.password1, newUser.password2]);
 
 	const validateForm = () => {
 		const required = 'Required*';
@@ -360,7 +359,7 @@ function CreateUser () {
 		let errors = {};
 		['role', 'username', 'first_name', 'last_name', 'region',
 		'dob', 'gender', 'state', 'location', 'email', 'phone',
-		'wphone', 'password1', 'password2', 'address' ]
+		'wphone', 'address' ]
 		.forEach((field) => {
 		if (!newUser[field] || newUser[field].trim() === '') {
 			errors[field] = required;
@@ -479,21 +478,19 @@ function CreateUser () {
 					newLocation: value,
 				}));
 			}
-			// setNewUser(prevState => ({
-			// 	...prevState,
-			// 	newLocation: value,
-			// }));
-		} else if (name === 'password1'||name === 'password2') {
-			setNewUser(prevState => ({
-				...prevState,
-				[name]: value,
-			}));
-			if (name === 'password1') {
-				setPassword1(value);
-			} else if (name === 'password2') {
-				setPassword2(value);
-			}
-		} else {
+		}
+		// else if (name === 'password1'||name === 'password2') {
+		// 	setNewUser(prevState => ({
+		// 		...prevState,
+		// 		[name]: value,
+		// 	}));
+		// 	if (name === 'password1') {
+		// 		setPassword1(value);
+		// 	} else if (name === 'password2') {
+		// 		setPassword2(value);
+		// 	}
+		// }
+		else {
 			setNewUser(prevState => ({
 				...prevState,
 				[name]: value,
@@ -501,99 +498,10 @@ function CreateUser () {
 		}
 	};
 	console.log('================================'.repeat(3))
-	// const DBResponse = useRef({});
-	// const completedChecks = useRef(null)
-	// const valuesAllGood = useRef(null)
-	// const refreshChild = useRef(true)
-	// const handleDataChange = (data) => {
-	// 	let count
-	// 	console.log('Data from QueryFieldFromDB:'.repeat(10), data);
-	// 	if (data.qtype!==undefined) {
-	// 		console.log('qtype:', data.qtype)
-	// 		DBResponse.current = { ...DBResponse.current, [data.qtype]: data.response };
-	// 		if (newUser.role.toLocaleLowerCase()==='custodian') {
-	// 			if (newUser.bank==='Enter a New Bank'&&
-	// 				newUser.location==='Enter a New Location'&&
-	// 				newUser.branch==='Enter a New Branch') {
-	// 					// handle new bank, location and branch
-	// 				count = 5
-	// 				const { region, ...rest } = DBResponse.current;
-	// 				DBResponse.current = rest;
-	// 			} else if ((newUser.bank==='Enter a New Bank'&&newUser.location==='Enter a New Location')||
-	// 				(newUser.branch==='Enter a New Branch'&&newUser.location==='Enter a New Location')||
-	// 				(newUser.bank==='Enter a New Bank'&&newUser.branch==='Enter a New Branch')) {
-	// 					// handle new bank and location or
-	// 					// new bank and branch or
-	// 					// new branch and location
-	// 					count = 4
-	// 					if (newUser.branch!=='Enter a New Branch') {
-	// 						const { region, newBranch, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					} else if (newUser.bank!=='Enter a New Bank') {
-	// 						const { region, newBank, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					} else if (newUser.location!=='Enter a New Location') {
-	// 						const { region, newLocation, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					}
-	// 			} else if ((newUser.bank==='Enter a New Bank'||newUser.location==='Enter a New Location')||
-	// 				(newUser.branch==='Enter a New Branch')) {
-	// 				// handle new bank alone or new location alone or new branch alone
-	// 					count = 3
-	// 					if (newUser.branch!=='Enter a New Branch'&&newUser.bank!=='Enter a New Bank') {
-	// 						const { region, newBranch, newBank, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					} else if (newUser.branch!=='Enter a New Branch'&&newUser.location!=='Enter a New Location') {
-	// 						const { region, newBranch, newLocation, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					} else if (newUser.location!=='Enter a New Location'&&newUser.bank!=='Enter a New Bank') {
-	// 						const { region, newLocation, newBank, ...rest } = DBResponse.current;
-	// 						DBResponse.current = rest;
-	// 					}
-	// 			}
-	// 			completedChecks.current = Object.keys(DBResponse.current).length
-	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-	// 		} else if (newUser.role.toLowerCase()==='supervisor'||newUser.role.toLowerCase()==='help-desk') {
-	// 			if (newUser.location==='Enter a New Location') {
-	// 				count = 4
-	// 				const { newBank, newBranch, ...rest } = DBResponse.current;
-	// 				DBResponse.current = rest;
-	// 			} else {
-	// 				count = 3
-	// 				const { newBank, newBranch, newLocation, ...rest } = DBResponse.current;
-	// 				DBResponse.current = rest;
-	// 			}
-	// 			completedChecks.current = Object.keys(DBResponse.current).length
-	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-	// 		} else {
-	// 			if (newUser.location==='Enter a New Location') {
-	// 				count = 3
-	// 				const { newBank, newBranch, region, ...rest } = DBResponse.current;
-	// 				DBResponse.current = rest;
-	// 			} else {
-	// 				count = 2
-	// 				const { newBank, newBranch, region, newLocation, ...rest } = DBResponse.current;
-	// 				DBResponse.current = rest;
-	// 			}
-	// 			completedChecks.current = Object.keys(DBResponse.current).length
-	// 			valuesAllGood.current = Object.values(DBResponse.current)?.filter?.(value => value.toLowerCase()==='available').length === count
-	// 		}
-	// 	}
-	// };
-	// console.log(
-	// 	'\nDBResponse:', DBResponse.current,
-	// 	'\ncompletedChecks:', completedChecks.current,
-	// 	'\nvaluesAllGood:', valuesAllGood.current,
-	// 	// '\nfieldsExist:', fieldsExist,
-	// )
-	// console.log('================================'.repeat(3))
-	// const fieldsExist = valuesAllGood.current
-	// const fieldsExist = useRef(null)
+
 	const handleFormSubmission = (e) => {
 		e.preventDefault();
 		console.log('Form submitted:', newUser);
-		// if (validateForm() && valuesAllGood.current) {
-		// setRSwitch(null)
 		if (validateForm()) {
 			if (newUser.newBranch !== null) {
 				newUser.branch = newUser.newBranch
@@ -612,10 +520,13 @@ function CreateUser () {
 					'key:', key,
 					'typeof(value):', typeof(value)
 				)
-				if ((typeof(value) === 'string') && (key !== 'aboutme'&&
-				key !== 'email'&&key !== 'password'&&key !== 'password1'&&
-				key !== 'password2'&&key !== 'phone'&&key !== 'wphone'&&
-				key !== 'profile_picture'&&key !== 'address'&&key !== 'dob')) {
+				if ((typeof(value)==='string') && (key!=='aboutme'&&
+				key!=='email'&&
+				// key!=='password'&&
+				// key!=='password1'&&
+				// key!=='password2'&&
+				key!=='phone'&&key!=='wphone'&&
+				key!=='profile_picture'&&key!=='address'&&key!=='dob')) {
 					console.log('key', key, '#####')
 					value = value.toLowerCase();
 				}
@@ -631,19 +542,20 @@ function CreateUser () {
 			// console.log('updatedSamp:', updatedSamp);
 		} else {
 			// fieldsExist.current = valuesAllGood.current
-			// setShowError(true);
+			setShowError(true);
 			console.log('Form not submitted due to errors:'.repeat(40), newUserError);
 		}
 	}
-	// useEffect(() => {
-	// 	if (showError) {
-	// 		const delay = setTimeout(() => {
-	// 			setShowError(false);
-	// 			fieldsExist.current = true
-	// 		}, 2500);
-	// 		return () => clearTimeout(delay);
-	// 	}
-	// }, [showError])
+
+	useEffect(() => {
+		if (showError) {
+			const delay = setTimeout(() => {
+				setShowError(false);
+			}, 2000);
+			return () => clearTimeout(delay);
+		}
+	}, [showError])
+
 	useEffect(() => {
 		if (postData || postError) {
 			setPostTrigger(() => {
@@ -656,21 +568,18 @@ function CreateUser () {
 				if (postData?.msg) setRSwitch(postData);
 			} else if (postData?.color==='red') setRSwitch(postData);
 			if (postError?.msg) setRSwitch(postError);
-			setShowNotifi(true)
+			// setShowNotifi(true)
 		}
 	}, [postTrigger, postData, postLoading, postError])
 
 	useEffect(() => {
-		if (showNotifi) {
-			const timer = setTimeout(() => {
-				// console.log('success response:', success);
-				setShowNotifi(false);
-				setRSwitch(null)
-				if (postData?.color==='green') redirectTo('/success', { state: {currentPage: '/human-resource'}})
-			}, 5000);
-			return () => clearTimeout(timer);
+		if (rSwitch) {
+			toast.success(rSwitch.msg)
+			// toast.success(rSwitch.msg, { duration: 10000 });
+			setRSwitch(null)
+			navigate('/success', {state: {currentPage: `/${authData?.role}`, time: 10}})
 		}
-	}, [showNotifi])
+	}, [rSwitch])
 
 	const displayPhotoCreate = (e) => {
 		let reader = new FileReader();
@@ -754,11 +663,11 @@ function CreateUser () {
 		'\nnewUser.newLocation:', newUser.newLocation,
 		'\nnewUser.role:', newUser.role,
 		'\nnewUser.region:', newUser.region,
-		'\nnewUser.password1:', newUser.password1,
-		'\nnewUser.password2:', newUser.password2,
+		// '\nnewUser.password1:', newUser.password1,
+		// '\nnewUser.password2:', newUser.password2,
 		'\nnewUser.password:', newUser.password,
 		// '\npassMatch:', passMatch.current,
-		'\npasswordCheck:', passwordCheck,
+		// '\npasswordCheck:', passwordCheck,
 	)
 	const DisplayError = ({fieldName }) => {
 		// Split the string by spaces or other delimiter if necessary
@@ -770,7 +679,7 @@ function CreateUser () {
 		if (showError &&
 			(!newUser?.[fieldName] || (newUser?.[fieldName] === `Select ${processed}`)) &&
 			(newUserError?.[fieldName])) {
-		return <span style={errorStylings}>{newUserError[fieldName]}</span>;
+			return <span style={errorStylings}>{newUserError[fieldName]}</span>;
 		}
 		return null;
 	};
@@ -1098,7 +1007,7 @@ function CreateUser () {
 												id="email"
 												style={style.input}
 												value={newUser.email}
-												required={isRequired}
+												// required={isRequired}
 												// onFocus={handleFocus}
 												// onBlur={handleBlur}
 												onChange={HandleUserCreationInputChange}
@@ -1207,7 +1116,7 @@ function CreateUser () {
 											</div>
 										</div>
 										{/* ............... password and confirmation ................ */}
-										<div className="user-fields-row">
+										{/* <div className="user-fields-row">
 											<div className="input-field">
 												<Label htmlFor="password1">Password:</Label>
 												<div style={{ position: 'relative' }}>
@@ -1217,7 +1126,6 @@ function CreateUser () {
 													id="password1"
 													style={style.input}
 													value={newUser.password1}
-													// required
 													onChange={HandleUserCreationInputChange}
 													placeholder=' Required'
 													/>
@@ -1243,7 +1151,6 @@ function CreateUser () {
 													id="password2"
 													style={style.input}
 													value={newUser.password2}
-													// required
 													onChange={HandleUserCreationInputChange}
 													placeholder=' Required'
 													/>
@@ -1260,7 +1167,7 @@ function CreateUser () {
 												{<DisplayError fieldName='password2' />}
 												{!passwordCheck && <span style={{...errorStylings}}>{newUserError.password2}</span>}
 											</div>
-										</div>
+										</div> */}
 										{/* ............... address and username ................ */}
 										<div className="user-fields-row">
 											<div className="input-field">
@@ -1325,14 +1232,14 @@ function CreateUser () {
 								{(postData) ?
 									console.log(
 										'\npostData:', postData,
-										'\nshowNotifi:', showNotifi,
+										// '\nshowNotifi:', showNotifi,
 										'\npostLoading:', postLoading,
 										'\nrSwitch:', rSwitch,
 										'\npostData:', postData,
 										'npostData?.color:', postData?.color,
 									): null
 								}
-								{(showNotifi && !postLoading) && <p style={{...styleObj, color: rSwitch?.color}}>{rSwitch?.msg}</p>}
+								{/* {(showNotifi && !postLoading) && <p style={{...styleObj, color: rSwitch?.color}}>{rSwitch?.msg}</p>} */}
 							</div>
 						</div>
 						
@@ -1352,18 +1259,6 @@ function CreateUser () {
 							{postLoading ? 'Creating...' : 'Create Account'}
 							</MainButton>
 						</MainButtonContainer>
-						{/* <div
-						style={{
-							display: 'flex',
-							justifyContent: 'center',
-                            flexDirection: 'column',
-							textAlign: 'center',
-							marginTop: '0.5rem',
-						}}>
-							<DisplayErrorComponent
-							fieldsExist={fieldsExist}
-							/>
-						</div> */}
 					</form>
 				</div>
 			</div>
@@ -1372,14 +1267,3 @@ function CreateUser () {
 	)
 }
 export default CreateUser;
-
-// function DisplayErrorComponent ({fieldsExist}) {
-// 	const check = !fieldsExist.current&&fieldsExist.current!==null
-// 	console.log('check:', check)
-// 	return (
-// 		check &&
-// 		<>
-// 			<p style={{...errorStylings, margin: '0'}}>All required fields must be filled and checks green</p>
-// 		</>
-// 	)
-// }
