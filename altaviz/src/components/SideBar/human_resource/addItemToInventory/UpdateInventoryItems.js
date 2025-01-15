@@ -1,10 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
-// import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import { FetchContext } from "../../../context/FetchContext";
-// import SubmitNotification from "../../../bbbbbnotifications/submitNotification/SubmitNotification";
 import { useNavigate, useLocation } from "react-router-dom";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
 // import { useRefreshContext } from "../../../context/RefreshContext";
 
@@ -182,9 +181,10 @@ function UpdateInventoryItems({itemName, setUpdateInventory, delayTime}) {
 					'postData response:'.toUpperCase(),
 					postData.received
 				)
-				localStorage.removeItem('unapprovedContext')
-				localStorage.removeItem('totalUnapproved')
-				navigate('/blank', {state: {currentPage:`/${authData.role}`}})
+				if (postData) toast.success(toSentenceCase(postData.received||''))
+				// localStorage.removeItem('unapprovedContext')
+				// localStorage.removeItem('totalUnapproved')
+				navigate('/success', {state: {currentPage:`/${authData.role}`, time: 50}})
 			}
 			setPostTrigger(() => {
 				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
