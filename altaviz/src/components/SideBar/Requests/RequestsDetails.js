@@ -8,6 +8,8 @@ import { TimeDifferenceContext } from "../../context/timeDifference/TimeDifferen
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { RotContext } from "../../context/RotContext";
+import RemoveKeys from "../../hooks/RemoveKsys";
+import { toast } from'react-hot-toast'
 
 const getRequests = (localPendingFaults, id, requestType) => {
 	console.log(
@@ -106,8 +108,8 @@ function RequestsDetails() {
 	console.log(
 		// '\nConfirm Details typeof:', typeof(confirmResolutionsContext),
 		'\nallRequests:', allRequests,
-		'\ntroubleshoot: data[0]:', allRequests[0],
-		'\ntroubleshoot: data[0].id:', allRequests[0].id,
+		// '\ntroubleshoot: data[0]:', allRequests[0],
+		// '\ntroubleshoot: data[0].id:', allRequests[0].id,
 		'\ntroubleshoot: requestParamDetails.id:', Number(requestParamDetails.id)
 	);
 	console.log(
@@ -157,7 +159,7 @@ function RequestsDetails() {
 		deleteTrigger,
 	);
 	const { patchData, patchLoading, patchError } = usePatchDataAPI(
-		`${requestItem.type==='fixed-part'?'post-part':`request-${requestType}`}/${authData?.id}/`,
+		`${requestItem?.type==='fixed-part'?'post-part':`request-${requestType}`}/${authData?.id}/`,
 		formData, patchTrigger,
 	);
 	console.log(
@@ -189,21 +191,32 @@ function RequestsDetails() {
 
 
 	useEffect(() => {
+		let removeList = []
 		if (deleteData||deleteError||patchData||patchError) {
-			const seven = '\n777777777777777777777777777777777777777777777'
+			const seven = '\n777777777777777777777777777777777777777777777'.repeat(7);
 			console.log(seven.repeat(5))
+			console.log({deleteData, deleteError, patchData, patchError})
 			if (deleteData||deleteError) {
 				setDeleteTrigger(() => {
 					console.log('setting deleteTrigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
-				// handleRefresh([allRequestsKey])
+				if (requestParamDetails.dept==='workshop'||requestParamDetails.dept==='engineer') {
+				if (requestType==='part') removeList = ['partKey', 'totalpartKey']
+				if (requestType==='component') removeList = ['componentKey', 'totalcomponentKey']
+				// if (requestParamDetails.dept==='workshop') removeList.push('allPendingRequests')
+				// if (requestParamDetails.dept==='engineer') removeList.push('faultsKey', 'unconfirmedKey',
+				// 	'faultpendingList', 'faultunconfirmedList', 'allUnresolvedKey')
+				}
+				console.log({deleteData})
+				toast.success(deleteData?.msg)
 			}
 			if (patchData||patchError) {
 				setPatchTrigger(() => {
 					console.log('setting patchTrigger from ', patchTrigger, ' to ', !patchTrigger)
 					return false
 				});
+				toast.success(patchData.msg)
 				if (patchData) {
 					console.log(
 						'\npatchData:', patchData,
@@ -237,36 +250,10 @@ function RequestsDetails() {
 						localStorage.setItem('temporaryIDValue', requestParamDetails.id)
 					}
 				}
+				if (requestType==='part') removeList = ['partKey', 'totalpartKey']
+				if (requestType==='component') removeList = ['componentKey,', 'totalcomponentKey']
 			}
-		}
-		if (deleteLoading) {
-			console.log('delete request is loading ...'.toUpperCase())
-			console.log('555555555555555555555555555555555555555555555')
-			console.log('555555555555555555555555555555555555555555555')
-			console.log('555555555555555555555555555555555555555555555')
-			console.log('555555555555555555555555555555555555555555555')
-			console.log('555555555555555555555555555555555555555555555')
-			// const removeList = [
-			// 	'componentKey', 'totalcomponentKey',
-			// 	'partKey', 'totalpartKey',
-			// 	'partPendingList',	'componentPendingList',
-			// 	'allPendingRequests'
-			// ]
-			let totalLocalvariable;
-			if (requestParamDetails.dept === 'workshop') {
-				if (requestType === 'part') totalLocalvariable = 'totalUnapproved';
-				if (requestType === 'component') totalLocalvariable = 'totalPendingCompRequest';
-			}
-			if (requestParamDetails.dept === 'engineer') {
-				if (requestType === 'part') totalLocalvariable = 'totalPendingPartRequest';
-				if (requestType === 'component') totalLocalvariable = 'totalPendingCompRequest';
-			}
-			// removeKeys(removeList)
-			console.log(
-				'\ndeleted keys ...'.toUpperCase(),
-				// '\n', {localVariable},
-				'\n', {totalLocalvariable},
-			)
+			if (removeList.length) RemoveKeys(removeList)
 			navigate(`/${authData.role}`)
 		}
 	}, [deleteTrigger, deleteData, deleteLoading, deleteError,
