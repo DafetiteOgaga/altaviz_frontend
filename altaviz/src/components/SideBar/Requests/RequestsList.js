@@ -63,7 +63,8 @@ function RequestsList ({localContext=null}) {
 			(allRequests?.length ?
 			<>
 				<RequestBar allRequests={allRequests} page={requests.pageNum} total={requests.arrayData.length} />
-				<div style={{
+				<div className="custodian-page button"
+				style={{
 						display: 'flex',
 						justifyContent: 'center',
 						gap: '1rem',

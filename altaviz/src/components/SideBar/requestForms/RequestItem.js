@@ -1,15 +1,13 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FetchContext } from "../../context/FetchContext";
-// import SubmitNotification from "../../../notifications/submitNotification/SubmitNotification";
 import { useLocation, useParams } from "react-router-dom";
-// import ( SentenceCaseContext)
 import { RotContext } from "../../context/RotContext";
 import { useRefreshContext } from "../../context/RefreshContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { useFirebase } from "../../context/RealTimeNotificationContext/FirebaseContextNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
-// import usePaginationWithEncryption from "../../paginationComp/usePaginationWithEncryption";
+import { toast } from 'react-hot-toast'
 
 const TopContainer = styled.div`
 	display: flex;
@@ -107,6 +105,7 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 	const parameters = useParams()
 	const fault_id = requestProps?.faultId??parameters.id
 	// let validatedData = useRef([])
+	const [toastMsg, setToastMsg] = useState(null)
 	const [postResponse, setPostResponse] = useState(false);
 	const {encrypt, decrypt, RotCipher} = useContext(RotContext)
 	const localKey = `${itemName}sRequestList`
@@ -230,18 +229,16 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
 				return false
 			});
+			setToastMsg(null)
 			// Reset formValue to default state
 			setFormValues([defaultValues]);
 			if (postData) {
+				setToastMsg(postData.msg)
 				setPostResponse(true)
 				console.log('Post request successful', postData);
 				console.log(`processing for ${itemName} ...`)
 				console.log(
-					'\n6666666666666666666666666666666666666666',
-					'\n6666666666666666666666666666666666666666',
-					'\n6666666666666666666666666666666666666666',
-					'\n6666666666666666666666666666666666666666',
-					'\n6666666666666666666666666666666666666666'
+					'\n6666666666666666666666666666666666666666'.repeat(7)
 				)
 				const newRequestsPlaceholder = postData.responseObjs
 				console.log(
@@ -346,14 +343,19 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 		}
 	}, [postTrigger, postData, postLoading, postError])
 	useEffect(() => {
-        if (postResponse) {
-			const delay = setTimeout(() => {
-				setPostResponse(false);
-				toggleForm()
-			},2500)
-			return () => clearTimeout(delay);
-        }
-    }, [postResponse]); //, noselection]);
+        // if (postResponse) {
+		// 	const delay = setTimeout(() => {
+		// 		setPostResponse(false);
+		// 		// toggleForm()
+		// 	},2500)
+		// 	return () => clearTimeout(delay);
+        // }
+		if (toastMsg) {
+			toast.success(toSentenceCase(toastMsg||''))
+			setToastMsg(null)
+			toggleForm()
+		}
+    }, [postResponse, toastMsg]); //, noselection]);
 	useEffect(() => {
 		if (incompleteField) {
 			const timer = setTimeout(() => {
@@ -398,7 +400,14 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 	return (
 		<>
 			<form>
-			{formValues.map((labelTitle, index) => (
+			{formValues.map((labelTitle, index) => {
+				// console.log(
+				// 	'\nitemName:', itemName,
+				// 	'\nlabelTitle.quantity:', labelTitle.quantity<=14,
+				// 	'\nlabelTitle.name:', labelTitle.name,
+				// 	'\nlabelTitle:', labelTitle,
+				// )
+				return (
 				<TopContainer key={index}>
 					<BorderLineContainer>
 						<FieldsContainer>
@@ -429,7 +438,19 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 								onChange={(e) => valueHandler(e, index)}
 							>
 								<option style={styles.selectOpts}>0</option>
-								{Array.from({ length: 30 }, (_, i) => i + 1).map((number) => (
+								{Array.from({length: (itemList && labelTitle.name)
+														? (itemList.find(item => {
+															if (labelTitle.name===item.name) {
+																if (itemName==='component'&&item.quantity <= 14) return true
+																if (itemName === 'part' && item.quantity <= 4) return true
+																return false
+															}
+															return false
+														})
+															? itemList.find(req => labelTitle.name === req.name)?.quantity
+															: 30) // Default to 30 if no match
+														: 30 // Default to 30 if itemList or labelTitle.name is falsy
+											}, (_, i) => i + 1).map((number) => (
 								<option key={number} value={number}>{number}</option>
 								))}
 							</SelectItem>
@@ -464,8 +485,8 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 					</TextFieldsContainer>
 					{/* </div> */}
 				</TopContainer>
-			))}
-			{(postData && postResponse) &&
+			)})}
+			{/* {(postData && postResponse) &&
 			<p
 			style={{
 				margin: '0',
@@ -476,7 +497,7 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 			}}
 			>
 				{toSentenceCase(postData.msg||'')}
-			</p>}
+			</p>} */}
 			<MainButtonContainer>
 				<div
 				style={{

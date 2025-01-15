@@ -1,13 +1,15 @@
 import { useState, useContext, useEffect } from "react";
 import "./notificationDropdown.css"
 // import { TriggerContext } from "../../../context/triggerContext/TriggerContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { SharedDataContext } from "../../../context/sharedData/SharedDataContext";
 import { listHandle, requestHandler, userRequestHandler, accountUpdate, userHandler, noOptions } from "../../hooks/listHandler";
 import { FetchContext } from "../../context/FetchContext";
-import { useRefreshContext } from "../../context/RefreshContext";
+// import { useRefreshContext } from "../../context/RefreshContext";
 import { SentenceCaseContext } from '../../context/SentenceCaseContext';
 import { AuthContext } from "../../context/checkAuth/AuthContext";
+import { toast } from "react-hot-toast";
+import RemoveKeys from "../../hooks/RemoveKsys";
 
 function NotificationDropdownMenu({
 	notiList,
@@ -47,10 +49,11 @@ function NotificationDropdownMenu({
 		// '\nnotiParams:', notiParams,
 	)
 
+	const navigate = useNavigate();
 	const { authData } = useContext(AuthContext)
 	const role = useLocation().pathname.split('/')[1]
 	const [formData, setFormData] = useState(new FormData());
-	const { handleRefresh } = useRefreshContext();
+	// const { handleRefresh } = useRefreshContext();
 	const {
 		// useGetDataAPI,
 		usePostDataAPI, usePutDataAPI,
@@ -131,6 +134,7 @@ function NotificationDropdownMenu({
 			newFormData.append('managedBy', data.managed_by.email)
 			newFormData.append('supervisedBy', data.supervised_by.email)
 			newFormData.append('deliveries', 1)
+			newFormData.append('region', authData?.branch?.region?.name)
 			setFormData(newFormData)
 			setPatchTrigger(true);
 		} else if (button.toLowerCase() === 'seek confirmation') {
@@ -162,11 +166,13 @@ function NotificationDropdownMenu({
 
 	// response data and error useeffect
 	useEffect(() => {
+		// let removeList = [];
 		const one = '\noneoneoneoneoneoneoneoneoneoneoneone'
 		if (checkResponseData.length || checkResponseError.length) {
 			console.log({checkResponseData, checkResponseError})
 			const respData = checkResponseData?.find?.(data => data)
 			const respError = checkResponseError?.find?.(error => error)
+			// const serverResponse = checkResponseData?.find?.(data => data) || checkResponseError?.find?.(error => error)
 			console.log({respData, respError})
 			if (deleteTrigger) {
 				console.log(one.repeat(6))
@@ -175,7 +181,10 @@ function NotificationDropdownMenu({
 					console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
 					return false
 				});
-				// handleRefresh([variableContext, totalArrayContext])
+				if (respData) toast.success(respData.msg)
+				if (respError) toast.error(respError.msg)
+				RemoveKeys([totalArrayContext, variableContext])
+				navigate('/success', {state: {currentPage:`/${authData.role}`, time: 10}})
 			}
 			if (postTrigger) {
 				setPostTrigger(() => {
@@ -188,8 +197,10 @@ function NotificationDropdownMenu({
 					// console.log('\nsetting Trigger from ', patchTrigger, ' to ', !patchTrigger)
 					return false
 				});
-				// handleRefresh([...extraDisplayLocalKeys, variableContext, totalArrayContext])
-				// handleRefresh([variableContext, totalArrayContext])
+				if (respData) toast.success(respData.msg)
+				if (respError) toast.error(respError.msg)
+				RemoveKeys([totalArrayContext, variableContext])
+				navigate('/success', {state: {currentPage:`/${authData.role}`, time: 10}})
 			}
 			if (putTrigger) {
 				setPutTrigger(() => {

@@ -3,9 +3,10 @@ import "../sidebar_pages.css";
 import { useState , useContext, useEffect, useRef } from "react";
 import { FetchContext } from "../../context/FetchContext";
 import { AuthContext } from "../../context/checkAuth/AuthContext";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 // import { TriggerContext } from "../../context/triggerContext/TriggerContext";
+import { toast } from 'react-hot-toast';
 
 const style = {
 	input: {
@@ -24,8 +25,7 @@ function LogFault() {
 	// const { setTriggerPendingNotifi } = useContext(TriggerContext)
 	const { authData } = useContext(AuthContext);
 	const [formIndex, setFormIndex] = useState(0);
-	// const { faults } = cMockData();
-	const currentPage = useLocation().pathname
+	const navigate = useNavigate();
 	const initialValue = {}
 	const [formValues, setFormValues] = useState(initialValue);
 	// post setup
@@ -36,7 +36,7 @@ function LogFault() {
 		`fault/`,
 		formData,
 		postTrigger,
-		currentPage,
+		// currentPage,
 	);
 	// get setup
 	const { getData, getLoading, getError } = useGetDataAPI(
@@ -49,14 +49,12 @@ function LogFault() {
 			console.log('getData: ', getData)
             setFaultNamesList(getData)
         }
-		// else if (faultNames) {
-		// 	console.log('faultNames localDataStoreVar: ', faultNames)
-        //     setFaultNamesList(faultNames)
-        // }
     }, [getData])
 	console.log('faultNamesList:', faultNamesList);
 	useEffect(() => {
 		if (postData || postError) {
+			if (postData) {toast.success('Fault(s) logged successfully!');}
+			else if (postError) {toast.error('Error logging Fault(s)!');}
 			setPostTrigger(() => {
 				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
 				return false
@@ -65,6 +63,7 @@ function LogFault() {
 			// setFormValues({ other: '' });  // Reset formValues to initial state
 			setDynamicfields([{ id: Date.now(), fault: '' }]); // Reset dynamic fields to a single initial fieldset
 			setFormData(new FormData());
+			navigate('/success', {state: {currentPage:`/${authData.role}`}})
         }
     }, [postTrigger, postData, postLoading, postError])
 
@@ -149,9 +148,6 @@ function LogFault() {
 			console.log('noselection (actual):', noselection);
 			console.log('noselection (checked for):', !noselection);
 			setPostTrigger(true)
-			// setTriggerPendingNotifi(true);
-			// localStorage.removeItem('totalfaultsKey');
-			// localStorage.removeItem('faultsKey');
 		} else {
 			setFormValues([initialValue]);
 			setNoselecton(true)

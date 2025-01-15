@@ -102,7 +102,8 @@ function FaultListGen () {
 					<FaultBarGen allFaults={allFaults} page={faults.pageNum} total={type?faults.arrayData.length:`${engineer}'s`} />
 
 					{/* frontend pagination/navigation buttons */}
-					<div className="custodian-page button" style={{
+					<div className="custodian-page button"
+					style={{
 							display: 'flex',
 							justifyContent: 'center',
 							gap: '1rem',

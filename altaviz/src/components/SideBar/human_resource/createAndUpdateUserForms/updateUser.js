@@ -1,12 +1,12 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components"
-// import { FaEye, FaEyeSlash } from 'react-icons/fa';
-// import SubmitNotification from '../../bbbbbnotifications/submitNotification/SubmitNotification';
 import { FetchContext } from "../../../context/FetchContext";
 import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import QueryFieldFromDB from "../QueryFieldFromDB";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
+import { toast } from 'react-hot-toast';
+import Passwords from "./password";
 
 const MainButtonContainer = styled.div`
 	display: flex;
@@ -64,12 +64,13 @@ function UpdateUser () {
 		address: authData?.address,
 		aboutme: authData?.aboutme,
 		profile_picture: null,
-		// dummy: '',
 	}
 
 	const [rSwitch, setRSwitch] = useState(null)
 	const [branchID, setBranchID] = useState(0);
-	const [showNotifi, setShowNotifi] = useState(false);
+	// const [showNotifi, setShowNotifi] = useState(false);
+	const [isPassword, setIsPassword] = useState(false);
+	const [passwordValue, setPasswordValue] = useState(null);
 	const [isEditable, setIsEditable] = useState(false);
 	const [newLocationQuery, setNewLocationQuery] = useState('');
 	const [isNewLocationExist, setIsNewLocationExist] = useState(false);
@@ -83,32 +84,52 @@ function UpdateUser () {
 	// const [isRequired, setIsRequired] = useState(true);
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
-	// const [bankStateList, setBankStateList] = useState(null)
-	// const [bankBankList, setBankBankList] = useState(null)
-	// const [bankStateLocationList, setBankStateLocationList] = useState(null)
 	const [locationBranchesList, setLocationBranchesList] = useState(null)
-	// const [bankBranchList, setBankBranchList] = useState(null)
 	const [notCustodianList, setNotCustodianList] = useState(null)
 	const [custodianList, setCustodianList] = useState(null)
-	// const [filteredStates, setFilteredStates] = useState(null);
-	// const [filteredLocations, setFilteredLocations] = useState(null);
 	const [postTrigger, setPostTrigger] = useState(false);
 	const [formData, setFormData] = useState(new FormData());
 	const { usePostDataAPI } = useContext(FetchContext);
+	const url = useRef(null)
+	const changePassword = (data) => {
+		console.log('changePassword fxn')
+		console.log('data:', data.url)
+		if (data.url&&passwordValue) {
+			console.log('if'.repeat(29))
+			url.current = data.url
+			const newFormData = new FormData();
+			newFormData.append('email', authData?.email)
+			newFormData.append('oldPassword', passwordValue.oldPassword)
+			newFormData.append('password', passwordValue.password)
+			setFormData(newFormData)
+			setPostTrigger(true)
+		}
+		console.log('data:', data)
+		// url.current = data.data
+		// setPostTrigger(true)
+	}
+	console.log('\nurl:', url.current)
 	const { postData, postLoading, postError } = usePostDataAPI(
-		`user-details-update/${authData?.id}/`,
+		`${url.current}/${authData?.id}/`,
 		formData,
 		postTrigger,
 		// `/${authData.role}`,
 	);
 
+	const togglePasswordForm = () => {
+		setIsPassword(!isPassword);
+	}
+	const setPassword = (data) => {
+		setPasswordValue(data)
+		console.log('data received:', data)
+	}
 	console.log('2222222222222')
 	console.log('authData:', authData)
 	console.log(
 		'\nauthData?.branch?.region?.id:', authData?.branch?.region?.id,
 		'\nauthData?.branch?.state?.name:', authData?.branch?.state?.name,
 		'\nauthData?.branch?.bank?.name:', authData?.branch?.bank?.name,
-		'\nauthData?.region?.id or authData.id(for workshop):', authData?.region?.id,
+		'\nauthData?.region?.id or authData.id:', authData?.region?.id,
 		'\nauthData?.state?.name:', authData?.state?.name,
 	)
 	// with state, bank and region
@@ -378,6 +399,7 @@ function UpdateUser () {
 			newFormData.append('state', authData?.branch?.state?.name)
 			newFormData.append('branchID', branchID==='Enter a New Branch'?-1:branchID)
 			setFormData(newFormData);
+			url.current = 'user-details-update'
 			setPostTrigger(true);
 			console.log('updatedSamp:', updatedSamp);
 		} else {
@@ -388,29 +410,35 @@ function UpdateUser () {
 
 	useEffect(() => {
 		if (postData || postError) {
+			setRSwitch(null);
 			setPostTrigger(() => {
 				console.log('setting postTrigger from ', postTrigger, ' to ', !postTrigger)
 				return false
 			});
 			// Reset newUser to default state
 			setNewUser(initailFormValues);
-			setShowNotifi(true)
-			if (postData?.msg) setRSwitch(postData);
-			else if (postError?.msg) setRSwitch(postError);
+			// setShowNotifi(true)
+			if (postData?.msg) {
+				setRSwitch(postData)
+				// toast.success(postData?.msg)
+			}
+			else if (postError?.msg) {
+				setRSwitch(postError)
+				// toast.error(postError?.msg)
+			}
 		}
 	}, [postTrigger, postData, postLoading, postError])
 
 	useEffect(() => {
-		if (showNotifi) {
-			const timer = setTimeout(() => {
-				// console.log('success response:', success);
-				setShowNotifi(false);
-				setRSwitch(null)
-			}, 5000);
-			return () => clearTimeout(timer);
+		if (rSwitch) {
+			if (postError) {
+				toast.error(rSwitch.msg)
+			} else if (postData) {
+				toast.success(rSwitch.msg)
+			}
+			togglePasswordForm()
 		}
-
-	}, [showNotifi])
+	}, [rSwitch])
 
 	const profilePictureStyle = {
 		display: 'block',
@@ -456,22 +484,8 @@ function UpdateUser () {
 		fontSize: 'small',
 		fontStyle: 'italic',
 	}
-	// const visiButtonStyle = {
-	// 	position: 'absolute',
-	// 	right: '125px',
-	// 	top: '60%',
-	// 	transform: 'translateY(-50%)',
-	// 	color: '#333',
-	// 	background: 'none',
-	// 	border: 'none',
-	// 	cursor: 'pointer',
-	// 	padding: '0',
-	// 	margin: '0',
-	// }
 
-	let all = !(
-		// isEmailExist === isUsernameExist === isNewBankExist ===
-		isNewLocationExist === isNewBranchExist)
+	let all = !(isNewLocationExist === isNewBranchExist)
 	console.log(
 		'\nnewUser.branch:', newUser.branch,
 		'\nnewUser.newBranch:', newUser.newBranch,
@@ -511,11 +525,11 @@ function UpdateUser () {
 		)
 	}
 
-	const styleObj = {
-		fontWeight: 'bold',
-		margin: '0',
-		transition: 'opacity 0.05s ease-out',
-	}
+	// const styleObj = {
+	// 	fontWeight: 'bold',
+	// 	margin: '0',
+	// 	transition: 'opacity 0.05s ease-out',
+	// }
 	console.log(
 		'\nnewuser.branch:', newUser.branch,
 		'\nbranchID:', branchID,
@@ -533,6 +547,7 @@ function UpdateUser () {
 			borderRadius: "5px",
 		}
 	}
+	console.log('passwordValue:', passwordValue)
 	return (
 		<>
 			<div className="dash-form">
@@ -761,33 +776,43 @@ function UpdateUser () {
 										</div>
 									</>)}
 								</>)}
-								{(showNotifi&&!postLoading&&rSwitch) && <p style={{...styleObj, color: 'green'}}>{rSwitch.msg}</p>}
+								{/* {(showNotifi&&!postLoading&&rSwitch) && <p style={{...styleObj, color: 'green'}}>{rSwitch.msg}</p>} */}
 							</div>
 						</div>
-						
+
 						<MainButtonContainer>
 							{/* submit button */}
 							<MainButton
-								onClick={handleFormSubmission}
-								type="submit"
-								role="button"
-								tabIndex="0"
-								onKeyDown={(e) => {
-									if (e.key === 'Enter') {
-										// e.preventDefault();  // Prevents default form submission behavior
-										handleFormSubmission(e);  // Calls your form submission function
-									}
-								}}
-								disabled={postLoading}>
+							onClick={handleFormSubmission}
+							type="submit"
+							role="button"
+							tabIndex="0"
+							onKeyDown={(e) => {
+								if (e.key === 'Enter') {
+									handleFormSubmission(e);  // Calls form submission function
+								}
+							}}
+							disabled={postLoading}>
 								{postLoading ? 'Updating...' : 'Update Details'}
 							</MainButton>
 							{/* edit button */}
 							<MainButton type="button"
-								onClick={EditHandler}
-								>
-									{!isEditable ? 'Edit Details' : 'Stop Editing'}
-								</MainButton>
+							onClick={EditHandler}
+							>
+								{!isEditable ? 'Edit Details' : 'Stop Editing'}
+							</MainButton>
+							{/* update password button */}
+							<MainButton type="button"
+							onClick={togglePasswordForm}
+							>
+								{!isPassword ? 'Update Password': 'Close Form'}
+							</MainButton>
 						</MainButtonContainer>
+						{isPassword && <Passwords
+						passwordValue={setPassword}
+						postState={postLoading}
+						submission={changePassword}/>}
+
 						<div
 						style={{
 							display: 'flex',
