@@ -97,13 +97,6 @@ export const FetchProviders = ({ children }) => {
 				// console.log('Post trigger is false. POST call not executed.');
 				return;
 			}
-			// delete
-			// Inspection
-			// console.log('from post api #####')
-			// console.log('url:', url);
-			// for (const [key, value] of formData.entries()) {
-			// 	console.log(`item: ${key}\nvalue: ${value}`);
-			// }
 			const postData = async () => {
 				try {
 					if (checkNull(url)||checkUndefined(url)) {
