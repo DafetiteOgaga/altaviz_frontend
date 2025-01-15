@@ -609,7 +609,8 @@ const UpdateInBackground = (firebaseNotification, setReload) => {
 					// NotificationString.current = websocketAlert
 				} else if (dept==='human-resource') {
 					endpoints = generateNotificationEndpoints(
-						'faultsKey-/all-request-faults', prefixes
+						'componentKey-/workshop-component-request', prefixes,
+						'faultsKey-/all-request-faults'
 					)
 					endpoints.push(
 						`allUnresolvedKey-/all-pending-faults-wRequests/${prefixes.notificationListPrefix}`,
