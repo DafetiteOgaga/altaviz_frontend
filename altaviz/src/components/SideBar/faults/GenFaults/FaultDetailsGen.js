@@ -9,12 +9,8 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { RotContext } from "../../../context/RotContext";
 import { CheckAndFetchFromStorage } from "../../../hooks/fetchFromClient";
 import RequestItem from '../../requestForms/RequestItem';
-
-function removeKeys(keys) {
-	for (let i = 0; i < keys.length; i++) {
-		localStorage.removeItem(keys[i]);
-	}
-}
+import { toast } from 'react-hot-toast';
+import RemoveKeys from '../../../hooks/RemoveKsys';
 
 function FaultDetailsGen({searchFaults}) {
 	const navigate = useNavigate();
@@ -204,11 +200,12 @@ function FaultDetailsGen({searchFaults}) {
 	)
 
 	useEffect(() => {
+		let removeList = []
 		// if (checkResponseData || checkResponseError) {
 		if (responseDataValue || responseErrorValue) {
 			if (responseDataValue) {
 				console.log(
-					// '\ncheckResponseData:', checkResponseData,
+					'99999999999999999999'.repeat(20),
 					'\nresponse data:', responseData,
 					'\nResponseIndex:', responseIndex,
 					'\nresponseDataValue:', responseDataValue,
@@ -219,13 +216,12 @@ function FaultDetailsGen({searchFaults}) {
 				// 	'\nresponse error:', checkResponseError
 				// )
 			}
-			const removeList = [
-				'faultsKey', 'totalfaultsKey',
-				'unconfirmedKey', 'totalunconfirmedKey',
-				'faultpendingList', 'faultunconfirmedList',
-				'allUnresolvedKey',
-			];
-
+			// const removeList = [
+			// 	'faultsKey', 'totalfaultsKey',
+			// 	'unconfirmedKey', 'totalunconfirmedKey',
+			// 	'faultpendingList', 'faultunconfirmedList',
+			// 	'allUnresolvedKey',
+			// ];
 			if (deleteTrigger) {
 				setDeleteTrigger(() => {
 					console.log('\nsetting Trigger from ', deleteTrigger, ' to ', !deleteTrigger)
@@ -234,11 +230,7 @@ function FaultDetailsGen({searchFaults}) {
 				if (requeste) {
 					console.log(
 						'\nremoving ...',
-						'\npppppppppppppppppppppppppppp',
-						'\npppppppppppppppppppppppppppp',
-						'\npppppppppppppppppppppppppppp',
-						'\npppppppppppppppppppppppppppp',
-						'\npppppppppppppppppppppppppppp',
+						'\npppppppppppppppppppppppppppp'.repeat(7)
 					)
 					if (FaultParamDetals.dept==='engineer') {
 						let encodedData;
@@ -278,13 +270,13 @@ function FaultDetailsGen({searchFaults}) {
 					else if (requeste.split('-')[1] === 'part') {setDeletePartRequestID(prev => [...prev, itemId])}
 				}
 				if (FaultParamDetals.dept==='supervisor'||FaultParamDetals.dept==='engineer') {
-					let localKeylist;
-					const [, type] = requeste.split('-');
-					if (type==='component') {localKeylist = ['componentsRequestList']}
-					else if (type==='part') {localKeylist = ['partsRequestList']}
-					localKeylist.forEach(key => {
-						localStorage.removeItem(key)
-					})
+					// let localKeylist;
+					// const [, type] = requeste.split('-');
+					// if (type==='component') {localKeylist = ['componentsRequestList']}
+					// else if (type==='part') {localKeylist = ['partsRequestList']}
+					// localKeylist.forEach(key => {
+					// 	localStorage.removeItem(key)
+					// })
 					// removeKeys('componentsRequestList', 'partsRequestList')
 					console.log({faultsItem}, {itemId})
 					let updatedData = allFaults.map(fault => {
@@ -300,9 +292,12 @@ function FaultDetailsGen({searchFaults}) {
 					localStorage.setItem('allUnresolvedKey', updatedData);
 					console.log('allUnresolvedKey has been updated with:', tempUpdatevalue)
 				}
-				if (FaultParamDetals.dept==='supervisor'||FaultParamDetals.dept==='engineer') {
-					removeKeys('componentsRequestList', 'partsRequestList')
-				} else {removeKeys(removeList)}
+				if (FaultParamDetals.dept==='custodian') {
+					removeList = ['faultsKey', 'totalfaultsKey']
+					if (removeList.length) RemoveKeys(removeList)
+					toast.success('Fault has been successfully withdrawn')
+					navigate(`/${authData.role}`)
+				}
 			}
 			if (postTrigger) {
 				setPostTrigger(() => {
@@ -311,24 +306,18 @@ function FaultDetailsGen({searchFaults}) {
 				});
 			}
 			if (patchTrigger) {
-				console.log(
-					`EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-					WEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-					WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
-					EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-					EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-					EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE`
-				)
+				console.log('EEEEEEEEEEEEEEEEEEEEEE'.repeat(7))
 				setPatchTrigger(() => {
 					console.log('\nsetting Trigger from ', patchTrigger, ' to ', !patchTrigger)
 					return false
 				});
+				console.log({patchTrigger})
 				if (FaultParamDetals.dept==='custodian') {
 					const getOldData = localStorage.getItem(allFaultsKey)
 					localStorage.setItem(`temp-${allFaultsKey}`, getOldData)
 					localStorage.setItem('temporaryIDValue', FaultParamDetals.id)
+					toast.success('Fault has been successfully confirmed')
 				}
-				// else if (FaultParamDetals.dept==='engineer') navigate('/success', { state: {currentPage: authData.role, time: 50}})
 				if (FaultParamDetals.dept==='supervisor'||FaultParamDetals.dept==='human-resource') {
 					let localKeylist;
 					let requestComponentIds;
@@ -397,12 +386,20 @@ function FaultDetailsGen({searchFaults}) {
 					localStorage.setItem('allUnresolvedKey', updatedData);
 					console.log('allUnresolvedKey has been updated with:', tempUpdatevalue)
 
+					// responseDataValue.msg
+					// const [responseTYpe,] = responseDataValue.msg.split(' ')
+					// if (responseTYpe.toLowerCase()==='approved') toast.success(toSentenceCase(serverResponse||''))
+					// else if (responseTYpe.toLowerCase()==='rejected') toast.error(toSentenceCase(serverResponse||''))
+					toast.success('Success')
 					// delete
 					let checkstorage = localStorage.getItem('allUnresolvedKey')
 					checkstorage = RotCipher(checkstorage, decrypt)
 					checkstorage = JSON.parse(checkstorage)
 					console.log('allUnresolvedKey after update:', checkstorage)
 					toggleRemount()
+				}
+				if (FaultParamDetals.dept==='engineer') {
+					toast.success(responseDataValue.msg)
 				}
 				patchUrlName.current = null
 				setRequeste(null)
