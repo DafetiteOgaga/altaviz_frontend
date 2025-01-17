@@ -9,7 +9,7 @@ import { FetchContext } from "../../context/FetchContext";
 import { SentenceCaseContext } from '../../context/SentenceCaseContext';
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { toast } from "react-hot-toast";
-import RemoveKeys from "../../hooks/RemoveKsys";
+import RemoveKeys from "../../hooks/RemoveKeys";
 
 function NotificationDropdownMenu({
 	notiList,

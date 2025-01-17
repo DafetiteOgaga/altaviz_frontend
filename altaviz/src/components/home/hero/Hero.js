@@ -7,7 +7,7 @@ function Hero() {
 	const images = getHeroImages();
 	const { companyName } = useContext(GlobalContext);
 	const heading=`Welcome to ${companyName}`
-	const subheading="We offer the best ATM support, maintainance and services at affordable prices."
+	const subheading="We sell and offer the best ATM support, maintainance and services at affordable prices."
 	const more_subheading="With our dedicated and pro-active support Engineers around the country,"
 	const and_more_subheading="You are guaranteed a 24/7 machine uptime."
 	const interval=5000

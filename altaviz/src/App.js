@@ -12,9 +12,11 @@ import useDeviceType from './components/deviceType/DeviceType';
 import altaviz from './logo/altaviz_logo.png';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
-// import { AuthContext } from './components/context/checkAuth/AuthContext';
+// import CheckSessionComponent from './components/context/loginAuth/CheckSession';
 
 function App() {
+	// console.log('App.js')
+	// const sessionCheck = CheckSessionComponent()
 	// const { authData } = useContext(AuthContext)
 	// const { createNotification } = useChatNotification();
 	// createNotification('online', 'IT FUCKING WORKED again!!!')
@@ -28,7 +30,8 @@ function App() {
 	const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 	console.log('\napiBaseUrl url:', apiBaseUrl)
 	console.log({deviceType})
-	// console.log('chatsUpdates?.notificationCount:', chatsUpdates?.notificationCount)
+	// console.log('sessionCheck:', sessionCheck)
+	// console.log('chatsUpdates?.noonCou', chatsUpdates?.notific
 	return (
 		<>
 			<Toaster

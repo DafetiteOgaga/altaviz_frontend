@@ -10,7 +10,7 @@ import { RotContext } from "../../../context/RotContext";
 import { CheckAndFetchFromStorage } from "../../../hooks/fetchFromClient";
 import RequestItem from '../../requestForms/RequestItem';
 import { toast } from 'react-hot-toast';
-import RemoveKeys from '../../../hooks/RemoveKsys';
+import RemoveKeys from '../../../hooks/RemoveKeys';
 
 function FaultDetailsGen({searchFaults}) {
 	const navigate = useNavigate();
