@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { AuthContext } from "../checkAuth/AuthContext";
 // import { CSSTransition } from "react-transition-group";
 import { Link, useNavigate } from 'react-router-dom'
+import { RemoveAllKeys } from "../../hooks/RemoveKeys";
 
 const Button = styled.button`
 	padding: 10px;
@@ -98,6 +99,7 @@ function LoginForm() {
 
 	// post setup
 	// let result;
+	if (localStorage.getItem('lVT')) RemoveAllKeys()
 	const { Login, authLoading, authError } = useContext(LoginContext);
 	const handleLogin = async () => {
 		const result = await Login(email, password, true);
