@@ -3,9 +3,31 @@ import logo from '../../logo/altaviz_logo.png';
 import Navigation from './Navigation';
 import { useNavigate } from 'react-router-dom';
 import "./header.css"
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import styled from 'styled-components';
+import { AuthContext } from '../context/checkAuth/AuthContext';
+
+const Button = styled.button`
+	padding: 10px 20px;
+	font-size: 16px;
+	margin: 30px 10px;
+	color: #fff;
+	background-color: #B5B5BD;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.2s;
+	&:hover {
+		background-color: #A5A5B9;
+	}
+	&:active {
+		backgroundColor: #909090;
+		transform: scale(0.9)
+	}
+`
 
 function Header() {
+	const { authData } = useContext(AuthContext)
 	const navigateTo = useNavigate();
 	// Check if the key 'updating' is present in localStorage
     const isUpdating = localStorage.getItem("updating");
@@ -49,7 +71,12 @@ function Header() {
 				flexDirection: 'row',
 			}}>
 				{isUpdating&&<span id='headerNotificationDot' style={headerStyles.notificationDot}></span>}
-				<h6>Beta v10.09.723</h6>
+				<h6>Beta v10.11.138</h6>
+				{!authData&&
+				<Button
+				onClick={(e)=>navigateTo('/login')}>
+					Login
+				</Button>}
 			</div>
 		</header>
 	)
