@@ -3,6 +3,7 @@ import { FaSync, FaSpinner } from 'react-icons/fa';
 // import { AuthContext } from './checkAuth/AuthContext';
 import { RotContext } from './RotContext';
 import { useNavigate, useLocation } from 'react-router-dom'
+import { RemoveAllKeysButAuth } from '../hooks/RemoveKeys';
 
 // Create a context
 const RefreshContext = createContext();
@@ -57,19 +58,20 @@ export const RefreshProvider = ({ children }) => {
         });
     }
     function handleRefreshAll() {
+        RemoveAllKeysButAuth()
         // navigate(`/${authData.role}`)
-        let localList = [] // gather local keys
-        for (let i = 0; i < localStorage.length; i++) {
-            if (localStorage.key(i) === 'authData') continue // exempt authentication date
-            console.log('appending localkey:'.toUpperCase(), localStorage.key(i));
-            localList.push(localStorage.key(i));
-            // localStorage.removeItem(localStorage.key(i));
-        }
-        console.log(localList.map(key => `key: ${key}`))
-        for (const key of localList) {
-            localStorage.removeItem(key);  // Remove local keys and their values from localStorage
-            console.log(`removed key: ${key}`);    // Log the key that was removed
-        }
+        // let localList = [] // gather local keys
+        // for (let i = 0; i < localStorage.length; i++) {
+        //     if (localStorage.key(i) === 'authData') continue // exempt authentication date
+        //     console.log('appending localkey:'.toUpperCase(), localStorage.key(i));
+        //     localList.push(localStorage.key(i));
+        //     // localStorage.removeItem(localStorage.key(i));
+        // }
+        // console.log(localList.map(key => `key: ${key}`))
+        // for (const key of localList) {
+        //     localStorage.removeItem(key);  // Remove local keys and their values from localStorage
+        //     console.log(`removed key: ${key}`);    // Log the key that was removed
+        // }
         // localStorage.removeItem(localStorage.key(i));
         setRefreshing((prev) => {
             console.log('Setting refreshing from', prev, 'to', !prev);
