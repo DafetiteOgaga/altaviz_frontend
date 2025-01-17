@@ -18,13 +18,6 @@ function Sidebar() {
 	const [chatNotification, setChatNotification] = useState(null);
 	// const chatsUpdates = listenForUpdates(7)
 	const { chatNotifications, listenForUpdates, stopListening } = useChatNotification();
-	// let chatNotification;
-	// if (chatNotifications&&chatNotifications?.firebaseChatValue) {
-	// 	console.log({chatNotifications})
-	// 	chatNotification = getTotalValue(chatNotifications)
-	// }
-	// console.log('chatsUpdates (Sidebar.js):', chatsUpdates)
-	// console.log("setChatNotification Function Type:", typeof setChatNotification);
 	const redirectTo = useNavigate();
 	const { Logout } = useContext(LoginContext);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,10 +48,6 @@ function Sidebar() {
 		// const receiverID = 7
 		console.log('\nreceiverIDreceiverIDreceiverIDreceiverID'.repeat(5))
 
-		// const handleNotificationUpdate = (data) => {
-		// 	console.log("Received notifications:", data);
-		// };
-
 		// Start listening for updates
 		listenForUpdates(authData?.id, (data) => {
 			console.log({data})
@@ -73,17 +62,12 @@ function Sidebar() {
 			console.log('\ntotalNotification:', totalNotification);
 			setChatNotification(totalNotification)
 		});
-
-		// // Cleanup on unmount
-		// return () => stopListening(authData?.id);
 	}, [authData,
 		// fromContext,
 		// listenForUpdates, stopListening
 	]);
 	console.log('chatNotification:'.repeat(5), chatNotification)
-	// console.log({newTotal})
-	// const notiNum = 4
-	// const chatNotification = 6
+
 	return (
 		<aside className='side-bar'>
 			<nav>
@@ -111,6 +95,9 @@ function Sidebar() {
 					{apiBaseUrl==='http://127.0.0.1:8000' &&
 					<>
 						{/* <Link to="/chatroom"><li>Chat Room</li></Link> */}
+						<Link to="/reset-password/:uid/:token"><li>confirm reset</li></Link>
+						<Link to="/login/password-reset"><li>password reset</li></Link>
+						<Link to="/reset-update-password"><li>password update done</li></Link>
 						<Link to="/test-auth"><li>test authentication</li></Link>
 						<Link to="/test"><li>testing backend</li></Link>
 					</>}
