@@ -18,6 +18,9 @@ import ProductDetails from '../products/ProductDetails';
 import DropdownMenu from '../header/product_dropdown_menu/DropdownMenu';
 import User from '../user/user';
 import LoginForm from '../context/loginAuth/LoginForm';
+import PasswordResetRequest from '../context/loginAuth/PasswordResetRequest';
+import PasswordRestConfirm from '../context/loginAuth/PasswordRestConfirm';
+import PasswordUpdateReset from '../success/PasswordUpdateReset';
 import PrivateRoute from '../context/checkAuth/PrivateRoute';
 import AuthenticationForm from '../context/loginAuth/AuthenticationForm';
 import DetailsUpdate from '../SideBar/faults/forEngineers/detailsUpdate';
@@ -41,6 +44,9 @@ function AppRoutes() {
         <Route path="/products/product/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/login/password-reset" element={<PasswordResetRequest />} />
+        <Route path="/reset-password/:uid/:token" element={<PasswordRestConfirm />} />
+        <Route path="/reset-update-password/" element={<PasswordUpdateReset />} />
         <Route path="/test-auth" element={<AuthenticationForm />} />
         <Route path="/test" element={<Testfetchapi />} />
         {/* private routes */}
@@ -54,12 +60,6 @@ function AppRoutes() {
           <Route path="/supervisor" element={<Supervisor />} />
           <Route path="/human-resource" element={<HumanResource />} />
           <Route path="/inventory" element={<Inventory />} />
-
-          {/* <Route path="/:dept/request-list" element={<RequestList />} /> */}
-          {/* <Route path="/:dept/request-details/:id" element={<RequestDetails />} />
-          <Route path="/:dept/request-details/:id" element={<RequestDetails />} /> */}
-          {/* <Route path="/:dept/fault-details/:id/request-details/:id" element={<RequestDetails />} /> */}
-          {/* <Route path="/:dept/request-list/" element={<RequestList />} /> */}
 
           {/* faults */}
           <Route path="/:dept/fault-list" element={<FaultListGen />} />
@@ -75,20 +75,7 @@ function AppRoutes() {
           <Route path="/:dept/fault-gen-details/:id" element={<FaultDetailsGen />} />
           <Route path="/:dept/fault-gen-list/fault-gen-details/:id" element={<FaultDetailsGen />} />
 
-          {/* handle this new refaction in other departments. refaction: *:type* */}
-          {/* gen unconfirmed resolutions */}
-          {/* <Route path="/:dept/:type/fault-gen-unconfirmed-list" element={<UnconfirmedResoList />} />
-          <Route path="/:dept/:type/fault-gen-unconfirmed-details/:id" element={<FaultDetailsGen />} />
-          <Route path="/:dept/:type/fault-gen-unconfirmed-list/fault-gen-unconfirmed-details/:id" element={<FaultDetailsGen />} /> */}
-
-          {/* confirm resolution */}
-          {/* <Route path="/:dept/confirm-resolution-list" element={<ConfirmResoList />} />
-          <Route path="/:dept/confirm-resolution-details/:id" element={<ConfirmResoDetails />} />
-          <Route path="/:dept/confirm-resolution-list/fault-details/:id" element={<ConfirmResoDetails />} /> */}
-
           {/* compRequests */}
-          {/* <Route path="/:dept/approved-component-request-list" element={<ApprovedCompRequestsList />} /> */}
-          {/* <Route path="/:dept/approved-component-request-list/component-request-details/:id" element={<ApprovedCompRequestsDetails />} /> */}
           <Route path="/:dept/component-request-list" element={<RequestsList />} />
           <Route path="/:dept/component-request-details/:id" element={<RequestsDetails />} />
           <Route path="/:dept/component-request-list/component-request-details/:id" element={<RequestsDetails />} />
@@ -104,13 +91,6 @@ function AppRoutes() {
           <Route path="/:dept/part-fixed-details/:id" element={<RequestsDetails />} />
           <Route path="/:dept/part-request-list/part-fixed-details/:id" element={<RequestsDetails />} />
 
-          {/* unapproved parts for workshop */}
-          {/* <Route path="/:dept/approved-part-list" element={<ApprovedPartsList />} /> */}
-          {/* <Route path="/:dept/approved-part-list/part-details/:id" element={<ApprovedPartDetails />} /> */}
-          {/* <Route path="/:dept/unapproved-part-list" element={<UnapprovedList />} /> */}
-          {/* <Route path="/:dept/unapproved-part-details/:id" element={<UnapprovedPostDetails />} /> */}
-          {/* <Route path="/:dept/unapproved-part-list/unapproved-part-details/:id" element={<UnapprovedPostDetails />} /> */}
-
           {/* UserProcessedList */}
           <Route path="/:dept/user-list/:context/:id" element={<FaultListGen />} />
           <Route path="/:dept/user-list/:context/:id/fault-gen-details/:id" element={<FaultDetailsGen />} />
@@ -121,12 +101,7 @@ function AppRoutes() {
            {/* details update and user */}
           <Route path="/user/:id" element={<User />} />
           <Route path="/:dept/update-details/:id/:updateID" element={<DetailsUpdate />} />
-          {/* <Route path="/:dept/update-details" element={<DetailsUpdateList />} /> */}
-          {/* <Route path="/:dept/user-list/:context/:id" element={<FaultListGen />} />
-          <Route path="/:dept/user-list/:context/:id/fault-gen-details/:id" element={<FaultDetailsGen />} /> */}
           <Route path="/:dept/update/:context" element={<UserProcessedList />} />
-          {/* <Route path="/:dept/user/:context/user-list/:id" element={<FaultListGen />} />
-          <Route path="/:dept/user/:context/user-list/:id/fault-gen-details/:id" element={<FaultDetailsGen />} /> */}
 
           {/* assign engineer to location */}
           <Route path=":dept/new-location-list" element={<EngineerToLocation />} />
