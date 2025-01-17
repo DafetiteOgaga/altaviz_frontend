@@ -116,6 +116,7 @@ function PasswordRestConfirm() {
 		passwordError, setPasswordError
 	)
 	const setTrigger = (e) => {
+		// e.preventDefault()
 		if (passwordCheck) {
 			const newFormData = new FormData();
 			newFormData.append('new_password', userPassword.password);
