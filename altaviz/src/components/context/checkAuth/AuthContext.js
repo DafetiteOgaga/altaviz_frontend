@@ -30,18 +30,6 @@ export const AuthProvider = ({ children }) => {
     // Determine authentication status directly from authData
     const isAuthenticated = !!authData;
     console.log('authenticated:', isAuthenticated);
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         try {
-    //             console.log(`tring to redirect to: /${authData.role}`)
-    //             redirectToPage(`/${authData.role}`)
-    //         } catch {
-    //             console.log('settled for: /home instead')
-    //             redirectToPage('/')
-    //         }
-    //     }
-    //     console.log('auth data KKKKKK:', authData)
-    // }, [isAuthenticated])
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, authData,loading }}>
