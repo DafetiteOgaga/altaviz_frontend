@@ -118,11 +118,14 @@ function PasswordResetRequest() {
 	}
 	// let formData = new FormData();
 	const setTrigger = (e) => {
-		const newFormData = new FormData();
-		newFormData.append('email', email);
-		newFormData.append('FEUrl', hostDetails);
-		setFormData(newFormData)
-		trigger.current = true
+		e.preventDefault()
+		if (email.trim()!=='') {
+			const newFormData = new FormData();
+			newFormData.append('email', email);
+			newFormData.append('FEUrl', hostDetails);
+			setFormData(newFormData)
+			trigger.current = true
+		}
 	}
 	const { postData, postLoading, postError } = usePostDataAPI(
 		`reset-password-request/`, formData,
@@ -200,7 +203,7 @@ function PasswordResetRequest() {
 				query={emailQuery}
 				callbackOnDataChange={handleDataChange}
 				passwordReset={true}/>}
-				{emailFormat && <p style={styles.errorMsg}>{`${email} is not an email`} (For demonstration only)</p>}
+				{(emailFormat&&email) && <p style={styles.errorMsg}>{`${email} is not an email`} (For demonstration only)</p>}
 
 				<div style={{display: 'flex', justifyContent: "center", marginTop: '20px'}}>
 					<Button
@@ -212,7 +215,7 @@ function PasswordResetRequest() {
 						{postLoading ? "Sending link to email..." :	"Reset Password"}
 					</Button>
 				</div>
-				{(postError&&emailFormat&&delayRender)&&<p style={styles.error}>{`${email} is not an email`||postError}</p>}
+				{(postError&&emailFormat&&delayRender)&&<p style={styles.error}>{`${email} is not an email`}</p>}
 				{(postError&&!emailFormat&&dbCheck!=='taken'&&delayRender)&&<p style={styles.error}>{postError}</p>}
 			</form>
 		</div>
