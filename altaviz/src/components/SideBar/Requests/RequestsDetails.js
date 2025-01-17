@@ -8,7 +8,7 @@ import { TimeDifferenceContext } from "../../context/timeDifference/TimeDifferen
 import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { RotContext } from "../../context/RotContext";
-import RemoveKeys from "../../hooks/RemoveKsys";
+import RemoveKeys from "../../hooks/RemoveKeys";
 import { toast } from'react-hot-toast'
 
 const getRequests = (localPendingFaults, id, requestType) => {
