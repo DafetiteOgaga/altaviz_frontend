@@ -1,6 +1,7 @@
 import { createContext, useCallback, useState, useContext, useEffect, useRef } from "react";
 import { RotContext } from "../RotContext";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { RemoveAllKeys } from "../../hooks/RemoveKeys";
 
 export const LoginContext = createContext();
 function CsrfToken() {
@@ -49,10 +50,12 @@ export const LoginProvider = ({ children }) => {
                 // Store user data in localStorage
                 const encodedData = RotCipher(JSON.stringify(data), encrypt)
                 localStorage.setItem('authData', encodedData);
+                // localStorage.setItem('lVT', new Date().getTime());
                 console.log('saving data 111111111:', data)
 
-                toDashboard(`/${data?.role || "/"}`);
-                window.location.reload();
+                window.location.href = `/${data?.role || "/"}`
+                // toDashboard(`/${data?.role || "/"}`);
+                // window.location.reload();
                 
                 console.log('data (API) #####:', data);
                 return { success: true, data };
@@ -87,17 +90,7 @@ export const LoginProvider = ({ children }) => {
 
                 // Remove user data from localStorage
                 console.log('deleting user data 333333')
-                let localList = [] // gather local keys
-                for (let i = 0; i < localStorage.length; i++) {
-                    console.log('appending localkey:'.toUpperCase(), localStorage.key(i));
-                    localList.push(localStorage.key(i));
-                }
-                console.log(localList.map(key => `key: ${key}`))
-                for (const key of localList) {
-                    localStorage.removeItem(key);  // Remove local keys and their values from localStorage
-                    console.log(`removed key: ${key}`);    // Log the key that was removed
-                }
-                // localStorage.removeItem('authData');
+                RemoveAllKeys()
 
                 // to redirect and Refresh the page on succcess
                 toDashboard('/')
