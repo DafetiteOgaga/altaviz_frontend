@@ -22,40 +22,20 @@ const Button = styled.div`
 	}
 `
 
-function Passwords({passwordValue, postState, submission}) {
-	const [userPassword, setUserPassword] = useState({
-		oldPassword: '',
-		password1: '',
-		password2: ''
-	});
-	const [passwordError, setPasswordError] = useState({});
-	const [oldPassword, setOldPassword] = useState('');
-	const [password1, setPassword1] = useState('');
-	const [password2, setPassword2] = useState('');
-	const [showOldPassword, setShowOldPassword] = useState(false);
-	const [showPassword1, setShowPassword1] = useState(false);
-	const [showPassword2, setShowPassword2] = useState(false);
+export function PasswordCheckFxn (
+	userPassword, setUserPassword,
+	passwordError, setPasswordError
+) {
 	const [passwordCheck, setPasswordCheck] = useState(false);
-
-	const toggleOldPasswordvisi1 = () => {
-		setShowOldPassword(!showOldPassword);
-	}
-	const togglePasswordvisi1 = () => {
-		setShowPassword1(!showPassword1);
-	}
-	const togglePasswordvisi2 = () => {
-		setShowPassword2(!showPassword2);
-	}
-
 	useEffect(() => {
-		if (password1 && password2) {
+		if (userPassword.password1 && userPassword.password2) {
 			// enforce other checks here
-			setPasswordCheck(password1===password2);
+			setPasswordCheck(userPassword.password1===userPassword.password2);
 		}
-	// 	if (!oldPassword) {
-	// 		setPasswordCheck(false);
-	// 	}
-	}, [password1, password2]);
+	}, [
+		// password1, password2,
+		userPassword
+	]);
 
 	useEffect(() => {
 		if (passwordCheck) {
@@ -66,7 +46,7 @@ function Passwords({passwordValue, postState, submission}) {
 			})
 			setUserPassword({
 				...userPassword,
-				password: password1||password2,
+				password: userPassword.password1||userPassword.password2,
 			});
 		} else if (!passwordCheck && userPassword.password1 !== '' && userPassword.password2 !== '') {
 			setPasswordError({
@@ -80,6 +60,35 @@ function Passwords({passwordValue, postState, submission}) {
 			});
 		}
 	}, [passwordCheck, userPassword.password1, userPassword.password2]);
+	return { passwordCheck }
+}
+//  {passwordCheckFxn};
+
+function Passwords({passwordValue, postState, submission}) {
+	const [userPassword, setUserPassword] = useState({
+		oldPassword: '',
+		password1: '',
+		password2: ''
+	});
+	const [passwordError, setPasswordError] = useState({});
+	const [showOldPassword, setShowOldPassword] = useState(false);
+	const [showPassword1, setShowPassword1] = useState(false);
+	const [showPassword2, setShowPassword2] = useState(false);
+
+	const toggleOldPasswordvisi1 = () => {
+		setShowOldPassword(!showOldPassword);
+	}
+	const togglePasswordvisi1 = () => {
+		setShowPassword1(!showPassword1);
+	}
+	const togglePasswordvisi2 = () => {
+		setShowPassword2(!showPassword2);
+	}
+
+	const { passwordCheck } = PasswordCheckFxn(
+		userPassword, setUserPassword,
+		passwordError, setPasswordError
+	)
 
 	useEffect(() => {
 		if (userPassword.password&&userPassword.oldPassword) {
@@ -98,18 +107,9 @@ function Passwords({passwordValue, postState, submission}) {
 			...prevState,
 			[name]: value,
 		}));
-		if (name === 'oldPassword') {
-			setOldPassword(value);
-		} else if (name === 'password1') {
-			setPassword1(value);
-		} else if (name === 'password2') {
-			setPassword2(value);
-		}
-		// }
 	}
 	console.log(
 		'\npasswordError:', passwordError,
-		'\npassword1:', password1, 'password2:', password2, 'oldPassword:', oldPassword,
 		'\nuserPassword:', userPassword,
 		'\npasswordCheck:', passwordCheck,
 	)
