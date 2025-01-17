@@ -23,6 +23,10 @@ body {
   display: grid;
   grid-template-columns: 1fr 7fr;
 }
+/* .app-root {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+} */
 
 /* pushes footer below the last element */
 .app-container {
@@ -37,10 +41,10 @@ footer {
 /* ........................................ */
 
 
-.sub-root {
+/* .sub-root {
   display: grid;
   grid-template-columns: 1fr 7fr;
-}
+} */
 
 main {
   padding-bottom: 5.5rem;

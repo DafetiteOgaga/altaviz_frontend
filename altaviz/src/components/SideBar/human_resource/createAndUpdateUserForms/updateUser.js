@@ -5,8 +5,10 @@ import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import QueryFieldFromDB from "../QueryFieldFromDB";
 import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import { AuthContext } from "../../../context/checkAuth/AuthContext";
+import { RotContext } from "../../../context/RotContext";
 import { toast } from 'react-hot-toast';
 import Passwords from "./password";
+import { useNavigate } from 'react-router-dom';
 
 const MainButtonContainer = styled.div`
 	display: flex;
@@ -50,6 +52,8 @@ const NewFieldContainer = styled.div`
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 function UpdateUser () {
+	const navigate = useNavigate()
+	const {encrypt, decrypt, RotCipher} = useContext(RotContext)
 	const { authData } = useContext(AuthContext)
 	const initailFormValues = {
 		branch: authData?.branch?.name,
@@ -226,30 +230,6 @@ function UpdateUser () {
 			errors[field] = required;
 			}
 		})
-		// if (authData.role === 'custodian') {
-		// 	['branch', 'location']
-		// 	.forEach((fieldName) => {
-		// 		if (!newUser[fieldName] || newUser[fieldName].trim() === '') {
-		// 			errors[fieldName] = required;
-		// 		}
-		// 	})
-		// }
-		// if (authData.role === 'custodian' && !newUser.branch) {
-		// 	['newBranch']
-		// 	.forEach((fieldName) => {
-		// 		if (!newUser[fieldName] || newUser[fieldName].trim() === '') {
-		// 			errors[fieldName] = required;
-		// 		}
-		// 	})
-		// }
-		// if (authData.role === 'custodian' && !newUser.location) {
-		// 	['newLocation']
-		// 	.forEach((fieldName) => {
-		// 		if (!newUser[fieldName] || newUser[fieldName].trim() === '') {
-		// 			errors[fieldName] = required;
-		// 		}
-		// 	})
-		// }
 		setNewUserError({...newUserError, ...errors});
 		console.log('total errors:', errors);
 		return Object.keys(errors).length === 0;
@@ -291,16 +271,6 @@ function UpdateUser () {
 			)
 			setNewUser(prevState => ({
 				...prevState,
-				// branch: stateBranchesList?.filter(branch => {
-				// 	console.log(
-				// 		'\nbranchID', branch.id,
-				// 		'\nvalue', Number(value)
-				// 	)
-				// 	if (branch.id === Number(value)) {
-				// 		console.log('branch.name:', branch.name)
-				// 		return branch;
-				// 	}
-				// })[0]?.name,
 				branch: value,
 				//// newBranch: value === 'Enter a New Branch' ? '' : null,
 			}));
@@ -420,6 +390,16 @@ function UpdateUser () {
 			// setShowNotifi(true)
 			if (postData?.msg) {
 				setRSwitch(postData)
+				const localAuthData = localStorage.getItem('authData')
+				if (localAuthData&&postData?.data) {
+					let responseData = postData?.data
+					console.log('responseData:', responseData)
+					responseData = JSON.stringify(responseData)
+					console.log('responseData:', responseData)
+					responseData = RotCipher(responseData, encrypt)
+					console.log('responseData:', responseData)
+					localStorage.setItem('authData', responseData)
+				}
 				// toast.success(postData?.msg)
 			}
 			else if (postError?.msg) {
@@ -434,8 +414,9 @@ function UpdateUser () {
 			if (postError) {
 				toast.error(rSwitch.msg)
 			} else if (postData) {
-				toast.success(rSwitch.msg)
+				toast.success(`${rSwitch.msg}${(postData?.data)?'. Updating details':'.'}`)
 			}
+			// (postData?.data)?navigate('/success', {state: {currentPage: `/${authData.role}`, time: 20}}):togglePasswordForm()
 			togglePasswordForm()
 		}
 	}, [rSwitch])

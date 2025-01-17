@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { FaSync, FaSpinner } from 'react-icons/fa';
 // import { AuthContext } from './checkAuth/AuthContext';
 import { RotContext } from './RotContext';
@@ -78,13 +78,10 @@ export const RefreshProvider = ({ children }) => {
     }
     useEffect(() => {
         if (refreshing) {
-            const delay = setTimeout(() => {
-                setRefreshing(false);
-                console.log('Reset refreshing to false');
-            });
-            return () => clearTimeout(delay);
+            setRefreshing(false);
+            navigate('/success', { state: {currentPage, time: 50}})
         }
-        navigate('/success', { state: {currentPage, time: 50}})
+        // navigate('/success', { state: {currentPage, time: 50}})
     }, [refreshing])
     console.log('last line: ');
     const refreshIcon = (

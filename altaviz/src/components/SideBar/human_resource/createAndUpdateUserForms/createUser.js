@@ -1,7 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import styled from "styled-components"
-// import { FaEye, FaEyeSlash } from 'react-icons/fa';
-// import SubmitNotification from '../../bbbbbnotifications/submitNotification/SubmitNotification';
 import { FetchContext } from "../../../context/FetchContext";
 import useGetWithEncryption from "../../../paginationComp/useGetWithEncryption";
 import QueryFieldFromDB from "../QueryFieldFromDB";
@@ -57,11 +55,6 @@ const NewFieldContainer = styled.div`
 // 	'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara',
 // ]
 
-// const styleObj = {
-// 	fontWeight: 'bold',
-// 	margin: '0',
-// 	transition: 'opacity 0.05s ease-out',
-// }
 const style = {
 	input: {
 		padding: "4px",
@@ -86,19 +79,6 @@ const errorStylings = {
 	fontSize: 'small',
 	fontStyle: 'italic',
 }
-// const visiButtonStyle = {
-// 	position: 'absolute',
-// 	right: '125px',
-// 	top: '60%',
-// 	transform: 'translateY(-50%)',
-// 	color: '#999',
-// 	background: 'none',
-// 	border: 'none',
-// 	cursor: 'pointer',
-// 	padding: '0',
-// 	margin: '0',
-// 	fontSize: '20px',
-// }
 
 function CreateUser () {
 	const initailFormValues = {
@@ -149,12 +129,6 @@ function CreateUser () {
 	// const [showNotifi, setShowNotifi] = useState(false);
 	const [rSwitch, setRSwitch] = useState(null)
 	const [dept, setDept] = useState(defaultState);
-	// const [password1, setPassword1] = useState('');
-	// const [password2, setPassword2] = useState('');
-	// const [showPassword1, setShowPassword1] = useState(false);
-	// const [showPassword2, setShowPassword2] = useState(false);
-	// const [passwordCheck, setPasswordCheck] = useState(false);
-	// const [isRequired, setIsRequired] = useState(true);
 	const [showError, setShowError] = useState(false);
 	const refInput = useRef(null);
 	// const [regionStateList, setRegionStateList] = useState(null)
@@ -315,44 +289,6 @@ function CreateUser () {
 		}
 	}, [newUser.location]);
 
-	// const togglePasswordvisi1 = () => {
-	// 	setShowPassword1(!showPassword1);
-	// }
-	// const togglePasswordvisi2 = () => {
-	// 	setShowPassword2(!showPassword2);
-	// }
-
-	// useEffect(() => {
-	// 	if (password1 && password2) {
-	// 		// enforce other checks here
-	// 		setPasswordCheck(password1===password2);
-	// 	}
-	// }, [password1, password2]);
-
-	// useEffect(() => {
-	// 	if (passwordCheck) {
-	// 		setNewUserError({
-	// 			...newUserError,
-	// 			password1: '',
-	// 			password2: '',
-	// 		})
-	// 		setNewUser({
-	// 			...newUser,
-	// 			password: password1||password2,
-	// 		});
-	// 	} else if (!passwordCheck && newUser.password1 !== '' && newUser.password2 !== '') {
-	// 		setNewUserError({
-	// 			...newUserError,
-	// 			password1: 'Passwords do not match',
-	// 			password2: 'Passwords do not match',
-	// 		})
-	// 		setNewUser({
-	// 			...newUser,
-	// 			password: '',
-	// 		});
-	// 	}
-	// }, [passwordCheck, newUser.password1, newUser.password2]);
-
 	const validateForm = () => {
 		const required = 'Required*';
 		// console.log('validateForm fxn');
@@ -479,17 +415,6 @@ function CreateUser () {
 				}));
 			}
 		}
-		// else if (name === 'password1'||name === 'password2') {
-		// 	setNewUser(prevState => ({
-		// 		...prevState,
-		// 		[name]: value,
-		// 	}));
-		// 	if (name === 'password1') {
-		// 		setPassword1(value);
-		// 	} else if (name === 'password2') {
-		// 		setPassword2(value);
-		// 	}
-		// }
 		else {
 			setNewUser(prevState => ({
 				...prevState,
@@ -522,9 +447,6 @@ function CreateUser () {
 				)
 				if ((typeof(value)==='string') && (key!=='aboutme'&&
 				key!=='email'&&
-				// key!=='password'&&
-				// key!=='password1'&&
-				// key!=='password2'&&
 				key!=='phone'&&key!=='wphone'&&
 				key!=='profile_picture'&&key!=='address'&&key!=='dob')) {
 					console.log('key', key, '#####')
@@ -663,11 +585,7 @@ function CreateUser () {
 		'\nnewUser.newLocation:', newUser.newLocation,
 		'\nnewUser.role:', newUser.role,
 		'\nnewUser.region:', newUser.region,
-		// '\nnewUser.password1:', newUser.password1,
-		// '\nnewUser.password2:', newUser.password2,
 		'\nnewUser.password:', newUser.password,
-		// '\npassMatch:', passMatch.current,
-		// '\npasswordCheck:', passwordCheck,
 	)
 	const DisplayError = ({fieldName }) => {
 		// Split the string by spaces or other delimiter if necessary
@@ -683,12 +601,6 @@ function CreateUser () {
 		}
 		return null;
 	};
-	// console.log(
-	// 	'\nDBResponse:', DBResponse.current,
-	// 	'\ncompletedChecks:', completedChecks.current,
-	// 	'\nvaluesAllGood:', valuesAllGood.current,
-	// 	'\nfieldsExist:', fieldsExist.current,
-	// )
 	return (
 		<>
 			<div className="dash-form">
@@ -788,10 +700,6 @@ function CreateUser () {
 													onChange={HandleUserCreationInputChange}
 													>
 														<option style={styles.selectOpts}>Select State</option>
-														{/* {stateStatesList &&
-														stateStatesList.map((stateName, i) => (
-															<option key={i} value={stateName.name}>{toSentenceCase(stateName.name)}</option>
-														))} */}
 														{stateStatesList &&
 														stateStatesList.map((stateName, i) => (
 															<option key={i} value={stateName.name}>{toSentenceCase(stateName.name)}</option>
@@ -877,10 +785,6 @@ function CreateUser () {
 													value="Enter a New Location">Enter a New Location</option>
 														{stateLocationsList &&
 														stateLocationsList.map((selectedLocation, i) => {
-															// console.log(
-															// 	'selectedLocation:', selectedLocation,
-															// 	'selectedLocation.location:', selectedLocation.location
-															// )
 															return (<option key={i} value={`${selectedLocation.location}-${selectedLocation.id}`}>{toSentenceCase(selectedLocation.location)}</option>
 														)})}
 													</SelectItem>}
@@ -1007,9 +911,6 @@ function CreateUser () {
 												id="email"
 												style={style.input}
 												value={newUser.email}
-												// required={isRequired}
-												// onFocus={handleFocus}
-												// onBlur={handleBlur}
 												onChange={HandleUserCreationInputChange}
 												placeholder=' Required'
 												/>
@@ -1104,70 +1005,10 @@ function CreateUser () {
 														))}
 													</SelectItem>
 												</div>
-												{/* {console.log(
-													'gender error:', newUserError?.gender,
-													'\nstate error:', newUserError?.state,
-													'\nbank error:', newUserError?.bank,
-													'\nbank value:', newUser?.bank,
-													'\nshow error:', showError,
-												)} */}
 												{<DisplayError
 												fieldName='gender' />}
 											</div>
 										</div>
-										{/* ............... password and confirmation ................ */}
-										{/* <div className="user-fields-row">
-											<div className="input-field">
-												<Label htmlFor="password1">Password:</Label>
-												<div style={{ position: 'relative' }}>
-													<input
-													type={showPassword1 ? 'text' : 'password'}
-													name="password1"
-													id="password1"
-													style={style.input}
-													value={newUser.password1}
-													onChange={HandleUserCreationInputChange}
-													placeholder=' Required'
-													/>
-													<button
-													type="button"
-													onClick={togglePasswordvisi1}
-													style={{
-														...visiButtonStyle,
-													}}
-													>
-														{showPassword1 ? <FaEyeSlash /> : <FaEye />}
-													</button>
-												</div>
-												{<DisplayError fieldName='password1' />}
-												{!passwordCheck && <span style={{...errorStylings}}>{newUserError.password1}</span>}
-											</div>
-											<div className="input-field">
-												<Label htmlFor="password2">Password confirmation:</Label>
-												<div style={{ position: 'relative' }}>
-													<input
-													type={showPassword2 ? 'text' : 'password'}
-													name="password2"
-													id="password2"
-													style={style.input}
-													value={newUser.password2}
-													onChange={HandleUserCreationInputChange}
-													placeholder=' Required'
-													/>
-													<button
-													type="button"
-													onClick={togglePasswordvisi2}
-													style={{
-														...visiButtonStyle,
-													}}
-													>
-														{showPassword2 ? <FaEyeSlash /> : <FaEye />}
-													</button>
-												</div>
-												{<DisplayError fieldName='password2' />}
-												{!passwordCheck && <span style={{...errorStylings}}>{newUserError.password2}</span>}
-											</div>
-										</div> */}
 										{/* ............... address and username ................ */}
 										<div className="user-fields-row">
 											<div className="input-field">

@@ -1,11 +1,6 @@
-import { createContext, useCallback, useState, useContext, useEffect } from "react";
+import { createContext, useCallback, useState, useContext, useEffect, useRef } from "react";
 import { RotContext } from "../RotContext";
-// import { AuthContext } from "../checkAuth/AuthContext";
-// import { useNavigate}
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { useLocation } from 'react-router-dom';
-// import { CSSTransition } from "react-transition-group";
-// import './login.css'
 
 export const LoginContext = createContext();
 function CsrfToken() {
@@ -15,34 +10,12 @@ function CsrfToken() {
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
 export const LoginProvider = ({ children }) => {
-    const urlCheck = useLocation().pathname.split('/')
-    // const [isLogin, setIsLogin] = useState(false);
     const [authData, setAuthData] = useState(null);
     const [authLoading, setAuthLoading] = useState(false);
     const [authError, setAuthError] = useState(null);
     // const [redirecting, setRedirecting] = useState(false); // Tracks if transition should start
     const { encrypt, RotCipher, decrypt } = useContext(RotContext);
     const toDashboard = useNavigate()
-
-    // efficient idea required here
-    useEffect(() => {
-        const authdatakey = localStorage.getItem('authData');
-        const listKey = (localStorage.getItem('allUnresolvedKey')?localStorage.getItem('allUnresolvedKey'):(localStorage.getItem('allPendingRequests')))
-        // console.log('authdatakey', authdatakey)
-        if (authdatakey && listKey && urlCheck[1] === 'login') {
-            const decodedData = JSON.parse(RotCipher(authdatakey, decrypt));
-            // setAuthData(decodedData);
-            console.log(
-                '\ndecodedData', decodedData,
-                '\nredirectUrl:', `/${decodedData?.role}`,
-                '\nurlCheck:', urlCheck[1],
-            )
-
-            // Redirect to the dashboard if already authenticated and on the login page
-            toDashboard(`/${decodedData.role}`);
-        }
-        // setIsLogin(false);
-    }, [urlCheck]);
 
     // login function
     const Login = useCallback(
@@ -78,25 +51,8 @@ export const LoginProvider = ({ children }) => {
                 localStorage.setItem('authData', encodedData);
                 console.log('saving data 111111111:', data)
 
-                // Start transition
-                // setRedirecting(true);
-
-                // Delay redirection until the transition ends
-                // setTimeout(() => {
                 toDashboard(`/${data?.role || "/"}`);
-                // }, 300); // Match this to the duration of your CSS animation
-
-                // to redirect and Refresh the page on succcess
-                // toDashboard(`/${data?.role || '/'}`)
-                 // to Refresh the page on succcess
                 window.location.reload();
-                // try {
-                //     console.log(`tring to redirect to: /${data.department.name}`)
-                //     redirectToPage(`/${data.department.name}`)
-                // } catch {
-                //     console.log('settled for: /home instead')
-                //     redirectToPage('/')
-                // }
                 
                 console.log('data (API) #####:', data);
                 return { success: true, data };
@@ -114,12 +70,6 @@ export const LoginProvider = ({ children }) => {
         }
     }, []);
     console.log('authData (API):', authData);
-    // console.log(
-        // '\ndecodedData', decodedData,
-        // '\nredirectUrl:', `/${decodedData?.role}`,
-        // '\nurlCheck:', urlCheck[1],
-    // )
-    // if (urlCheck[1] === 'login') setIsLogin(true)
 
    // Logout function
     const Logout = useCallback(async () => {

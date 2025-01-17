@@ -1,10 +1,28 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { LoginContext } from "./LoginOutContext";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import styled from "styled-components";
+import { AuthContext } from "../checkAuth/AuthContext";
 // import { CSSTransition } from "react-transition-group";
-// import { useNavigate } from 'react-router-dom'
-// import './login.css'
+import { Link, useNavigate } from 'react-router-dom'
 
+const Button = styled.button`
+	padding: 10px;
+	font-size: 16px;
+	color: #fff;
+	background-color: #B5B5BD;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.2s;
+	&:hover {
+		background-color: #A5A5B9;
+	}
+	&:active {
+		backgroundColor: #909090;
+		transform: scale(0.9)
+	}
+`
 const styles = {
 	container: {
 		maxWidth: "400px",
@@ -41,34 +59,19 @@ const styles = {
 		border: "1px solid #ccc",
 		borderRadius: "4px",
 	},
-	button: {
-		padding: "10px",
-		// margin: "0 140px",
-		fontSize: "16px",
-		color: "#fff",
-		backgroundColor: "#B5B5BD",
-		border: "none",
-		borderRadius: "4px",
-		cursor: "pointer",
-		transition: "background-color 0.3s, transform 0.2s",
-	},
-	buttonHover: {
-		backgroundColor: "#A5A5B9", // Darker shade for hover
-	},
-	buttonActive: {
-		backgroundColor: "#909090", // Even darker shade for active
-		transform: "scale(0.99)", // Slightly shrink the button
-	},
 	error: {
 		color: "red",
 		fontSize: "14px",
 		textAlign: "center",
 	},
 	successMessage: {
-		marginTop: "20px",
-		textAlign: "center",
-		color: "green",
-		fontSize: "16px",
+		// marginTop: "20px",
+		// textAlign: "center",
+		color: "#909099",
+		fontSize: "small",
+		fontStyle: "italic",
+		marginTop: '-10px'
+		
 	},
 };
 const visiButtonStyle = {
@@ -86,32 +89,16 @@ const visiButtonStyle = {
 }
 
 function LoginForm() {
-	// const toDashboard = useNavigate()
+	const { authData } = useContext(AuthContext);
+	const navigate = useNavigate()
 	const refInput = useRef(null);
-	const [isHover, setIsHover] = useState(false);
-	const [isActive, setIsActive] = useState(false);
 	const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-	useEffect(() => {
-        refInput.current.focus();
-    }, [])
-	// const [loginTrigger, setLoginTrigger] = useState(false);
-
-	const getButtonStyle = () => {
-		let buttonStyle = { ...styles.button };
-		if (isHover) {
-			buttonStyle = { ...buttonStyle, ...styles.buttonHover };
-		}
-		if (isActive) {
-			buttonStyle = { ...buttonStyle, ...styles.buttonActive };
-		}
-		return buttonStyle;
-	};
 
 	// post setup
 	// let result;
-	const { Login, authData, authLoading, authError } = useContext(LoginContext);
+	const { Login, authLoading, authError } = useContext(LoginContext);
 	const handleLogin = async () => {
 		const result = await Login(email, password, true);
 		if (result?.success) {
@@ -121,6 +108,10 @@ function LoginForm() {
 		}
 			// setLoginTrigger(false);ogagadafetite@gmail.com
 	};
+	useEffect(() => {
+        refInput.current.focus();
+		if (authData) navigate(`/${authData.role}`)
+    }, [authData])
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
@@ -185,24 +176,19 @@ function LoginForm() {
 					</div>
 				</div>
 				{/* <button type="submit" style={styles.button} disabled={authLoading}> */}
-				<button
+				<Button
 					type="submit"
 					disabled={authLoading}
-					style={getButtonStyle()}
-					onMouseEnter={() => setIsHover(true)}
-					onMouseLeave={() => setIsHover(false)}
-					onMouseDown={() => setIsActive(true)}
-					onMouseUp={() => setIsActive(false)}
 				>
 					{authLoading ? "Logging in..." : "Login"}
-				</button>
+				</Button>
+				<Link
+				to={'password-reset'}
+				style={styles.successMessage}>
+					Forgot password
+				</Link>
 				{authError && <p style={styles.error}>{authError}</p>}
 			</form>
-			{/* {authData && (
-				<div style={styles.successMessage}>
-					<p>Welcome back, {authData.username}!</p>
-				</div>
-			)} */}
 		</div>
 	);
 }

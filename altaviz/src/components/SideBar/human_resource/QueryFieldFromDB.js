@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
-function QueryFieldFromDB({ query, callbackOnDataChange }) {
+function QueryFieldFromDB({ query, callbackOnDataChange, passwordReset=null }) {
 	let queryData = query.split('-')
 	let qtype = queryData[queryData.length - 2];
 	let qtext = queryData[queryData.length - 1];
@@ -160,26 +160,29 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 	const displayStylings = {
 		fontSize: 'small',
 		fontStyle: 'italic',
+		margin: '0',
 	}
 	return (
 		<div>
-			{loading && <span style={{...displayStylings, color: '#777'}}>checking ...</span>}
-			{error && <span style={{...displayStylings, color: 'red'}}>{error}</span>}
+			{loading && <p style={{...displayStylings, color: '#777'}}>checking ...</p>}
+			{error && <p style={{...displayStylings, color: 'red'}}>{error}</p>}
 
 			{emailResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!emailResponse ? 'red' : 'green')}}>{qtext} is {!!emailResponse ? 'Already taken' : 'Available'}</span>
+				!passwordReset ?
+				<p style={{...displayStylings, color: (!!emailResponse ? 'red' : 'green')}}>{qtext} is {!!emailResponse ? 'Already taken' : 'Available'}</p> :
+				<p style={{...displayStylings, color: (!!emailResponse ? 'green' : 'red')}}>{qtext} {!!emailResponse ? 'exists' : 'does not exist'} (For demonstration only)</p>
 			)}
 			{usernameResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!usernameResponse ? 'red' : 'green')}}>{qtext} is {!!usernameResponse ? 'Already taken' : 'Available'}</span>
+				<p style={{...displayStylings, color: (!!usernameResponse ? 'red' : 'green')}}>{qtext} is {!!usernameResponse ? 'Already taken' : 'Available'}</p>
 			)}
 			{newBankResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!newBankResponse ? 'red' : 'green')}}>{qtext} is {!!newBankResponse ? 'Already taken' : 'Available'}</span>
+				<p style={{...displayStylings, color: (!!newBankResponse ? 'red' : 'green')}}>{qtext} is {!!newBankResponse ? 'Already taken' : 'Available'}</p>
 			)}
 			{newLocationResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!newLocationResponse ? 'red' : 'green')}}>{qtext} is {!!newLocationResponse ? 'Already taken' : 'Available'}</span>
+				<p style={{...displayStylings, color: (!!newLocationResponse ? 'red' : 'green')}}>{qtext} is {!!newLocationResponse ? 'Already taken' : 'Available'}</p>
 			)}
 			{newBranchResponse !== null && !loading && (
-				<span style={{...displayStylings, color: (!!newBranchResponse ? 'red' : 'green')}}>{qtext} is {!!newBranchResponse ? 'Already taken' : 'Available'}</span>
+				<p style={{...displayStylings, color: (!!newBranchResponse ? 'red' : 'green')}}>{qtext} is {!!newBranchResponse ? 'Already taken' : 'Available'}</p>
 			)}
 			{console.log(
 				'\nqrole:', qrole,
@@ -187,9 +190,9 @@ function QueryFieldFromDB({ query, callbackOnDataChange }) {
 				)}
 			{roleResponse !== null && !loading && (
 				(qrole==='help desk'||qrole==='supervisor') ?
-				(<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</span>):
+				(<p style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{qtext} region is {!!roleResponse ? 'already' : 'yet to be'} assigned {(qrole==='help desk') ? 'an' : 'a'} {qrole}</p>):
 				((qrole==='engineer'||qrole==='custodian') &&
-				<span style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{!!roleResponse?`${qtext} is yet to be designated to ${roleResponse===3?'a supervisor and help desk':roleResponse===2?'a supervisor':roleResponse===1?'an help desk':null}`:'All good here'}</span>)
+				<p style={{...displayStylings, color: (!!roleResponse ? 'red' : 'green')}}>{!!roleResponse?`${qtext} is yet to be designated to ${roleResponse===3?'a supervisor and help desk':roleResponse===2?'a supervisor':roleResponse===1?'an help desk':null}`:'All good here'}</p>)
 			)}
 		</div>
 	);

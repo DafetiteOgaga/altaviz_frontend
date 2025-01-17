@@ -223,11 +223,6 @@ function NotificationDropdownMenu({
 	useEffect(() => {
 		let newList;
 		if (notiList) {
-			// console.log(
-			// 	'\nnotiList:', notiList,
-			// 	'\nvariableContext:', variableContext,
-			// 	'\nurlPath:', urlPath,
-			// )
 			if (handler === 'help-desk' || handler === 'supervisor'||
 				handler === 'human-resource') {
 				// for helpdesk, supervisor, human-resource components
@@ -241,10 +236,6 @@ function NotificationDropdownMenu({
 				// account update noti in human resouce component
 				newList = accountUpdate(notiList);
 				setCleanedList(newList)
-			// } else if (handler === 'unapprovedHandler') {
-			// 	// parts posted noti in human resouce component
-			// 	newList = unapprovedHandler(notiList);
-			// 	setCleanedList(newList)
 			} else if (handler === 'userHandler') {
 				// parts posted noti in workshop component
 				newList = userHandler(notiList);
@@ -260,15 +251,8 @@ function NotificationDropdownMenu({
 				setCleanedList(newList)
 			}
 		}
-		// console.log(
-		// 	'\nnewList', newList,
-		// 	'\nnotiList', notiList,
-		// );
 	}, [notiList])
 
-	// console.log('\ncleanedList for', variableContext, ':', cleanedList);
-	// console.log('\nrole:', role)
-	// console.log('totalDataFaults33333:', totalData.total);
 	const clickAll = 'Click to See All'
 	// console.log('\nbutton:', button)
 	return (
