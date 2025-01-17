@@ -40,3 +40,4 @@ export function RemoveAllKeysButAuth () {
 		console.log(`removed key: ${key}`);    // Log the key that was removed
 	}
 }
+
