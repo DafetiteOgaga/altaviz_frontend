@@ -1,20 +1,21 @@
 import './App.css';
+// import logo from './me.png';
 import './components/fonts.css';
 import SideBar from './components/SideBar/sidebarComponent/SideBar';
 import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
 import Announcements from './components/announcement/Announcements';
-// import useSilentUpdate from './components/context/RealTimeNotificationContext/SilentUpdate';
 import UpdateInBackground from './components/context/RealTimeNotificationContext/UpdateInBackground';
 import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import useDeviceType from './components/deviceType/DeviceType';
 import altaviz from './logo/altaviz_logo.png';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
-// import { useChatNotification } from './components/context/RealTimeNotificationContext/useChatsNotification';
+// import { AuthContext } from './components/context/checkAuth/AuthContext';
 
 function App() {
+	// const { authData } = useContext(AuthContext)
 	// const { createNotification } = useChatNotification();
 	// createNotification('online', 'IT FUCKING WORKED again!!!')
 	const [, setReload] = useState(false)
@@ -49,13 +50,19 @@ function App() {
 						<div style={{ paddingBottom: '1em' }}>
 							<Header />
 							<div className="body-minus-header">
-								<div className="sub-root">
+								<div
+								// style={mAndTstyle.pageContainer.background}
+								// className={authData?"sub-root":""}
+								className="sub-root"
+								>
+									{/* {authData && */}
 									<div>
-										<SideBar
-										// NotificationCount={chatsUpdates?.notificationCount||0}
-										className="sidebar" />
-										<Announcements />
+									<SideBar
+									// NotificationCount={chatsUpdates?.notificationCount||0}
+									className="sidebar" />
+									<Announcements />
 									</div>
+									{/* } */}
 									<main>
 										<div className="main-background">
 											<AppRoutes />
