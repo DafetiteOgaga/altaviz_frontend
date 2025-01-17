@@ -118,7 +118,7 @@ function PasswordResetRequest() {
 	}
 	// let formData = new FormData();
 	const setTrigger = (e) => {
-		e.preventDefault()
+		// e.preventDefault()
 		if (email.trim()!=='') {
 			const newFormData = new FormData();
 			newFormData.append('email', email);
