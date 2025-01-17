@@ -212,32 +212,6 @@ function LogFault() {
 														onChange={handleInputChange}>
 														<option style={styles.selectOpts}>Select Fault</option>
 														{
-														// ['Select Fault',
-														// 'Blank Screen',
-														// 'Cash Jam',
-														// 'Card Not Smart',
-														// 'Poor Facial Image',
-														// 'Unable to Clear/Load Cash',
-														// 'ATM not Dispensing notes',
-														// 'Reject Bin Full',
-														// 'Dispenser not Spinning',
-														// 'Dispenser spins too many times without paying',
-														// 'ATM/Dispenser dirty',
-														// 'Screen Touch/Buttons not working',
-														// 'ATM Screen buttons not working',
-														// 'Too many ATM card rejects',
-														// 'Trappng cards',
-														// 'Card cannot be Read',
-														// 'Pin pad keys not working',
-														// 'ATM not Booting Up',
-														// 'Cash counter reset on power disruption',
-														// 'High Rejects',
-														// 'Calibration Unsuccessful',
-														// 'No Good Cassetes',
-														// 'Out of Service',
-														// 'Unable to Print Counter',
-														// ]
-
 														// <option key={`${fault}-${faultIndex}`} value={fault}></option>
 														faultNamesList.map((fault, faultIndex) => (
 															<option key={`${fault.pathname}-${faultIndex}`} value={fault.name}>
@@ -278,15 +252,6 @@ function LogFault() {
 											{/* </div> */}
 										</>
 										))}
-										{/* {noselection && <p
-										style={{
-											margin: '0',
-											fontSize: '0.9rem',
-                                            color: 'red',
-                                            fontWeight: 'light',
-											fontStyle: 'italic',
-										}}
-										>You must make atleast one selection in fault the input field.</p>} */}
 										</div>
 										<div className="">
 									</div>
