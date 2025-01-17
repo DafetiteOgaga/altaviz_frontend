@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import { useRefreshContext } from "../../context/RefreshContext";
 // import useForceDBPullWEncryption from '../../paginationComp/useForceDBPullWEncryption';
+import CheckSessionComponent from "../../context/loginAuth/CheckSession";
 
 function Dashboard() {
 	const { authData } = useContext(AuthContext);
@@ -25,7 +26,8 @@ function Dashboard() {
 		'\ncustodianCheck:', custodianCheck,
 		'\ncheck:', separateChars('8038091572'),
 	)
-	// console.log()
+	const sessionCheck = CheckSessionComponent()
+	console.log('sessionCheck:', sessionCheck)
 	return (
 		<>
 			<div style={{paddingTop: '2rem'}}>
