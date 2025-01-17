@@ -119,14 +119,14 @@ export const FetchProviders = ({ children }) => {
 								// redirect to put starts here
 								if (userConfirmed) {
 									// console.log('using put request')
-									const putResponse = await fetch(`${apiBaseUrl}/${url}`, {
+									const patchReResponse = await fetch(`${apiBaseUrl}/${url}`, {
 										method: "PATCH",
 										body: formData,
 									});
-									if (putResponse.ok) {
-										const putResponseData = await putResponse.json();
+									if (patchReResponse.ok) {
+										const patchReResponseData = await patchReResponse.json();
 										// console.log('PATCH response', putResponseData);
-										setPostData(putResponseData);
+										setPostData(patchReResponseData);
 
 										if (redirectToPage) {
 											redirectTo("/success");
@@ -138,7 +138,9 @@ export const FetchProviders = ({ children }) => {
 									} else {
 										console.log(`Error POSTING or PATCHING data for ${url}: ${response.statusText}`)
 										setPostError('Could not PATCH request.');
-										throw new Error("Could not PATCH request.");
+										const rePatResponseErr = await response.json();
+										if (rePatResponseErr?.msg) throw new Error(rePatResponseErr.msg);
+										else throw new Error("Could not PATCH request.");
 									}
 								} else {
 									// Cancel action
@@ -158,7 +160,9 @@ export const FetchProviders = ({ children }) => {
 								return () => clearTimeout(timer);
 							}
 						} else {
-							throw new Error("Could not post request.");
+							const posResponseErr = await response.json();
+							if (posResponseErr?.msg) throw new Error(posResponseErr.msg);
+							else throw new Error("Oopsy! could not post request.");
 						}
 					}
 				} catch (error) {
@@ -248,7 +252,9 @@ export const FetchProviders = ({ children }) => {
 							}
 						} else {
 							console.log(`Error PUTTING data for ${url}: ${response.statusText}`)
-							throw new Error("Could not PUT request.");
+							const putResponseErr = await response.json();
+							if (putResponseErr?.msg) throw new Error(putResponseErr.msg);
+							else throw new Error("Could not PUT request.");
 						}
 					}
 				} catch (error) {
@@ -343,7 +349,9 @@ export const FetchProviders = ({ children }) => {
 							}
 						} else {
 							console.log(`Error PATCHING data for ${url}: ${response.statusText}`);
-							throw new Error("Could not patch request.");
+							const patResponseErr = await response.json();
+							if (patResponseErr?.msg) throw new Error(patResponseErr.msg);
+							else throw new Error("Could not patch request.");
 						}
 					}
 				} catch (error) {
@@ -438,7 +446,9 @@ export const FetchProviders = ({ children }) => {
 						} else {
 							// console.log(('0'+7).repeat(times))
 							console.log(`Error DELETING data for ${url}: ${response.statusText}`);
-							throw new Error("Could not delete request.");
+							const delResponseErr = await response.json();
+							if (delResponseErr?.msg) throw new Error(delResponseErr.msg);
+							else throw new Error("Could not delete request.");
 						}
 					}
 				} catch (error) {
