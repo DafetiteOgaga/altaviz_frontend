@@ -76,7 +76,7 @@ function RequestBar ({allRequests, total=null, page, type=null, found=null}) {
 				<div className="dash-form">
 					<div>
 						<h4 style={{display: 'flex'}}>
-							{!type && 'Requests'}
+							{(!type&&requestUrlType[1]!=='human-resource'&&requestUrlType[1]!=='workshop'&&requestUrlType[1]!=='engineer') && 'Requests'}
 							{type === 'faultSearch' && `Found ${found}`}
 							{(type&&type!=='faultSearch') && type + ' '}{requestType === 'component'?'Components':(requestType === 'part'?'Parts':((type&&type!=='faultSearch')?'Items':null))} {(requestUrlType[1] === 'workshop' && requestType === 'part')?'Posted':(requestType==='items'?null:(requestUrlType[1]==='human-resource'?partType:'Request'))} {requestUrlType[1]!=='human-resource'&&'List'} {(type&&type!=='faultSearch') && refreshIcon}
 							{total && ' ('+total+' ' + (total===1?'Item':'Items') + ')'}
