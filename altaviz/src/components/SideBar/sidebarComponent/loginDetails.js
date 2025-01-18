@@ -42,6 +42,7 @@ function LoginDetails () {
 											<ul style={{listStyleType: 'none'}}>
 												{listOfAllAccounts?.map((user, index) => {
 													// console.log('\nuser:', user)
+													// console.log('\nuser:', user)
 													return(
 														<>
 															<li key={index}>
