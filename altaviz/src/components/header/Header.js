@@ -3,7 +3,7 @@ import logo from '../../logo/altaviz_logo.png';
 import Navigation from './Navigation';
 import { useNavigate } from 'react-router-dom';
 import "./header.css"
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../context/checkAuth/AuthContext';
 
@@ -27,6 +27,8 @@ const Button = styled.button`
 `
 
 function Header() {
+	const [showHeader, setShowHeader] = useState(true); // Tracks if the header is visible
+  	const [lastScrollY, setLastScrollY] = useState(0); // Tracks the last scroll position
 	const { authData } = useContext(AuthContext)
 	const navigateTo = useNavigate();
 	// Check if the key 'updating' is present in localStorage
@@ -52,8 +54,48 @@ function Header() {
 			};
 		}
 	}, [isUpdating]);
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollY = window.scrollY;
+
+			if (currentScrollY > lastScrollY && currentScrollY > 50) {
+			// Scrolling down and passed threshold
+			setShowHeader(false);
+			} else {
+			// Scrolling up
+			setShowHeader(true);
+			}
+
+			setLastScrollY(currentScrollY);
+		};
+
+		// Add scroll listener
+		window.addEventListener('scroll', handleScroll);
+
+		// Cleanup scroll listener on unmount
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [lastScrollY]);
 	return (
-		<header>
+		<header
+		style={{
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			right: 0,
+			height: '90px',
+			display: 'flex',
+			alignItems: 'center',
+			boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+			zIndex: 1000,
+			transition: 'transform 0.3s ease',
+			transform: showHeader ? 'translateY(0)' : 'translateY(-100%)', // Slide out on hide
+		}}
+		// style={{
+		// 	position: 'fixed',
+		// 	zIndex: '100',
+        //     width: '90%',
+		// }}
+		>
 			<div className='logo-nav'>
 				<a
 				href='/'
@@ -69,6 +111,8 @@ function Header() {
 			<div style={{
 				display: 'flex',
 				flexDirection: 'row',
+				// alignItems: 'center',
+				// justifyContent: 'center',
 			}}>
 				{isUpdating&&<span id='headerNotificationDot' style={headerStyles.notificationDot}></span>}
 				<h6>Beta v10.11.138</h6>
