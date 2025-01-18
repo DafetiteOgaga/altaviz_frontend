@@ -254,38 +254,66 @@ const ChatRoom = () => {
 									}}>
 									{message?.message&&
 									<>
-										{/* User Avatar */}
-										<img
-										src={`${apiBaseUrl}${(isUsername)?(authData.profile_picture):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.profile_picture)}`}
-										alt={`${(isUsername)?(authData.first_name):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name)}'s avatar`}
-										style={styles.avatar}/>
+										
 
 										<div>
-											{/* Message Content */}
+											
+											
 											<div
 											style={{
 												...styles.message,
-												alignSelf: (isUsername)?"flex-end":"flex-start",
+												// alignSelf: (isUsername)?"flex-end":"flex-start",
 												// backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
-												display: 'flex', flexDirection: 'row',
+												display: 'flex',
+												flexDirection: (isUsername) ? 'row-reverse' : 'row',
+												// width: "150%",
 											}}>
+												{/* User Avatar */}
+												<img
+												src={`${apiBaseUrl}${(isUsername)?(authData.profile_picture):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.profile_picture)}`}
+												alt={`${(isUsername)?(authData.first_name):(everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name)}'s avatar`}
+												style={styles.avatar}/>
+
 												{/* user first name */}
 												<strong style={{
 													...styles.noWrapText,
-													backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
-													padding: '0 0 0 10px', borderRadius: (isUsername)?'10px 0 0 10px':'10px 0 0 0',
+													alignSelf: "center",
+													// backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+													padding: (isUsername)?'':'0 0 0 5px',
+													borderRadius: (isUsername)?'10px 0 0 10px':'10px 0 0 0',
 													}}>
-													{(isUsername)?'You':toSentenceCase(message?.user?.first_name||'')}
+													{(isUsername)?'You  ':toSentenceCase(message?.user?.first_name+':'||'')}
 												</strong>
-													{/* message */}
-													<span style={{
-														...styles.noWrapText,
-														backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
-														padding: '0 10px 0 0', borderRadius: (isUsername)?'0 10px 0 0':'0 10px 10px 0',
-														}}>: {isMessage}</span>
+													
 											</div>
-											{/* timestamp */}
-											<span style={{...styles.timestampST, flexDirection: (isUsername)?"row-reverse":"row"}}>{when}</span>
+											<div
+											style={{
+												marginLeft: (isUsername)?null:'30px',
+												marginRight: (isUsername)?'30px':null,
+												// (isUsername)?{marginLeft: '30px'}:null,
+												// (isUsername)?null:marginRight: '30px',
+												// backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+												// padding: '10px',
+												
+											}}>
+												<div
+												style={{
+													backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+													padding: '0 10px',
+													borderRadius: (isUsername)?'10px 0 10px 10px':'0 10px 10px 10px',
+												}}>
+												{/* message */}
+												<span style={{
+													boxSizing: 'border-box',
+												// ...styles.noWrapText,
+												// backgroundColor: (isUsername)?"#cac6f85b":"#7b7b8177",
+												// padding: (isUsername)?'':'10px',
+												// borderRadius: (isUsername)?'0 10px 0 0':'0 10px 10px 0',
+												}}>{isMessage}</span>
+												</div>
+												{/* timestamp */}
+												<span style={{...styles.timestampST, flexDirection: (isUsername)?"row-reverse":"row"}}>{when}</span>
+											</div>
 										</div>
 									</>}
 								</div>
@@ -427,7 +455,7 @@ const styles = {
 		overflowY: "auto", // Enable vertical scrolling
 		display: "flex",
 		flexDirection: "column-reverse", // Reverse the order of the messages (newest at the bottom)
-		gap: "10px",
+		gap: "5px",
 	},
 	newMessage: {
 		backgroundColor: 'rgb(197, 197, 248)'     ,
@@ -469,17 +497,18 @@ const styles = {
 	message: {
 		padding: "o 10px 0 0",
 		borderRadius: "8px",
-		maxWidth: "70%",
+		// maxWidth: "70%",
 		wordWrap: "break-word",
 	},
 	noWrapText: {
-		whiteSpace: 'nowrap',
+		whiteSpace: 'pre',
+		// whiteSpace: 'nowrap',
 		// overflow: 'hidden',
 		// textOverflow: 'ellipsis'
 	},
 	timestampST: {
 		color: 'grey',
-		fontSize: '12px',
+		fontSize: '11px',
 		display: 'flex',
 		fontStyle: 'italic',
 	},
