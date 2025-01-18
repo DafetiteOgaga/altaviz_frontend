@@ -5,6 +5,37 @@ import { LoginContext } from '../../context/loginAuth/LoginOutContext';
 import { AuthContext } from '../../context/checkAuth/AuthContext';
 // import { listenForUpdates, stopListening } from '../../context/RealTimeNotificationContext/useChatsNotification';
 import { useChatNotification } from '../../context/RealTimeNotificationContext/useChatsNotification';
+// import FlashyButton from './FlashyButton';
+import styled, { keyframes } from "styled-components";
+
+// Define the keyframes
+const flash = keyframes`
+	0% {
+		background-position: 0% 50%;
+	}
+		100% {
+		background-position: 100% 50%;
+	}
+`;
+
+const glow = keyframes`
+	0% {
+		box-shadow: 0 0 5px #2A2A5F;
+	}
+	100% {
+		box-shadow: 0 0 5px #3E3E87;
+	}
+`;
+
+// Create the styled button
+const FlashyButton = styled.a`
+	background: linear-gradient(45deg, #B5B5BD, #3E3E87, #FBFBFB);
+	background-size: 200% 200%;
+	padding: 1rem 0;
+	border-radius: 5px;
+	transition: transform 0.2s ease;
+	animation: ${flash} 1.5s infinite alternate, ${glow} 2s infinite;
+`
 
 const getTotalValue = (data) => {
 	const totalNotification = Object.entries(data?.firebaseChatValue?.sendersList||{})
@@ -62,18 +93,32 @@ function Sidebar() {
 			console.log('\ntotalNotification:', totalNotification);
 			setChatNotification(totalNotification)
 		});
-	}, [authData,
-		// fromContext,
-		// listenForUpdates, stopListening
-	]);
+	}, [authData,]);
 	console.log('chatNotification:'.repeat(5), chatNotification)
-
+	const handleClick = () => {
+		console.log("flah Button Clicked! from sidebar");
+		// alert("Styled-Component Button Clicked!");
+	};
 	return (
 		<aside className='side-bar'>
 			<nav>
 				<h2>Sections</h2>
 				<ul className='sidebar-ul'>
 					{/* <Link to="/"><li>Home</li></Link> */}
+					<FlashyButton href='##'
+					onClick={(e)=>{e.preventDefault();redirectTo('/login-details')}}>
+						<li
+						style={{
+							padding: 0,
+							backgroundColor: 'transparent',
+							boxShadow: 'none',
+							color: '#fff',
+							// whiteSpace: 'pre',
+							// fontSize: '1rem',
+						}}>
+							{'Get Logins'}
+						</li>
+					</FlashyButton>
 					<Link style={dept==='custodian'?null:disableStyles} to={`/${dept}`}><li>Custodian</li></Link>
 					<Link style={dept==='workshop'?null:disableStyles} to={`/${dept}`}><li>Workshop</li></Link>
 					<Link style={dept==='engineer'?null:disableStyles} to={`/${dept}`}><li>Engineer</li></Link>
