@@ -27,7 +27,7 @@ function LoginDetails () {
 			<div className="background-color custodian-page">
 				<div className="dash-form">
 					<div>
-						<h4>Note: This page is for demonstration purposes only and will be removed when application is in use.</h4>
+						<h4>Note: This page is for <span style={{color: 'red'}}>demonstration and inspection purposes only</span> and will be removed when application is in use.</h4>
 						<p>
 							<span>This is a list of all the accounts that has been created on the app so far.</span><br/>
 							<span>Password for all these accounts is: <strong>password123</strong></span>
