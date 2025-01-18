@@ -32,6 +32,7 @@ import UserProcessedList from '../SideBar/faults/forEngineers/UserProcessedList'
 import EngineerToLocation from '../SideBar/faults/forEngineers/engineerToLocation';
 import Profile from '../profile/Profile';
 import ChatRoom from '../SideBar/chatsSetup/ChatRoom';
+import LoginDetails from '../SideBar/sidebarComponent/loginDetails';
 
 function AppRoutes() {
   return (
@@ -47,6 +48,7 @@ function AppRoutes() {
         <Route path="/login/password-reset" element={<PasswordResetRequest />} />
         <Route path="/reset-password/:uid/:token" element={<PasswordRestConfirm />} />
         <Route path="/reset-update-password/" element={<PasswordUpdateReset />} />
+        <Route path="/login-details" element={<LoginDetails />} />
         <Route path="/test-auth" element={<AuthenticationForm />} />
         <Route path="/test" element={<Testfetchapi />} />
         {/* private routes */}
