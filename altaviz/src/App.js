@@ -52,7 +52,8 @@ function App() {
 					<div className="app-container">
 						<div style={{ paddingBottom: '1em' }}>
 							<Header />
-							<div className="body-minus-header">
+							<div style={{ marginTop: '7rem' }}
+							className="body-minus-header">
 								<div
 								// style={mAndTstyle.pageContainer.background}
 								// className={authData?"sub-root":""}
