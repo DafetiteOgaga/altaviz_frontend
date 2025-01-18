@@ -12,14 +12,14 @@ function OnlineStatus({id, currentBuddy=null, typing=null, onlineIDs}) {
 		observer(id, (observedStatus) => {
 			setStatus(observedStatus);
 			if ((observedStatus==='online'||observedStatus==='typing')&&
-				!onlineIDs.current.includes(id)
+				!onlineIDs?.current?.includes(id)
 			) {
 				console.log('for', id, observedStatus)
 				// console.log({onlineIDs})
-				if (onlineIDs) onlineIDs.current = [...onlineIDs?.current, id]
+				if (onlineIDs) onlineIDs.current = [...onlineIDs.current, id]
 			}
-			if (observedStatus==='offline'&&onlineIDs.current?.includes(id)) {
-				onlineIDs.current = onlineIDs.current.filter(item => item!==id)
+			if (observedStatus==='offline'&&onlineIDs?.current?.includes(id)) {
+				onlineIDs.current = onlineIDs?.current?.filter(item => item!==id)
 			}
 		});
 
