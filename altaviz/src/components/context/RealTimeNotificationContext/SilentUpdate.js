@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import usePullNotification from '../../paginationComp/usePullNotification';
 import usePullCompleteList from '../../paginationComp/usePullCompleteList';
 import { AuthContext } from '../checkAuth/AuthContext';
-
+import { setKeyToLocalStorage } from '../../hooks/setToLocalStorage';
 
 const assignNotifications = (notificationUrlRef, notificationKeyRef, url, key, logPrefix) => {
 	console.log(
@@ -28,11 +28,15 @@ const UpdateStatus = (nTotalNotifications) => {
 	if (getLocalValue) {
 		const [currNum, totalNum] = getLocalValue.split('/')
 		if (currNum!==totalNum) {
-			localStorage.setItem('updateCounter', Number(currNum)+1+'/'+totalNum)
+			// localStorage.setItem('updateCounter', Number(currNum)+1+'/'+totalNum)
+			setKeyToLocalStorage('updateCounter', Number(currNum)+1+'/'+totalNum)
 		} else {
 			localStorage.removeItem('updateCounter')
 		}
-	} else {localStorage.setItem('updateCounter', 1+'/'+nTotalNotifications.current)}
+	} else {
+		// localStorage.setItem('updateCounter', 1+'/'+nTotalNotifications.current)
+		setKeyToLocalStorage('updateCounter', 1+'/'+nTotalNotifications.current)
+	}
 }
 
 function useSilentUpdate (firebaseNotification) {
@@ -147,7 +151,8 @@ function useSilentUpdate (firebaseNotification) {
 		if (websocketAlert!=='deliveries point') {
 			const reg = notificationText?.split('-')[1]
 			// websocketAlert = notificationText?.split('-')[0]
-			localStorage.setItem('updating', `${reg}/${authData.region.name} > ${websocketAlert}`)
+			// localStorage.setItem('updating', `${reg}/${authData.region.name} > ${websocketAlert}`)
+			setKeyToLocalStorage('updating', `${reg}/${authData.region.name} > ${websocketAlert}`)
 			forceUpdates.current = true
 		} else {websocketAlert = null}
 		console.log({firebaseKey})
