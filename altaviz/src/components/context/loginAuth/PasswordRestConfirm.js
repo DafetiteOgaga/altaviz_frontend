@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { PasswordCheckFxn } from "../../SideBar/human_resource/createAndUpdateUserForms/password";
 import { FetchContext } from "../FetchContext";
 import { toast } from "react-hot-toast";
+import CheckResetLink from "./CheckResetLink";
 
 const Button = styled.button`
 	padding: 10px;
@@ -96,6 +97,7 @@ const visiButtonStyle = {
 }
 
 function PasswordRestConfirm() {
+	const checkLink = CheckResetLink()
 	const { usePostDataAPI } = useContext(FetchContext);
 	const trigger = useRef(false);
 	const urlData = useParams()
@@ -115,6 +117,7 @@ function PasswordRestConfirm() {
 		userPassword, setUserPassword,
 		passwordError, setPasswordError
 	)
+
 	const setTrigger = (e) => {
 		// e.preventDefault()
 		if (passwordCheck) {
@@ -151,7 +154,7 @@ function PasswordRestConfirm() {
 		}
 	}, [postData, postLoading, postError])
 	useEffect(() => {
-        refInput.current.focus();
+        refInput?.current?.focus();
     }, [])
 	const handleInput = (e) => {
 		e.preventDefault()
@@ -182,6 +185,7 @@ function PasswordRestConfirm() {
 		'\npostLoading:', postLoading,
 		'\nurlData:', urlData,
 		'\nuid:', urlData.uid,
+		'\ntimer:', urlData.timer,
 		'\ntoken:', urlData.token,
 	)
 	useEffect(() => {
@@ -193,7 +197,8 @@ function PasswordRestConfirm() {
 		}
 	}, [delayRender])
 	return (
-		<div style={styles.container}>
+		checkLink &&
+			(<div style={styles.container}>
 			<h4 style={styles.header}>Password Reset</h4>
 			<form
 				onSubmit={(e) => {
@@ -256,7 +261,7 @@ function PasswordRestConfirm() {
 				{(postError&&delayRender)&&<p style={styles.error}>{postError}</p>}
 				{/* {authError && <p style={styles.error}>{authError}</p>} */}
 			</form>
-		</div>
+		</div>)
 	);
 }
 
