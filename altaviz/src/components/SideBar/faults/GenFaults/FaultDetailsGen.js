@@ -11,6 +11,7 @@ import { CheckAndFetchFromStorage } from "../../../hooks/fetchFromClient";
 import RequestItem from '../../requestForms/RequestItem';
 import { toast } from 'react-hot-toast';
 import RemoveKeys from '../../../hooks/RemoveKeys';
+import { setKeyToLocalStorage } from "../../../hooks/setToLocalStorage";
 
 function FaultDetailsGen({searchFaults}) {
 	const navigate = useNavigate();
@@ -262,7 +263,8 @@ function FaultDetailsGen({searchFaults}) {
 						// })
 
 						encodedData = RotCipher(JSON.stringify(updatedFaults), encrypt)
-						localStorage.setItem(localPK, encodedData);
+						// localStorage.setItem(localPK, encodedData);
+						setKeyToLocalStorage(localPK, encodedData);
 
 						if (encodedData) {console.log('Added item to localStorage')}
 					}
@@ -289,7 +291,8 @@ function FaultDetailsGen({searchFaults}) {
 					})
 					const tempUpdatevalue = updatedData // delete
 					updatedData = RotCipher(JSON.stringify(updatedData), encrypt)
-					localStorage.setItem('allUnresolvedKey', updatedData);
+					// localStorage.setItem('allUnresolvedKey', updatedData);
+					setKeyToLocalStorage('allUnresolvedKey', updatedData);
 					console.log('allUnresolvedKey has been updated with:', tempUpdatevalue)
 				}
 				if (FaultParamDetals.dept==='custodian') {
@@ -314,8 +317,10 @@ function FaultDetailsGen({searchFaults}) {
 				console.log({patchTrigger})
 				if (FaultParamDetals.dept==='custodian') {
 					const getOldData = localStorage.getItem(allFaultsKey)
-					localStorage.setItem(`temp-${allFaultsKey}`, getOldData)
-					localStorage.setItem('temporaryIDValue', FaultParamDetals.id)
+					// localStorage.setItem(`temp-${allFaultsKey}`, getOldData)
+					// localStorage.setItem('temporaryIDValue', FaultParamDetals.id)
+					setKeyToLocalStorage(`temp-${allFaultsKey}`, getOldData)
+					setKeyToLocalStorage('temporaryIDValue', FaultParamDetals.id)
 					toast.success('Fault has been successfully confirmed')
 				}
 				if (FaultParamDetals.dept==='supervisor'||FaultParamDetals.dept==='human-resource') {
@@ -383,7 +388,8 @@ function FaultDetailsGen({searchFaults}) {
 					})
 					const tempUpdatevalue = updatedData
 					updatedData = RotCipher(JSON.stringify(updatedData), encrypt)
-					localStorage.setItem('allUnresolvedKey', updatedData);
+					setKeyToLocalStorage('allUnresolvedKey', updatedData);
+					// localStorage.setItem('allUnresolvedKey', updatedData);
 					console.log('allUnresolvedKey has been updated with:', tempUpdatevalue)
 
 					// responseDataValue.msg
