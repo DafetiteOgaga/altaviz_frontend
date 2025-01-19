@@ -1,7 +1,8 @@
 import { createContext, useCallback, useState, useContext, useEffect, useRef } from "react";
 import { RotContext } from "../RotContext";
 import { useNavigate } from 'react-router-dom';
-import { RemoveAllKeys } from "../../hooks/RemoveKeys";
+import { RemoveAllKeys, cleanUpLocalStorage } from "../../hooks/RemoveKeys";
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 export const LoginContext = createContext();
 function CsrfToken() {
@@ -49,8 +50,8 @@ export const LoginProvider = ({ children }) => {
 
                 // Store user data in localStorage
                 const encodedData = RotCipher(JSON.stringify(data), encrypt)
-                localStorage.setItem('authData', encodedData);
-                // localStorage.setItem('lVT', new Date().getTime());
+                // localStorage.setItem('authData', encodedData);
+                setKeyToLocalStorage('authData', encodedData)
                 console.log('saving data 111111111:', data)
 
                 window.location.href = `/${data?.role || "/"}`
@@ -91,6 +92,7 @@ export const LoginProvider = ({ children }) => {
                 // Remove user data from localStorage
                 console.log('deleting user data 333333')
                 RemoveAllKeys()
+                cleanUpLocalStorage()
 
                 // to redirect and Refresh the page on succcess
                 toDashboard('/')
