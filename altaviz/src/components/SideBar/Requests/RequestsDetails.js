@@ -10,6 +10,7 @@ import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { RotContext } from "../../context/RotContext";
 import RemoveKeys from "../../hooks/RemoveKeys";
 import { toast } from'react-hot-toast'
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 const getRequests = (localPendingFaults, id, requestType) => {
 	console.log(
@@ -242,12 +243,15 @@ function RequestsDetails() {
 						console.log(
 							'\nupdating:', `${requestType}${keyList[i]}`
 						)
-						localStorage.setItem(`${requestType}${keyList[i]}`, updaterequests)
+						// localStorage.setItem(`${requestType}${keyList[i]}`, updaterequests)
+						setKeyToLocalStorage(`${requestType}${keyList[i]}`, updaterequests)
 					}
 					if (requestParamDetails.dept==='human-resource') {
 						const getOldData = localStorage.getItem(allRequestsKey)
-						localStorage.setItem(`temp-${allRequestsKey}`, getOldData)
-						localStorage.setItem('temporaryIDValue', requestParamDetails.id)
+						// localStorage.setItem(`temp-${allRequestsKey}`, getOldData)
+						// localStorage.setItem('temporaryIDValue', requestParamDetails.id)
+						setKeyToLocalStorage(`temp-${allRequestsKey}`, getOldData)
+						setKeyToLocalStorage('temporaryIDValue', requestParamDetails.id)
 					}
 				}
 				if (requestType==='part') removeList = ['partKey', 'totalpartKey']
