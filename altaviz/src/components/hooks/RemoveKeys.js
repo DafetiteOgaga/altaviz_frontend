@@ -38,9 +38,16 @@ export function RemoveAllKeysButAuth () {
 }
 
 // clean up up
-function cleanUpLocalStorage() {
+function cleanUpLocalStorage(key=null) {
 	const localList = localstorageList()
 	if (!localList || localList.length === 0) return;
+	if (localStorage.getItem(key)) {
+		const allKeys = [];
+		for (let i = 0; i < localStorage.length; i++) {
+			allKeys.push(localStorage.key(i)); // Use localStorage.key(i) to get the key at index i
+		}
+		processList(allKeys); // Pass the list of all keys to processList
+	}
 	const total = localList.length
 	let counter = 0
 	for (const key of localList) {

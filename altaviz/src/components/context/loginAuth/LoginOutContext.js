@@ -92,8 +92,7 @@ export const LoginProvider = ({ children }) => {
                 // Remove user data from localStorage
                 console.log('deleting user data 333333')
                 RemoveAllKeys()
-                localStorage.removeItem('authData')
-                cleanUpLocalStorage()
+                cleanUpLocalStorage('authData')
 
                 // to redirect and Refresh the page on succcess
                 toDashboard('/')
