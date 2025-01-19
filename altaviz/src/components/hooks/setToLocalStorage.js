@@ -1,12 +1,12 @@
 const setKeyList = (item) => {
-	// const keyList = localStorage.getItem('altavizKeys');
-	// if (!keyList) {
-	// 	localStorage.setItem('altavizKeys', JSON.stringify([item]));
-	// } else {
-	// 	const updatedList = JSON.parse(keyList);
-	// 	if (!updatedList.includes(item)) updatedList.push(item);
-	// 	localStorage.setItem('altavizKeys', JSON.stringify(updatedList));
-	// }
+	const keyList = localStorage.getItem('altavizKeys');
+	if (!keyList) {
+		localStorage.setItem('altavizKeys', JSON.stringify([item]));
+	} else {
+		const updatedList = JSON.parse(keyList);
+		if (!updatedList.includes(item)) updatedList.push(item);
+		localStorage.setItem('altavizKeys', JSON.stringify(updatedList));
+	}
 }
 
 function setKeyToLocalStorage (key, value) {
