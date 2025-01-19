@@ -140,7 +140,7 @@ function Sidebar() {
 					{apiBaseUrl==='http://127.0.0.1:8000' &&
 					<>
 						{/* <Link to="/chatroom"><li>Chat Room</li></Link> */}
-						<Link to="/reset-password/:uid/:token"><li>confirm reset</li></Link>
+						<Link to="/reset-password/:uid/:timer/:token"><li>confirm reset</li></Link>
 						<Link to="/login/password-reset"><li>password reset</li></Link>
 						<Link to="/reset-update-password"><li>password update done</li></Link>
 						<Link to="/test-auth"><li>test authentication</li></Link>
