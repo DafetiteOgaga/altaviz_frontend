@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../checkAuth/AuthContext';
 import { RemoveAllKeys } from '../../hooks/RemoveKeys';
+import { setKeyToLocalStorage } from '../../hooks/setToLocalStorage';
 
 const CheckSessionComponent = () => {
 	// const navigate = useNavigate();
@@ -38,11 +39,13 @@ const CheckSessionComponent = () => {
 					// navigate('/login'); // Redirect to login page
 				} else console.log('not clearing user authentication')
 				console.log('updated lastVisitTime')
-				localStorage.setItem('lVT', new Date().getTime());
+				// localStorage.setItem('lVT', new Date().getTime());
+				setKeyToLocalStorage('lVT', new Date().getTime())
 			} else if (!lastVisitTime&&authData) {
 				// If no last login time is found, redirect to login
 				console.log('no lastVisitTime, so created one')
-				localStorage.setItem('lVT', new Date().getTime());
+				// localStorage.setItem('lVT', new Date().getTime());
+				setKeyToLocalStorage('lVT', new Date().getTime())
 				// navigate('/login');
 			}
 		};
