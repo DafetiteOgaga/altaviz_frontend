@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
+import { setKeyToLocalStorage } from "../hooks/setToLocalStorage";
 // import { useLocation } from 'react-router-dom'
 // import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
@@ -93,7 +94,8 @@ function usePullCompleteList(
 				ntracker.current = true
 				if (variableContext) {
 					let encodedData = RotCipher(JSON.stringify(listData), encrypt)
-					localStorage.setItem(variableContext, encodedData)
+					// localStorage.setItem(variableContext, encodedData)
+					setKeyToLocalStorage(variableContext, encodedData)
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
