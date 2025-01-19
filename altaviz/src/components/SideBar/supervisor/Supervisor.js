@@ -25,9 +25,13 @@ function Supervisor() {
 			if (!isSearchOpen) {
 				localStorage.removeItem('searchData');
 			}
+			if (!isUserDetailsFormOpen) {
+				localStorage.removeItem('notCustodian');
+				localStorage.removeItem('custodian');
+			}
             // localStorage.removeItem('searchData');
         };
-    }, [isSearchOpen]);
+    }, [isSearchOpen, isUserDetailsFormOpen]);
 	return (
 		<>
 			<div className="background-color custodian-page">
