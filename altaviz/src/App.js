@@ -12,6 +12,7 @@ import useDeviceType from './components/deviceType/DeviceType';
 import altaviz from './logo/altaviz_logo.png';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
+import { cleanUpLocalStorage } from './components/hooks/RemoveKeys';
 // import CheckSessionComponent from './components/context/loginAuth/CheckSession';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
 	const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 	console.log('\napiBaseUrl url:', apiBaseUrl)
 	console.log({deviceType})
+	cleanUpLocalStorage()
 	// console.log('sessionCheck:', sessionCheck)
 	// console.log('chatsUpdates?.noonCou', chatsUpdates?.notific
 	return (
