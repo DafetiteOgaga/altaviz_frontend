@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
+import { setKeyToLocalStorage } from "../hooks/setToLocalStorage";
 
 function usePaginationWithEncryption(
 	baseUrl,
@@ -131,8 +132,10 @@ function usePaginationWithEncryption(
 			const encodedData = RotCipher(JSON.stringify(localDataStoreVar), encrypt)
 			const encodedPaginationDetails = RotCipher(JSON.stringify(PaginationDetails), encrypt)
 			// console.log('encoded data:', encodedData)
-			localStorage.setItem(storageName, encodedData);
-			localStorage.setItem(`pagi-${storageName}`, encodedPaginationDetails);
+			// localStorage.setItem(storageName, encodedData);
+			// localStorage.setItem(`pagi-${storageName}`, encodedPaginationDetails);
+			setKeyToLocalStorage(storageName, encodedData)
+			setKeyToLocalStorage(`pagi-${storageName}`, encodedPaginationDetails)
 			console.log(
 				'\n888888888888888888888888888888888888888888888888',
 				'\n888888888888888888888888888888888888888888888888',
