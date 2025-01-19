@@ -8,6 +8,7 @@ import { SentenceCaseContext } from "../../../context/SentenceCaseContext";
 import CreateInventoryName from "./CreateInventoryName";
 import UpdateInventoryItems from "../addItemToInventory/UpdateInventoryItems";
 import { useNavigate } from 'react-router-dom';
+import { setKeyToLocalStorage } from "../../../hooks/setToLocalStorage";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl url:', apiBaseUrl)
@@ -43,8 +44,9 @@ function Inventory() {
 			console.log('inventoryComponents with encryption: ', inventoryComponents)
 			if (inventoryComponents?.getData) {
 				const data = inventoryComponents.getData
-				const encodedData = RotCipher(JSON.stringify(data), encrypt)
-				localStorage.setItem('inventoryComponents', encodedData)
+				// const encodedData = RotCipher(JSON.stringify(data), encrypt)
+				// localStorage.setItem('inventoryComponents', encodedData)
+				// setKeyToLocalStorage('inventoryComponents', encodedData)
 				setComponentInventoryList(data)
 				console.log('setting/updating'.toUpperCase())
 				// }
@@ -60,8 +62,8 @@ function Inventory() {
 			if (inventoryParts.getData) {
 				// creates and/or updates the localStorage
 				const data = inventoryParts.getData
-				const encodedData = RotCipher(JSON.stringify(data), encrypt)
-				localStorage.setItem('inventoryParts', encodedData)
+				// const encodedData = RotCipher(JSON.stringify(data), encrypt)
+				// localStorage.setItem('inventoryParts', encodedData)
 				setParttInventoryList(data)
 				console.log('setting/updating'.toUpperCase())
 				// handleRefresh(['inventoryComponents', 'inventoryParts'])
