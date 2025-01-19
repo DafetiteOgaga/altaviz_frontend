@@ -309,7 +309,7 @@ function FaultDetailsGen({searchFaults}) {
 				});
 			}
 			if (patchTrigger) {
-				console.log('EEEEEEEEEEEEEEEEEEEEEE'.repeat(7))
+				console.log('EEEEEEEEEEEEEEEEEEEkEEE'.repeat(7))
 				setPatchTrigger(() => {
 					console.log('\nsetting Trigger from ', patchTrigger, ' to ', !patchTrigger)
 					return false
