@@ -7,6 +7,7 @@ import { RotContext } from '../../context/RotContext';
 // import PendingPartRequestNotifi from '../engineer/delete/bbbbbbbbbbbbnotificationsEngineer/PendingPartRequestNotifi';
 // import { useLocationon } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { setKeyToLocalStorage } from '../../hooks/setToLocalStorage';
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl:', apiBaseUrl)
@@ -87,7 +88,8 @@ const FaultSearch = () => {
                 // encode and save a copy of the response
                 const encodedFaultData = RotCipher(JSON.stringify(faultData.results), encrypt)
                 // console.log('encoded:', encodedData)
-                localStorage.setItem('searchData', encodedFaultData);
+                // localStorage.setItem('searchData', encodedFaultData);
+                setKeyToLocalStorage('searchData', encodedFaultData);
 
             } catch (error) {
                 console.error('Error searching faults:', error); // Handle errors
@@ -116,7 +118,8 @@ const FaultSearch = () => {
                     // encode and save a copy of the response
                     const encodedRequestData = RotCipher(JSON.stringify(requestData.results), encrypt)
                     // console.log('encoded:', encodedData)
-                    localStorage.setItem('searchRequestData', encodedRequestData);
+                    // localStorage.setItem('searchRequestData', encodedRequestData);
+                    setKeyToLocalStorage('searchRequestData', encodedRequestData);
     
                 } catch (error) {
                     console.error('Error searching requests:', error); // Handle errors

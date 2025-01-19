@@ -20,6 +20,7 @@ import User from '../user/user';
 import LoginForm from '../context/loginAuth/LoginForm';
 import PasswordResetRequest from '../context/loginAuth/PasswordResetRequest';
 import PasswordRestConfirm from '../context/loginAuth/PasswordRestConfirm';
+// import CheckResetLink from '../context/loginAuth/CheckResetLink';
 import PasswordUpdateReset from '../success/PasswordUpdateReset';
 import PrivateRoute from '../context/checkAuth/PrivateRoute';
 import AuthenticationForm from '../context/loginAuth/AuthenticationForm';
@@ -46,7 +47,7 @@ function AppRoutes() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/login/password-reset" element={<PasswordResetRequest />} />
-        <Route path="/reset-password/:uid/:token" element={<PasswordRestConfirm />} />
+        <Route path="/reset-password/:uid/:timer/:token" element={<PasswordRestConfirm />} />
         <Route path="/reset-update-password/" element={<PasswordUpdateReset />} />
         <Route path="/login-details" element={<LoginDetails />} />
         <Route path="/test-auth" element={<AuthenticationForm />} />

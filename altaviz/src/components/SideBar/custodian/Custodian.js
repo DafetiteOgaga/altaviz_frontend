@@ -1,7 +1,7 @@
 import Dashboard from "../dashboard/Dashboard";
 import LogFault from "./LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Notification from '../notification/Notification';
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
 
@@ -20,6 +20,15 @@ function Custodian() {
 		justifyContent: 'space-around',
 		padding: '1rem 0'
 	}
+	useEffect(() => {
+        return () => {
+			if (!isDetailsFormOpen) {
+				localStorage.removeItem('notCustodian');
+				localStorage.removeItem('custodian');
+			}
+            // localStorage.removeItem('searchData');
+        };
+    }, [isDetailsFormOpen]);
 	return (
 		<>
 			<div className="background-color custodian-page">

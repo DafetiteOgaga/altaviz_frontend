@@ -9,6 +9,7 @@ import { RotContext } from "../../../context/RotContext";
 import { toast } from 'react-hot-toast';
 import Passwords from "./password";
 import { useNavigate } from 'react-router-dom';
+import { setKeyToLocalStorage } from "../../../hooks/setToLocalStorage";
 
 const MainButtonContainer = styled.div`
 	display: flex;
@@ -67,7 +68,7 @@ function UpdateUser () {
 		wphone: authData?.wphone,
 		address: authData?.address,
 		aboutme: authData?.aboutme,
-		profile_picture: null,
+		profile_picture: authData?.profile_picture,
 	}
 
 	const [rSwitch, setRSwitch] = useState(null)
@@ -109,8 +110,6 @@ function UpdateUser () {
 			setPostTrigger(true)
 		}
 		console.log('data:', data)
-		// url.current = data.data
-		// setPostTrigger(true)
 	}
 	console.log('\nurl:', url.current)
 	const { postData, postLoading, postError } = usePostDataAPI(
@@ -398,7 +397,8 @@ function UpdateUser () {
 					console.log('responseData:', responseData)
 					responseData = RotCipher(responseData, encrypt)
 					console.log('responseData:', responseData)
-					localStorage.setItem('authData', responseData)
+					// localStorage.setItem('authData', responseData)
+					setKeyToLocalStorage('authData', responseData)
 				}
 				// toast.success(postData?.msg)
 			}
@@ -529,6 +529,12 @@ function UpdateUser () {
 		}
 	}
 	console.log('passwordValue:', passwordValue)
+	console.log(
+		'\ncustodian:', custodian,
+		'\nnotCustodian:', notCustodian,
+		`custodian-details-update/${authData?.branch?.region?.id}/${authData?.branch?.state?.name}/${authData?.branch?.bank?.name}`,
+		`others-details-update/${authData?.region?.id}/${authData?.state?.name}/`,
+	)
 	return (
 		<>
 			<div className="dash-form">
@@ -603,7 +609,7 @@ function UpdateUser () {
 													value={newUser.branch}
 													onChange={(e) => {
 														HandleUserCreationInputChange(e);
-														setBranchID(e.target.value);
+														setBranchID(e.target.options[e.target.selectedIndex].getAttribute('dataId'));
 													}}
 													disabled={!isEditable}
 													>
@@ -623,7 +629,7 @@ function UpdateUser () {
 													<option style={styles.options} value="Enter a New Branch">Enter a New Branch</option>
 													{stateBranchesList &&
 													stateBranchesList.map((branch, i) => (
-														<option key={i} value={branch.id}>
+														<option key={i} value={branch.name} dataId={branch.id}>
 															{toSentenceCase(branch.name)}
 														</option>
 													))}

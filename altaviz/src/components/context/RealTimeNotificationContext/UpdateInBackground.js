@@ -1,6 +1,7 @@
 import { useContext, useRef } from "react";
 import { AuthContext } from "../checkAuth/AuthContext";
 import { useBackgroundUpdate } from "../BackgroundUpdates/BackgroundUpdate";
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 console.log('\napiBaseUrl url:', apiBaseUrl)
@@ -70,7 +71,8 @@ const UpdateInBackground = (firebaseNotification, setReload) => {
 			const reg = notificationText?.split('-')[1]
 
 			// sets updating to indicate and activate the updating style
-			localStorage.setItem('updating', `${reg}/${regionName} > ${websocketAlert}`)
+			// localStorage.setItem('updating', `${reg}/${regionName} > ${websocketAlert}`)
+			setKeyToLocalStorage('updating', `${reg}/${regionName} > ${websocketAlert}`)
 		} else {websocketAlert = null}
 		console.log({firebaseKey})
 		// firebaseNotificationKey.current = firebaseKey

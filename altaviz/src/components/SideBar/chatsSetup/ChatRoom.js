@@ -11,6 +11,7 @@ import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 // import { every, isEqual } from 'lodash';
 import OnlineStatus from "./OnlineStatus";
 // import { update } from 'firebase/database';
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 
 const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
@@ -379,7 +380,8 @@ const ChatRoom = () => {
 						style={{...styles.contactListContainer, backgroundColor: isHovered===index ? '#D9D9DF' : 'transparent',}}
 						onClick={() => {
 							oldID.current = localStorage.getItem('chatID')
-							localStorage.setItem('chatID', avatar.id);
+							// localStorage.setItem('chatID', avatar.id);
+							setKeyToLocalStorage('chatID', avatar.id)
 							setChatID(avatar.id);
 						}}
 						onMouseEnter={() => setIsHovered(index)} // Triggered when the pointer enters
@@ -390,7 +392,8 @@ const ChatRoom = () => {
 							if (e.key === 'Enter') {
 								// e.preventDefault();  // Prevents default form submission behavior
 								oldID.current = localStorage.getItem('chatID')
-								localStorage.setItem('chatID', avatar.id);
+								// localStorage.setItem('chatID', avatar.id);
+								setKeyToLocalStorage('chatID', avatar.id)
 								setChatID(avatar.id);
 							}
 						}}>

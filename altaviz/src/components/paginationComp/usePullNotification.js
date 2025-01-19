@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
+import { setKeyToLocalStorage } from "../hooks/setToLocalStorage";
 // import { useLocation } from 'react-router-dom';
 // import { useWebSocketNotificationContext } from "../context/RealTimeNotificationContext/useWebSocketNotificationContext";
 
@@ -97,7 +98,8 @@ function usePullNotification(
 				ntracker.current = true
 				if (variableContext) {
 					let encodedData = RotCipher(JSON.stringify(notificationData), encrypt)
-					localStorage.setItem(variableContext, encodedData)
+					// localStorage.setItem(variableContext, encodedData)
+					setKeyToLocalStorage(variableContext, encodedData)
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
@@ -114,7 +116,8 @@ function usePullNotification(
 				settotalError(null)
 				if (totalArrayContext&&variableContext) {
 					let totalEncodedData = RotCipher(JSON.stringify(totalNumData), encrypt)
-					localStorage.setItem(totalArrayContext, totalEncodedData)
+					// localStorage.setItem(totalArrayContext, totalEncodedData)
+					setKeyToLocalStorage(totalArrayContext, totalEncodedData)
 				}
 				if (localStorage.getItem('success')) {localStorage.removeItem('success')}
 			}
@@ -123,10 +126,6 @@ function usePullNotification(
 		if ((notificationData&&totalNumData)||(notificationError&&totalNumError)) {
             setGetTrigger(false)
 		}
-		// if (getTrigger) {
-        //     localStorage.setItem(variableContext, JSON.stringify(arrayData))
-        //     localStorage.setItem(totalArrayContext, totalData)
-        // }
 	}, [notificationData, notificationError, totalNumData, totalNumError])
 
 	let updatedData = localStorage.getItem(variableContext)

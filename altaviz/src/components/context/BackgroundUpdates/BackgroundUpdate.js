@@ -1,5 +1,6 @@
 import { RotContext } from "../RotContext";
 import { useContext } from "react";
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 const useBackgroundUpdate = async (endpoints, action=false) => {
 	const {encrypt, RotCipher} = useContext(RotContext);
@@ -23,17 +24,20 @@ const useBackgroundUpdate = async (endpoints, action=false) => {
 				// const localData = JSON.stringify(data)
 				const localData = RotCipher(JSON.stringify(data), encrypt)
 				console.log('localData:'.repeat(10), key, ': =>', localData.slice(0, 60))
-				localStorage.setItem(key, localData)
+				// localStorage.setItem(key, localData)
+				setKeyToLocalStorage(key, localData)
 				const getCurrUpdateValue = localStorage.getItem('updateCounter')
 				if (getCurrUpdateValue) {
 					const [currNum, totalNum] = getCurrUpdateValue.split('/')
 					if (currNum!==totalNum) {
-						localStorage.setItem('updateCounter', Number(currNum)+1+'/'+totalNum)
+						// localStorage.setItem('updateCounter', Number(currNum)+1+'/'+totalNum)
+						setKeyToLocalStorage('updateCounter', Number(currNum)+1+'/'+totalNum)
 					} else {
 						localStorage.removeItem('updateCounter')
 					}
 				} else {
-					localStorage.setItem('updateCounter', 1+'/'+endpoints.length)
+					// localStorage.setItem('updateCounter', 1+'/'+endpoints.length)
+					setKeyToLocalStorage('updateCounter', 1+'/'+endpoints.length)
 				}
 				return data;
 
@@ -41,7 +45,6 @@ const useBackgroundUpdate = async (endpoints, action=false) => {
 			)
 		}));
 		console.log('all endpoints fetched and stored successfully'.repeat(30))
-		// localStorage.setItem('updatedItem', 'inventoryComponents')
 		return responses; // Array of responses, one for each endpoint
 	} catch (error) {
 		console.error("Error fetching data:", error);

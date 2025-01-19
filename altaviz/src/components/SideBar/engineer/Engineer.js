@@ -1,7 +1,7 @@
 // import LogFault from "../custodian/log_fault/LogFault";
 import UpdateUser from "../human_resource/createAndUpdateUserForms/updateUser";
 import Dashboard from "../dashboard/Dashboard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { AuthContext } from "../../context/checkAuth/AuthContext";
 import Notification from "../notification/Notification";
 import FaultListDisplay from "../faults/GenFaults/FaultListDisplay";
@@ -19,6 +19,15 @@ function Engineer() {
 		justifyContent: 'space-around',
 		padding: '1rem 0'
 	}
+	useEffect(() => {
+        return () => {
+			if (!isUserDetailsFormOpen) {
+				localStorage.removeItem('notCustodian');
+				localStorage.removeItem('custodian');
+			}
+            // localStorage.removeItem('searchData');
+        };
+    }, [isUserDetailsFormOpen]);
 	return (
 		<>
 			<div className="background-color custodian-page">

@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/checkAuth/AuthContext";
 import { useFirebase } from "../../context/RealTimeNotificationContext/FirebaseContextNotification";
 import { SentenceCaseContext } from "../../context/SentenceCaseContext";
 import { toast } from 'react-hot-toast'
+import { setKeyToLocalStorage } from "../../hooks/setToLocalStorage";
 
 const TopContainer = styled.div`
 	display: flex;
@@ -321,7 +322,8 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 
 					);
 					encodedData = RotCipher(JSON.stringify(updatedFaults), encrypt)
-					localStorage.setItem(localPK, encodedData);
+					// localStorage.setItem(localPK, encodedData);
+					setKeyToLocalStorage(localPK, encodedData);
 					let allUnresolvedKey = localStorage.getItem('allUnresolvedKey')
 					if (allUnresolvedKey) {
 						allUnresolvedKey = RotCipher(allUnresolvedKey, decrypt)
@@ -333,7 +335,8 @@ function RequestItem({itemName, vKey=null, requestProps=null, toggleForm}) {
 						console.log({allUnresolvedKey})
 						console.log(allUnresolvedKey.length)
 						allUnresolvedKey = RotCipher(JSON.stringify(allUnresolvedKey), encrypt)
-						localStorage.setItem('allUnresolvedKey', allUnresolvedKey);
+						// localStorage.setItem('allUnresolvedKey', allUnresolvedKey);
+						setKeyToLocalStorage('allUnresolvedKey', allUnresolvedKey);
 						console.log('updated allUnresolvedKey in localStorage')
 					}
 					if (encodedData) {console.log('updated', localPK, 'in localStorage')}

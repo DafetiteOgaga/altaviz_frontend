@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { FetchContext } from "../context/FetchContext";
 import { RotContext } from "../context/RotContext";
+import { setKeyToLocalStorage } from "../hooks/setToLocalStorage";
 
 function useGetWEncryptionSingleItem(
 	storageName='temp',
@@ -61,7 +62,8 @@ function useGetWEncryptionSingleItem(
 			// console.log('original save:', localDataStoreVar)
 			const encodedData = RotCipher(JSON.stringify(localDataStoreVar), encrypt)
 			// console.log('encoded:', encodedData)
-			localStorage.setItem(storageName, encodedData);
+			// localStorage.setItem(storageName, encodedData);
+			setKeyToLocalStorage(storageName, encodedData)
 			console.log('updating ##*##: localStorage');
 			console.log(`set ${localDataStoreVar.length} to local storage`)
 		}

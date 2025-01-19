@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { AuthContext } from "../checkAuth/AuthContext";
 // import { CSSTransition } from "react-transition-group";
 import { Link, useNavigate } from 'react-router-dom'
-import { RemoveAllKeys } from "../../hooks/RemoveKeys";
+import { RemoveAllKeys, cleanUpLocalStorage } from "../../hooks/RemoveKeys";
 
 const Button = styled.button`
 	padding: 10px;
@@ -24,70 +24,6 @@ const Button = styled.button`
 		transform: scale(0.9)
 	}
 `
-const styles = {
-	container: {
-		maxWidth: "400px",
-		margin: "100px auto",
-		padding: "20px",
-		backgroundColor: "#f9f9f9",
-		border: "1px solid #ddd",
-		borderRadius: "8px",
-		boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-	},
-	header: {
-		textAlign: "center",
-		marginTop: "0",
-		marginBottom: "10px",
-		color: "#788",
-	},
-	form: {
-		display: "flex",
-		flexDirection: "column",
-		gap: "15px",
-	},
-	inputGroup: {
-		display: "flex",
-		flexDirection: "column",
-	},
-	label: {
-		marginBottom: "5px",
-		fontSize: "14px",
-		color: "#555",
-	},
-	input: {
-		padding: "10px",
-		fontSize: "16px",
-		border: "1px solid #ccc",
-		borderRadius: "4px",
-	},
-	error: {
-		color: "red",
-		fontSize: "14px",
-		textAlign: "center",
-	},
-	successMessage: {
-		// marginTop: "20px",
-		// textAlign: "center",
-		color: "#909099",
-		fontSize: "small",
-		fontStyle: "italic",
-		marginTop: '-10px'
-		
-	},
-};
-const visiButtonStyle = {
-	position: 'absolute',
-	right: '3%',
-	top: '60%',
-	transform: 'translateY(-50%)',
-	color: '#999',
-	background: 'none',
-	border: 'none',
-	cursor: 'pointer',
-	padding: '0',
-	margin: '0',
-	fontSize: '19px',
-}
 
 function LoginForm() {
 	const { authData } = useContext(AuthContext);
@@ -99,7 +35,10 @@ function LoginForm() {
 
 	// post setup
 	// let result;
-	if (localStorage.getItem('lVT')) RemoveAllKeys()
+	if (localStorage.getItem('lVT')&&!localStorage.getItem('authData')) {
+		RemoveAllKeys()
+		cleanUpLocalStorage()
+	}
 	const { Login, authLoading, authError } = useContext(LoginContext);
 	const handleLogin = async () => {
 		const result = await Login(email, password, true);
@@ -194,5 +133,69 @@ function LoginForm() {
 		</div>
 	);
 }
-
 export default LoginForm;
+
+const styles = {
+	container: {
+		maxWidth: "400px",
+		margin: "100px auto",
+		padding: "20px",
+		backgroundColor: "#f9f9f9",
+		border: "1px solid #ddd",
+		borderRadius: "8px",
+		boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+	},
+	header: {
+		textAlign: "center",
+		marginTop: "0",
+		marginBottom: "10px",
+		color: "#788",
+	},
+	form: {
+		display: "flex",
+		flexDirection: "column",
+		gap: "15px",
+	},
+	inputGroup: {
+		display: "flex",
+		flexDirection: "column",
+	},
+	label: {
+		marginBottom: "5px",
+		fontSize: "14px",
+		color: "#555",
+	},
+	input: {
+		padding: "10px",
+		fontSize: "16px",
+		border: "1px solid #ccc",
+		borderRadius: "4px",
+	},
+	error: {
+		color: "red",
+		fontSize: "14px",
+		textAlign: "center",
+	},
+	successMessage: {
+		// marginTop: "20px",
+		// textAlign: "center",
+		color: "#909099",
+		fontSize: "small",
+		fontStyle: "italic",
+		marginTop: '-10px'
+		
+	},
+};
+const visiButtonStyle = {
+	position: 'absolute',
+	right: '3%',
+	top: '60%',
+	transform: 'translateY(-50%)',
+	color: '#999',
+	background: 'none',
+	border: 'none',
+	cursor: 'pointer',
+	padding: '0',
+	margin: '0',
+	fontSize: '19px',
+}
