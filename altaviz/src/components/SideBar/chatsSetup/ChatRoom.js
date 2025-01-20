@@ -374,6 +374,7 @@ const ChatRoom = () => {
 						return user.id!==authData.id
 					})?.map?.((avatar, index) => {
 						const activeNotification = chatNotification?.idList?.includes(avatar.id)
+						console.log('avater:', avatar)
 						return (
 					<div key={index}>
 						<div
@@ -405,7 +406,13 @@ const ChatRoom = () => {
 
 							{/* Name of contact */}
 							<div style={{...styles.message, alignSelf: "flex-start"}}>
-								<strong style={{whiteSpace: 'pre'}}> {toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
+								<strong style={{whiteSpace: 'pre',
+									color: (avatar.role==='engineer')?'brown':
+									(avatar.role==='supervisor')?'darkblue':
+									(avatar.role==='custodian')?'forestgreen':
+									(avatar.role==='workshop')?'darkcyan':
+									(avatar.role==='help-desk')?'darkgoldenrod':'darkmagenta'
+								}}> {toSentenceCase(avatar.first_name)}</strong>: ({avatar.id})<span> </span>
 
 								{/* notification dot alert */}
 								{/* <span style={{...styles.notification, display: (chatNotification?.values?.[avatar.id]?.notificationCount===0||!activeNotification?'none':null), ...((chatNotification?.values?.[avatar.id]?.notificationCount||0)>9?styles.greater:styles.less)}}>{(chatNotification?.idList?.includes(avatar.id))?(chatNotification?.values?.[avatar.id].notificationCount||0):null}</span> */}
