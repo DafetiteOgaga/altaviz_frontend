@@ -45,7 +45,7 @@ function LoginDetails () {
 													// console.log('\nuser:', user)
 													return(
 														<>
-															<li key={index}>
+															<li key={index+user.email}>
 																<div style={{padding: '0.1rem 0'}} className="user-fields-row">
 																<div className="input-field">
 																		<p style={{margin: '0'}}>
@@ -63,7 +63,7 @@ function LoginDetails () {
 																						(user.role==='custodian')?'forestgreen':
 																						(user.role==='workshop')?'darkcyan':
 																						(user.role==='help-desk')?'darkgoldenrod':'darkmagenta'
-																			}}>{toSentenceCase(user?.role)}</span>
+																			}}>{toSentenceCase(user?.role)}</span><span style={{color: 'grey', whiteSpace: 'pre'}}> ({user?.id})</span>
 																		</p>
 																	</div>
 																</div>
