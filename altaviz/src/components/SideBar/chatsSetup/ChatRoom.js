@@ -391,7 +391,7 @@ const ChatRoom = () => {
 						tabIndex="0"
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
-								// e.preventDefault();  // Prevents default form submission behavior
+								// e.preventDefault();
 								oldID.current = localStorage.getItem('chatID')
 								// localStorage.setItem('chatID', avatar.id);
 								setKeyToLocalStorage('chatID', avatar.id)
