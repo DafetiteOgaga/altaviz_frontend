@@ -138,7 +138,7 @@ const ChatRoom = () => {
 	// Function to handle sending messages
 	const handleSendMessage = (e) => {
 		e.preventDefault();
-		// console.log('handleSendMessage() triggered');
+		// console.log('handleSendMessage() triggered')
 		if (currentMessage.trim()) {
 			// console.log('currentMessage:', currentMessage.trim())
 			const newFormData = new FormData();
