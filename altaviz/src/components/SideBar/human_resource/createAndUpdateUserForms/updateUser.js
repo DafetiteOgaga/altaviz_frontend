@@ -402,9 +402,13 @@ function UpdateUser () {
 				}
 				// toast.success(postData?.msg)
 			}
-			else if (postError?.msg) {
-				setRSwitch(postError)
-				// toast.error(postError?.msg)
+			else {
+				if (postError?.msg) {
+					setRSwitch(postError)
+					// toast.error(postError?.msg)
+				} else {
+					setRSwitch(postError)
+				}
 			}
 		}
 	}, [postTrigger, postData, postLoading, postError])
@@ -412,7 +416,7 @@ function UpdateUser () {
 	useEffect(() => {
 		if (rSwitch) {
 			if (postError) {
-				toast.error(rSwitch.msg)
+				toast.error(rSwitch)
 			} else if (postData) {
 				toast.success(`${rSwitch.msg}${(postData?.data)?'. Updating details':'.'}`)
 			}
