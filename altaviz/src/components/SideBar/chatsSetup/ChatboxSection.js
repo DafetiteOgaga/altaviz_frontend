@@ -127,7 +127,7 @@ function Chatbox ({chatsObjs}, ref) {
 	const disableButton = !currentMessage.trim()||postChatLoading
 	const chatStore = localStorage.getItem('chatID')
 	const currentBuddy = chatsObjs?.everyone?.arrayData?.find?.(name=>name.id===currentChatID.current)?.first_name
-	const chatroomHeader = currentBuddy||'Chat Room'
+	const chatroomHeader = currentBuddy?`chats with ${currentBuddy}`:'Chat Room'
 	useEffect(() => {
 		if (currentBuddy && chatStore && apiBaseUrl!=='http://127.0.0.1:8000' && apiBaseUrl!=='http://localhost:8000') {
 			const intervalId = setInterval(() => {
@@ -165,7 +165,7 @@ function Chatbox ({chatsObjs}, ref) {
 				style={{
 					margin: '0',
 					color: currentBuddy?'darkslateblue':''
-				}}>{toSentenceCase('chats with '+chatroomHeader)}</h3>
+				}}>{toSentenceCase(chatroomHeader)}</h3>
 			</div>
 
 			{/* Chat Messages Area */}
