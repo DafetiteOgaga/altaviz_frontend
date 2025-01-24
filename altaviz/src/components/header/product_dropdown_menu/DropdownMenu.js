@@ -4,7 +4,7 @@ import './DropdownMenu.css'
 import GetProductDetails from '../../hooks/GetProductNHeroDetails';
 
 function DropdownMenu () {
-  const products = GetProductDetails();
+  const products = GetProductDetails({type: 'details'});
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = (e) => {
@@ -29,7 +29,8 @@ function DropdownMenu () {
           {products.map(product => {
             // console.log('Product:', product)
             return (
-            <div key={product.id}>
+            <div key={product.id}
+            className='fade-in'>
               <Link to={`/products/product/${product.id}`}><span style={{textWrap: 'nowrap'}}>{product.description.title}</span></Link>
             </div>
           )})}
