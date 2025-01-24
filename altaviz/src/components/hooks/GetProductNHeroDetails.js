@@ -1,4 +1,4 @@
-import ATMDescription from "../context/ATMDescription";
+import ATMDescription from "../products/ATMDescription";
 // import ATMDescriptionSummary from '../context/ATMDescriptionSummary';
 
 function getHeroImages() {
@@ -7,9 +7,15 @@ function getHeroImages() {
 }
 export { getHeroImages };
 
-function GetProductDetails () {
+function GetProductDetails (type) {
 	function getProductImages() {
-		const r = require.context('../../images/product_images/', false, /\.(png|jpe?g|svg)$/);
+		console.log('type:', type)
+		let r
+		if (type?.type === 'details') {
+			r = require.context('../../images/product_images/', false, /\.(png|jpe?g|svg)$/);
+		} else if (type?.type === 'cards') {
+			r = require.context('../../images/card_images/', false, /\.(png|jpe?g|svg)$/);
+		}
 		return r.keys().map(r);
 	}
 	const images = getProductImages();
