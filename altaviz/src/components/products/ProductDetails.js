@@ -15,7 +15,7 @@ function ProductDetails() {
 	const { useNavigation } = useContext(GlobalContext);
     const navigateTo = useNavigate();
 
-	const products = GetProductDetails();
+	const products = GetProductDetails({type: 'details'});
 	const totalProducts = products.length
 	const product = products[id - 1];
 
@@ -48,20 +48,20 @@ function ProductDetails() {
 		// console.log('Current page:', targetId, '########')
 		navigateTo(`/products/product/${targetId}`);
 	}
-	useEffect(() => {
-		const initialImageDisplay = document.getElementById('atm-detail-display-for');
-		const subsequentImageDisplay = document.getElementById('atm-detail-display-for-img');
-		if (product.description.title === 'GRG H34 Series ATM' && initialImageDisplay) {
-			console.log('IF STATEMENT #######')
-			initialImageDisplay.setAttribute('id', 'atm-detail-display-for-img');
-			// console.log('initialDisplay', initialImageDisplay);
-		} else if (product.description.title !== 'GRG H34 Series ATM' && subsequentImageDisplay) {
-			console.log('ELSE STATEMENT #######')
-			subsequentImageDisplay.setAttribute('id', 'atm-detail-display-for');
-			// setTrigger(false);
-			// console.log('subsequentDisplay', subsequentImageDisplay);
-		}
-	}, [product.description.title])
+	// useEffect(() => {
+	// 	const initialImageDisplay = document.getElementById('atm-detail-display-for');
+	// 	const subsequentImageDisplay = document.getElementById('atm-detail-display-for-img');
+	// 	if (product.description.title === 'GRG H34 Series ATM' && initialImageDisplay) {
+	// 		console.log('IF STATEMENT #######')
+	// 		initialImageDisplay.setAttribute('id', 'atm-detail-display-for-img');
+	// 		// console.log('initialDisplay', initialImageDisplay);
+	// 	} else if (product.description.title !== 'GRG H34 Series ATM' && subsequentImageDisplay) {
+	// 		console.log('ELSE STATEMENT #######')
+	// 		subsequentImageDisplay.setAttribute('id', 'atm-detail-display-for');
+	// 		// setTrigger(false);
+	// 		// console.log('subsequentDisplay', subsequentImageDisplay);
+	// 	}
+	// }, [product.description.title])
 
 	return (
 		<>
@@ -91,7 +91,9 @@ function ProductDetails() {
 				</div>
 					<div id="atm-detail-display-for" className="row-view">
 						<div>
-							<img src={product.image} alt={product.description.title} />
+							<img src={product.image} alt={product.description.title}
+							// style={{width: '150%'}}
+							/>
 							{/* benefitts */}
 						</div>
 						<div>

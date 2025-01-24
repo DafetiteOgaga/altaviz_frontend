@@ -2,11 +2,12 @@
 .about-atm-box {
 	display: inline-flex;
 	gap: 3.5rem;
-	animation: homeSlideRight 1s ease-in-out;
+	/* animation: homeSlideRight 1s ease-in-out; */
 }
 
 .about-atm {
-	margin-top: 4rem;
+	margin-top: 3rem;
+	padding-left: 3rem;
 	animation: homeSlideLeft 2s ease-in-out;
 }
 .about-atm p {
@@ -52,4 +53,8 @@
 
 /* .home-animation {
 	animation: homeSlideDown 2s ease-in-out;
+} */
+
+/* .l {
+	object-fit: 
 } */
