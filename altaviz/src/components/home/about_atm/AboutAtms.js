@@ -8,7 +8,7 @@ function AboutAtms() {
 			<div className="about-atm-box">
 				<div>
 					<img src={about_image} alt="about-image"
-					style={{width: '200%',}}
+					style={{width: '150%',}}
 					/>
 				</div>
 				<div className="about-atm">
