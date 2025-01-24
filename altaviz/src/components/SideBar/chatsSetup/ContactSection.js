@@ -74,11 +74,11 @@ function ContactSection({contactObjs, setChatID}) {
 					{/* Name of contact */}
 					<div style={{...styles.message, alignSelf: "flex-start"}}>
 						<strong style={{whiteSpace: 'pre',
-							color: (avatar.role==='engineer')?'brown':
-							(avatar.role==='supervisor')?'darkblue':
-							(avatar.role==='custodian')?'forestgreen':
-							(avatar.role==='workshop')?'darkcyan':
-							(avatar.role==='help-desk')?'darkgoldenrod':'darkmagenta'
+							// color: (!isHovered? '': (avatar.role==='engineer')?'brown':
+							// (avatar.role==='supervisor')?'darkblue':
+							// (avatar.role==='custodian')?'forestgreen':
+							// (avatar.role==='workshop')?'darkcyan':
+							// (avatar.role==='help-desk')?'darkgoldenrod':'darkmagenta')
 						}}> {toSentenceCase(avatar.first_name)}</strong>: <span style={{color: 'grey'}}>({avatar.id})</span>
 
 						{/* notification dot alert */}
@@ -104,6 +104,11 @@ const styles = {
 		flexDirection: "column",
 		height: "650px",
 		// backgroundColor: "#E5E5E5",
+	},
+	chatHeader: {
+		color: "white",
+		textAlign: "center",
+		borderRadius: "8px 8px 0 0",
 	},
 	chatBoxArea: {
 		padding: "0 0 0 20px",
