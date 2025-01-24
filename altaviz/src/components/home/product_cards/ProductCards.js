@@ -12,7 +12,7 @@ const CardContainer = styled.div.attrs({
 	})`
 	perspective: 1000px;
 	width: 250px;
-	height: 350px;
+	height: 340px;
 	position: relative;
 	padding: 0 0.3em;
 	
@@ -172,9 +172,11 @@ const CardContent = styled.div.attrs({
 const CardTitle = styled.h2.attrs({
 	className: 'CardTitle'
 	})`
-	font-size: 1.32rem;
+	font-size: 1.153rem;
 	margin: 0;
 	color: #424040;
+	padding: 0.3rem;
+	// font-weight: '00';
 `;
 
 const CardDescription = styled.p.attrs({
@@ -183,11 +185,12 @@ const CardDescription = styled.p.attrs({
 	font-size: 1rem;
 	color: #424040;
 	margin: 0;
+	padding: 0.7rem 0.3rem 0.3rem 0.3rem;
 `;
 
 const ProductCards = () => {
 	let products = GetProductDetails({type: 'cards'});
-	products = products.splice(0, 4);
+	products = products.splice(0, 5);
 	const navigateTo = useNavigate();
 	console.log('products (ProductCards):', products)
 
@@ -202,7 +205,7 @@ const ProductCards = () => {
 		<div
 			style={{
 				display: 'flex',
-				justifyContent: 'center',
+				justifyContent: 'space-around',
 			}}
 			>
 			{products && (products.map((card, index) => {
@@ -230,7 +233,7 @@ const ProductCards = () => {
 								<CardContent>
 									<CardTitle>Click for More Info</CardTitle>
 									<CardDescription>
-										{card.description.about.slice(0, 600) + '...'}
+										{card.description.about.slice(0, 300) + '...'}
 										{/* {<CardDescription dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.about) }}/>} */}
 										{/* {<div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(card.description.benefits) }}/>} */}
 									</CardDescription>
