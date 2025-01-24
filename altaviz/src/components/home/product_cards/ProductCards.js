@@ -11,7 +11,7 @@ const CardContainer = styled.div.attrs({
 	className: 'CardContainer'
 	})`
 	perspective: 1000px;
-	width: 300px;
+	width: 250px;
 	height: 350px;
 	position: relative;
 	padding: 0 0.3em;
@@ -83,7 +83,7 @@ const CardFace = styled.div.attrs({
 	className: 'CardFace'
 	})`
 	position: absolute;
-	width: 100%;
+	// width: 100%;
 	height: 100%;
 	backface-visibility: hidden; /* Hide the back face */
 	border-radius: 10px;
@@ -103,9 +103,10 @@ const CardBack = styled(CardFace)`
 const CardImage = styled.img.attrs({
 	className: 'CardImage'
 	})`
+	// padding: 10px;
 	width: 100%;
-	height: 200px;
-	object-fit: cover;
+	height: auto;
+	object-fit: contain;
 `;
 
 const CardContent = styled.div.attrs({
@@ -171,7 +172,7 @@ const CardContent = styled.div.attrs({
 const CardTitle = styled.h2.attrs({
 	className: 'CardTitle'
 	})`
-	font-size: 1.5rem;
+	font-size: 1.32rem;
 	margin: 0;
 	color: #424040;
 `;
@@ -185,7 +186,8 @@ const CardDescription = styled.p.attrs({
 `;
 
 const ProductCards = () => {
-	const products = GetProductDetails();
+	let products = GetProductDetails({type: 'cards'});
+	products = products.splice(0, 4);
 	const navigateTo = useNavigate();
 	console.log('products (ProductCards):', products)
 
