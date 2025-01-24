@@ -8,9 +8,8 @@ function AboutAtms() {
 			<div className="about-atm-box">
 				<div>
 					<img src={about_image} alt="about-image"
-					style={{
-						width: '150%',
-					}}/>
+					style={{width: '200%',}}
+					/>
 				</div>
 				<div className="about-atm">
 					<p><strong>Banking:</strong> Enhance branch services with self-service
