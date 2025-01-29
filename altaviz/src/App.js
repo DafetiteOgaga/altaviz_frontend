@@ -5,7 +5,7 @@ import SideBar from './components/SideBar/sidebarComponent/SideBar';
 import Header from './components/header/Header';
 import AppRoutes from './components/Routes/Routes';
 import Footer from './components/footer/Footer';
-import Announcements from './components/announcement/Announcements';
+// import Announcements from './components/announcement/Announcements';
 import UpdateInBackground from './components/context/RealTimeNotificationContext/UpdateInBackground';
 import { useFirebase } from './components/context/RealTimeNotificationContext/FirebaseContextNotification';
 import useDeviceType from './components/deviceType/DeviceType';
@@ -66,7 +66,7 @@ function App() {
 									<SideBar
 									// NotificationCount={chatsUpdates?.notificationCount||0}
 									className="sidebar" />
-									<Announcements />
+									{/* <Announcements /> */}
 									</div>
 									{/* } */}
 									<main>
