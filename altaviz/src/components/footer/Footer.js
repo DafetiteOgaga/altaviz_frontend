@@ -18,7 +18,7 @@ function Footer() {
 		<>
 			<div className="footer">
 				<Link to="/">
-					<img src={logo} alt="company logo" />
+					<img className="img" src={logo} alt="company logo" />
 				</Link>
 			<div>
 				<p>Copyright &copy; {companyName}</p>
