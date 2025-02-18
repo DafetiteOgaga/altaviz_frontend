@@ -93,6 +93,8 @@ const CardFace = styled.div.attrs({
 
 const CardFront = styled(CardFace)`
 	background-color: #fff;
+	display: flex;
+	flex-direction: column;
 `;
 
 const CardBack = styled(CardFace)`
@@ -103,8 +105,9 @@ const CardBack = styled(CardFace)`
 const CardImage = styled.img.attrs({
 	className: 'CardImage'
 	})`
-	// padding: 10px;
-	width: 100%;
+	padding: 20px;
+	justify-content: center;
+	width: 85%;
 	height: auto;
 	object-fit: contain;
 `;
