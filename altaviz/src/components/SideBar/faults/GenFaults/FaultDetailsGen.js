@@ -851,7 +851,7 @@ function FaultDetailsGen({searchFaults}) {
 									{canConfirmOrWithdraw &&
 									(<div
 									style={buttonStyle}>
-										{(faultsItem?.verify_resolve&&!tempDetailsID) &&
+										{(!faultsItem?.requestStatus&&!tempDetailsID) &&
 										<div className="custum-button">
 											<h5
 											onClick={(e) => {
@@ -875,6 +875,11 @@ function FaultDetailsGen({searchFaults}) {
 											</h5>
 										</div>}
 									</div>)}
+									{console.log(
+										'\nnot hasApprovedPartRequests:', !hasApprovedPartRequests,
+										'\nnot hasApprovedComponentRequests:', !hasApprovedComponentRequests,
+										'\nnot faultsItem?.verify_resolve:', !faultsItem?.verify_resolve,
+									)}
 
 									{/* engineer component, part requests and seek buttons */}
 									{(canMakeRequests && !faultsItem?.verify_resolve) &&
