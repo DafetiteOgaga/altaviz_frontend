@@ -1,4 +1,4 @@
-import { isMobile, isTablet, isDesktop } from 'react-device-detect';
+import { isMobile, isTablet, isDesktop, isAndroid } from 'react-device-detect';
 
 function useDeviceType() {
 	let deviceType;
@@ -11,6 +11,8 @@ function useDeviceType() {
 		deviceType = 'PC';
 	}
 
+	return {deviceType, isAndroid};
+
 	// Additional Features
 	// The react-device-detect library also provides more specific checks, such as:
 
@@ -18,8 +20,6 @@ function useDeviceType() {
 	// isWindows, isMacOs
 	// isChrome, isSafari, isFirefox, etc.
 	// You can combine these to detect specific operating systems or browsers if needed.
-
-	return deviceType
 }
 
 export default useDeviceType;

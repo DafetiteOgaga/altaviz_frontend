@@ -30,7 +30,7 @@ function Footer() {
 				<p>Terms of Service</p>
 				<p>customercare@altaviz.com</p>
 			</div>
-		    <MonthandYear />
+				<MonthandYear />
 			</div>
 		</>
 	);

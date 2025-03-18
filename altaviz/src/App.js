@@ -16,13 +16,14 @@ import { cleanUpLocalStorage } from './components/hooks/RemoveKeys';
 // import CheckSessionComponent from './components/context/loginAuth/CheckSession';
 
 function App() {
+	const versionNumber = require('../package.json').version;
 	// console.log('App.js')
 	// const sessionCheck = CheckSessionComponent()
 	// const { authData } = useContext(AuthContext)
 	// const { createNotification } = useChatNotification();
 	// createNotification('online', 'IT FUCKING WORKED again!!!')
 	const [, setReload] = useState(false)
-	const deviceType = useDeviceType()
+	const {deviceType, isAndroid} = useDeviceType()
 	console.log({deviceType})
 	const { data:firebaseNotification } = useFirebase()
 	console.log('firebaseNotification (app.js):', firebaseNotification)
@@ -46,6 +47,7 @@ function App() {
 					<div style={mAndTstyle.mobileAndTabNotReady}>
 						<h3 style={mAndTstyle.h}>Pls, kindly switch to PC device.</h3>
 						<h4 style={mAndTstyle.h}>Sorry! This application is yet to be styled for Mobile and Tab devices.</h4>
+						{(isAndroid&&versionNumber) && <h4 style={mAndTstyle.h}>But you can get the mobile (Android) version: <a href={`https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobileApp.apk`}>Click here</a></h4>}
 						<h5 style={mAndTstyle.h}>⚠🚧 #Work still in Progress! 🛠🚫</h5>
 						<h6 style={mAndTstyle.h}>We apologize for the inconvenience.</h6>
 					</div>
