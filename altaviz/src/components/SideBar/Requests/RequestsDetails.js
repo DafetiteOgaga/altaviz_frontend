@@ -454,7 +454,8 @@ function RequestsDetails() {
 										</Link>
 									</p>
 								</div>
-							</div>) :
+							</div>)
+							:
 							// others (faults)
 							(<div className="cust-row">
 								<div className="input-field">
@@ -573,7 +574,7 @@ function RequestsDetails() {
 							onClick={(e) => {
 								handleClick(e);
 							}}>
-							<h5>{deleteLoading ? 'Witdrawing...' : 'Withdraw Fault'}</h5>
+							<h5>{deleteLoading ? 'Witdrawing...' : 'Withdraw Request'}</h5>
 						</div>
 						)}
 
