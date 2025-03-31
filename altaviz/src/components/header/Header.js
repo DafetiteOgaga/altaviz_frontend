@@ -6,6 +6,7 @@ import "./header.css"
 import { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import { AuthContext } from '../context/checkAuth/AuthContext';
+import { FaAndroid } from "react-icons/fa";
 
 const Button = styled.button`
 	padding: 10px 20px;
@@ -75,6 +76,10 @@ function Header() {
 		// Cleanup scroll listener on unmount
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, [lastScrollY]);
+	const versionNumber = require('../../../package.json').version;
+	const handleDownload = () => {
+		window.location.href = `https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobileApp.apk`;
+	};
 	return (
 		<header
 		style={{
@@ -114,8 +119,18 @@ function Header() {
 				// alignItems: 'center',
 				// justifyContent: 'center',
 			}}>
+				{versionNumber&&
+				<>
+					<Button
+					onClick={handleDownload}>
+						<div style={{display: 'flex', gap: 8, alignItems: 'center'}}>
+						<FaAndroid size={20} color="green" />
+						Get the Mobile App
+						</div>
+					</Button>
+				</>}
 				{isUpdating&&<span id='headerNotificationDot' style={headerStyles.notificationDot}></span>}
-				<h6>Beta v10.11.138</h6>
+				<h6>Beta {versionNumber}</h6>
 				{!authData&&
 				<Button
 				onClick={(e)=>navigateTo('/login')}>
