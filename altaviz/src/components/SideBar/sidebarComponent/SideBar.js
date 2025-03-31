@@ -116,7 +116,7 @@ function Sidebar() {
 							// whiteSpace: 'pre',
 							// fontSize: '1rem',
 						}}>
-							{'Get Logins'}
+							Demo Accounts
 						</li>
 					</FlashyButton>
 					<Link style={dept==='custodian'?null:disableStyles} to={`/${dept}`}><li>Custodian</li></Link>
