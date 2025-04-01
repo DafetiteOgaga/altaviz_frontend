@@ -13,6 +13,7 @@ import altaviz from './logo/altaviz_logo.png';
 import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { cleanUpLocalStorage } from './components/hooks/RemoveKeys';
+import { FaAndroid } from "react-icons/fa";
 // import CheckSessionComponent from './components/context/loginAuth/CheckSession';
 
 function App() {
@@ -47,7 +48,7 @@ function App() {
 					<div style={mAndTstyle.mobileAndTabNotReady}>
 						<h3 style={mAndTstyle.h}>Pls, kindly switch to PC device.</h3>
 						<h4 style={mAndTstyle.h}>Sorry! This application is yet to be styled for Mobile and Tab devices.</h4>
-						{(isAndroid&&versionNumber) && <h4 style={mAndTstyle.h}>But you can get the mobile (Android) version: <a href={`https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobileApp.apk`}>Click here</a></h4>}
+						{(isAndroid&&versionNumber) && <h4 style={mAndTstyle.h}>But you can get the mobile <span style={{whiteSpace: 'pre'}}>(<FaAndroid size={30} color="green" /> Android)</span> version: <a style={{whiteSpace: 'pre'}} href={`https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobile-${versionNumber}.apk`}>Click here</a></h4>}
 						<h5 style={mAndTstyle.h}>⚠🚧 #Work still in Progress! 🛠🚫</h5>
 						<h6 style={mAndTstyle.h}>We apologize for the inconvenience.</h6>
 					</div>
