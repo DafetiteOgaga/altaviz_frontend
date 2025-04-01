@@ -78,7 +78,8 @@ function Header() {
 	}, [lastScrollY]);
 	const versionNumber = require('../../../package.json').version;
 	const handleDownload = () => {
-		window.location.href = `https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobileApp.apk`;
+		window.location.href = `https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobile-${versionNumber}.apk`;
+		// https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/20250401.1342/altavizMobile-20250401.1342.apk
 	};
 	return (
 		<header
