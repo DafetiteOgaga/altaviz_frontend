@@ -1,6 +1,6 @@
 {
   "name": "altaviz",
-  "version": "20250409.0921",
+  "version": "20250413.0912",
   "private": true,
   "dependencies": {
     "@tanstack/react-query": "^5.62.15",
