@@ -45,14 +45,16 @@ function App() {
 			toastOptions={toastStyle} />
 				{deviceType.toLowerCase() !== 'pc' ? (
 					<div style={mAndTstyle.mainContainer}>
-					<img src={altaviz} alt="altaviz logo" style={{ height: '40px', marginBottom: '20px' }} />
-					<div style={mAndTstyle.mobileAndTabNotReady}>
-						<h3 style={mAndTstyle.h}>Pls, kindly switch to PC device.</h3>
-						<h4 style={mAndTstyle.h}>Sorry! This application is yet to be styled for Mobile and Tab devices.</h4>
-						{(isAndroid&&versionNumber) && <h4 style={mAndTstyle.h}>But you can get the mobile <span style={{whiteSpace: 'pre'}}>(<FaAndroid size={10} color="green" /> Android)</span> version: <a style={{whiteSpace: 'pre'}} href={`https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobile-${versionNumber}.apk`}>Click here</a></h4>}
-						<h5 style={mAndTstyle.h}>⚠🚧 #Work still in Progress! 🛠🚫</h5>
-						<h6 style={mAndTstyle.h}>We apologize for the inconvenience.</h6>
-					</div>
+						<img src={altaviz} alt="altaviz logo" style={{ height: '40px', marginBottom: '20px' }} />
+						<div style={mAndTstyle.mobileAndTabNotReady}>
+							<h3 style={mAndTstyle.h}>Pls, kindly switch to PC device.</h3>
+							<h4 style={mAndTstyle.h}>
+								Sorry! This application is yet to be styled for Mobile and Tab devices.
+							</h4>
+							{(isAndroid&&versionNumber) && <h4 style={mAndTstyle.h}>But you can get the mobile <span style={{whiteSpace: 'pre'}}>(<FaAndroid size={10} color="green" /> Android)</span> version: <a style={{whiteSpace: 'pre'}} href={`https://github.com/DafetiteOgaga/altavizMobileReleases/releases/download/${versionNumber}/altavizMobile-${versionNumber}.apk`}>Click here</a></h4>}
+							<h5 style={mAndTstyle.h}>⚠🚧 #Work still in Progress! 🛠🚫</h5>
+							<h6 style={mAndTstyle.h}>We apologize for the inconvenience.</h6>
+						</div>
 					</div>
 				) : (
 					<div className="app-container">
