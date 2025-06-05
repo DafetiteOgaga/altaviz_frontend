@@ -60,19 +60,10 @@ function App() {
 							<Header />
 							<div style={{ marginTop: '7rem' }}
 							className="body-minus-header">
-								<div
-								// style={mAndTstyle.pageContainer.background}
-								// className={authData?"sub-root":""}
-								className="sub-root"
-								>
-									{/* {authData && */}
+								<div className="sub-root">
 									<div>
-									<SideBar
-									// NotificationCount={chatsUpdates?.notificationCount||0}
-									className="sidebar" />
-									{/* <Announcements /> */}
+									<SideBar className="sidebar" />
 									</div>
-									{/* } */}
 									<main>
 										<div className="main-background">
 											<AppRoutes />
