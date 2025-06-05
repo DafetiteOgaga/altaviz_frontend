@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { cleanUpLocalStorage } from './components/hooks/RemoveKeys';
 import { FaAndroid } from "react-icons/fa";
+import { Analytics } from "@vercel/analytics/react"
 // import CheckSessionComponent from './components/context/loginAuth/CheckSession';
 
 function App() {
@@ -83,6 +84,7 @@ function App() {
 						<Footer />
 					</div>
 				)}
+				<Analytics />
 		</>
 	);
 }
